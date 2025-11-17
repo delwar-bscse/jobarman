@@ -5,15 +5,19 @@ import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleLogin = (e) => {
     e.preventDefault();
     console.log("Login attempt:", { email, password });
+    router.push("/")
+
   };
 
   return (
@@ -99,7 +103,7 @@ export default function LoginPage() {
             {/* Sign Up Link */}
             <div className="mt-6 text-center">
               <p className="text-gray-700">
-                Don't Have An Account?{" "}
+                Don&apos;t Have An Account?{" "}
                 <Link href="/signupques" className="text-[#21419F] hover:text-blue-800 font-bold transition">
                   Sign Up
                 </Link>

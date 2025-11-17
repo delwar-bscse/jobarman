@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Starter",
+    "price": "$99",
+    "period": "per month",
+    "features": [
+      "Single job posting",
+      "Standard listing visibility",
+      "No candidate pool access",
+      "No employer branding page",
+      "NNo advanced analytics"
+    ],
+    "cta": "Enable",
+    "highlighted": false
+  },
+  {
+    "name": "Pro",
+    "price": "$199",
+    "period": "per month",
+    "features": [
+      "Up to 5 job postings per month",
+      "Access to candidate pool (search & filter by skills, ATS score, resume quality)",
+      "Enhanced listing visibility",
+      "Basic analytics (views, applications, cost-per-hire insights)",
+      "No dedicated branding pages",
+      "Limited priority matching"
+    ],
+    "cta": "Buy Now",
+    "highlighted": true
+  },
+  {
+    "name": "Premium",
+    "price": "$999",
+    "period": "per month",
+    "features": [
+      " Unlimited job postings",
+      "Full candidate pool access with smart matching engine",
+      "Employer branding pages (culture, benefits, career paths)",
+      "Advanced analytics dashboard (application quality, recruiter engagement, cost-per-hire)",
+      "Priority candidate matching & recommendations",
+      "Dedicated account support"
+    ],
+    "cta": "Buy Now",
+    "highlighted": true
+  }
+]

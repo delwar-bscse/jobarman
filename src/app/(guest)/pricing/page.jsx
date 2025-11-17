@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import SubscriptionCard from "@/components/shared/SubscriptionCard";
+import Image from "next/image";
 
 export default function Pricing() {
   const [plans, setPlans] = useState([]);
+  const [plansRecruiter, setPlansRecruiter] = useState([]);
   // add modal open state
   const [open, setOpen] = useState(false);
 
@@ -20,9 +22,23 @@ export default function Pricing() {
       }
     };
     loadPlans();
+
+    const loadPlansRecruiter = async () => {
+      try {
+        const res = await fetch("/subscription-plans-recruiter.json");
+        if (!res.ok) return;
+        const data = await res.json();
+        setPlansRecruiter(data);
+      } catch (e) {
+        // silent fail
+      }
+    };
+    loadPlansRecruiter();
   }, []);
+
   return (
     <main className="w-full bg-white">
+    {/* Job Seeker Subscription */}
       <section className="py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-bold text-center text-[#123499] mb-12">
@@ -31,6 +47,32 @@ export default function Pricing() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {plans.map((plan, idx) => (
+              <SubscriptionCard key={idx} plan={plan} />
+            ))}
+          </div>
+
+          {/* My Subscription button */}
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              className="px-6 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-sm transition-colors"
+            >
+              My Subscription
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Recruiter Subscription */}
+      <section className="py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl sm:text-5xl font-bold text-center text-[#123499] mb-12">
+            Subscription Plan
+          </h1>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {plansRecruiter.map((plan, idx) => (
               <SubscriptionCard key={idx} plan={plan} />
             ))}
           </div>
@@ -64,9 +106,11 @@ export default function Pricing() {
             <div className="px-6 pt-8 pb-6">
               {/* Avatar and header */}
               <div className="flex flex-col items-center text-center">
-                <img
+                <Image
                   src="/avatars/kristin.svg"
                   alt="Profile"
+                  width={80}
+                  height={80}
                   className="h-20 w-20 rounded-full border border-gray-200"
                 />
                 <h2 className="mt-4 text-xl font-semibold text-gray-900">Shakir Ahmed</h2>

@@ -32,6 +32,8 @@ import JobCategoryCard from "@/components/shared/JobCategoryCard";
 import SubscriptionCard from "@/components/shared/SubscriptionCard";
 import ResumeGenerator from "../../../shared/ResumeGenerator";
 
+
+// Recent Jobs data
 const recentJobs = [
   {
     id: 1,
@@ -75,42 +77,51 @@ const recentJobs = [
   },
 ];
 
+// Recent Job Request candidates data
+const recentRequests = [
+  {
+    id: 1,
+    name: "Ronald Richards",
+    role: "Sr. UIUX Designer",
+    experience: "5 Years Experience",
+    match: 90,
+    avatar: "/avatars/floyd.svg",
+    about:
+      "A Dedicated And Reliable Professional With Strong Teamwork And Problem-Solving Skills, Committed To Delivering Quality Results On Time.",
+  },
+  {
+    id: 2,
+    name: "Albert Flores",
+    role: "Sr. UIUX Designer",
+    experience: "5 Years Experience",
+    match: 70,
+    avatar: "/avatars/courtney.svg",
+    about:
+      "A Dedicated And Reliable Professional With Strong Teamwork And Problem-Solving Skills, Committed To Delivering Quality Results On Time.",
+  },
+  {
+    id: 3,
+    name: "Cody Fisher",
+    role: "Sr. UIUX Designer",
+    experience: "5 Years Experience",
+    match: 40,
+    avatar: "/avatars/marvin.svg",
+    about:
+      "A Dedicated And Reliable Professional With Strong Teamwork And Problem-Solving Skills, Committed To Delivering Quality Results On Time.",
+  },
+];
+
+
+const aiSlides = [
+  { src: "/alljobs.png", alt: "UX Conference" },
+  { src: "/banner.png", alt: "We are Hiring UI/UX" },
+  { src: "/company.jpg", alt: "Coaching Classes" },
+  { src: "/cardpic.png", alt: "Career Growth" },
+  { src: "/areYouEmploy.png", alt: "Employer Spotlight" },
+];
+
 export default function Home() {
   const [reviews, setReviews] = useState([]);
-
-  // Recent Job Request candidates data
-  const recentRequests = [
-    {
-      id: 1,
-      name: "Ronald Richards",
-      role: "Sr. UIUX Designer",
-      experience: "5 Years Experience",
-      match: 90,
-      avatar: "/avatars/floyd.svg",
-      about:
-        "A Dedicated And Reliable Professional With Strong Teamwork And Problem-Solving Skills, Committed To Delivering Quality Results On Time.",
-    },
-    {
-      id: 2,
-      name: "Albert Flores",
-      role: "Sr. UIUX Designer",
-      experience: "5 Years Experience",
-      match: 70,
-      avatar: "/avatars/courtney.svg",
-      about:
-        "A Dedicated And Reliable Professional With Strong Teamwork And Problem-Solving Skills, Committed To Delivering Quality Results On Time.",
-    },
-    {
-      id: 3,
-      name: "Cody Fisher",
-      role: "Sr. UIUX Designer",
-      experience: "5 Years Experience",
-      match: 40,
-      avatar: "/avatars/marvin.svg",
-      about:
-        "A Dedicated And Reliable Professional With Strong Teamwork And Problem-Solving Skills, Committed To Delivering Quality Results On Time.",
-    },
-  ];
 
   // Filters modal state
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -124,13 +135,6 @@ export default function Home() {
   // AI banner carousel state & data
   const [aiPage, setAiPage] = useState(0);
   const [slidesPerView, setSlidesPerView] = useState(3);
-  const aiSlides = [
-    { src: "/alljobs.png", alt: "UX Conference" },
-    { src: "/banner.png", alt: "We are Hiring UI/UX" },
-    { src: "/company.jpg", alt: "Coaching Classes" },
-    { src: "/cardpic.png", alt: "Career Growth" },
-    { src: "/areYouEmploy.png", alt: "Employer Spotlight" },
-  ];
   const startXRef = useRef(0);
   const draggingRef = useRef(false);
   const [paused, setPaused] = useState(false);
@@ -299,6 +303,48 @@ export default function Home() {
         </div>
       </section>
 
+      {/* How it works at Jobarman */}
+      <section className="py-16 sm:py-24 bg-[#FFF6F6] mb-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance">
+              How it works at Jobarman
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-balance">
+              Jobarman simplifies hiring with easy job posting, AI-powered
+              screening, and smart applicant management. From posting to
+              onboarding, everything happens seamlessly.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {howItWorks.map((item, index) => (
+              <div
+                key={index}
+                className="rounded-2xl p-6 sm:p-8 bg-rose-50 border border-rose-100 hover:bg-white hover:shadow-md transition-all duration-300 cursor-pointer"
+              >
+                <p className="text-xs text-gray-500 mb-4">{item.step}</p>
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-16 h-16 rounded-full bg-[#123499] text-white flex items-center justify-center mb-4">
+                    {item.icon ? (
+                      <item.icon className="w-8 h-8" />
+                    ) : (
+                      <Star className="w-8 h-8" />
+                    )}
+                  </div>
+                  <h3 className="text-lg font-semibold text-[#123499] mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* Search Section below Hero */}
       <section className="py-6 sm:py-10 lg:py-12">
@@ -350,10 +396,10 @@ export default function Home() {
           <div
             className="relative overflow-hidden"
             onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
+            onMouseLeave={(e) => {setPaused(false); handleDragEnd(e)}}
             onMouseDown={handleDragStart}
             onMouseUp={handleDragEnd}
-            onMouseLeave={handleDragEnd}
+            // onMouseLeave={handleDragEnd}
             onTouchStart={handleDragStart}
             onTouchEnd={handleDragEnd}
           >
@@ -397,6 +443,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* Who’s Hiring Right Now banner */}
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -427,6 +474,8 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* Filters Modal to filter jobs */}
       {filtersOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div
@@ -478,8 +527,8 @@ export default function Home() {
                       type="button"
                       onClick={() => setEmployeeType(t.label)}
                       className={`px-4 py-2 rounded-md text-sm ${employeeType === t.label
-                          ? "bg-[#123499] text-white"
-                          : "bg-gray-100 text-gray-700"
+                        ? "bg-[#123499] text-white"
+                        : "bg-gray-100 text-gray-700"
                         }`}
                     >
                       {t.label}
@@ -504,8 +553,8 @@ export default function Home() {
                       type="button"
                       onClick={() => setJobType(t.label)}
                       className={`px-4 py-2 rounded-full text-sm ${jobType === t.label
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-100 text-gray-700"
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-100 text-gray-700"
                         }`}
                     >
                       {t.label}
@@ -579,6 +628,7 @@ export default function Home() {
           </div>
         </div>
       )}
+
       {/* Recent Job Post Section */}
       <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -648,6 +698,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* Recent Job Request Section */}
       <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -695,6 +746,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* Job Categories Section */}
       <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -723,6 +775,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* Social Proof Section */}
       <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -767,48 +820,6 @@ export default function Home() {
       {/* Resume Score Generator Section */}
       <ResumeGenerator></ResumeGenerator>
 
-
-      {/* How it works at Jobarman */}
-      <section className="py-16 sm:py-24 bg-[#FFF6F6] mb-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance">
-              How it works at Jobarman
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-balance">
-              Jobarman simplifies hiring with easy job posting, AI-powered
-              screening, and smart applicant management. From posting to
-              onboarding, everything happens seamlessly.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {howItWorks.map((item, index) => (
-              <div
-                key={index}
-                className="rounded-2xl p-6 sm:p-8 bg-rose-50 border border-rose-100 hover:bg-white hover:shadow-md transition-all duration-300"
-              >
-                <p className="text-xs text-gray-500 mb-4">{item.step}</p>
-                <div className="flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-[#123499] text-white flex items-center justify-center mb-4">
-                    {item.icon ? (
-                      <item.icon className="w-8 h-8" />
-                    ) : (
-                      <Star className="w-8 h-8" />
-                    )}
-                  </div>
-                  <h3 className="text-lg font-semibold text-[#123499] mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
       {/* Are You Employer Section */}
       <section className="bg-[#EFF5FF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -838,6 +849,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* Subscription Plan Section */}
       <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
