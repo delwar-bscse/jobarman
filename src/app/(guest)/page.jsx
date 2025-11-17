@@ -180,7 +180,7 @@ export default function Home() {
     load();
   }, []);
 
-  
+
 
   const jobCategories = [
     { icon: Stethoscope, label: "Healthcare", count: "2.5k jobs" },
@@ -242,103 +242,103 @@ export default function Home() {
 
   return (
     <main className="w-full bg-white">
-     <section className="py-12 sm:py-16 lg:py-20 bg-[#E1F6FF]">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-      {/* Left Content */}
-      <div>
-        <p className="text-sm sm:text-base font-semibold text-orange-500 mb-2">
-          AI-Powered Job Matching
-        </p>
-        <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 mb-4 leading-snug sm:leading-tight lg:leading-tight text-balance">
-          Land Your Dream Job
-          <br />
-          In <span className="text-blue-600">IT</span> &{" "}
-          <span className="text-orange-500">Healthcare</span>
-        </h1>
-        <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 text-balance">
-          Our AI Matches You With The Right Roles And Even Applies On Your
-          Behalf—So You Can Focus On What Matters. More Interviews, Better
-          Opportunities, Faster.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-          <button className="px-6 w-2/3 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white rounded-lg hover:opacity-90 transition font-medium flex items-center justify-center gap-2 text-sm sm:text-base">
-            Start Auto Apply <ArrowRight className="w-4 h-4" />
-          </button>
-          
-        </div>
-        <div className="flex flex-wrap gap-4 sm:gap-6 mt-6 sm:mt-8 text-xs sm:text-sm lg:text-base">
-          <div className="flex items-center gap-2 text-gray-700">
-            <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-500" />
-            <span>AI Job Matching</span>
-          </div>
-          <div className="flex items-center gap-2 text-gray-700">
-            <BadgeCheck className="w-4 sm:w-5 h-4 sm:h-5 text-orange-500" />
-            <span>Verified Company</span>
-          </div>
-          <div className="flex items-center gap-2 text-gray-700">
-            <Zap className="w-4 sm:w-5 h-4 sm:h-5 text-purple-500" />
-            <span>Fast Application</span>
-          </div>
-          <div className="flex items-center gap-2 text-gray-700">
-            <TrendingUp className="w-4 sm:w-5 h-4 sm:h-5 text-teal-500" />
-            <span>Career Growth</span>
-          </div>
-        </div>
-      </div>
+      <section className="py-12 sm:py-16 lg:py-20 bg-[#E1F6FF]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Left Content */}
+            <div>
+              <p className="text-sm sm:text-base font-semibold text-orange-500 mb-2">
+                AI-Powered Job Matching
+              </p>
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 mb-4 leading-snug sm:leading-tight lg:leading-tight text-balance">
+                Land Your Dream Job
+                <br />
+                In <span className="text-blue-600">IT</span> &{" "}
+                <span className="text-orange-500">Healthcare</span>
+              </h1>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 text-balance">
+                Our AI Matches You With The Right Roles And Even Applies On Your
+                Behalf—So You Can Focus On What Matters. More Interviews, Better
+                Opportunities, Faster.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button className="px-6 w-2/3 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white rounded-lg hover:opacity-90 transition font-medium flex items-center justify-center gap-2 text-sm sm:text-base">
+                  Start Auto Apply <ArrowRight className="w-4 h-4" />
+                </button>
 
-      {/* Right Images */}
-      <div className="w-full flex justify-center lg:justify-end mt-6 lg:mt-0">
-        <img
-          src="/groupHome.svg"
-          alt="Banner"
-          className="rounded-lg w-full max-w-xs sm:max-w-md lg:max-w-lg h-auto"
-        />
-      </div>
-    </div>
-  </div>
-    </section>
+              </div>
+              <div className="flex flex-wrap gap-4 sm:gap-6 mt-6 sm:mt-8 text-xs sm:text-sm lg:text-base">
+                <div className="flex items-center gap-2 text-gray-700">
+                  <CheckCircle className="w-4 sm:w-5 h-4 sm:h-5 text-green-500" />
+                  <span>AI Job Matching</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <BadgeCheck className="w-4 sm:w-5 h-4 sm:h-5 text-orange-500" />
+                  <span>Verified Company</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <Zap className="w-4 sm:w-5 h-4 sm:h-5 text-purple-500" />
+                  <span>Fast Application</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-700">
+                  <TrendingUp className="w-4 sm:w-5 h-4 sm:h-5 text-teal-500" />
+                  <span>Career Growth</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Images */}
+            <div className="w-full flex justify-center lg:justify-end mt-6 lg:mt-0">
+              <img
+                src="/groupHome.svg"
+                alt="Banner"
+                className="rounded-lg w-full max-w-xs sm:max-w-md lg:max-w-lg h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
 
       {/* Search Section below Hero */}
-     <section className="py-6 sm:py-10 lg:py-12">
-  <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="text-center mb-4 sm:mb-6 lg:mb-8">
-      <h2 className="text-lg sm:text-2xl lg:text-3xl font-bold text-[#123499]">
-        Find Your Dream Job Today!
-      </h2>
-      <p className="text-gray-600 mt-1 sm:mt-2 lg:mt-3 text-sm sm:text-base lg:text-lg">
-        Connecting Talent with Opportunity: Your Gateway to Career Success
-      </p>
-    </div>
+      <section className="py-6 sm:py-10 lg:py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-4 sm:mb-6 lg:mb-8">
+            <h2 className="text-lg sm:text-2xl lg:text-3xl font-bold text-[#123499]">
+              Find Your Dream Job Today!
+            </h2>
+            <p className="text-gray-600 mt-1 sm:mt-2 lg:mt-3 text-sm sm:text-base lg:text-lg">
+              Connecting Talent with Opportunity: Your Gateway to Career Success
+            </p>
+          </div>
 
-    <div className="flex flex-col sm:flex-row items-center rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-      {/* Input area */}
-      <div className="flex-1 flex items-center bg-blue-50 w-full">
-        <input
-          type="text"
-          placeholder="Job Title or Company"
-          className="w-full bg-transparent px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 lg:py-3 text-gray-700 placeholder-gray-500 outline-none text-sm sm:text-base lg:text-lg"
-        />
-      </div>
+          <div className="flex flex-col sm:flex-row items-center rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+            {/* Input area */}
+            <div className="flex-1 flex items-center bg-blue-50 w-full">
+              <input
+                type="text"
+                placeholder="Job Title or Company"
+                className="w-full bg-transparent px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 lg:py-3 text-gray-700 placeholder-gray-500 outline-none text-sm sm:text-base lg:text-lg"
+              />
+            </div>
 
-      {/* Divider + sliders icon */}
-      <button
-        type="button"
-        onClick={() => setFiltersOpen(true)}
-        aria-label="Open Filters"
-        className="hidden sm:flex items-center px-3 sm:px-4 border-t sm:border-t-0 sm:border-l border-gray-200 text-gray-600 hover:bg-gray-50"
-      >
-        <SlidersHorizontal className="w-4 sm:w-5 lg:w-5 h-4 sm:h-5 lg:h-5" />
-      </button>
+            {/* Divider + sliders icon */}
+            <button
+              type="button"
+              onClick={() => setFiltersOpen(true)}
+              aria-label="Open Filters"
+              className="hidden sm:flex items-center px-3 sm:px-4 border-t sm:border-t-0 sm:border-l border-gray-200 text-gray-600 hover:bg-gray-50"
+            >
+              <SlidersHorizontal className="w-4 sm:w-5 lg:w-5 h-4 sm:h-5 lg:h-5" />
+            </button>
 
-      {/* Search button */}
-      <button className="flex items-center gap-2 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 font-medium text-sm sm:text-base lg:text-lg w-full sm:w-auto justify-center">
-        <Search className="w-4 sm:w-4 lg:w-5 h-4 sm:h-4 lg:h-5" />
-        Search Job
-      </button>
-    </div>
-  </div>
+            {/* Search button */}
+            <button className="flex items-center gap-2 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 font-medium text-sm sm:text-base lg:text-lg w-full sm:w-auto justify-center">
+              <Search className="w-4 sm:w-4 lg:w-5 h-4 sm:h-4 lg:h-5" />
+              Search Job
+            </button>
+          </div>
+        </div>
       </section>
 
 
@@ -389,9 +389,8 @@ export default function Home() {
                   key={i}
                   aria-label={`Go to slide ${i + 1}`}
                   onClick={() => setAiPage(i)}
-                  className={`w-2.5 h-2.5 rounded-full ${
-                    aiPage === i ? "bg-[#123499]" : "bg-gray-300"
-                  }`}
+                  className={`w-2.5 h-2.5 rounded-full ${aiPage === i ? "bg-[#123499]" : "bg-gray-300"
+                    }`}
                 />
               ))}
             </div>
@@ -427,7 +426,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
+
       {filtersOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div
@@ -478,11 +477,10 @@ export default function Home() {
                       key={t.label}
                       type="button"
                       onClick={() => setEmployeeType(t.label)}
-                      className={`px-4 py-2 rounded-md text-sm ${
-                        employeeType === t.label
+                      className={`px-4 py-2 rounded-md text-sm ${employeeType === t.label
                           ? "bg-[#123499] text-white"
                           : "bg-gray-100 text-gray-700"
-                      }`}
+                        }`}
                     >
                       {t.label}
                     </button>
@@ -505,11 +503,10 @@ export default function Home() {
                       key={t.label}
                       type="button"
                       onClick={() => setJobType(t.label)}
-                      className={`px-4 py-2 rounded-full text-sm ${
-                        jobType === t.label
+                      className={`px-4 py-2 rounded-full text-sm ${jobType === t.label
                           ? "bg-blue-600 text-white"
                           : "bg-gray-100 text-gray-700"
-                      }`}
+                        }`}
                     >
                       {t.label}
                     </button>
