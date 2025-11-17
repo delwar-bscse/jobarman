@@ -1,8 +1,22 @@
 "use client";
-
 import dayjs from "dayjs";
 import { GoStarFill } from "react-icons/go";
 import { IoIosArrowBack } from "react-icons/io";
+
+import { ChevronDownIcon } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { useState } from "react";
+import { CustomModal } from "@/components/modal/CustomModal";
+import { FaBars } from "react-icons/fa";
 
 const items = [
   {
@@ -77,13 +91,83 @@ const Pill = ({ label, color }) => {
 };
 
 export default function NotificationsPage() {
+  const [open, setOpen] = useState(false)
+  const [date, setDate] = useState(undefined)
+  const [time, setTime] = useState(undefined)
+
+  const handleFilterData = () => {
+    console.log(date, time);
+  }
+
   return (
     <main className="w-full bg-white">
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div onClick={() => history.back()} className="flex items-center text-gray-800 hover:text-gray-700 gap-2 mb-6 cursor-pointer">
-          <IoIosArrowBack className="text-2xl sm:text-3xl font-bold" />
-          <h1 className="text-2xl sm:text-3xl font-semibold">Notifications</h1>
+        <div className="flex gap-3 justify-between  mb-6">
+          <div onClick={() => history.back()} className="flex items-center text-gray-800 hover:text-gray-700 gap-2cursor-pointer">
+            <IoIosArrowBack className="text-2xl sm:text-3xl font-bold" />
+            <h1 className="text-2xl sm:text-3xl font-semibold">Notifications</h1>
+          </div>
+          <CustomModal
+            title="Filter Notifications"
+            trigger={<button className='border border-gray-400 px-3 py-1 text-gray-500 rounded-md cursor-pointer'>
+              Filters
+            </button>}
+          >
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex items-center gap-1">
+                  <Label htmlFor="date-picker" className="px-1">
+                    Date
+                  </Label>
+                  <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        id="date-picker"
+                        className="w-32 justify-between font-normal"
+                      >
+                        {date ? date.toLocaleDateString() : "Select date"}
+                        <ChevronDownIcon />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        captionLayout="dropdown"
+                        onSelect={(date) => {
+                          setDate(date)
+                          setOpen(false)
+                        }}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Label htmlFor="time-picker" className="px-1">
+                    Time
+                  </Label>
+                  <Input
+                    type="time"
+                    id="time-picker"
+                    step="1"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    defaultValue="00:00:00"
+                    className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none w-32"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-center">
+                <button onClick={handleFilterData} className="mt-4 bg-blue-500 text-white py-2 px-4 w-full rounded-md hover:bg-blue-600 transition-colors duration-300">Apply</button>
+              </div>
+            </div>
+          </CustomModal>
+
+
         </div>
+
+
 
         <div className="space-y-4">
           {items.map((item) => (
