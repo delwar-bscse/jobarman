@@ -1,22 +1,9 @@
-"use client";
-import React, { useEffect, useState } from "react";
 import SubscriptionCard from "../shared/SubscriptionCard";
+import { myFetch } from "../../../utils/myFetch";
 
-export default function Subscription() {
-  const [subscriptionPlans, setSubscriptionPlans] = useState([]);
-  useEffect(() => {
-    const loadPlans = async () => {
-      try {
-        const res = await fetch("/subscription-plans.json");
-        if (!res.ok) return;
-        const data = await res.json();
-        setSubscriptionPlans(data);
-      } catch (e) {
-        // silent fail
-      }
-    };
-    loadPlans();
-  }, []);
+export default async function Subscription() {
+  const res = await myFetch("/package");
+  const subscriptions = res?.data;
 
   return (
     <section className="py-16 sm:py-24 bg-white">
@@ -28,7 +15,7 @@ export default function Subscription() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {subscriptionPlans.map((plan, index) => (
+          {subscriptions?.map((plan, index) => (
             <SubscriptionCard key={index} plan={plan} />
           ))}
         </div>

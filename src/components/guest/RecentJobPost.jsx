@@ -69,9 +69,9 @@ export default async function RecentJobPost() {
               <CustomImage
                 src={job.thumbnail}
                 title={job.title}
-                width={20}
-                height={20}
-                // className="w-36 h-24 rounded-lg object-cover"
+                width={30}
+                height={30}
+                className="w-10 h-10 rounded-lg"
               />
               <div className="flex-1">
                 <Link

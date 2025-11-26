@@ -135,6 +135,7 @@ export default function Home() {
                 alt="Employer"
                 width={10}
                 height={10}
+                sizes="100vh"
                 className="rounded-lg w-full h-80 object-cover"
               />
             </div>
