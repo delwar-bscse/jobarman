@@ -5,6 +5,7 @@ import { myFetch } from "../../../utils/myFetch";
 
 export default async function Review() {
   const res = await myFetch("/review");
+  console.log(res);
 
   return (
     <section className="py-16 sm:py-24 bg-white">
@@ -27,11 +28,11 @@ export default async function Review() {
           {res?.data?.map((t, index) => (
             <ReviewCard
               key={index}
-              name={t.name}
+              name={t.user.name}
               role={t.role}
               rating={t.rating}
-              text={t.text}
-              image={t.image}
+              text={t.comment}
+              image={t.user.image}
             />
           ))}
         </div>
