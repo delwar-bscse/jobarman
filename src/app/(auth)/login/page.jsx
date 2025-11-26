@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { myFetch } from "../../../../utils/myFetch";
+import { setCookie } from "cookies-next/client";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,15 +17,19 @@ export default function LoginPage() {
 
    const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login attempt:", { email, password });
     const res = await myFetch("/auth/login", {
       method: "POST",
       body: { email, password },
     });
-    console.log("Login Response : ", res);
+    console.log("Login Response : ", res?.data);
 
-    if (res.ok) {
+    if (res?.data) {
+      setCookie("accessToken", res?.data?.createToken);
+      setCookie("refreshToken", res?.data?.refreshToken);
+      setCookie("role", res?.data?.role);
       router.push("/")
+    }else {
+      toast.success("Login Success");
     }
 
   };
