@@ -1,5 +1,6 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 
 const poppins = Poppins({
@@ -14,6 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={poppins.variable}>
       <body>
         {children}
+        <Toaster />
       </body>
     </html>
   );
