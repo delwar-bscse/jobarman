@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { myFetch } from "../../../../utils/myFetch";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,10 +14,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login attempt:", { email, password });
-    router.push("/")
+    const res = await myFetch("/auth/login", {
+      method: "POST",
+      body: { email, password },
+    });
+    console.log("Login Response : ", res);
+
+    if (res.ok) {
+      router.push("/")
+    }
 
   };
 
@@ -32,11 +41,11 @@ export default function LoginPage() {
       {/* Main Container */}
       <div className="w-full max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
-          
+
           {/* Left Side - Logo Section */}
           <div className="hidden md:flex flex-col items-center justify-center p-8">
-            <Image 
-              src="/authlogo.svg" 
+            <Image
+              src="/authlogo.svg"
               alt="Jobarman Logo"
               width={425}
               height={585}
@@ -119,13 +128,13 @@ export default function LoginPage() {
 
             {/* Social Login Buttons */}
             <div className="flex gap-4">
-              <button 
+              <button
                 type="button"
                 className="flex-1 flex items-center justify-center gap-2 border border-gray-300 hover:border-gray-400 py-3 rounded-xl transition hover:bg-gray-50"
               >
                 <FcGoogle className="w-9 h-9" />
               </button>
-              <button 
+              <button
                 type="button"
                 className="flex-1 flex items-center justify-center gap-2 border border-gray-300 hover:border-gray-400 py-3 rounded-xl transition hover:bg-gray-50"
               >
