@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="bg-gradient-to-r from-[#2B4CB8] via-[#3B5FD9] to-[#4A6EFA] text-white">
       {/* MAIN FOOTER CONTENT */}
@@ -57,15 +58,16 @@ export default function Footer() {
             <ul className="space-y-4 text-blue-100 text-sm">
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                (684) 555–0102
+                Phone: +1 (844) 821-5151
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                Michael.Mitc@example.com
+                Email: info@jobarman.com
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                2715 Ash Dr. San Jose, South Dakota 83475
+                {/* 2715 Ash Dr. San Jose, South Dakota 83475 */}
+                Houston, TX 77057 United States
               </li>
               <li className="flex items-center gap-3">
                 <LinkedinIcon className="w-4 h-4 flex-shrink-0" />
@@ -115,7 +117,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-6 py-4">
           {/* Left Side - Copyright */}
           <div className="text-sm text-blue-100 text-center md:text-left">
-            © 2024 Example.com. All Rights Reserved.
+            © {currentYear} Example.com. All Rights Reserved.
           </div>
 
           {/* Right Side - Icons + Links */}
