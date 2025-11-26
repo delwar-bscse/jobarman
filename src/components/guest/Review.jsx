@@ -5,7 +5,7 @@ import { myFetch } from "../../../utils/myFetch";
 
 export default async function Review() {
   const res = await myFetch("/review");
-  console.log(res);
+  console.log("juyel");
 
   return (
     <section className="py-16 sm:py-24 bg-white">
