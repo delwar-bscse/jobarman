@@ -1,7 +1,7 @@
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { myFetch } from "../../../utils/myFetch";
 
 // Recent Jobs data
 const recentJobs = [
@@ -47,7 +47,8 @@ const recentJobs = [
   },
 ];
 
-export default function RecentJobPost() {
+export default async function RecentJobPost() {
+  const res = await myFetch("/job-post/recent-posts");
   return (
     <section className="py-16 sm:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,13 +61,13 @@ export default function RecentJobPost() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {recentJobs?.map((job) => (
+          {res?.data?.map((job) => (
             <div
-              key={job.id}
+              key={job._id}
               className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex items-center gap-4"
             >
               <Image
-                src={job.image}
+                src={job.thumbnail}
                 alt={job.title}
                 width={10}
                 height={10}
