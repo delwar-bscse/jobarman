@@ -14,10 +14,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = async (e) => {
+   const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login attempt:", { email, password });
-    router.push("/")
+    const res = await myFetch("/auth/login", {
+      method: "POST",
+      body: { email, password },
+    });
+    console.log("Login Response : ", res);
+
+    if (res.ok) {
+      router.push("/")
+    }
 
   };
 
