@@ -17,31 +17,36 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login attempt:", { email, password });
-    const res = await myFetch("/auth/login", {
-      method: "POST",
-      body: { email, password },
-    });
-    console.log("Login Response : ", res);
-
-    if (res.ok) {
-      router.push("/")
-    }
+    router.push("/")
 
   };
 
   return (
     <div className="min-h-screen bg-[#FBFBFB] flex items-center justify-center p-4">
       {/* Back Button */}
-      <Link href="/" className="absolute top-10 left-20 text-gray-600 hover:text-gray-900 transition">
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      <Link
+        href="/"
+        className="absolute top-10 left-20 text-gray-600 hover:text-gray-900 transition"
+      >
+        <svg
+          className="w-10 h-10"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </Link>
 
       {/* Main Container */}
       <div className="w-full max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
-
+          
           {/* Left Side - Logo Section */}
           <div className="hidden md:flex flex-col items-center justify-center p-8">
             <Image
@@ -55,7 +60,9 @@ export default function LoginPage() {
 
           {/* Right Side - Login Form */}
           <div className="flex flex-col justify-center p-8 text-center md:text-left border-2 border-[#ACBDF0] rounded-lg">
-            <h2 className="text-4xl text-[#123499] font-semibold text-center mb-8">Log In</h2>
+            <h2 className="text-4xl text-[#123499] font-semibold text-center mb-8">
+              Log In
+            </h2>
 
             <form onSubmit={handleLogin} className="space-y-6">
               {/* Email Field */}
@@ -88,14 +95,21 @@ export default function LoginPage() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#123499] transition"
                   >
-                    {showPassword ? <Eye className="w-7 h-7" /> : <EyeOff className="w-7 h-7" />}
+                    {showPassword ? (
+                      <Eye className="w-7 h-7" />
+                    ) : (
+                      <EyeOff className="w-7 h-7" />
+                    )}
                   </button>
                 </div>
               </div>
 
               {/* Forgot Password Link */}
               <div className="text-right">
-                <Link href="/forgot" className="text-[#21419F] hover:text-blue-800 font-medium transition">
+                <Link
+                  href="/forgot"
+                  className="text-[#21419F] hover:text-blue-800 font-medium transition"
+                >
                   Forgot Password?
                 </Link>
               </div>
@@ -113,7 +127,10 @@ export default function LoginPage() {
             <div className="mt-6 text-center">
               <p className="text-gray-700">
                 Don&apos;t Have An Account?{" "}
-                <Link href="/signupques" className="text-[#21419F] hover:text-blue-800 font-bold transition">
+                <Link
+                  href="/signupques"
+                  className="text-[#21419F] hover:text-blue-800 font-bold transition"
+                >
                   Sign Up
                 </Link>
               </p>
@@ -122,7 +139,9 @@ export default function LoginPage() {
             {/* Divider */}
             <div className="flex items-center gap-4 my-6">
               <div className="flex-1 border-t border-gray-300"></div>
-              <span className="text-gray-600 font-medium">Or Continue With</span>
+              <span className="text-gray-600 font-medium">
+                Or Continue With
+              </span>
               <div className="flex-1 border-t border-gray-300"></div>
             </div>
 
@@ -138,7 +157,12 @@ export default function LoginPage() {
                 type="button"
                 className="flex-1 flex items-center justify-center gap-2 border border-gray-300 hover:border-gray-400 py-3 rounded-xl transition hover:bg-gray-50"
               >
-                <Image src="/linkedin.svg" alt="LinkedIn" width={36} height={36} />
+                <Image
+                  src="/linkedin.svg"
+                  alt="LinkedIn"
+                  width={36}
+                  height={36}
+                />
               </button>
             </div>
           </div>

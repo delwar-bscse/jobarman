@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ChevronLeft } from "lucide-react"
-import RichTextEditor from "./rich-text-editor"
-import SkillsInput from "./skills-input"
+import { useState } from "react";
+import { ChevronLeft } from "lucide-react";
+import RichTextEditor from "./rich-text-editor";
+import SkillsInput from "./skills-input";
 
 export default function EditJobPost() {
   const [formData, setFormData] = useState({
@@ -19,19 +19,17 @@ export default function EditJobPost() {
     jobDescription: "Add your description...",
     skills: ["Job keyword", "tags etc."],
     deadline: "01 Sep 2025",
-  })
+  });
 
-  const [editorContent, setEditorContent] = useState("Add your description...")
-  const [skills, setSkills] = useState(["Job keyword", "tags etc."])
+  const [editorContent, setEditorContent] = useState("Add your description...");
+  const [skills, setSkills] = useState(["Job keyword", "tags etc."]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleUpdate = () => {
-    console.log("Form submitted:", formData)
-  }
+  const handleUpdate = () => {};
 
   return (
     <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
@@ -41,7 +39,9 @@ export default function EditJobPost() {
           <button className="rounded-lg p-2 hover:bg-gray-200 transition-colors">
             <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-700" />
           </button>
-          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Edit Job Post</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
+            Edit Job Post
+          </h1>
         </div>
 
         {/* Main Form */}
@@ -50,12 +50,29 @@ export default function EditJobPost() {
 
           <div className="flex justify-between gap-4">
             <div className="flex items-center justify-center w-1/2">
-              <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 ">
+              <label
+                htmlFor="dropzone-file"
+                className="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 "
+              >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                  <svg
+                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 16"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                    />
                   </svg>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Upload Cover Image</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Upload Cover Image
+                  </p>
                 </div>
                 <input id="dropzone-file" type="file" className="hidden" />
               </label>
@@ -64,7 +81,9 @@ export default function EditJobPost() {
             <div className="space-y-4 sm:space-y-6 w-1/2">
               <div>
                 {/* Job Title */}
-                <label className="block text-sm font-medium text-gray-900 mb-2">Job Title</label>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  Job Title
+                </label>
                 <input
                   type="text"
                   name="jobTitle"
@@ -77,7 +96,9 @@ export default function EditJobPost() {
               {/* Salary Section */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Min Salary</label>
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                    Min Salary
+                  </label>
                   <input
                     type="text"
                     name="minSalary"
@@ -87,7 +108,9 @@ export default function EditJobPost() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Max Salary</label>
+                  <label className="block text-sm font-medium text-gray-900 mb-2">
+                    Max Salary
+                  </label>
                   <input
                     type="text"
                     name="maxSalary"
@@ -100,14 +123,13 @@ export default function EditJobPost() {
             </div>
           </div>
 
-
-
-
           {/* Job Details Grid */}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">Job Category</label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Job Category
+              </label>
               <select
                 name="jobCategory"
                 value={formData.jobCategory}
@@ -120,7 +142,9 @@ export default function EditJobPost() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">Employment Type</label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Employment Type
+              </label>
               <select
                 name="employmentType"
                 value={formData.employmentType}
@@ -133,7 +157,9 @@ export default function EditJobPost() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">Job Type</label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Job Type
+              </label>
               <select
                 name="jobType"
                 value={formData.jobType}
@@ -147,12 +173,13 @@ export default function EditJobPost() {
             </div>
           </div>
 
-
           {/* Experience and Level */}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">Experience</label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Experience
+              </label>
               <select
                 name="experience"
                 value={formData.experience}
@@ -166,7 +193,9 @@ export default function EditJobPost() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">Job Level</label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Job Level
+              </label>
               <select
                 name="jobLevel"
                 value={formData.jobLevel}
@@ -180,7 +209,9 @@ export default function EditJobPost() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">Location</label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Location
+              </label>
               <input
                 type="text"
                 name="location"
@@ -191,22 +222,26 @@ export default function EditJobPost() {
             </div>
           </div>
 
-
           {/* Job Description */}
 
-          <label className="block text-sm font-medium text-gray-900 mb-3 sm:mb-4">Job Description</label>
+          <label className="block text-sm font-medium text-gray-900 mb-3 sm:mb-4">
+            Job Description
+          </label>
           <RichTextEditor value={editorContent} onChange={setEditorContent} />
-
 
           {/* Skills Section */}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-3">Skills</label>
+              <label className="block text-sm font-medium text-gray-900 mb-3">
+                Skills
+              </label>
               <SkillsInput skills={skills} setSkills={setSkills} />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-3">Deadline</label>
+              <label className="block text-sm font-medium text-gray-900 mb-3">
+                Deadline
+              </label>
               <input
                 type="date"
                 name="deadline"
@@ -216,7 +251,6 @@ export default function EditJobPost() {
               />
             </div>
           </div>
-
 
           {/* Update Button */}
           <div className="flex justify-center pb-4 sm:pb-6">
@@ -230,5 +264,5 @@ export default function EditJobPost() {
         </div>
       </div>
     </div>
-  )
+  );
 }

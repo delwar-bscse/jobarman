@@ -29,13 +29,15 @@ export default function SubscriptionCard({ plan }) {
       >
         <div className="flex flex-col items-center gap-1">
           <div className="flex items-baseline gap-1 sm:gap-1.5 md:gap-2">
-            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">{plan.price}</span>
+            <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
+              {plan.price}
+            </span>
             <span className="text-xs sm:text-sm opacity-90">
               {plan.name === "Free"
                 ? "/ Free Plan (Starter)"
                 : plan.period
                 ? `/${plan.period}`
-                : "/month"}
+                : "/per month"}
             </span>
           </div>
         </div>
@@ -47,7 +49,9 @@ export default function SubscriptionCard({ plan }) {
           {plan.features.map((feature, i) => (
             <li key={i} className="flex items-start gap-2 sm:gap-2.5 md:gap-3">
               <Check className="w-4 h-4 sm:w-4.5 md:w-5 text-blue-600 mt-0.5 flex-shrink-0" />
-              <span className="text-xs sm:text-sm text-gray-700">{feature}</span>
+              <span className="text-xs sm:text-sm text-gray-700">
+                {feature}
+              </span>
             </li>
           ))}
         </ul>
@@ -62,7 +66,7 @@ export default function SubscriptionCard({ plan }) {
               : "bg-[#123499] text-white hover:bg-blue-700"
           }`}
         >
-          {plan.cta}
+          Buy Now
         </button>
       </div>
     </div>

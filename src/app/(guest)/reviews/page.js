@@ -1,25 +1,8 @@
-"use client";
-
 import ReviewCard from "@/components/shared/ReviewCard";
-import { useEffect, useState } from "react";
+import { myFetch } from "../../../../utils/myFetch";
 
-export default function ReviewsPage() {
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch("/testimonials.json");
-        if (!res.ok) return;
-        const data = await res.json();
-        setReviews(data);
-      } catch (e) {
-        // silent fail
-      }
-    };
-    load();
-  }, []);
-
+export default async function ReviewsPage() {
+  const res = await myFetch("/review");
   return (
     <main className="w-full bg-white">
       <section className="py-16 sm:py-24">
@@ -34,14 +17,14 @@ export default function ReviewsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {reviews.map((t, index) => (
+            {res?.data?.map((t, index) => (
               <ReviewCard
                 key={index}
-                name={t.name}
+                name={t.user.name}
                 role={t.role}
                 rating={t.rating}
-                text={t.text}
-                image={t.image}
+                text={t.comment}
+                image={t.user.image}
               />
             ))}
           </div>
