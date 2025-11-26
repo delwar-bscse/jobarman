@@ -1,4 +1,7 @@
-export default function PrivacyPolicyPage() {
+import { myFetch } from "../../../../utils/myFetch";
+
+export default async function PrivacyPolicyPage() {
+  const res = await myFetch("/disclaimer?type=privacy");
   return (
     <section className="min-h-[60vh] bg-gray-50 py-10">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -7,7 +10,9 @@ export default function PrivacyPolicyPage() {
             <h1 className="text-2xl sm:text-3xl font-semibold text-blue-700 mb-2">
               Privacy Policy
             </h1>
-            <p className="text-sm text-gray-600 mb-6">
+
+            <p className="whitespace-pre-line">{res?.data?.content}</p>
+            {/* <p className="text-sm text-gray-600 mb-6">
               Effective Date: [Insert Date]
             </p>
 
@@ -66,7 +71,7 @@ export default function PrivacyPolicyPage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

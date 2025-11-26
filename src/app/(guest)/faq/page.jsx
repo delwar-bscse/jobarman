@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React, { useState } from "react";
 
 const faqs = [
@@ -62,8 +63,10 @@ export default function FAQPage() {
     <div className="px-6 py-10 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <div className="flex justify-start">
-          <img
+          <Image
             src="/forgot.svg"
+            width={10}
+            height={10}
             alt="FAQ Illustration"
             className="max-w-md w-full"
           />

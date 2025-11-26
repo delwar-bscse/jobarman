@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -19,9 +15,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
     "plugins": [
       {
@@ -47,9 +41,9 @@
     "src/app/(recruiter)/recruitment-dashboard/recent-applicants.jsx",
     "src/app/(recruiter)/recruitment-dashboard/metrics-card.jsx",
     "src/app/(recruiter)/edit-job-post/page.jsx",
-    "src/app/(recruiter)/seeker-resume/page.jsx"
-, "src/components/modal/CustomModal.jsx"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "src/app/(recruiter)/seeker-resume/page.jsx",
+    "src/components/modal/CustomModal.jsx",
+    "utils/revalidateTags.js"
+  ],
+  "exclude": ["node_modules"]
 }

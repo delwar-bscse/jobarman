@@ -1,4 +1,8 @@
-export default function TermsConditionsPage() {
+import { myFetch } from "../../../../utils/myFetch";
+
+export default async function TermsConditionsPage() {
+  const res = await myFetch("/disclaimer?type=terms");
+
   return (
     <section className="min-h-[60vh] bg-gray-50 py-10">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -7,7 +11,9 @@ export default function TermsConditionsPage() {
             <h1 className="text-2xl sm:text-3xl font-semibold text-blue-700 mb-2">
               Terms & Conditions
             </h1>
-            <p className="text-sm text-gray-600 mb-6">
+
+            <p className="whitespace-pre-line">{res?.data?.content}</p>
+            {/* <p className="text-sm text-gray-600 mb-6">
               Effective Date: [Insert Date]
             </p>
 
@@ -66,7 +72,7 @@ export default function TermsConditionsPage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
