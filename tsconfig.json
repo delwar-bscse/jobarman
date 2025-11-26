@@ -43,7 +43,8 @@
     "src/app/(recruiter)/edit-job-post/page.jsx",
     "src/app/(recruiter)/seeker-resume/page.jsx",
     "src/components/modal/CustomModal.jsx",
-    "utils/revalidateTags.js"
+    "utils/revalidateTags.js",
+    "src/components/guest/RecentJobPost.jsx"
   ],
   "exclude": ["node_modules"]
 }
