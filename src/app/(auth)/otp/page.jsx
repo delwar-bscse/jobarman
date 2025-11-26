@@ -29,15 +29,27 @@ export default function OTPPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("OTP Submitted:", otp.join(""));
   };
 
   return (
     <div className="min-h-screen bg-[#FBFBFB] flex items-center justify-center p-4">
       {/* Back Button */}
-      <Link href="/forgot" className="absolute top-10 left-20 text-gray-600 hover:text-gray-900 transition">
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      <Link
+        href="/forgot"
+        className="absolute top-10 left-20 text-gray-600 hover:text-gray-900 transition"
+      >
+        <svg
+          className="w-10 h-10"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </Link>
 
@@ -57,7 +69,9 @@ export default function OTPPage() {
 
           {/* Right Side - OTP Form */}
           <div className="flex flex-col justify-center p-8 text-center md:text-left border-2 border-[#ACBDF0] rounded-lg">
-            <h2 className="text-4xl text-[#123499] font-semibold text-center mb-8">OTP Verification</h2>
+            <h2 className="text-4xl text-[#123499] font-semibold text-center mb-8">
+              OTP Verification
+            </h2>
             <p className="text-center font-medium text-[#2F2F2F] mb-6">
               OTP Code has been sent to your registered email
             </p>
@@ -79,13 +93,10 @@ export default function OTPPage() {
                 ))}
               </div>
 
-               {/* Resend OTP */}
+              {/* Resend OTP */}
               <p className="text-end mb-6 text-gray-500">
-                Didn't receive a code?{" "}
-                <span
-                  className="text-[#0F38B2] font-semibold hover:underline cursor-pointer"
-                  onClick={() => console.log("Resend OTP")}
-                >
+                Didn &nbsp; t receive a code?{" "}
+                <span className="text-[#0F38B2] font-semibold hover:underline cursor-pointer">
                   Resend
                 </span>
               </p>
@@ -93,14 +104,12 @@ export default function OTPPage() {
               {/* Submit Button */}
               <Link href="/setnewpass">
                 <button
-                type="submit"
-                className="w-full bg-[#123499] hover:bg-[#0F38B2] text-white font-semibold py-4 mt-4 rounded-lg transition duration-200 transform hover:scale-105"
-              >
-                Verify
-              </button>
+                  type="submit"
+                  className="w-full bg-[#123499] hover:bg-[#0F38B2] text-white font-semibold py-4 mt-4 rounded-lg transition duration-200 transform hover:scale-105"
+                >
+                  Verify
+                </button>
               </Link>
-
-             
             </form>
           </div>
         </div>

@@ -24,9 +24,7 @@ export default function NotificationDetails() {
   const [date, setDate] = useState(undefined);
   const [time, setTime] = useState(undefined);
 
-  const handleFilterData = () => {
-    console.log(date, time);
-  };
+  const handleFilterData = () => {};
   return (
     <div className="flex gap-3 justify-between  mb-6">
       <div

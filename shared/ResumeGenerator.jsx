@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef, useState } from "react";
 
 const ResumeGenerator = () => {
@@ -36,7 +37,6 @@ const ResumeGenerator = () => {
   return (
     <section className="py-10 sm:py-16 max-w-7xl px-4 mb-14 rounded-xl mx-auto bg-gradient-to-r from-[#123499] to-[#2A57DE]">
       <div className="max-w-4xl mx-auto sm:px-6 lg:px-8">
-
         {/* HEADER */}
         <div className="text-center mb-8">
           <h2 className="text-2xl sm:text-4xl font-bold text-white mb-2">
@@ -48,12 +48,12 @@ const ResumeGenerator = () => {
           </p>
 
           <p className="text-blue-200 text-xs sm:text-sm mt-1 text-start">
-            This Helps Us Analyze Your Resume Against Industry-Specific Requirements
+            This Helps Us Analyze Your Resume Against Industry-Specific
+            Requirements
           </p>
         </div>
 
         <div className="space-y-6">
-
           {/* Job Title Selector */}
           <select className="w-full px-4 py-3 rounded-lg border border-[#5980E5] bg-[#395FD2] text-white text-sm sm:text-base hover:bg-[#2A57DE] focus:outline-none focus:ring-2 focus:ring-white">
             <option>Software Developer</option>
@@ -82,7 +82,6 @@ const ResumeGenerator = () => {
             />
 
             <div className="flex flex-col items-center gap-3">
-
               {!fileName ? (
                 <>
                   <svg
@@ -122,7 +121,6 @@ const ResumeGenerator = () => {
                   </a>
                 </div>
               )}
-
             </div>
           </div>
 
@@ -130,7 +128,6 @@ const ResumeGenerator = () => {
           <button className="w-full px-6 py-3 text-sm sm:text-base border border-[#5980E5] bg-[#395FD2] text-white rounded-lg hover:bg-[#2A57DE] transition font-semibold">
             Analyze Resume
           </button>
-
         </div>
       </div>
     </section>

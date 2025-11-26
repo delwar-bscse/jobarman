@@ -14,7 +14,6 @@ export default function SetNewPasswordPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Password Update attempt:", { password, confirmPassword });
     setIsModalOpen(true); // Open modal on submit
   };
 
@@ -25,9 +24,22 @@ export default function SetNewPasswordPage() {
   return (
     <div className="min-h-screen bg-[#FBFBFB] flex items-center justify-center p-4">
       {/* Back Button */}
-      <Link href="/otp" className="absolute top-10 left-20 text-gray-600 hover:text-gray-900 transition">
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      <Link
+        href="/otp"
+        className="absolute top-10 left-20 text-gray-600 hover:text-gray-900 transition"
+      >
+        <svg
+          className="w-10 h-10"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </Link>
 
@@ -47,7 +59,9 @@ export default function SetNewPasswordPage() {
 
           {/* Right Side - Form */}
           <div className="flex flex-col w-[617px] justify-center p-8 text-center border-2 border-[#ACBDF0] rounded-lg">
-            <h2 className="text-4xl text-[#123499] font-semibold text-center mb-8">Set New Password</h2>
+            <h2 className="text-4xl text-[#123499] font-semibold text-center mb-8">
+              Set New Password
+            </h2>
             <p className="text-center font-medium text-[#2F2F2F] mb-6">
               Create a strong new password to secure your account
             </p>
@@ -55,7 +69,9 @@ export default function SetNewPasswordPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Password Field */}
               <div>
-                <label className="block text-start text-gray-700 mb-2">New Password</label>
+                <label className="block text-start text-gray-700 mb-2">
+                  New Password
+                </label>
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
@@ -70,14 +86,20 @@ export default function SetNewPasswordPage() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#123499] transition"
                   >
-                    {showPassword ? <Eye className="w-7 h-7" /> : <EyeOff className="w-7 h-7" />}
+                    {showPassword ? (
+                      <Eye className="w-7 h-7" />
+                    ) : (
+                      <EyeOff className="w-7 h-7" />
+                    )}
                   </button>
                 </div>
               </div>
 
               {/* Confirm Password Field */}
               <div>
-                <label className="block text-start text-gray-700 mb-2">Confirm Password</label>
+                <label className="block text-start text-gray-700 mb-2">
+                  Confirm Password
+                </label>
                 <div className="relative">
                   <input
                     type={showConfirmPassword ? "text" : "password"}
@@ -92,7 +114,11 @@ export default function SetNewPasswordPage() {
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#123499] transition"
                   >
-                    {showConfirmPassword ? <Eye className="w-7 h-7" /> : <EyeOff className="w-7 h-7" />}
+                    {showConfirmPassword ? (
+                      <Eye className="w-7 h-7" />
+                    ) : (
+                      <EyeOff className="w-7 h-7" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -118,23 +144,39 @@ export default function SetNewPasswordPage() {
               onClick={closeModal}
               className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 
             {/* Success SVG */}
-            <Image src="/congo.svg" alt="Success" width={200} height={200} className="mx-auto mb-4" />
+            <Image
+              src="/congo.svg"
+              alt="Success"
+              width={200}
+              height={200}
+              className="mx-auto mb-4"
+            />
 
             {/* Modal Content */}
-            <h3 className="text-2xl font-semibold text-[#123499] mb-4">Congratulations!</h3>
+            <h3 className="text-2xl font-semibold text-[#123499] mb-4">
+              Congratulations!
+            </h3>
             <p className="text-[#2F2F2F] mb-6">
               Your password has been updated. Start using the app now.
             </p>
             <Link href="/login">
-              <button
-                className="w-full bg-[#0F38B2] hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-200 transform hover:scale-105"
-              >
+              <button className="w-full bg-[#0F38B2] hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-200 transform hover:scale-105">
                 Proceed to Login
               </button>
             </Link>
