@@ -13,6 +13,7 @@ const aiSlides = [
 export default function CaruselBanner() {
   const [aiPage, setAiPage] = useState(0);
   const [slidesPerView, setSlidesPerView] = useState(3);
+  const [paused, setPaused] = useState(false);
 
   const handleDragEnd = (e) => {
     if (!draggingRef.current) return;
