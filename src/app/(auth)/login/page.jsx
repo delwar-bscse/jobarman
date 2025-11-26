@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { myFetch } from "../../../../utils/myFetch";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,9 +14,19 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e) => {
+   const handleLogin = async (e) => {
     e.preventDefault();
-    router.push("/");
+    console.log("Login attempt:", { email, password });
+    const res = await myFetch("/auth/login", {
+      method: "POST",
+      body: { email, password },
+    });
+    console.log("Login Response : ", res);
+
+    if (res.ok) {
+      router.push("/")
+    }
+
   };
 
   return (
@@ -43,6 +54,7 @@ export default function LoginPage() {
       {/* Main Container */}
       <div className="w-full max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
+          
           {/* Left Side - Logo Section */}
           <div className="hidden md:flex flex-col items-center justify-center p-8">
             <Image
