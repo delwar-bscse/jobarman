@@ -1,7 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "sonner";
-
+// import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   weight: "400", // ONLY normal weight first
