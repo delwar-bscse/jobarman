@@ -1,5 +1,5 @@
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
-import Image from "next/image";
+import CustomImage from "../../../shared/CustomImage";
 import Link from "next/link";
 import { myFetch } from "../../../utils/myFetch";
 
@@ -66,12 +66,12 @@ export default async function RecentJobPost() {
               key={job._id}
               className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex items-center gap-4"
             >
-              <Image
+              <CustomImage
                 src={job.thumbnail}
-                alt={job.title}
-                width={10}
-                height={10}
-                className="w-36 h-24 rounded-lg object-cover"
+                title={job.title}
+                width={20}
+                height={20}
+                // className="w-36 h-24 rounded-lg object-cover"
               />
               <div className="flex-1">
                 <Link
@@ -94,8 +94,8 @@ export default async function RecentJobPost() {
                     <span className="w-2 h-2 bg-blue-600 rounded-full inline-block"></span>
                     {job.type}
                   </span>
-                  <span className="flex items-center gap-2 text-gray-700">
-                    <span className="w-2 h-2 bg-blue-600 rounded-full inline-block"></span>
+                  <span className="flex items-center text-gray-700">
+                    {/* <span className="w-2 h-2 bg-blue-600 rounded-full inline-block"></span> */}
                     {job.remote ? "Remote" : "Onsite"}
                   </span>
                 </div>
