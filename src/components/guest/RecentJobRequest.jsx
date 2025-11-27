@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { myFetch } from "../../../utils/myFetch";
 
 // Recent Job Request candidates data
 const recentRequests = [
@@ -37,7 +38,9 @@ const recentRequests = [
   },
 ];
 
-export default function RecentJobRequest() {
+export default async function RecentJobRequest() {
+  const res = await myFetch("/application/recent-applications");
+
   return (
     <section className="py-16 sm:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,28 +53,30 @@ export default function RecentJobRequest() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {recentRequests.map((p) => (
+          {res?.data?.map((item) => (
             <div
-              key={p.id}
+              key={item._id}
               className="relative bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex gap-4 items-start"
             >
               <Image
-                src={p.avatar}
-                alt={p.name}
+                src={item.user.image}
+                alt={item.user.name}
                 width={10}
                 height={10}
                 className="w-12 h-12 rounded-full object-cover"
               />
               <div className="flex-1">
-                <p className="text-gray-900 font-semibold">{p.name}</p>
-                <p className="text-sm text-gray-700">{p.role}</p>
-                <p className="text-xs text-gray-500">{p.experience}</p>
+                <p className="text-gray-900 font-semibold">{item.user.name}</p>
+                <p className="text-sm text-gray-700">{item.user.designation}</p>
+                <p className="text-xs text-gray-500">
+                  {item.year_of_experience}
+                </p>
                 <p className="mt-3 text-xs text-gray-600 leading-relaxed">
-                  {p.about}
+                  {item.user.bio}
                 </p>
               </div>
               <span className="absolute top-4 right-4 text-xs font-semibold text-green-600">
-                {p.match}% Match
+                {item.jobMatch}% Match
               </span>
             </div>
           ))}

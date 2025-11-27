@@ -69,6 +69,7 @@ export default function Home() {
               alt="Hiring Now"
               width={10}
               height={10}
+              sizes="100vh"
               className="w-full h-56 sm:h-64 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/40 to-orange-600/70" />
