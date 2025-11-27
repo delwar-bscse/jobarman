@@ -4,6 +4,10 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { deleteCookie, getCookie } from "cookies-next/client";
+import { myFetch } from "../../../../utils/myFetch";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function SetNewPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,10 +15,25 @@ export default function SetNewPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log("token : ", getCookie("token"))
     e.preventDefault();
-    setIsModalOpen(true); // Open modal on submit
+    const token = getCookie("token");
+    const res = await myFetch("/auth/reset-password", {
+      method: "POST",
+      token,
+      body: { newPassword: password, confirmPassword: confirmPassword },
+    });
+    console.log("Reset Password Response : ", res?.data);
+
+    if (res?.success) {
+      deleteCookie("token");
+      router.push("/login");
+    } else {
+      toast.success(res?.message ?? "Password Reset Failed");
+    }
   };
 
   const closeModal = () => {

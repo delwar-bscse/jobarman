@@ -6,6 +6,8 @@ import Image from "next/image";
 import { myFetch } from "../../../../utils/myFetch";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { set } from "date-fns";
+import { setCookie } from "cookies-next/client";
 
 export default function OTPPage() {
   const router = useRouter();
@@ -58,6 +60,7 @@ export default function OTPPage() {
 
     if (res?.success && res?.data) {
       localStorage.removeItem("registeredEmail");
+      setCookie("token", res?.data);
       router.push("/setnewpass");
     } else if (res?.success) {
       localStorage.removeItem("registeredEmail");
