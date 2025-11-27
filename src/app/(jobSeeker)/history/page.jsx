@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
 // Tabs: applied | rejected | interview
@@ -40,9 +41,11 @@ const JobCard = ({ job, onClick }) => (
     onClick={onClick}
   >
     <div className="p-3">
-      <img
+      <Image
         src="/cardpic.png"
         alt="We are Hiring"
+        width={112}
+        height={112}
         className="w-full h-28 sm:h-36 md:h-28 object-cover rounded-md"
       />
     </div>
@@ -52,7 +55,13 @@ const JobCard = ({ job, onClick }) => (
         {job.company}
       </a>
       <div className="mt-2 flex items-center gap-2 text-xs text-gray-600">
-        <img src="/globe.svg" alt="location" className="w-4 h-4" />
+        <Image
+          src="/globe.svg"
+          width={12}
+          height={12}
+          alt="location"
+          className="w-4 h-4"
+        />
         <span>{job.location}</span>
       </div>
       <button
@@ -121,9 +130,11 @@ const JobModal = ({ job, onClose }) => {
           <div>
             <div className="rounded-xl border border-gray-200 bg-white">
               <div className="p-3">
-                <img
+                <Image
                   src="/cardpic.png"
                   alt="We are Hiring"
+                  width={10}
+                  height={10}
                   className="w-full h-36 sm:h-48 md:h-36 object-cover rounded-md"
                 />
               </div>
@@ -136,7 +147,13 @@ const JobModal = ({ job, onClose }) => {
                   {job.company}
                 </a>
                 <div className="mt-2 flex items-center gap-2 text-xs text-gray-600">
-                  <img src="/globe.svg" alt="location" className="w-4 h-4" />
+                  <Image
+                    src="/globe.svg"
+                    alt="location"
+                    width={12}
+                    height={12}
+                    className="w-4 h-4"
+                  />
                   <span>{job.location}</span>
                 </div>
                 <button
@@ -183,7 +200,13 @@ const JobModal = ({ job, onClose }) => {
               <p className="font-semibold text-sm text-gray-800">Attachment</p>
               <div className="mt-3 space-y-3">
                 <div className="flex items-center gap-3 rounded-md border border-gray-200 p-3">
-                  <img src="/file.svg" alt="file" className="w-5 h-5" />
+                  <Image
+                    src="/file.svg"
+                    alt="file"
+                    height={20}
+                    width={20}
+                    className="w-5 h-5"
+                  />
                   <div className="text-sm">
                     <p className="font-medium">Resume wade adoyeo 20_89_4</p>
                     <p className="text-[11px] text-gray-500">
@@ -192,7 +215,7 @@ const JobModal = ({ job, onClose }) => {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 rounded-md border border-gray-200 p-3">
-                  <img src="/file.svg" alt="file" className="w-5 h-5" />
+                  <Image src="/file.svg" alt="file" className="w-5 h-5" />
                   <div className="text-sm">
                     <p className="font-medium">Experience Certificate</p>
                     <p className="text-[11px] text-gray-500">
