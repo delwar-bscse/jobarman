@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { myFetch } from "../../../../utils/myFetch";
 import { setCookie } from "cookies-next/client";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,7 +16,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-   const handleLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const res = await myFetch("/auth/login", {
       method: "POST",
@@ -27,11 +28,11 @@ export default function LoginPage() {
       setCookie("accessToken", res?.data?.createToken);
       setCookie("refreshToken", res?.data?.refreshToken);
       setCookie("role", res?.data?.role);
-      router.push("/")
-    }else {
-      toast.success("Login Success");
+      router.push("/");
+      toast.success("Login Successfull");
+    } else {
+      toast.success(res?.error);
     }
-
   };
 
   return (
@@ -59,7 +60,6 @@ export default function LoginPage() {
       {/* Main Container */}
       <div className="w-full max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
-          
           {/* Left Side - Logo Section */}
           <div className="hidden md:flex flex-col items-center justify-center p-8">
             <Image
