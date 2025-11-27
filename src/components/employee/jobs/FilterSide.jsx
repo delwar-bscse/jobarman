@@ -1,9 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapPin, Search } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function FilterSide() {
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+
   const [searchTitle, setSearchTitle] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -14,6 +20,7 @@ export default function FilterSide() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [showMoreCategories, setShowMoreCategories] = useState(false);
+  // searchTerm minPrice maxPrice category job_type job_level experience_level
 
   const allCategories = [
     "Healthcare",
@@ -81,6 +88,38 @@ export default function FilterSide() {
         : [...prev, jobId]
     );
   };
+
+  const handleSearch = useDebouncedCallback((term) => {
+    if (term) {
+      params.set("searchTerm", term);
+    } else {
+      params.delete("searchTerm");
+    }
+    replace(`?${params.toString()}`);
+  }, 300);
+
+  const handleLocationChange = (location) => {
+    setSelectedLocation(location);
+    params.set("location", location);
+    replace(`?${params.toString()}`);
+  };
+
+  const handleApply = () => {
+
+  }
+
+  // useEffect(() =>{
+  //   console.log("Search Title:", searchTitle);
+  //   console.log("Selected Location:", selectedLocation);
+  //   console.log("Selected Categories:", selectedCategories);
+  //   console.log("Selected Job Types:", selectedJobTypes);
+  //   console.log("Selected Experience Levels:", selectedExperience);
+  //   console.log("Selected Date Posted:", selectedDatePosted);
+  //   console.log("Salary Range:", salaryRange);
+
+  // },[searchTitle, selectedLocation, selectedCategories, selectedJobTypes, selectedExperience, selectedDatePosted, salaryRange]);
+
+
   return (
     <div className="lg:col-span-1">
       <div className="bg-[#E6EFF6] rounded-lg p-6 sticky top-8">
@@ -97,8 +136,8 @@ export default function FilterSide() {
             <input
               type="text"
               placeholder="Job title or company"
-              value={searchTitle}
-              onChange={(e) => setSearchTitle(e.target.value)}
+              defaultValue={searchParams.get("searchTerm")?.toString()}
+              onChange={(e) => handleSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC]"
             />
           </div>
@@ -116,7 +155,7 @@ export default function FilterSide() {
             />
             <select
               value={selectedLocation}
-              onChange={(e) => setSelectedLocation(e.target.value)}
+              onChange={(e) => handleLocationChange(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC] appearance-none"
             >
               {locations.map((loc) => (
@@ -231,9 +270,9 @@ export default function FilterSide() {
             min="0"
             max="9999"
             value={salaryRange[1]}
-            onChange={(e) =>
+            onChange={(e) => {
               setSalaryRange([salaryRange[0], Number.parseInt(e.target.value)])
-            }
+            }}
             className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-[#0066CC]"
           />
           <div className="flex justify-between text-xs text-[#0066CC] mt-2">
