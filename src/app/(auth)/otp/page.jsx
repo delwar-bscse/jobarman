@@ -3,9 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { myFetch } from "../../../../utils/myFetch";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function OTPPage() {
-  const [otp, setOtp] = useState(["1", "2", "3", "", "", ""]);
+  const router = useRouter();
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
   const handleOtpChange = (index, value) => {
     if (/^[0-9]$/.test(value) || value === "") {
@@ -27,8 +31,40 @@ export default function OTPPage() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const resendOTP = async () => {
+    const res = await myFetch("/auth/forget-password", {
+      method: "POST",
+      body: { email: localStorage.getItem("registeredEmail") },
+    });
+    console.log("Resend OTP Response : ", res?.data);
+    if (res?.data) {
+      toast.success("OTP Resent Successfully");
+    } else {
+      toast.success(res?.message ?? "Resend OTP Failed");
+    }
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const email = localStorage.getItem("registeredEmail");
+    console.log("Email: ", email, "OTP : ", otp.join(""))
+
+    const res = await myFetch("/auth/verify-email", {
+      method: "POST",
+      body: { email, oneTimeCode: Number(otp.join("")) },
+    });
+    console.log("OTP Response : ", res);
+
+    if (res?.success && res?.data) {
+      localStorage.removeItem("registeredEmail");
+      router.push("/setnewpass");
+    } else if (res?.success) {
+      localStorage.removeItem("registeredEmail");
+      router.push("/login");
+    } else {
+      toast.success(res?.message ?? "OTP Verification Failed");
+    }
   };
 
   return (
@@ -96,20 +132,18 @@ export default function OTPPage() {
               {/* Resend OTP */}
               <p className="text-end mb-6 text-gray-500">
                 Didn &nbsp; t receive a code?{" "}
-                <span className="text-[#0F38B2] font-semibold hover:underline cursor-pointer">
+                <span onClick={() => resendOTP()} className="text-[#0F38B2] font-semibold hover:underline cursor-pointer">
                   Resend
                 </span>
               </p>
 
               {/* Submit Button */}
-              <Link href="/setnewpass">
-                <button
-                  type="submit"
-                  className="w-full bg-[#123499] hover:bg-[#0F38B2] text-white font-semibold py-4 mt-4 rounded-lg transition duration-200 transform hover:scale-105"
-                >
-                  Verify
-                </button>
-              </Link>
+              <button
+                type="submit"
+                className="w-full bg-[#123499] hover:bg-[#0F38B2] text-white font-semibold py-4 mt-4 rounded-lg transition duration-200 transform hover:scale-105"
+              >
+                Verify
+              </button>
             </form>
           </div>
         </div>

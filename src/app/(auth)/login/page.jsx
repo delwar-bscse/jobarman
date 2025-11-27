@@ -29,9 +29,9 @@ export default function LoginPage() {
       setCookie("refreshToken", res?.data?.refreshToken);
       setCookie("role", res?.data?.role);
       router.push("/");
-      toast.success("Login Successfull");
+      toast.success("Login Successfully");
     } else {
-      toast.success(res?.error);
+      toast.success(res?.message ?? "Login Failed");
     }
   };
 

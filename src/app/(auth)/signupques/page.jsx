@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function signUpQuesPage() {
 
   return (
-    <div className="min-h-screen bg-white bg-[#FBFBFB] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#FBFBFB] flex items-center justify-center p-4">
       {/* Back Button */}
       <Link href="/login" className="absolute top-10 left-20 text-gray-600 hover:text-gray-900 transition">
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,7 +34,7 @@ export default function signUpQuesPage() {
             <h2 className="text-4xl text-[#123499] font-semibold text-center mb-5">Are You a Job Seeker or a Recruiter?</h2>
             <p className="text-center font-medium text-[#2F2F2F]">Get started by choosing your role.</p>
              
-             <Link href="/register">
+             <Link href="/register?type=EMPLOYEE">
                 <div className="flex justify-center gap-8 mt-5 bg-[#FEF3E6] border-2 border-[#FCB676] p-6 rounded-xl items-center">
                 <Image src="/girlanim.svg" alt="Girl Animation" width={80} height={80} />
                 <div className="space-y-2">
@@ -43,7 +43,7 @@ export default function signUpQuesPage() {
                 </div>
              </div>
              </Link>
-             <Link href="/register">
+             <Link href="/register?type=RECRUITER">
                 <div className="flex justify-center gap-8 mt-5 bg-[#FFFFFF] p-6 rounded-xl items-center">
                 <Image src="/boyanim.svg" alt="Boy Animation" width={80} height={80} />
                 <div className="space-y-2">

@@ -3,9 +3,28 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { myFetch } from "../../../../utils/myFetch";
 
 export default function ForgotPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await myFetch("/auth/forget-password", {
+      method: "POST",
+      body: { email },
+    });
+    console.log("Forgot Password Response : ", res);
+
+    if (res?.success) {
+      localStorage.setItem("registeredEmail", email);
+      router.push("/otp");
+    } else {
+      toast.success(res?.message ?? "Send OTP Failed");
+    }
+  }
 
 
   return (
@@ -37,7 +56,7 @@ export default function ForgotPage() {
             <h2 className="text-4xl text-[#123499] font-semibold text-center mb-8">Forgot Password</h2>
             <p className="text-center font-medium text-[#2F2F2F]">Enter your registered email to get password reset instructions</p>
 
-            <form  className="space-y-6">
+            <form onSubmit={handleSubmit}  className="space-y-6">
               {/* Email Field */}
               <div>
                 <label className="block text-gray-700 mb-2">Email</label>
@@ -53,14 +72,12 @@ export default function ForgotPage() {
 
 
               {/* Login Button */}
-              <Link href="/otp">
                 <button
                   type="submit"
                   className="w-full bg-[#0F38B2] text-2xl hover:bg-blue-700 text-white font-semibold py-4 rounded-lg mt-6 transition duration-200 transform hover:scale-105"
                 >
                   Continue
                 </button>
-              </Link>
             </form>
             </div>
           </div>

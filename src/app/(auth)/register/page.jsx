@@ -5,6 +5,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import Image from "next/image";
+import { myFetch } from "../../../../utils/myFetch";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,9 +16,25 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const role = searchParams.get("type");
+  console.log("Role : ", role)
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+    const res = await myFetch("/user", {
+      method: "POST",
+      body: { name, email, password, role },
+    });
+    console.log("Registration Response : ", res?.data);
+
+    if (res?.data) {
+      localStorage.setItem("registeredEmail", email);
+      router.push("/otp");
+    } else {
+      toast.success(res?.message ?? "Registration Failed");
+    }
   };
 
   return (
