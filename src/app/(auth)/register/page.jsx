@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { myFetch } from "../../../../utils/myFetch";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-export default function RegisterPage() {
+function RegisterPageSuspense() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -235,4 +235,12 @@ export default function RegisterPage() {
       </div>
     </div>
   );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>} >
+      <RegisterPageSuspense />
+    </Suspense>
+  )
 }
