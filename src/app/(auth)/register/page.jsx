@@ -19,7 +19,6 @@ export default function RegisterPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const role = searchParams.get("type");
-  console.log("Role : ", role)
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -27,7 +26,6 @@ export default function RegisterPage() {
       method: "POST",
       body: { name, email, password, role },
     });
-    console.log("Registration Response : ", res?.data);
 
     if (res?.data) {
       localStorage.setItem("registeredEmail", email);

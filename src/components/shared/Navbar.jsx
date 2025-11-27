@@ -6,6 +6,9 @@ import { Menu, X, Bell, MessageCircle, User } from "lucide-react";
 import Image from "next/image";
 import { useClasses } from "./../../../utils/Navbar";
 import { myFetch } from "utils/myFetch";
+import CustomImage from "shared/CustomImage";
+import { deleteCookie } from "cookies-next/client";
+import { useRouter } from "next/navigation";
 
 const recuiter = [
   { href: "/", label: "Home" },
@@ -31,7 +34,7 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   const { linkClass, btnClass, iconClass } = useClasses();
   const [profile, setProfile] = useState(null);
-
+  const router = useRouter();
   // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -62,6 +65,14 @@ export default function Navbar() {
     };
   }, []);
 
+  // handle logout
+  const handleLogout = () => {
+    deleteCookie("accessToken");
+    deleteCookie("refreshToken");
+    deleteCookie("role");
+    router.push("/login");
+  };
+
   return (
     <header className="border-b-2 border-[#C7DEF2] sticky top-0 bg-white z-50">
       <div className="w-full mx-auto px-3 sm:px-4 lg:px-8 py-3 lg:py-4 flex items-center justify-between">
@@ -78,7 +89,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation - Only visible on large screens (lg: 1024px+) */}
         <nav className="hidden lg:flex items-center gap-3 xl:gap-6 2xl:gap-8">
-          {profile?.data?.role === "recuiter" &&
+          {profile?.data?.role === "RECRUITER" &&
             recuiter.map((item) => (
               <Link
                 key={item.href}
@@ -117,37 +128,52 @@ export default function Navbar() {
           </Link>
 
           {/* Profile Avatar */}
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="focus:outline-none p-1 rounded-full hover:bg-white/50 transition"
-            >
-              <User className="w-7 h-7 lg:w-8 lg:h-8 text-gray-500 border border-gray-300 rounded-full p-1 hover:ring-2 hover:ring-[#123499] transition" />
-            </button>
+          {profile?.data ? (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="focus:outline-none p-1 rounded-full hover:bg-white/50 transition"
+              >
+                <CustomImage
+                  src={profile.data?.image}
+                  title="profile image"
+                  width={52}
+                  height={52}
+                  // className="w-10 h-7 lg:w-8 lg:h-8 text-gray-500 border border-gray-300 rounded-full p-1 hover:ring-2 hover:ring-[#123499] transition"
+                />
+              </button>
 
-            {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-44 lg:w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
-                <Link
-                  href="/profile/myProfile"
-                  className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  Job Seeker
-                </Link>
-                <Link
-                  href="/profile/companyProfile"
-                  className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  Recruiter
-                </Link>
-              </div>
-            )}
-          </div>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-44 lg:w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
+                  <Link
+                    href="/profile/myProfile"
+                    className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Job Seeker
+                  </Link>
+                  <Link
+                    href="/profile/companyProfile"
+                    className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Recruiter
+                  </Link>
 
-          <Link href="/login" className={btnClass("/login")}>
-            Sign In
-          </Link>
+                  <div
+                    className="cursor-pointer px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100"
+                    onClick={handleLogout}
+                  >
+                    Log Out
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link href="/login" className={btnClass("/login")}>
+              Sign In
+            </Link>
+          )}
         </nav>
 
         {/* Mobile/Tablet Menu Button - Visible on <lg (1024px) */}

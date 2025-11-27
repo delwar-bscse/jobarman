@@ -1,15 +1,15 @@
 import Image from "next/image";
 
 export default function CustomImage({
-  src,
-  title,
-  width = 10,
-  height = 10,
-  className,
+  src = "",
+  title = "",
+  width = 100,
+  height = 100,
+  className = "",
 }) {
   const image = src?.startsWith("http")
     ? src
-    : `${process.env.IMAGE_URL}/${src}`;
+    : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${src}`;
 
   return (
     <Image
@@ -17,7 +17,7 @@ export default function CustomImage({
       alt={title}
       width={width}
       height={height}
-      sizes="100vh"
+      sizes="100vw"
       className={`object-cover ${className}`}
     />
   );

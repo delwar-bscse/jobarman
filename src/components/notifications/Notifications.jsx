@@ -5,7 +5,6 @@ import { myFetch } from "../../../utils/myFetch";
 
 export default async function Notifications() {
   const res = await myFetch("/notification");
-  console.log("message", res);
 
   const Pill = ({ label, color }) => {
     const styles =

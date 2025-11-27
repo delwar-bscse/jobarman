@@ -1,8 +1,11 @@
 import Image from "next/image";
 import FilterSide from "@/components/employee/jobs/FilterSide";
 import JobCard from "@/components/employee/jobs/JobCard";
+import { myFetch } from "../../../../utils/myFetch";
 
-const JobsPage = () => {
+const JobsPage = async () => {
+  const jobs = await myFetch("/job-post/feed");
+  console.log("jobs", jobs.data);
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto">
@@ -22,7 +25,7 @@ const JobsPage = () => {
           <FilterSide />
 
           {/* Job Cards Grid */}
-          <JobCard />
+          <JobCard data={jobs?.data} />
         </div>
       </div>
     </div>
