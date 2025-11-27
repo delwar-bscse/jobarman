@@ -5,6 +5,7 @@ import { myFetch } from "../../../utils/myFetch";
 
 export default async function Notifications() {
   const res = await myFetch("/notification");
+  console.log("message", res);
 
   const Pill = ({ label, color }) => {
     const styles =
@@ -33,7 +34,7 @@ export default async function Notifications() {
               <GoStarFill className="w-5 h-5 text-gray-300 cursor-pointer hover:text-yellow-500 transition-colors duration-300" />
             </div>
             <div className="mt-3 w-full flex items-center justify-between">
-              <Pill label={item.pill.label} color={item.pill.color} />
+              {/* <Pill label={item.pill.label} color={item.pill.color} /> */}
               <span className="text-xs text-gray-400">
                 {dayjs(item.time).format("MMMM D, YYYY h:mm A")}
               </span>

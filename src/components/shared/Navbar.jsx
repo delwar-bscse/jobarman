@@ -1,15 +1,36 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, use } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Menu, X, Bell, MessageCircle, User } from "lucide-react";
+import Image from "next/image";
+import { useClasses } from "./../../../utils/Navbar";
+import { myFetch } from "utils/myFetch";
+
+const recuiter = [
+  { href: "/", label: "Home" },
+  { href: "/my-job", label: "My Job" },
+  { href: "/career-spotlight", label: "Career Spotlight" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/post-job", label: "Post Job" },
+  { href: "/analyze-resume", label: "Analyze Resume" },
+];
+
+const employee = [
+  { href: "/", label: "Home" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/my-resume", label: "My Resume" },
+  { href: "/history", label: "History" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/faq", label: "FAQ" },
+];
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const pathname = usePathname();
+  const { linkClass, btnClass, iconClass } = useClasses();
+  const [profile, setProfile] = useState(null);
 
   // Close dropdown if clicked outside
   useEffect(() => {
@@ -22,67 +43,76 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const linkClass = (href) =>
-    `${
-      pathname === href
-        ? "text-[#123499] font-semibold underline underline-offset-4 lg:underline-offset-8"
-        : "text-gray-600"
-    } hover:text-gray-900 transition-colors text-sm lg:text-base`;
+  useEffect(() => {
+    let isMounted = true;
 
-  const btnClass = (href) =>
-    `${
-      pathname === href
-        ? "bg-[#123499]"
-        : "bg-gradient-to-r from-[#123499] to-[#2A57DE]"
-    } px-4 py-2 lg:px-6 lg:py-2.5 text-sm lg:text-base text-white rounded-lg transition-all hover:shadow-md`;
+    const fetchProfile = async () => {
+      try {
+        const data = await myFetch("/user/profile");
+        if (isMounted) setProfile(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  const iconClass = (href) =>
-    `${
-      pathname === href ? "text-[#123499]" : "text-gray-600"
-    } hover:text-gray-900 transition-colors`;
+    fetchProfile();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <header className="border-b-2 border-[#C7DEF2] sticky top-0 bg-white z-50">
       <div className="w-full mx-auto px-3 sm:px-4 lg:px-8 py-3 lg:py-4 flex items-center justify-between">
         <Link href="/" className="flex-shrink-0">
-          <img src="/logo.png" alt="Jobarman" className="w-20 h-10 sm:w-22 lg:w-24 lg:h-12" />
+          <Image
+            src="/logo.png"
+            alt="Jobarman"
+            width={10}
+            height={10}
+            sizes="100vh"
+            className="w-20 h-10 sm:w-22 lg:w-24 lg:h-12"
+          />
         </Link>
 
         {/* Desktop Navigation - Only visible on large screens (lg: 1024px+) */}
         <nav className="hidden lg:flex items-center gap-3 xl:gap-6 2xl:gap-8">
-          <Link href="/" className={linkClass("/")}>
-            Home
-          </Link>
-          <Link href="/jobs" className={linkClass("/jobs")}>
-            Jobs
-          </Link>
-          <Link href="/my-job" className={linkClass("/my-job")}>
-            My Job
-          </Link>
-          <Link href="/career-spotlight" className={linkClass("/career-spotlight")}>
-            Career Spotlight
-          </Link>
-          <Link href="/pricing" className={linkClass("/pricing")}>
-            Pricing
-          </Link>
-          <Link href="/faq" className={linkClass("/faq")}>
-            FAQ
-          </Link>
-          <Link href="/history" className={linkClass("/history")}>
-            History
-          </Link>
-          <Link href="/my-resume" className={linkClass("/my-resume")}>
-            My Resume
-          </Link>
-          <Link href="/analyze-resume" className={linkClass("/analyze-resume")}>
-            Analyze Resume
-          </Link>
+          {profile?.data?.role === "recuiter" &&
+            recuiter.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={linkClass(item.href)}
+              >
+                {item.label}
+              </Link>
+            ))}
+
+          {profile?.data?.role == "EMPLOYEE" &&
+            employee.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={linkClass(item.href)}
+              >
+                {item.label}
+              </Link>
+            ))}
 
           {/* Icons */}
-          <Link href="/notifications" aria-label="Notifications" className={iconClass("/notifications")}>
+          <Link
+            href="/notifications"
+            aria-label="Notifications"
+            className={iconClass("/notifications")}
+          >
             <Bell className="w-5 h-5" />
           </Link>
-          <Link href="/chat" aria-label="Messages" className={iconClass("/chat")}>
+          <Link
+            href="/chat"
+            aria-label="Messages"
+            className={iconClass("/chat")}
+          >
             <MessageCircle className="w-5 h-5" />
           </Link>
 
@@ -125,7 +155,11 @@ export default function Navbar() {
           className="lg:hidden p-1"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </button>
       </div>
 
@@ -133,39 +167,85 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-gray-200 bg-white">
           <nav className="flex flex-col gap-3 px-3 py-4 sm:px-4">
-            <Link href="/" className={linkClass("/")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/"
+              className={linkClass("/")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Home
             </Link>
-            <Link href="/jobs" className={linkClass("/jobs")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/jobs"
+              className={linkClass("/jobs")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Jobs
             </Link>
-            <Link href="/my-job" className={linkClass("/my-job")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/my-job"
+              className={linkClass("/my-job")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               My Job
             </Link>
-            <Link href="/career-spotlight" className={linkClass("/career-spotlight")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/career-spotlight"
+              className={linkClass("/career-spotlight")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Career Spotlight
             </Link>
-            <Link href="/pricing" className={linkClass("/pricing")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/pricing"
+              className={linkClass("/pricing")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Pricing
             </Link>
-            <Link href="/faq" className={linkClass("/faq")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/faq"
+              className={linkClass("/faq")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               FAQ
             </Link>
-            <Link href="/history" className={linkClass("/history")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/history"
+              className={linkClass("/history")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               History
             </Link>
-            <Link href="/my-resume" className={linkClass("/my-resume")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/my-resume"
+              className={linkClass("/my-resume")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               My Resume
             </Link>
-            <Link href="/analyze-resume" className={linkClass("/analyze-resume")} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/analyze-resume"
+              className={linkClass("/analyze-resume")}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               Analyze Resume
             </Link>
 
             {/* Icons as Links */}
-            <Link href="/notifications" className={`${linkClass("/notifications")} flex items-center gap-2`} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/notifications"
+              className={`${linkClass(
+                "/notifications"
+              )} flex items-center gap-2`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               <Bell className="w-5 h-5" /> Notifications
             </Link>
-            <Link href="/chat" className={`${linkClass("/chat")} flex items-center gap-2`} onClick={() => setMobileMenuOpen(false)}>
+            <Link
+              href="/chat"
+              className={`${linkClass("/chat")} flex items-center gap-2`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
               <MessageCircle className="w-5 h-5" /> Messages
             </Link>
 
@@ -176,7 +256,9 @@ export default function Navbar() {
                 className="flex items-center gap-2 focus:outline-none text-left w-full"
               >
                 <User className="w-7 h-7 text-gray-500 border border-gray-300 rounded-full p-1" />
-                <span className="text-sm sm:text-base text-gray-700 font-medium">Profile</span>
+                <span className="text-sm sm:text-base text-gray-700 font-medium">
+                  Profile
+                </span>
               </button>
               {dropdownOpen && (
                 <div className="flex flex-col ml-9 gap-1.5">
