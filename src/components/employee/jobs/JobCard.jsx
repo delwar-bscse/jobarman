@@ -1,8 +1,15 @@
 "use client";
-import { ChevronLeft, ChevronRight, Heart, MapPin } from "lucide-react";
+import {
+  Calendar1,
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  MapPin,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import CustomImage from "../../../../shared/CustomImage";
 
 const mockJobs = [
   {
@@ -127,21 +134,21 @@ const mockJobs = [
   },
 ];
 
-export default function JobCard() {
+export default function JobCard({ data }) {
   const [savedJobs, setSavedJobs] = useState([]);
   return (
     <div className="lg:col-span-3">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {mockJobs.map((job) => (
+        {data?.map((job) => (
           <Link
             key={job.id}
-            href={`/jobs/${job.id}`}
+            href={`/jobs/${job._id}`}
             className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
           >
             {/* Left Side Image */}
             <div className="w-52">
-              <Image
-                src="/cardpic.png"
+              <CustomImage
+                src={job.thumbnail}
                 alt={`${job.title} image`}
                 width={150}
                 height={150}
@@ -192,26 +199,20 @@ export default function JobCard() {
                     <div className="flex items-center gap-1">
                       <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                       <span className=" text-gray-400 text-xs font-semibold rounded">
-                        {job.type}
+                        {job.job_type}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1">
+                    {/* <div className="flex items-center gap-1">
                       <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                       <span className=" text-gray-400 text-xs font-semibold rounded">
                         {job.type}
-                      </span>
-                    </div>
+                      </span> */}
+                    {/* </div> */}
                   </div>
-                  <div>
-                    <Image
-                      src="/calendar.svg"
-                      alt="Calendar icon"
-                      width={13}
-                      height={16}
-                      className="mr-1 inline-block"
-                    />
-                    <span className=" b text-[#FF8C00] text-xs font-semibold rounded">
-                      {job.date}
+                  <div className="flex items-center justify-center space-x-1">
+                    {/* <Calendar1 className="text-[#FF8F27]" /> */}
+                    <span className="text-[#FF8C00] text-sm font-semibold rounded">
+                      {job.deadline.slice(0, 10)}
                     </span>
                   </div>
                 </div>

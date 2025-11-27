@@ -38,25 +38,23 @@ export default function OTPPage() {
       method: "POST",
       body: { email: localStorage.getItem("registeredEmail") },
     });
-    console.log("Resend OTP Response : ", res?.data);
+
     if (res?.data) {
       toast.success("OTP Resent Successfully");
     } else {
       toast.success(res?.message ?? "Resend OTP Failed");
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const email = localStorage.getItem("registeredEmail");
-    console.log("Email: ", email, "OTP : ", otp.join(""))
 
     const res = await myFetch("/auth/verify-email", {
       method: "POST",
       body: { email, oneTimeCode: Number(otp.join("")) },
     });
-    console.log("OTP Response : ", res);
 
     if (res?.success && res?.data) {
       localStorage.removeItem("registeredEmail");
@@ -135,7 +133,10 @@ export default function OTPPage() {
               {/* Resend OTP */}
               <p className="text-end mb-6 text-gray-500">
                 Didn &nbsp; t receive a code?{" "}
-                <span onClick={() => resendOTP()} className="text-[#0F38B2] font-semibold hover:underline cursor-pointer">
+                <span
+                  onClick={() => resendOTP()}
+                  className="text-[#0F38B2] font-semibold hover:underline cursor-pointer"
+                >
                   Resend
                 </span>
               </p>
