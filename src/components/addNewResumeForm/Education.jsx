@@ -12,13 +12,13 @@ export default function Education({ register, eduArray }) {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <input
-              {...register(`certifications.${i}.name`)}
+              {...register(`educations.${i}.degree`)}
               placeholder="Enter your degree"
               className="flex items-center gap-2 border px-3 py-2 rounded-lg outline-none"
             />
 
             <input
-              {...register(`university ${i}`)}
+              {...register(`educations.${i}.institute`)}
               placeholder="Enter your university"
               className="flex items-center gap-2 border px-3 py-2 rounded-lg outline-none"
             />

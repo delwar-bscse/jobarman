@@ -2,8 +2,48 @@
 
 import { FileText, Edit2, Trash2, Plus } from "lucide-react";
 import Link from "next/link";
+import Swal from "sweetalert2";
+import { myFetch } from "../../../utils/myFetch";
+import { revalidate } from "../../../utils/revalidateTags";
 
-export default function ResumeList({ resumes, selectedId, onSelectResume }) {
+export default function ResumeList({ data, setSelectResume }) {
+  const handleDeleteResume = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want delete this resume !",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await myFetch(`/resume/${id}`, {
+          method: "DELETE",
+        });
+
+        if (res.success) {
+          revalidate("resume");
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: "Unable to delete the resume.",
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
+
+  const handleSelectResume = (id) => {
+    setSelectResume(id);
+  };
+
   return (
     <div className="h-full flex flex-col bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
       {/* Title */}
@@ -13,15 +53,11 @@ export default function ResumeList({ resumes, selectedId, onSelectResume }) {
 
       {/* Scrollable list */}
       <div className="flex-1 space-y-2 sm:space-y-3 overflow-y-auto pr-1">
-        {resumes.map((resume) => (
+        {data?.map((resume) => (
           <div
-            key={resume.id}
-            onClick={() => onSelectResume(resume.id)}
-            className={`p-2.5 sm:p-3 rounded-lg border cursor-pointer transition-all flex items-center gap-2.5 sm:gap-3 ${
-              selectedId === resume.id
-                ? "border-blue-600 bg-blue-50 shadow-sm"
-                : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
-            }`}
+            key={resume._id}
+            onClick={() => handleSelectResume(resume._id)}
+            className={`p-2.5 sm:p-3 rounded-lg border cursor-pointer transition-all flex items-center gap-2.5 sm:gap-3 ${"border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"}`}
           >
             {/* Icon */}
             <div className="bg-orange-500 p-1.5 sm:p-2 rounded-lg flex-shrink-0">
@@ -31,11 +67,11 @@ export default function ResumeList({ resumes, selectedId, onSelectResume }) {
             {/* Text */}
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">
-                {resume.title}
+                {resume.resume_name}
               </h3>
-              <p className="text-xs text-gray-600 line-clamp-1">
+              {/* <p className="text-xs text-gray-600 line-clamp-1">
                 {resume.summary || "No summary"}
-              </p>
+              </p> */}
             </div>
 
             {/* Actions */}
@@ -50,10 +86,7 @@ export default function ResumeList({ resumes, selectedId, onSelectResume }) {
                 <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600" />
               </button>
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // delete handler
-                }}
+                onClick={() => handleDeleteResume(resume._id)}
                 className="p-1.5 hover:bg-red-100 rounded transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600" />
