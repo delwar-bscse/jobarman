@@ -39,6 +39,7 @@ export default function FilterSide() {
     : allCategories.slice(0, 4);
 
   const jobTypes = ["Full Time", "Part Time", "Contract", "Remote", "Hybrid"];
+  const allTags = ["engineering", "design", "ux/ui", "marketing", "management", "construction"]
   const experienceLevels = [
     "No experience",
     "Fresher",
@@ -98,15 +99,50 @@ export default function FilterSide() {
     replace(`?${params.toString()}`);
   }, 300);
 
-  const handleLocationChange = (location) => {
-    setSelectedLocation(location);
-    params.set("location", location);
+  const getSingleQueryParams = (type) => {
+    return searchParams.get(type) || "";
+  }
+  const handleSingleQueryParams = (type, value) => {
+    params.set(type, value);
     replace(`?${params.toString()}`);
   };
 
-  const handleApply = () => {
+  
+  const getQueryParams = (type) => {
+    return new Set(
+      (searchParams.get(type) || "")
+        .split(",")
+        .map(s => s.trim())
+        .filter(Boolean)
+    );
+  };
 
-  }
+
+  const handleQueryParams = (type, value) => {
+    // safe read (handles null and empty)
+    const raw = searchParams.get(type) || "";
+    const prevArray = raw
+      .split(",")
+      .map(e => e.trim())
+      .filter(Boolean);
+
+    const newArray = prevArray.includes(value)
+      ? prevArray.filter(e => e !== value)
+      : [...prevArray, value];
+
+    // console.log("Prev Categories : ", prevCategories)
+    // console.log("New Categories : ", newCategories)
+
+    // update params: remove param if empty
+    if (newArray.length) {
+      params.set(type, newArray.join(","));
+    } else {
+      params.delete(type);
+    }
+
+    replace(`?${params.toString()}`);
+  };
+
 
   // useEffect(() =>{
   //   console.log("Search Title:", searchTitle);
@@ -136,7 +172,7 @@ export default function FilterSide() {
             <input
               type="text"
               placeholder="Job title or company"
-              defaultValue={searchParams.get("searchTerm")?.toString()}
+              defaultValue={getSingleQueryParams("searchTerm")}
               onChange={(e) => handleSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC]"
             />
@@ -154,8 +190,8 @@ export default function FilterSide() {
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             />
             <select
-              value={selectedLocation}
-              onChange={(e) => handleLocationChange(e.target.value)}
+              value={getSingleQueryParams("location")}
+              onChange={(e) => handleSingleQueryParams("location", e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC] appearance-none"
             >
               {locations.map((loc) => (
@@ -168,24 +204,21 @@ export default function FilterSide() {
         </div>
 
         {/* Category */}
-        <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-900 mb-3">
-            Category
-          </label>
-          <div className="space-y-2">
-            {visibleCategories.map((cat) => (
-              <label key={cat} className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={selectedCategories.includes(cat)}
-                  onChange={() => toggleCategory(cat)}
-                  className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
-                />
-                <span className="ml-2 text-sm text-gray-700">{cat}</span>
-                <span className="ml-auto text-xs text-gray-500">10</span>
-              </label>
-            ))}
-          </div>
+        <div className="space-y-2">
+          {visibleCategories.map((cat) => (
+            <label key={cat} className="flex items-center">
+              <input
+                type="checkbox"
+                checked={getQueryParams("category").has(cat)}
+                onChange={() => handleQueryParams("category", cat)}
+                className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
+              />
+              <span className="ml-2 text-sm text-gray-700">{cat}</span>
+              <span className="ml-auto text-xs text-gray-500">10</span>
+            </label>
+          ))}
+        </div>
+        <div>
           {!showMoreCategories && allCategories.length > 4 && (
             <button
               onClick={() => setShowMoreCategories(true)}
@@ -206,8 +239,8 @@ export default function FilterSide() {
               <label key={type} className="flex items-center">
                 <input
                   type="checkbox"
-                  checked={selectedJobTypes.includes(type)}
-                  onChange={() => toggleJobType(type)}
+                  checked={getQueryParams("job_type").has(type)}
+                  onChange={() => handleQueryParams("job_type", type)}
                   className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
                 />
                 <span className="ml-2 text-sm text-gray-700">{type}</span>
@@ -227,8 +260,8 @@ export default function FilterSide() {
               <label key={level} className="flex items-center">
                 <input
                   type="checkbox"
-                  checked={selectedExperience.includes(level)}
-                  onChange={() => toggleExperience(level)}
+                  checked={getQueryParams("experience_level").has(level)}
+                  onChange={() => handleQueryParams("experience_level", level)}
                   className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
                 />
                 <span className="ml-2 text-sm text-gray-700">{level}</span>
@@ -249,8 +282,8 @@ export default function FilterSide() {
                 <input
                   type="radio"
                   name="datePosted"
-                  checked={selectedDatePosted === date}
-                  onChange={() => setSelectedDatePosted(date)}
+                  checked={getSingleQueryParams("date_posted") === date}
+                  onChange={() => handleSingleQueryParams("date_posted", date)}
                   className="w-4 h-4 text-[#0066CC] focus:ring-2 focus:ring-[#0066CC]"
                 />
                 <span className="ml-2 text-sm text-gray-700">{date}</span>
@@ -290,17 +323,11 @@ export default function FilterSide() {
             Tags
           </label>
           <div className="flex flex-wrap gap-2">
-            {[
-              "engineering",
-              "design",
-              "ux/ui",
-              "marketing",
-              "management",
-              "construction",
-            ].map((tag) => (
+            {allTags.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 bg-blue-100 text-[#0066CC] text-xs rounded-full cursor-pointer hover:bg-blue-200"
+                onClick={() => handleQueryParams("tags", tag)}
+                className={`px-3 py-1 text-[#0066CC] text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors duration-300 ${getQueryParams("tags").has(tag) ? "bg-blue-200 font-semibold" : "bg-blue-100"}`}
               >
                 {tag}
               </span>
@@ -308,6 +335,6 @@ export default function FilterSide() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
