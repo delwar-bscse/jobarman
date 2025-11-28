@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import { MapPin, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import { DualRangeSlider } from '@/components/ui/dual-range-slider';
+
 
 export default function FilterSide() {
+  const [values, setValues] = useState([0, 100]);
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
@@ -107,7 +110,7 @@ export default function FilterSide() {
     replace(`?${params.toString()}`);
   };
 
-  
+
   const getQueryParams = (type) => {
     return new Set(
       (searchParams.get(type) || "")
@@ -315,6 +318,17 @@ export default function FilterSide() {
           <button className="mt-3 w-full py-2 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0F2C80] hover:to-[#1F45B8] transition">
             Apply
           </button>
+        </div>
+        {/* <Dual Range Slider Component can be placed here */}
+        <div className="w-full px-10">
+          <DualRangeSlider
+            label={(value) => value}
+            value={values}
+            onValueChange={setValues}
+            min={0}
+            max={100}
+            step={1}
+          />
         </div>
 
         {/* Tags */}
