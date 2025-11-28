@@ -3,25 +3,25 @@ import AppliedJobs from "@/components/jobSeeker/AppliedJobs";
 import Interviews from "@/components/jobSeeker/Interviews";
 import RejectedJobs from "@/components/jobSeeker/RejectedJobs";
 import { Button } from "@/components/ui/button";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import {  useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { myFetch } from "../../../../utils/myFetch";
 
 const names = [
-  { name: "applied", label: "Applied" },
-  { name: "rejected", label: "Rejected" },
-  { name: "interviews", label: "Interviews" },
+  { name: "PENDING", label: "Applied" },
+  { name: "REJECTED", label: "Rejected" },
+  { name: "INTERVIEW", label: "Interview" },
 ];
 
 export default function HistoryPage() {
-  const [active, setActive] = useState("applied");
+  const [active, setActive] = useState("PENDING");
   const [interviews, setInterviews] = useState("complete");
   const [data, setData] = useState([]);
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const params = useParams();
-  console.log(params);
+ const query = searchParams.get("status")
+
 
   const handleParams = (status) => {
     setActive(status);
@@ -37,11 +37,11 @@ export default function HistoryPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await myFetch(`/application`);
+      const res = await myFetch(`/application?status=${query ?? ""}`);
       setData(res.data);
     };
     fetchData();
-  }, []);
+  }, [query]);
 
   return (
     <div className="px-4 sm:px-6 py-6">
@@ -61,7 +61,7 @@ export default function HistoryPage() {
         ))}
       </div>
 
-      {active === "interview" && (
+      {active === "INTERVIEW" && (
         <div className="flex items-center justify-center gap-4 my-4">
           <Button
             onClick={() => setInterviews("complete")}
@@ -87,9 +87,9 @@ export default function HistoryPage() {
         </div>
       )}
 
-      {active === "applied" && <AppliedJobs />}
-      {active === "rejected" && <RejectedJobs />}
-      {active === "interviews" && <Interviews />}
+      {active === "PENDING" && <AppliedJobs data={data} />}
+      {active === "REJECTED" && <RejectedJobs data={data} />}
+      {active === "INTERVIEW" && <Interviews data={data}/>}
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default async function FAQpage() {
         <Accordion
           type="single"
           collapsible
-          className="w-full"
+          className="w-full my-4"
           defaultValue="item-1"
           key={item._id}
         >
