@@ -150,7 +150,7 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressio
       </div>
 
       {/* ==== Experience ==== */}
-      {/* <div>
+      <div>
         <div className="flex items-center gap-2 mb-2">
           <BriefcaseBusiness className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
           <h3 className="text-lg sm:text-xl font-bold text-[#123499]">
@@ -158,31 +158,33 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressio
           </h3>
         </div>
         <div className="space-y-3 sm:space-y-4">
-          {resume?.experience?.map((exp, idx) => (
+          {resume?.workExperiences?.map((exp, idx) => (
             <div key={idx} className="border-l-2 border-blue-600 pl-3">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
                 <h4 className="font-semibold text-gray-900 text-sm sm:text-base">
-                  {exp.title}
+                  {exp?.title}
                 </h4>
-                <span className="text-xs text-gray-600">{exp.period}</span>
+                <span className="text-xs text-gray-600">
+                  {exp?.startDate.slice(0, 10)}
+                </span>
               </div>
               <p className="text-xs sm:text-sm text-gray-600">
-                {exp.company}, {exp.location}
+                {exp?.company}, {exp?.location}
               </p>
-              {exp.environment && (
+              {/* {exp.environment && (
                 <p className="text-xs text-gray-500 italic">
                   Env: {exp.environment}
                 </p>
-              )}
-              <ul className="mt-2 text-xs sm:text-sm text-gray-700 space-y-1 list-disc list-inside">
+              )} */}
+              {/* <ul className="mt-2 text-xs sm:text-sm text-gray-700 space-y-1 list-disc list-inside">
                 {exp.highlights.map((h, i) => (
                   <li key={i}>{h}</li>
                 ))}
-              </ul>
+              </ul> */}
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
 
       {/* ==== Projects ==== */}
       <div>

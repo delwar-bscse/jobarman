@@ -61,7 +61,7 @@ export default function AddNewResumeForm2() {
   const certArray = useFieldArray({ control, name: "certifications" });
 
   const onSubmit = async (data) => {
-    // console.log("FORM DATA:", data);
+    console.log("FORM DATA:", data);
 
     try {
       const res = await myFetch("/resume", {
