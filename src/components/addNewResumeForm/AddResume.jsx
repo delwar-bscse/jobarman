@@ -1,32 +1,34 @@
 "use client";
-import { ChevronLeft, Plus } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import TextEditor from "./TextEditor";
 import PersonalInfo from "./PersonalInfo";
 import Projects from "./Projects";
-import { Certificate } from "crypto";
 import Certification from "./Certification";
 import Education from "./Education";
 import Exprience from "./Exprience";
+import { myFetch } from "../../../utils/myFetch";
+import { toast } from "sonner";
 
 /* -----------------------------------------------------------
    MAIN FORM (React Hook Form Version)
 ----------------------------------------------------------- */
 
 export default function AddNewResumeForm2() {
-  const { register, handleSubmit, control, watch, setValue } = useForm({
+  const { register, handleSubmit, control } = useForm({
     defaultValues: {
-      resumeName: "",
+      resume_name: "",
       personalInfo: {
+        full_name: "",
         address: "",
-        contact: "",
+        phone: "",
         email: "",
-        socialMedia: "",
-        portfolio: "",
+        social_media_link: "",
+        github_link: "",
       },
-      summary: "",
-      coreSkills: "",
-      experiences: [
+      // summary: "",
+      // coreSkills: "",
+      workExperiences: [
         {
           title: "",
           company: "",
@@ -39,26 +41,43 @@ export default function AddNewResumeForm2() {
         {
           title: "",
           description: "",
+          link: "",
         },
       ],
-      education: [
+      educations: [
         {
-          degree: "Bsc In Computer Science",
-          university: "University Of Washington, Seattle, WA",
+          degree: "",
+          institute: "",
         },
       ],
-      certifications: [{ name: "Bsc In Computer Science", details: "" }],
+      certifications: [{ title: "", description: "" }],
     },
   });
 
   // dynamic sections
-  const expArray = useFieldArray({ control, name: "experiences" });
+  const expArray = useFieldArray({ control, name: "workExperiences" });
   const projArray = useFieldArray({ control, name: "projects" });
   const eduArray = useFieldArray({ control, name: "education" });
   const certArray = useFieldArray({ control, name: "certifications" });
 
-  const onSubmit = (data) => {
-    console.log("FORM DATA:", data);
+  const onSubmit = async (data) => {
+    // console.log("FORM DATA:", data);
+
+    try {
+      const res = await myFetch("/resume", {
+        method: "POST",
+        body: data,
+      });
+
+      console.log("res", res);
+      if (res.success) {
+        toast.success("Resume create successfully");
+      } else {
+        toast.error(res.message || "Resume create failed");
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (
@@ -75,7 +94,7 @@ export default function AddNewResumeForm2() {
         <div className="flex-1">
           <h1 className="text-3xl font-bold">Add New Resume</h1>
           <input
-            {...register("resumeName")}
+            {...register("resume_name")}
             className="mt-2 w-full max-w-md px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
           />
         </div>
