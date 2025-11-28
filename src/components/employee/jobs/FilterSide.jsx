@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,91 +9,35 @@ import { DualRangeSlider } from '@/components/ui/dual-range-slider';
 
 
 export default function FilterSide() {
-  const [values, setValues] = useState([0, 100]);
+  const [values, setValues] = useState([0, 9999]);
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
 
-  const [searchTitle, setSearchTitle] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedJobTypes, setSelectedJobTypes] = useState([]);
-  const [selectedExperience, setSelectedExperience] = useState([]);
-  const [selectedDatePosted, setSelectedDatePosted] = useState("");
-  const [salaryRange, setSalaryRange] = useState([0, 9999]);
-  const [currentPage, setCurrentPage] = useState(1);
-
   const [showMoreCategories, setShowMoreCategories] = useState(false);
-  // searchTerm minPrice maxPrice category job_type job_level experience_level
 
-  const allCategories = [
-    "Healthcare",
-    "Information Technology",
-    "Hotels & Tourism",
-    "Education",
-    "Financial Services",
-    "Engineering",
-    "Marketing",
-    "Sales",
-    "HR",
-    "Operations",
-  ];
-  const visibleCategories = showMoreCategories
-    ? allCategories
-    : allCategories.slice(0, 4);
+  // Initialize salary range set from query params
+  useEffect(() => {
+    const fetchData = async () => {
+      const minPrice = Number(searchParams.get("minPrice")) || 1;
+      const maxPrice = Number(searchParams.get("maxPrice")) || 9999;
+      setValues([minPrice, maxPrice]);
+    };
+
+    fetchData();
+  }, []);
+
+
+  const allCategories = ["Healthcare", "Information Technology", "Hotels & Tourism", "Education", "Financial Services", "Engineering", "Marketing", "Sales", "HR", "Operations",];
+  const visibleCategories = showMoreCategories ? allCategories : allCategories.slice(0, 4);
 
   const jobTypes = ["Full Time", "Part Time", "Contract", "Remote", "Hybrid"];
   const allTags = ["engineering", "design", "ux/ui", "marketing", "management", "construction"]
-  const experienceLevels = [
-    "No experience",
-    "Fresher",
-    "Intermediate",
-    "Expert",
-  ];
-  const datePostedOptions = [
-    "All",
-    "Last hour",
-    "Last 24 hours",
-    "Last 7 days",
-    "Last 30 days",
-  ];
-  const locations = [
-    "All Cities",
-    "New York",
-    "San Francisco",
-    "Los Angeles",
-    "Chicago",
-    "Boston",
-  ];
+  const experienceLevels = ["No experience", "Fresher", "Intermediate", "Expert",];
+  const datePostedOptions = ["All", "Last hour", "Last 24 hours", "Last 7 days", "Last 30 days",];
+  const locations = ["All Cities", "New York", "San Francisco", "Los Angeles", "Chicago", "Boston",];
 
-  const toggleCategory = (category) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
-  };
-
-  const toggleJobType = (type) => {
-    setSelectedJobTypes((prev) =>
-      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-    );
-  };
-
-  const toggleExperience = (level) => {
-    setSelectedExperience((prev) =>
-      prev.includes(level) ? prev.filter((l) => l !== level) : [...prev, level]
-    );
-  };
-
-  const toggleSaveJob = (jobId) => {
-    setSavedJobs((prev) =>
-      prev.includes(jobId)
-        ? prev.filter((id) => id !== jobId)
-        : [...prev, jobId]
-    );
-  };
-
+  // Debounced Search Handler
   const handleSearch = useDebouncedCallback((term) => {
     if (term) {
       params.set("searchTerm", term);
@@ -102,16 +47,26 @@ export default function FilterSide() {
     replace(`?${params.toString()}`);
   }, 300);
 
+  // Apply Salary Filter
+  const handleSalary = () => {
+    params.set("minPrice", values[0]);
+    params.set("maxPrice", values[1]);
+    replace(`?${params.toString()}`, { scroll: false });
+  }
+
+  // Single Value Query Params Getter
   const getSingleQueryParams = (type) => {
     return searchParams.get(type) || "";
   }
+
+  // Single Value Query Params Handler
   const handleSingleQueryParams = (type, value) => {
     params.set(type, value);
-    replace(`?${params.toString()}`);
+    replace(`?${params.toString()}`, { scroll: false });
   };
 
-
-  const getQueryParams = (type) => {
+  // Multi Value Query Params Getter
+  const getMultipleQueryParams = (type) => {
     return new Set(
       (searchParams.get(type) || "")
         .split(",")
@@ -120,8 +75,8 @@ export default function FilterSide() {
     );
   };
 
-
-  const handleQueryParams = (type, value) => {
+  // Multi Value Query Params Handler
+  const handleMultipleQueryParams = (type, value) => {
     // safe read (handles null and empty)
     const raw = searchParams.get(type) || "";
     const prevArray = raw
@@ -133,8 +88,8 @@ export default function FilterSide() {
       ? prevArray.filter(e => e !== value)
       : [...prevArray, value];
 
-    // console.log("Prev Categories : ", prevCategories)
-    // console.log("New Categories : ", newCategories)
+    // console.log(`Previous ${type} : `, prevArray)
+    // console.log(`New ${type} : `, newArray)
 
     // update params: remove param if empty
     if (newArray.length) {
@@ -143,20 +98,8 @@ export default function FilterSide() {
       params.delete(type);
     }
 
-    replace(`?${params.toString()}`);
+    replace(`?${params.toString()}`, { scroll: false });
   };
-
-
-  // useEffect(() =>{
-  //   console.log("Search Title:", searchTitle);
-  //   console.log("Selected Location:", selectedLocation);
-  //   console.log("Selected Categories:", selectedCategories);
-  //   console.log("Selected Job Types:", selectedJobTypes);
-  //   console.log("Selected Experience Levels:", selectedExperience);
-  //   console.log("Selected Date Posted:", selectedDatePosted);
-  //   console.log("Salary Range:", salaryRange);
-
-  // },[searchTitle, selectedLocation, selectedCategories, selectedJobTypes, selectedExperience, selectedDatePosted, salaryRange]);
 
 
   return (
@@ -212,8 +155,8 @@ export default function FilterSide() {
             <label key={cat} className="flex items-center">
               <input
                 type="checkbox"
-                checked={getQueryParams("category").has(cat)}
-                onChange={() => handleQueryParams("category", cat)}
+                checked={getMultipleQueryParams("category").has(cat)}
+                onChange={() => handleMultipleQueryParams("category", cat)}
                 className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
               />
               <span className="ml-2 text-sm text-gray-700">{cat}</span>
@@ -222,12 +165,12 @@ export default function FilterSide() {
           ))}
         </div>
         <div>
-          {!showMoreCategories && allCategories.length > 4 && (
+          {allCategories.length > 4 && (
             <button
-              onClick={() => setShowMoreCategories(true)}
+              onClick={() => setShowMoreCategories(!showMoreCategories)}
               className="mt-3 w-full py-2 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0F2C80] hover:to-[#1F45B8] transition"
             >
-              Show More
+              {showMoreCategories ? "Show Less" : "Show More"}
             </button>
           )}
         </div>
@@ -242,8 +185,8 @@ export default function FilterSide() {
               <label key={type} className="flex items-center">
                 <input
                   type="checkbox"
-                  checked={getQueryParams("job_type").has(type)}
-                  onChange={() => handleQueryParams("job_type", type)}
+                  checked={getMultipleQueryParams("job_type").has(type)}
+                  onChange={() => handleMultipleQueryParams("job_type", type)}
                   className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
                 />
                 <span className="ml-2 text-sm text-gray-700">{type}</span>
@@ -263,8 +206,8 @@ export default function FilterSide() {
               <label key={level} className="flex items-center">
                 <input
                   type="checkbox"
-                  checked={getQueryParams("experience_level").has(level)}
-                  onChange={() => handleQueryParams("experience_level", level)}
+                  checked={getMultipleQueryParams("experience_level").has(level)}
+                  onChange={() => handleMultipleQueryParams("experience_level", level)}
                   className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
                 />
                 <span className="ml-2 text-sm text-gray-700">{level}</span>
@@ -298,37 +241,22 @@ export default function FilterSide() {
 
         {/* Salary Range */}
         <div className="mb-6">
-          <label className="block text-sm font-semibold text-gray-900 mb-3">
+          <label className="block text-sm font-semibold text-gray-900 mb-7">
             Salary Range
           </label>
-          <input
-            type="range"
-            min="0"
-            max="9999"
-            value={salaryRange[1]}
-            onChange={(e) => {
-              setSalaryRange([salaryRange[0], Number.parseInt(e.target.value)])
-            }}
-            className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-[#0066CC]"
-          />
-          <div className="flex justify-between text-xs text-[#0066CC] mt-2">
-            <span>${salaryRange[0].toLocaleString()}</span>
-            <span>${salaryRange[1].toLocaleString()}</span>
+          <div className="w-full">
+            <DualRangeSlider
+              label={(value) => value}
+              value={values}
+              onValueChange={setValues}
+              min={1}
+              max={9999}
+              step={10}
+            />
           </div>
-          <button className="mt-3 w-full py-2 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0F2C80] hover:to-[#1F45B8] transition">
+          <button onClick={handleSalary} className="mt-3 w-full py-2 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0F2C80] hover:to-[#1F45B8] transition">
             Apply
           </button>
-        </div>
-        {/* <Dual Range Slider Component can be placed here */}
-        <div className="w-full px-10">
-          <DualRangeSlider
-            label={(value) => value}
-            value={values}
-            onValueChange={setValues}
-            min={0}
-            max={100}
-            step={1}
-          />
         </div>
 
         {/* Tags */}
@@ -340,8 +268,8 @@ export default function FilterSide() {
             {allTags.map((tag) => (
               <span
                 key={tag}
-                onClick={() => handleQueryParams("tags", tag)}
-                className={`px-3 py-1 text-[#0066CC] text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors duration-300 ${getQueryParams("tags").has(tag) ? "bg-blue-200 font-semibold" : "bg-blue-100"}`}
+                onClick={() => handleMultipleQueryParams("tags", tag)}
+                className={`px-3 py-1 text-[#0066CC] text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors duration-300 ${getMultipleQueryParams("tags").has(tag) ? "bg-blue-200 font-semibold" : "bg-blue-100"}`}
               >
                 {tag}
               </span>

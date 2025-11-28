@@ -3,9 +3,73 @@ import FilterSide from "@/components/employee/jobs/FilterSide";
 import JobCard from "@/components/employee/jobs/JobCard";
 import { myFetch } from "../../../../utils/myFetch";
 
-const JobsPage = async () => {
-  const jobs = await myFetch("/job-post/feed");
+export const formatEnum = (value) => {
+  const newValues = value?.split(",");
+  console.log("Job Type", newValues);
+
+  const returnValues = newValues?.map((value) => {
+    if (typeof value !== "string") return "";
+
+    return value
+      .trim()
+      .toUpperCase()
+      .replace(/\s+/g, "_");
+  });
+
+  console.log("Return Values : ", returnValues);
+  return returnValues?.join(",");
+};
+
+export const experienceLevel = (values = "") => {
+  const enumArr = ["No experience", "Fresher", "Intermediate", "Expert",]
+  const newValues = values.split(",");
+  // console.log("New values : ",newValues)
+  const newArry = newValues.map((value) => {
+    if (value === enumArr[0]) {
+      return "0-1yrs";
+    } else if (value === enumArr[1]) {
+      return "1-3yrs";
+    } else if (value === enumArr[2]) {
+      return "3-5yrs";
+    } else if (value === enumArr[3]) {
+      return "5+yrs";
+    }
+  })
+  return newArry.join(",");
+}
+
+
+
+const JobsPage = async ({ searchParams }) => {
+  const searchParamsValue = (await searchParams);
+  const searchTerm = searchParamsValue.searchTerm || "";
+  const location = searchParamsValue.location || "";
+  const category = searchParamsValue.category || "";
+  const minPrice = searchParamsValue.minPrice || "1";
+  const maxPrice = searchParamsValue.maxPrice || "9999";
+  const experience_level = experienceLevel(searchParamsValue.experience_level) || "";
+  // const experience_level2 = searchParamsValue.experience_level || "";
+  const job_type = formatEnum(searchParamsValue.job_type) || "";
+  const job_level = formatEnum(searchParamsValue.job_level) || "";
+
+  console.log("searchParams : ", searchTerm);
+  console.log("location : ", location);
+  console.log("category : ", category);
+  console.log("minPrice : ", minPrice);
+  console.log("maxPrice : ", maxPrice);
+  console.log("experience_level : ", experience_level);
+  // console.log("experience_level2 : ", experience_level2);
+  console.log("job_level : ", job_level);
+  console.log("job_type : ", job_type);
+
+
+
+
+  const jobs = await myFetch(`/job-post/feed?searchTerm=${searchTerm}&location=${location}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&experience_level=${experience_level}&job_level=${job_level}&job_type=${job_type}`, {
+    method: "GET",
+  });
   console.log("jobs", jobs.data);
+
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto">
