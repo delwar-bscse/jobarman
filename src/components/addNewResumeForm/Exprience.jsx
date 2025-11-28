@@ -9,22 +9,28 @@ export default function Exprience({ register, expArray }) {
       {expArray.fields.map((item, i) => (
         <div key={item.id} className="border p-4 rounded-lg mb-4">
           <div className="grid grid-cols-2 gap-4">
-            <input {...register(`title`)} className="border p-2 rounded" />
-            <input {...register(`company`)} className="border p-2 rounded" />
             <input
-              type="date"
-              {...register(`startDate`)}
+              {...register(`workExperiences.${i}.title`)}
+              className="border p-2 rounded"
+            />
+            <input
+              {...register(`workExperiences.${i}.company`)}
               className="border p-2 rounded"
             />
             <input
               type="date"
-              {...register(`endDate`)}
+              {...register(`workExperiences.${i}.startDate`)}
+              className="border p-2 rounded"
+            />
+            <input
+              type="date"
+              {...register(`workExperiences.${i}.endDate`)}
               className="border p-2 rounded"
             />
           </div>
 
           <textarea
-            {...register(`description`)}
+            {...register(`workExperiences.${i}.description`)}
             className="border p-2 rounded w-full mt-3"
           />
 

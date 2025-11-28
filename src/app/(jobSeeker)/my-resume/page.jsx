@@ -9,6 +9,7 @@ const MyResume = () => {
   const [selectResume, setSelectResume] = useState(null);
   const selectedResume = resumeData.find((r) => r.id === "uiux");
   const [data, setData] = useState(null);
+  console.log(data);
 
   useEffect(() => {
     const fetchData = async () => {
