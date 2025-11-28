@@ -2,12 +2,10 @@ import AddNewResumeForm from "@/components/addNewResumeForm/AddNewResumeForm";
 import AddNewResumeForm2 from "@/components/addNewResumeForm/AddResume";
 import React from "react";
 
-const AddNewResume = () => {
+export default function page() {
   return (
-    <div className="bg-[#FBFBFB]">
-      <AddNewResumeForm2 />
+    <div>
+      <AddNewResumeForm />
     </div>
   );
-};
-
-export default AddNewResume;
+}

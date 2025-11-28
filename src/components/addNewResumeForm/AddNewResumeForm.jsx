@@ -32,7 +32,7 @@ function TextEditor({ value, onChange }) {
       if (value) {
         editorRef.current.innerHTML = value;
       }
-      setIsInitialized(true);
+      // setIsInitialized(true);
     }
   }, [isInitialized, value]);
 
@@ -118,7 +118,11 @@ function TextEditor({ value, onChange }) {
         <div className="w-px h-5 sm:h-6 bg-gray-300" />
         {[
           { cmd: "insertUnorderedList", Icon: List, title: "Bullet List" },
-          { cmd: "insertOrderedList", Icon: ListOrdered, title: "Numbered List" },
+          {
+            cmd: "insertOrderedList",
+            Icon: ListOrdered,
+            title: "Numbered List",
+          },
         ].map(({ cmd, Icon, title }) => (
           <button
             key={cmd}
@@ -288,7 +292,9 @@ const AddNewResumeForm = () => {
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
         <div className="flex-1 text-center sm:text-left">
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Add New Resume</h1>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2">
+            Add New Resume
+          </h1>
           <input
             type="text"
             value={resumeName}
@@ -301,17 +307,46 @@ const AddNewResumeForm = () => {
 
       {/* Personal Information */}
       <section className="mb-6 sm:mb-8">
-        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Personal Information</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
+          Personal Information
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {[
-            { label: "Address", icon: MapPin, key: "address", placeholder: "e.g., Dhaka, Bangladesh" },
-            { label: "Contact", icon: Phone, key: "contact", placeholder: "+880..." },
-            { label: "Email", icon: Mail, key: "email", placeholder: "you@example.com" },
-            { label: "Social Media", icon: Link, key: "socialMedia", placeholder: "linkedin.com/in/..." },
-            { label: "Portfolio", icon: Briefcase, key: "portfolio", placeholder: "github.com/..." },
+            {
+              label: "Address",
+              icon: MapPin,
+              key: "address",
+              placeholder: "e.g., Dhaka, Bangladesh",
+            },
+            {
+              label: "Contact",
+              icon: Phone,
+              key: "contact",
+              placeholder: "+880...",
+            },
+            {
+              label: "Email",
+              icon: Mail,
+              key: "email",
+              placeholder: "you@example.com",
+            },
+            {
+              label: "Social Media",
+              icon: Link,
+              key: "socialMedia",
+              placeholder: "linkedin.com/in/...",
+            },
+            {
+              label: "Portfolio",
+              icon: Briefcase,
+              key: "portfolio",
+              placeholder: "github.com/...",
+            },
           ].map(({ label, icon: Icon, key, placeholder }) => (
             <div key={key} className="min-w-0">
-              <label className="block text-xs sm:text-sm font-medium mb-1.5">{label}</label>
+              <label className="block text-xs sm:text-sm font-medium mb-1.5">
+                {label}
+              </label>
               <div className="flex items-center gap-2 px-3 py-2.5 border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500">
                 <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0" />
                 <input
@@ -342,22 +377,39 @@ const AddNewResumeForm = () => {
 
       {/* Experience */}
       <section className="mb-6 sm:mb-8">
-        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Experience</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
+          Experience
+        </h2>
         {experiences.map((exp) => (
-          <div key={exp.id} className="mb-5 p-3 sm:p-4 border border-gray-300 rounded-lg bg-white shadow-sm">
+          <div
+            key={exp.id}
+            className="mb-5 p-3 sm:p-4 border border-gray-300 rounded-lg bg-white shadow-sm"
+          >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3">
               {[
-                { label: "Title", field: "title", placeholder: "Senior Database Administrator" },
-                { label: "Company Name", field: "company", placeholder: "Microsoft Corporation, Redmond, WA" },
+                {
+                  label: "Title",
+                  field: "title",
+                  placeholder: "Senior Database Administrator",
+                },
+                {
+                  label: "Company Name",
+                  field: "company",
+                  placeholder: "Microsoft Corporation, Redmond, WA",
+                },
                 { label: "Start Date", field: "startDate", type: "date" },
                 { label: "End Date", field: "endDate", type: "date" },
               ].map(({ label, field, type = "text", placeholder }) => (
                 <div key={field}>
-                  <label className="block text-xs sm:text-sm font-medium mb-1.5">{label}</label>
+                  <label className="block text-xs sm:text-sm font-medium mb-1.5">
+                    {label}
+                  </label>
                   <input
                     type={type}
                     value={exp[field]}
-                    onChange={(e) => updateExperience(exp.id, field, e.target.value)}
+                    onChange={(e) =>
+                      updateExperience(exp.id, field, e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder={placeholder}
                   />
@@ -365,10 +417,14 @@ const AddNewResumeForm = () => {
               ))}
             </div>
             <div>
-              <label className="block text-xs sm:text-sm font-medium mb-1.5">Description</label>
+              <label className="block text-xs sm:text-sm font-medium mb-1.5">
+                Description
+              </label>
               <textarea
                 value={exp.description}
-                onChange={(e) => updateExperience(exp.id, "description", e.target.value)}
+                onChange={(e) =>
+                  updateExperience(exp.id, "description", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm min-h-20 sm:min-h-24 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Describe your responsibilities and achievements..."
               />
@@ -385,25 +441,38 @@ const AddNewResumeForm = () => {
 
       {/* Projects */}
       <section className="mb-6 sm:mb-8">
-        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Selected Project</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
+          Selected Project
+        </h2>
         {projects.map((proj) => (
-          <div key={proj.id} className="mb-5 p-3 sm:p-4 border border-gray-300 rounded-lg bg-white shadow-sm">
+          <div
+            key={proj.id}
+            className="mb-5 p-3 sm:p-4 border border-gray-300 rounded-lg bg-white shadow-sm"
+          >
             <div className="grid grid-cols-1 gap-3 sm:gap-4 mb-3">
               <div>
-                <label className="block text-xs sm:text-sm font-medium mb-1.5">Project Title</label>
+                <label className="block text-xs sm:text-sm font-medium mb-1.5">
+                  Project Title
+                </label>
                 <input
                   type="text"
                   value={proj.title}
-                  onChange={(e) => updateProject(proj.id, "title", e.target.value)}
+                  onChange={(e) =>
+                    updateProject(proj.id, "title", e.target.value)
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Senior Database Administrator"
                 />
               </div>
               <div>
-                <label className="block text-xs sm:text-sm font-medium mb-1.5">Description</label>
+                <label className="block text-xs sm:text-sm font-medium mb-1.5">
+                  Description
+                </label>
                 <textarea
                   value={proj.description}
-                  onChange={(e) => updateProject(proj.id, "description", e.target.value)}
+                  onChange={(e) =>
+                    updateProject(proj.id, "description", e.target.value)
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm min-h-20 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Built 9-42 AD Topology..."
                 />
@@ -423,18 +492,33 @@ const AddNewResumeForm = () => {
       <section className="mb-6 sm:mb-8">
         <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Education</h2>
         {education.map((edu) => (
-          <div key={edu.id} className="mb-5 p-3 sm:p-4 border border-gray-300 rounded-lg bg-white shadow-sm">
+          <div
+            key={edu.id}
+            className="mb-5 p-3 sm:p-4 border border-gray-300 rounded-lg bg-white shadow-sm"
+          >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {[
-                { label: "Degree Name", field: "degree", placeholder: "Bsc In Computer Science" },
-                { label: "University Name", field: "university", placeholder: "University Of Washington, Seattle, WA" },
+                {
+                  label: "Degree Name",
+                  field: "degree",
+                  placeholder: "Bsc In Computer Science",
+                },
+                {
+                  label: "University Name",
+                  field: "university",
+                  placeholder: "University Of Washington, Seattle, WA",
+                },
               ].map(({ label, field, placeholder }) => (
                 <div key={field}>
-                  <label className="block text-xs sm:text-sm font-medium mb-1.5">{label}</label>
+                  <label className="block text-xs sm:text-sm font-medium mb-1.5">
+                    {label}
+                  </label>
                   <input
                     type="text"
                     value={edu[field]}
-                    onChange={(e) => updateEducation(edu.id, field, e.target.value)}
+                    onChange={(e) =>
+                      updateEducation(edu.id, field, e.target.value)
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder={placeholder}
                   />
@@ -453,24 +537,37 @@ const AddNewResumeForm = () => {
 
       {/* Certification */}
       <section className="mb-6 sm:mb-8">
-        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Certification</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
+          Certification
+        </h2>
         {certifications.map((cert) => (
-          <div key={cert.id} className="mb-5 p-3 sm:p-4 border border-gray-300 rounded-lg bg-white shadow-sm">
+          <div
+            key={cert.id}
+            className="mb-5 p-3 sm:p-4 border border-gray-300 rounded-lg bg-white shadow-sm"
+          >
             <div className="mb-3">
-              <label className="block text-xs sm:text-sm font-medium mb-1.5">Certification Name</label>
+              <label className="block text-xs sm:text-sm font-medium mb-1.5">
+                Certification Name
+              </label>
               <input
                 type="text"
                 value={cert.name}
-                onChange={(e) => updateCertification(cert.id, "name", e.target.value)}
+                onChange={(e) =>
+                  updateCertification(cert.id, "name", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Bsc In Computer Science"
               />
             </div>
             <div>
-              <label className="block text-xs sm:text-sm font-medium mb-1.5">Details</label>
+              <label className="block text-xs sm:text-sm font-medium mb-1.5">
+                Details
+              </label>
               <textarea
                 value={cert.details}
-                onChange={(e) => updateCertification(cert.id, "details", e.target.value)}
+                onChange={(e) =>
+                  updateCertification(cert.id, "details", e.target.value)
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs sm:text-sm min-h-20 resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Add certification details..."
               />

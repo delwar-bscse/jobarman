@@ -3,7 +3,7 @@ import AppliedJobs from "@/components/jobSeeker/AppliedJobs";
 import Interviews from "@/components/jobSeeker/Interviews";
 import RejectedJobs from "@/components/jobSeeker/RejectedJobs";
 import { Button } from "@/components/ui/button";
-import {  useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { myFetch } from "../../../../utils/myFetch";
 
@@ -20,8 +20,7 @@ export default function HistoryPage() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
- const query = searchParams.get("status")
-
+  const query = searchParams.get("status") || "PENDING";
 
   const handleParams = (status) => {
     setActive(status);
@@ -89,7 +88,7 @@ export default function HistoryPage() {
 
       {active === "PENDING" && <AppliedJobs data={data} />}
       {active === "REJECTED" && <RejectedJobs data={data} />}
-      {active === "INTERVIEW" && <Interviews data={data}/>}
+      {active === "INTERVIEW" && <Interviews data={data} />}
     </div>
   );
 }
