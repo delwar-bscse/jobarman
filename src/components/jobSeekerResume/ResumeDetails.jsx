@@ -15,20 +15,29 @@ import {
 } from "lucide-react";
 
 export default function ResumeDetails({ resume }) {
+  const {
+    full_name,
+    address,
+    phone,
+    email,
+    social_media_link,
+    nationality,
+    clearance,
+  } = resume.personalInfo;
   return (
     <div className="h-full overflow-y-auto bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 lg:p-6 space-y-5 sm:space-y-6">
       {/* ==== Contact ==== */}
       <div className="border-b border-gray-300 pb-4 sm:pb-5">
         <h2 className="text-center text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-          {resume.name}
+          {full_name}
         </h2>
 
         <div className="flex flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm text-gray-700 justify-center mb-2">
           {[
-            { Icon: MapPin, text: resume.location },
-            { Icon: Phone, text: resume.phone },
-            { Icon: Mail, text: resume.email },
-            { Icon: Linkedin, text: resume.linkedin },
+            { Icon: MapPin, text: address },
+            { Icon: Phone, text: phone },
+            { Icon: Mail, text: email },
+            { Icon: Linkedin, text: social_media_link },
           ].map(({ Icon, text }, i) => (
             <div key={i} className="flex items-center gap-1">
               <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
@@ -40,14 +49,16 @@ export default function ResumeDetails({ resume }) {
         <div className="flex justify-center mb-2">
           <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-700">
             <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
-            <span className="truncate max-w-32 sm:max-w-none">{resume.github}</span>
+            <span className="truncate max-w-32 sm:max-w-none">
+              {resume.github}
+            </span>
           </div>
         </div>
 
         <p className="text-xs sm:text-sm text-gray-700 text-center">
-          <span className="font-medium">Work Auth:</span> {resume.workAuth} |{" "}
-          <span className="font-medium">Clearance:</span> {resume.clearance} |{" "}
-          <span className="font-medium">Open To:</span> {resume.openTo}
+          <span className="font-medium">Work Auth:</span> {nationality} |{" "}
+          <span className="font-medium">Clearance:</span> {clearance} |{" "}
+          <span className="font-medium">Open To:</span> Remote
         </p>
       </div>
 
@@ -55,10 +66,14 @@ export default function ResumeDetails({ resume }) {
       <div>
         <div className="flex items-center gap-2 mb-2">
           <Users className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
-          <h3 className="text-lg sm:text-xl font-bold text-[#123499]">SUMMARY</h3>
+          <h3 className="text-lg sm:text-xl font-bold text-[#123499]">
+            SUMMARY
+          </h3>
         </div>
         <p className="text-xs sm:text-sm text-gray-800 leading-relaxed">
-          {resume.summary}
+          {resume.summary ||
+            `Database Administrator with 8+ years managing large SQL environments across on-prem and cloud (Azure/AWS). Expert in HA/DR, performance tuning, security, and backups/recovery. Proven record improving query performance, hardening data security, and delivering resilient platforms supporting 150+ critical apps / 50TB data at 99.97% availability.
+Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compression/tiering, met RPO 15min / RTO 30min for business-critical databases.`}
         </p>
         {resume.highlights && (
           <p className="text-xs sm:text-sm text-gray-700 mt-2">
@@ -71,16 +86,25 @@ export default function ResumeDetails({ resume }) {
       <div>
         <div className="flex items-center gap-2 mb-2">
           <Settings className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
-          <h3 className="text-lg sm:text-xl font-bold text-[#123499]">CORE SKILLS</h3>
+          <h3 className="text-lg sm:text-xl font-bold text-[#123499]">
+            CORE SKILLS
+          </h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
+        <div className="grid grid-cols-1  sm:gap-4 text-xs sm:text-sm">
           <div className="space-y-2">
-            {resume.skills.platform && (
-              <div>
-                <h4 className="font-semibold text-gray-800">Platform:</h4>
-                <p className="text-gray-700">{resume.skills.platform}</p>
+            <div>
+              <h4 className="font-semibold text-gray-800">Platform:</h4>
+
+              <div className="flex  gap-1 text-gray-700">
+                {resume?.skills?.map((item, index) => (
+                  <p key={item}>
+                    {item}
+                    {index < resume.skills.length - 1 && ","}
+                  </p>
+                ))}
               </div>
-            )}
+            </div>
+
             {resume.skills.hadr && (
               <div>
                 <h4 className="font-semibold text-gray-800">HA/DR:</h4>
@@ -95,7 +119,9 @@ export default function ResumeDetails({ resume }) {
             )}
             {resume.skills.security && (
               <div>
-                <h4 className="font-semibold text-gray-800">Security/Compliance:</h4>
+                <h4 className="font-semibold text-gray-800">
+                  Security/Compliance:
+                </h4>
                 <p className="text-gray-700">{resume.skills.security}</p>
               </div>
             )}
@@ -103,13 +129,17 @@ export default function ResumeDetails({ resume }) {
           <div className="space-y-2">
             {resume.skills.automation && (
               <div>
-                <h4 className="font-semibold text-gray-800">Automation/DevOps:</h4>
+                <h4 className="font-semibold text-gray-800">
+                  Automation/DevOps:
+                </h4>
                 <p className="text-gray-700">{resume.skills.automation}</p>
               </div>
             )}
             {resume.skills.major && (
               <div>
-                <h4 className="font-semibold text-gray-800">Monitoring/Tools:</h4>
+                <h4 className="font-semibold text-gray-800">
+                  Monitoring/Tools:
+                </h4>
                 <p className="text-gray-700">{resume.skills.major}</p>
               </div>
             )}
@@ -118,13 +148,15 @@ export default function ResumeDetails({ resume }) {
       </div>
 
       {/* ==== Experience ==== */}
-      <div>
+      {/* <div>
         <div className="flex items-center gap-2 mb-2">
           <BriefcaseBusiness className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
-          <h3 className="text-lg sm:text-xl font-bold text-[#123499]">EXPERIENCE</h3>
+          <h3 className="text-lg sm:text-xl font-bold text-[#123499]">
+            EXPERIENCE
+          </h3>
         </div>
         <div className="space-y-3 sm:space-y-4">
-          {resume.experience.map((exp, idx) => (
+          {resume?.experience?.map((exp, idx) => (
             <div key={idx} className="border-l-2 border-blue-600 pl-3">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
                 <h4 className="font-semibold text-gray-900 text-sm sm:text-base">
@@ -148,10 +180,10 @@ export default function ResumeDetails({ resume }) {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* ==== Projects ==== */}
-      <div>
+      {/* <div>
         <div className="flex items-center gap-2 mb-2">
           <FolderOpenDot className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
           <h3 className="text-lg sm:text-xl font-bold text-[#123499]">
@@ -173,20 +205,23 @@ export default function ResumeDetails({ resume }) {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* ==== Education & Certifications ==== */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-        {/* Education */}
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
-            <h3 className="text-lg sm:text-xl font-bold text-[#123499]">EDUCATION</h3>
+            <h3 className="text-lg sm:text-xl font-bold text-[#123499]">
+              EDUCATION
+            </h3>
           </div>
           <div className="border border-gray-200 rounded-lg p-3 space-y-2">
-            {resume.education.map((edu, idx) => (
+            {resume?.education?.map((edu, idx) => (
               <div key={idx}>
-                <h4 className="font-semibold text-gray-900 text-sm">{edu.degree}</h4>
+                <h4 className="font-semibold text-gray-900 text-sm">
+                  {edu.degree}
+                </h4>
                 <p className="text-xs text-gray-600">{edu.school}</p>
                 <p className="text-xs text-gray-500">{edu.location}</p>
               </div>
@@ -194,7 +229,6 @@ export default function ResumeDetails({ resume }) {
           </div>
         </div>
 
-        {/* Certifications */}
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Award className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
@@ -210,7 +244,7 @@ export default function ResumeDetails({ resume }) {
             </ul>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

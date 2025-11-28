@@ -14,13 +14,13 @@ export default function Certification({ register, certArray }) {
         >
           <div className="grid grid-cols-1  sm:gap-4">
             <input
-              {...register(`education.${i}.degree`)}
+              {...register(`certifications.${i}.title`)}
               placeholder="Enter your certificate "
               className="flex items-center gap-2 border px-3 py-2 rounded-lg outline-none"
             />
 
             <textarea
-              {...register(`details ${i}`)}
+              {...register(`certifications.${i}.description`)}
               placeholder="Enter your details"
               className="flex items-center gap-2 border px-3 py-2 rounded-lg outline-none"
             />
@@ -38,7 +38,7 @@ export default function Certification({ register, certArray }) {
         }
       >
         {" "}
-        <Plus size={16} /> Add Education
+        <Plus size={16} /> Add Certification
       </button>
     </section>
   );

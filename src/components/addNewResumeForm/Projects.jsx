@@ -20,9 +20,15 @@ export default function Projects({ register, projArray }) {
             />
 
             <textarea
-              {...register(`description ${i}`)}
+              {...register(`projects.${i}.description`)}
               className="flex items-center gap-2 border px-3 py-2 rounded-lg outline-none"
               placeholder="Enter your description"
+            />
+
+            <input
+              {...register(`projects.${i}.link`)}
+              placeholder="Enter your link"
+              className="flex items-center gap-2 border px-3 py-2 rounded-lg outline-none"
             />
           </div>
         </div>
