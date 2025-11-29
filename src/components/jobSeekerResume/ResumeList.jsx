@@ -97,7 +97,10 @@ export default function ResumeList({ data, setSelectResume }) {
       </div>
 
       {/* Add button */}
-      <Link href="/add-new-resume" className="block mt-3 sm:mt-4">
+      <Link
+        href={{ pathname: "/add-new-resume", query: { name: "add-form" } }}
+        className="block mt-3 sm:mt-4"
+      >
         <button className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 sm:py-3 px-3 rounded-lg font-medium text-sm transition-all shadow-sm hover:shadow">
           <Plus className="w-5 h-5" />
           Add New Resume
