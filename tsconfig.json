@@ -40,7 +40,7 @@
     "src/app/(recruiter)/recruitment-dashboard/page.jsx",
     "src/app/(recruiter)/recruitment-dashboard/recent-applicants.jsx",
     "src/app/(recruiter)/recruitment-dashboard/metrics-card.jsx",
-    "src/app/(recruiter)/edit-job-post/page.jsx",
+    "src/app/(recruiter)/job-post/page.jsx",
     "src/app/(recruiter)/seeker-resume/page.jsx",
     "src/components/modal/CustomModal.jsx",
     "utils/revalidateTags.js",
