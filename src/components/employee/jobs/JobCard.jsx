@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import CustomImage from "../../../../shared/CustomImage";
+import CustomPagination from "@/components/cui/CustomPagination";
 
 const mockJobs = [
   {
@@ -134,7 +135,7 @@ const mockJobs = [
   },
 ];
 
-export default function JobCard({ data }) {
+export default function JobCard({ data, pagination }) {
   const [savedJobs, setSavedJobs] = useState([]);
   return (
     <div className="lg:col-span-3">
@@ -223,23 +224,10 @@ export default function JobCard({ data }) {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-end items-center gap-2 mt-8">
-        <button className="p-2 border border-gray-300 rounded hover:bg-gray-50">
-          <ChevronLeft size={20} />
-        </button>
-        <button className="px-4 py-2 bg-[#0066CC] text-white rounded font-semibold">
-          1
-        </button>
-        <button className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">
-          2
-        </button>
-        <button className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50">
-          3
-        </button>
-        <button className="p-2 border border-gray-300 rounded hover:bg-gray-50">
-          <ChevronRight size={20} />
-        </button>
+      <div>
+        <CustomPagination totalPages={pagination?.totalPage}/>
       </div>
+      
     </div>
   );
 }

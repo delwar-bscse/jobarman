@@ -6,12 +6,14 @@ import { MapPin, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { DualRangeSlider } from '@/components/ui/dual-range-slider';
+import { myFetch } from "../../../../utils/myFetch";
 
 
 export default function FilterSide() {
   const [values, setValues] = useState([0, 9999]);
   const searchParams = useSearchParams();
   const { replace } = useRouter();
+  const [allCategories, setAllCategories] = useState([]);
   const params = new URLSearchParams(searchParams);
 
   const [showMoreCategories, setShowMoreCategories] = useState(false);
@@ -27,11 +29,23 @@ export default function FilterSide() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await myFetch("/job-category");
+      setAllCategories(res.data);
+      console.log("Categories : ", res.data);
+    };
 
-  const allCategories = ["Healthcare", "Information Technology", "Hotels & Tourism", "Education", "Financial Services", "Engineering", "Marketing", "Sales", "HR", "Operations",];
+    fetchData();
+  }, []);
+
+
+
+
+  // const allCategories = ["Healthcare", "Information Technology", "Hotels & Tourism", "Education", "Financial Services", "Engineering", "Marketing", "Sales", "HR", "Operations",];
   const visibleCategories = showMoreCategories ? allCategories : allCategories.slice(0, 4);
 
-  const jobTypes = ["Full Time", "Part Time", "Contract", "Remote", "Hybrid"];
+  const jobTypes = ["Full Time", "Part Time", "Contract", "Remote", "Hybrid", "Freelance", "Internship",];
   const allTags = ["engineering", "design", "ux/ui", "marketing", "management", "construction"]
   const experienceLevels = ["No experience", "Fresher", "Intermediate", "Expert",];
   const datePostedOptions = ["All", "Last hour", "Last 24 hours", "Last 7 days", "Last 30 days",];
@@ -151,15 +165,15 @@ export default function FilterSide() {
 
         {/* Category */}
         <div className="space-y-2">
-          {visibleCategories.map((cat) => (
-            <label key={cat} className="flex items-center">
+          {visibleCategories.map((cat, index) => (
+            <label key={index} className="flex items-center">
               <input
                 type="checkbox"
-                checked={getMultipleQueryParams("category").has(cat)}
-                onChange={() => handleMultipleQueryParams("category", cat)}
+                checked={getMultipleQueryParams("category").has(cat._id)}
+                onChange={() => handleMultipleQueryParams("category", cat._id)}
                 className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
               />
-              <span className="ml-2 text-sm text-gray-700">{cat}</span>
+              <span className="ml-2 text-sm text-gray-700">{cat.name}</span>
               <span className="ml-auto text-xs text-gray-500">10</span>
             </label>
           ))}

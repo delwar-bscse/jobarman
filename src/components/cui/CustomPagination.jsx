@@ -1,0 +1,60 @@
+import React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+const MAX_PAGE_WINDOW = 5;
+
+const CustomPagination = ({ totalPages = 5 }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const currentPage = parseInt(searchParams.get("page") || "1");
+
+  const startPage = Math.max(1, currentPage - MAX_PAGE_WINDOW + 1);
+  const endPage = Math.min(totalPages, startPage + MAX_PAGE_WINDOW - 1);
+
+  const pageNumbers = [];
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  const handlePageChange = (newPage) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
+
+  return (
+    <div className="flex justify-end items-center gap-2 mt-8">
+      <button
+        disabled={currentPage === 1}
+        onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+        className="p-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+      >
+        <ChevronLeft size={20} />
+      </button>
+
+      {pageNumbers.map((page) => (
+        <button
+          key={page}
+          className={`px-4 py-2 rounded font-semibold ${
+            currentPage === page ? "bg-[#0066CC] text-white" : "bg-gray-200"
+          }`}
+          onClick={() => handlePageChange(page)}
+        >
+          {page}
+        </button>
+      ))}
+
+      <button
+        disabled={currentPage === totalPages}
+        onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+        className="p-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+      >
+        <ChevronRight size={20} />
+      </button>
+    </div>
+  );
+};
+
+export default CustomPagination;
