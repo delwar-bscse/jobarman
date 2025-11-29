@@ -15,7 +15,7 @@ const recuiter = [
   { href: "/my-job", label: "My Job" },
   { href: "/career-spotlight", label: "Career Spotlight" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/post-job", label: "Post Job" },
+  { href: "/job-post", label: "Post Job" },
   { href: "/analyze-resume", label: "Analyze Resume" },
 ];
 

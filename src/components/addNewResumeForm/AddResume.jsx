@@ -9,12 +9,13 @@ import Education from "./Education";
 import Exprience from "./Exprience";
 import { myFetch } from "../../../utils/myFetch";
 import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
 
 /* -----------------------------------------------------------
    MAIN FORM (React Hook Form Version)
 ----------------------------------------------------------- */
 
-export default function AddNewResumeForm2() {
+export default function AddNewResumeForm2({ name }) {
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       resume_name: "",
@@ -92,7 +93,9 @@ export default function AddNewResumeForm2() {
         </button>
 
         <div className="flex-1">
-          <h1 className="text-3xl font-bold">Add New Resume</h1>
+          <h1 className="text-3xl font-bold">
+            {name ? "Add New Resume" : "Edit New Resume"}
+          </h1>
           <input
             {...register("resume_name")}
             className="mt-2 w-full max-w-md px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"

@@ -76,15 +76,12 @@ export default function ResumeList({ data, setSelectResume }) {
 
             {/* Actions */}
             <div className="flex gap-1 sm:gap-1.5">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // edit handler
-                }}
+              <Link
+                href={`/add-new-resume?id=${resume._id}`}
                 className="p-1.5 hover:bg-gray-100 rounded transition-colors"
               >
                 <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600" />
-              </button>
+              </Link>
               <button
                 onClick={() => handleDeleteResume(resume._id)}
                 className="p-1.5 hover:bg-red-100 rounded transition-colors"
