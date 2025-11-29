@@ -52,11 +52,11 @@ export default function FilterSide() {
   const locations = ["All Cities", "New York", "San Francisco", "Los Angeles", "Chicago", "Boston",];
 
   // Debounced Search Handler
-  const handleSearch = useDebouncedCallback((term) => {
-    if (term) {
-      params.set("searchTerm", term);
+  const handleSearch = useDebouncedCallback((type,value) => {
+    if (value) {
+      params.set(type, value);
     } else {
-      params.delete("searchTerm");
+      params.delete(type);
     }
     replace(`?${params.toString()}`);
   }, 300);
@@ -133,7 +133,7 @@ export default function FilterSide() {
               type="text"
               placeholder="Job title or company"
               defaultValue={getSingleQueryParams("searchTerm")}
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e) => handleSearch("searchTerm", e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC]"
             />
           </div>
@@ -149,7 +149,14 @@ export default function FilterSide() {
               size={18}
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             />
-            <select
+            <input
+              type="text"
+              placeholder="location..."
+              defaultValue={getSingleQueryParams("location")}
+              onChange={(e) => handleSearch("location", e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC]"
+            />
+            {/* <select
               value={getSingleQueryParams("location")}
               onChange={(e) => handleSingleQueryParams("location", e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC] appearance-none"
@@ -159,7 +166,7 @@ export default function FilterSide() {
                   {loc === "All Cities" ? "Choose city" : loc}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
         </div>
 
