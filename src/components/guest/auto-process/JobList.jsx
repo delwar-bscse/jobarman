@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const jobData = {
   title: "Sr. UI/UX Designer",
@@ -23,7 +24,7 @@ export default function JobList() {
           {/* Job Image */}
           <div>
             <Image
-              src={job.image}
+              src="/auto-process.png"
               alt="Job"
               width={70}
               height={70}
@@ -41,9 +42,11 @@ export default function JobList() {
           {/* Right Section */}
           <div className="flex flex-col items-end gap-2">
             <span className="text-lg font-bold">{job.progress}</span>
-            <button className="bg-[#123499] text-white text-sm px-5 py-2 rounded-full">
-              {job.status}
-            </button>
+            <Link href="/scroe-board">
+              <button className="bg-[#123499] text-white text-sm px-5 py-2 rounded-full">
+                {job.status}
+              </button>
+            </Link>
           </div>
         </div>
       ))}
