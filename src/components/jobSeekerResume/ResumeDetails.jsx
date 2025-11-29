@@ -13,6 +13,7 @@ import {
   GraduationCap,
   Award,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function ResumeDetails({ resume }) {
   const {
@@ -24,6 +25,7 @@ export default function ResumeDetails({ resume }) {
     nationality,
     clearance,
   } = resume.personalInfo;
+
   return (
     <div className="h-full overflow-y-auto bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 lg:p-6 space-y-5 sm:space-y-6">
       {/* ==== Contact ==== */}
@@ -73,7 +75,7 @@ export default function ResumeDetails({ resume }) {
         <p className="text-xs sm:text-sm text-gray-800 leading-relaxed">
           {resume.summary ||
             `Database Administrator with 8+ years managing large SQL environments across on-prem and cloud (Azure/AWS). Expert in HA/DR, performance tuning, security, and backups/recovery. Proven record improving query performance, hardening data security, and delivering resilient platforms supporting 150+ critical apps / 50TB data at 99.97% availability.
-Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compression/tiering, met RPO 15min / RTO 30min for business-critical databases.`}
+Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compression/tiering, met RPO 15min / RTO 30min for business-critical databases`}
         </p>
         {resume.highlights && (
           <p className="text-xs sm:text-sm text-gray-700 mt-2">
@@ -95,12 +97,12 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressi
             <div>
               <h4 className="font-semibold text-gray-800">Platform:</h4>
 
-              <div className="flex  gap-1 text-gray-700">
+              <div className=" text-gray-700 space-x-1">
                 {resume?.skills?.map((item, index) => (
-                  <p key={item}>
+                  <span key={item} className="">
                     {item}
                     {index < resume.skills.length - 1 && ","}
-                  </p>
+                  </span>
                 ))}
               </div>
             </div>
@@ -148,7 +150,7 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressi
       </div>
 
       {/* ==== Experience ==== */}
-      {/* <div>
+      <div>
         <div className="flex items-center gap-2 mb-2">
           <BriefcaseBusiness className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
           <h3 className="text-lg sm:text-xl font-bold text-[#123499]">
@@ -156,59 +158,66 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressi
           </h3>
         </div>
         <div className="space-y-3 sm:space-y-4">
-          {resume?.experience?.map((exp, idx) => (
+          {resume?.workExperiences?.map((exp, idx) => (
             <div key={idx} className="border-l-2 border-blue-600 pl-3">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-1">
                 <h4 className="font-semibold text-gray-900 text-sm sm:text-base">
-                  {exp.title}
+                  {exp?.title}
                 </h4>
-                <span className="text-xs text-gray-600">{exp.period}</span>
+                <span className="text-xs text-gray-600">
+                  {exp?.startDate.slice(0, 10)}
+                </span>
               </div>
               <p className="text-xs sm:text-sm text-gray-600">
-                {exp.company}, {exp.location}
+                {exp?.company}, {exp?.location}
               </p>
-              {exp.environment && (
+              {/* {exp.environment && (
                 <p className="text-xs text-gray-500 italic">
                   Env: {exp.environment}
                 </p>
-              )}
-              <ul className="mt-2 text-xs sm:text-sm text-gray-700 space-y-1 list-disc list-inside">
+              )} */}
+              {/* <ul className="mt-2 text-xs sm:text-sm text-gray-700 space-y-1 list-disc list-inside">
                 {exp.highlights.map((h, i) => (
                   <li key={i}>{h}</li>
                 ))}
-              </ul>
+              </ul> */}
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
 
       {/* ==== Projects ==== */}
-      {/* <div>
+      <div>
         <div className="flex items-center gap-2 mb-2">
           <FolderOpenDot className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
           <h3 className="text-lg sm:text-xl font-bold text-[#123499]">
             SELECTED PROJECTS
           </h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {resume.projects.map((project, idx) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2  gap-3">
+          {resume?.projects?.map((project, idx) => (
             <div
               key={idx}
               className="border border-gray-200 rounded-lg p-3 hover:shadow-sm transition-shadow"
             >
               <h4 className="font-semibold text-gray-900 text-sm mb-1">
-                {project.name}
+                {project?.title}
               </h4>
               <p className="text-xs text-gray-600 line-clamp-2">
-                {project.description}
+                {project?.description}
               </p>
+              {project?.link && (
+                <Link href={project?.link} className="text-xs">
+                  {project?.link}
+                </Link>
+              )}
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
 
       {/* ==== Education & Certifications ==== */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 text-[#123499]" />
@@ -217,17 +226,21 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressi
             </h3>
           </div>
           <div className="border border-gray-200 rounded-lg p-3 space-y-2">
-            {resume?.education?.map((edu, idx) => (
+            {resume?.educations?.map((edu, idx) => (
               <div key={idx}>
                 <h4 className="font-semibold text-gray-900 text-sm">
-                  {edu.degree}
+                  {edu?.degree}
                 </h4>
-                <p className="text-xs text-gray-600">{edu.school}</p>
-                <p className="text-xs text-gray-500">{edu.location}</p>
+                <p className="text-xs text-gray-600">Grade : {edu?.grade}</p>
+                <p className="text-xs text-gray-500">
+                  Passing Year : {edu?.passingYear}
+                </p>
               </div>
             ))}
           </div>
         </div>
+
+        {/* certification */}
 
         <div>
           <div className="flex items-center gap-2 mb-2">
@@ -238,13 +251,16 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressi
           </div>
           <div className="border border-gray-200 rounded-lg p-3">
             <ul className="text-xs sm:text-sm text-gray-700 space-y-1 list-disc list-inside">
-              {resume.certifications.map((cert, idx) => (
-                <li key={idx}>{cert}</li>
+              {resume?.certifications?.map((cert, idx) => (
+                <div key={idx}>
+                  <p>{cert.title}</p>
+                  <p>{cert.description}</p>
+                </div>
               ))}
             </ul>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

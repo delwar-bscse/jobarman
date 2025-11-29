@@ -76,15 +76,12 @@ export default function ResumeList({ data, setSelectResume }) {
 
             {/* Actions */}
             <div className="flex gap-1 sm:gap-1.5">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // edit handler
-                }}
+              <Link
+                href={`/add-new-resume?id=${resume._id}`}
                 className="p-1.5 hover:bg-gray-100 rounded transition-colors"
               >
                 <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600" />
-              </button>
+              </Link>
               <button
                 onClick={() => handleDeleteResume(resume._id)}
                 className="p-1.5 hover:bg-red-100 rounded transition-colors"
@@ -97,7 +94,10 @@ export default function ResumeList({ data, setSelectResume }) {
       </div>
 
       {/* Add button */}
-      <Link href="/add-new-resume" className="block mt-3 sm:mt-4">
+      <Link
+        href={{ pathname: "/add-new-resume", query: { name: "add-form" } }}
+        className="block mt-3 sm:mt-4"
+      >
         <button className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 sm:py-3 px-3 rounded-lg font-medium text-sm transition-all shadow-sm hover:shadow">
           <Plus className="w-5 h-5" />
           Add New Resume
