@@ -16,11 +16,10 @@ export default function Card({ data }) {
         <div
           key={job._id}
           className="rounded-xl border border-gray-200 bg-white shadow-sm cursor-pointer hover:shadow-md transition-shadow"
-
         >
           <div className="p-3">
             <CustomImage
-              src={job.post.thumbnail}
+              src={job?.post?.thumbnail}
               title="We are Hiring"
               width={112}
               height={112}
@@ -39,26 +38,28 @@ export default function Card({ data }) {
             </a>
 
             <div className="mt-2 flex items-center gap-2 text-xs text-gray-600">
-              <Image
+              {/* <Image
                 src="/globe.svg"
                 width={12}
                 height={12}
                 alt="location"
                 className="w-4 h-4"
-              />
-              <span>{job.post.location}</span>
+              /> */}
+              <span>{job?.post?.location}</span>
             </div>
 
-           <JobDetails job={job} trigger={
-             <button
-              className={`mt-3 w-full rounded-md border bg-white text-xs py-1 ${
-                statusStyles[job.status]
-              }`}
-            >
-             
-                {job.status}
-            </button>
-           }/>
+            <JobDetails
+              job={job}
+              trigger={
+                <button
+                  className={`mt-3 w-full rounded-md border bg-white text-xs py-1 ${
+                    statusStyles[job.status]
+                  }`}
+                >
+                  {job.status}
+                </button>
+              }
+            />
           </div>
         </div>
       ))}
