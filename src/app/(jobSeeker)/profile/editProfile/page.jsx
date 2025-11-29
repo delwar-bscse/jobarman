@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
@@ -128,17 +127,6 @@ export default function EditProfilePage() {
         <MainContent />
 
       </div>
-=======
-import EditProfilePage from "@/components/myProfile/EditProfile";
-import React from "react";
-import { myFetch } from "../../../../../utils/myFetch";
-
-export default async function page() {
-  const res = await myFetch("/user/profile");
-  return (
-    <div>
-      <EditProfilePage data={res?.data} />
->>>>>>> e7ba260d1515df50b28eebc19717fbdc21a1ecfc
     </div>
   );
 }
