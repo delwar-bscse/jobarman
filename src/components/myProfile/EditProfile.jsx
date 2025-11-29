@@ -19,6 +19,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Input } from "../ui/input";
+import { myFetch } from "../../../utils/myFetch";
 
 export default function EditProfilePage({ data }) {
   const [activeMenu, setActiveMenu] = useState("Edit Profile"); // Default to Edit Profile
@@ -105,10 +106,44 @@ export default function EditProfilePage({ data }) {
     date_of_birth: data?.date_of_birth || "",
     address: data.address || "",
     gender: data?.gender || "Male",
+    // education
+    degree: data?.educations?.[0]?.degree || "",
+    institute: data?.educations?.[0]?.institute || "",
+    passingYear: data?.educations?.[0]?.passingYear || 2025,
+    grade: data?.educations?.[0]?.grade || "",
   });
 
-  const handleChange = () => {
-    // const {name} = e
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormValues((prevFormValues) => ({
+      ...prevFormValues,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    // Object.entries((formValues) => {
+    //   console.log("update", key, value);
+    // });
+    for (const [key, value] of Object.entries(formValues)) {
+      console.log(`${key} ${value}`);
+      formData.append(key, value);
+    }
+
+    try {
+      const res = await myFetch("/user/profile", {
+        method: "PATCH",
+        body: formData,
+      });
+
+      console.log("profile data", res);
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (
@@ -231,7 +266,7 @@ export default function EditProfilePage({ data }) {
             </h1>
 
             {/* Form Sections */}
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="space-y-6">
                 {/* Personal Information Section */}
                 <div className="bg-white rounded-lg">
@@ -305,13 +340,14 @@ export default function EditProfilePage({ data }) {
                         Gender
                       </label>
                       <select
+                        name="gender"
                         value={formValues.gender}
-                        // onChange={handleGenderSelect}
+                        onChange={handleChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
                       >
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                       </select>
                     </div>
                   </div>
@@ -354,67 +390,75 @@ export default function EditProfilePage({ data }) {
                 </div>
 
                 {/* Education Qualification Section */}
-                {/* <div className="bg-white rounded-lg">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">
-                  Educational Qualification
-                </h3>
+                <div className="bg-white rounded-lg">
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">
+                    Educational Qualification
+                  </h3>
 
-                <div className="grid grid-cols-3 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
-                      Degree Name
-                    </label>
-                    <Input
-                      type="text"
-                      defaultValue="Computer Science"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                    />
+                  <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">
+                        Degree Name
+                      </label>
+                      <Input
+                        type="text"
+                        name="degree"
+                        value={formValues.degree}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">
+                        Institute
+                      </label>
+                      <Input
+                        type="text"
+                        name="institute"
+                        value={formValues.institute}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">
+                        Session
+                      </label>
+                      <Input
+                        type="text"
+                        defaultValue="2020-2024"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
-                      Institute
-                    </label>
-                    <Input
-                      type="text"
-                      defaultValue="Oxford University"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
-                      Session
-                    </label>
-                    <Input
-                      type="text"
-                      defaultValue="2020-2024"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                    />
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">
+                        Passing Year
+                      </label>
+                      <Input
+                        type="text"
+                        name="passingYear"
+                        value={formValues.passingYear}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-2">
+                        Grade Point
+                      </label>
+                      <Input
+                        type="text"
+                        name="grade"
+                        value={formValues.grade}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
                   </div>
                 </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
-                      Passing Year
-                    </label>
-                    <Input
-                      type="text"
-                      defaultValue="2025"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
-                      Grade Point
-                    </label>
-                    <Input
-                      type="text"
-                      defaultValue="GPA 5.00"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                </div>
-              </div> */}
 
                 {/* Work Experience Section */}
                 {/* <div className="bg-white rounded-lg">
@@ -547,7 +591,10 @@ export default function EditProfilePage({ data }) {
               </div> */}
 
                 {/* Update Button */}
-                <button className="w-full mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
+                <button
+                  type="submit"
+                  className="w-full mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg"
+                >
                   Edit Profile
                 </button>
               </div>
