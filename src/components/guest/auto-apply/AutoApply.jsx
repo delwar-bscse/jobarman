@@ -28,7 +28,7 @@ export default function AutoApply({ data }) {
           Auto Apply
         </h1>
       </div>
-      <div className=" grid grid-cols-3 gap-5">
+      <div className=" grid lg:grid-cols-3 gap-5">
         <div className="lg:col-span-1 bg-white rounded-lg  mt-1 p-3">
           {/* pdf file upload */}
 
@@ -104,7 +104,7 @@ export default function AutoApply({ data }) {
             <Input type="text" placeholder="your percenties" />
           </div>
 
-          <Link href="/auto-process">
+          <Link href="/auto-applying">
             <button className="w-full px-6 py-2 mt-5 text-sm sm:text-base border border-[#5980E5] bg-[#395FD2] text-white rounded-lg hover:bg-[#2A57DE] transition font-semibold">
               Start Apply
             </button>
