@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useRef, useState } from "react";
 
 const ResumeGenerator = () => {
@@ -125,9 +126,11 @@ const ResumeGenerator = () => {
           </div>
 
           {/* Analyze Button */}
-          <button className="w-full px-6 py-3 text-sm sm:text-base border border-[#5980E5] bg-[#395FD2] text-white rounded-lg hover:bg-[#2A57DE] transition font-semibold">
-            Analyze Resume
-          </button>
+          <Link href="/scroe-board">
+            <button className="w-full px-6 mt-3 py-3 text-sm sm:text-base border border-[#5980E5] bg-[#395FD2] text-white rounded-lg hover:bg-[#2A57DE] transition font-semibold">
+              Analyze Resume
+            </button>
+          </Link>
         </div>
       </div>
     </section>

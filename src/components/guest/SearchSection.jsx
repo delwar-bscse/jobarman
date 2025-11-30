@@ -1,6 +1,7 @@
 "use client";
 import { Search, SlidersHorizontal } from "lucide-react";
 import React from "react";
+import FilterModal from "./FilterModal";
 
 export default function SearchSection() {
   return (
@@ -24,14 +25,17 @@ export default function SearchSection() {
             />
           </div>
 
-          <button
-            type="button"
-            onClick={() => setFiltersOpen(true)}
-            aria-label="Open Filters"
-            className="hidden sm:flex items-center px-3 sm:px-4 border-t sm:border-t-0 sm:border-l border-gray-200 text-gray-600 hover:bg-gray-50"
-          >
-            <SlidersHorizontal className="w-4 sm:w-5 lg:w-5 h-4 sm:h-5 lg:h-5" />
-          </button>
+          <FilterModal
+            trigger={
+              <button
+                type="button"
+                aria-label="Open Filters"
+                className="hidden sm:flex items-center px-3 sm:px-4 border-t sm:border-t-0 sm:border-l border-gray-200 text-gray-600 "
+              >
+                <SlidersHorizontal className="w-4 sm:w-5 lg:w-5 h-4 sm:h-5 lg:h-5" />
+              </button>
+            }
+          />
 
           <button className="flex items-center gap-2 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 font-medium text-sm sm:text-base lg:text-lg w-full sm:w-auto justify-center">
             <Search className="w-4 sm:w-4 lg:w-5 h-4 sm:h-4 lg:h-5" />
