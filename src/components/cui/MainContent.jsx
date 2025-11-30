@@ -1,10 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import WorkExperience from './WorkExperience';
-import { Calendar, X } from "lucide-react";
+import { X } from "lucide-react";
 import Education from './Education';
-import { set } from 'date-fns';
+import PersonalInfo from './PersonalInfo';
+import { FcCamera } from "react-icons/fc";
+import Image from 'next/image';
+import { myFetch } from '../../../utils/myFetch';
 
 const MainContent = () => {
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageFile, setProfileImageFile] = useState(null);
+  const [personalInfo, setPersonalInfo] = useState({
+    name: "BD Calling IT",
+    designation: "Raj Mistri",
+    phone: "+8801883847915",
+    date_of_birth: "2004-03-15T00:00:00.000Z",
+    // age: 20,
+    gender: "Female",
+    address: "Dhaka,Bangladesh",
+    linkedin: "edrer",
+    bio: "This is huge company",
+  }
+  );
   const [educationList, setEducationList] = useState([
     {
       degree: "Bachelor of Science in Computer Science",
@@ -28,7 +45,51 @@ const MainContent = () => {
     }
   ]);
   const [skill, setSkill] = useState("");
-  const [skills, setSkills] = useState(["React", "UI Design", "Website Design", "Prototyping", "Wireframe", "App design"]);
+  const [skills, setSkills] = useState([]);
+
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const res = await myFetch('/user/profile', 'GET');
+      console.log("profile data: ", res.data);
+
+      if (res.data) {
+        setPersonalInfo({
+          name: res.data.name || "",
+          designation: res.data.designation || "",
+          phone: res.data.phone || "",
+          date_of_birth: res.data.date_of_birth || "",
+          age: res.data.age || 0,
+          gender: res.data.gender || "",
+          address: res.data.address || "",
+          linkedin: res.data.linkedin || "",
+          bio: res.data.bio || "",
+        });
+        const eduList = res.data.education?.map((edu) => ({
+          degree: edu.degree || "",
+          institute: edu.institute || "",
+          session: edu.session || "",
+          passingYear: edu.passingYear || 0,
+          grade: edu.grade || "",
+          _id: edu._id || "",
+        }));
+        setEducationList(eduList);
+        const workList = res.data.workExperience?.map((work) => ({
+          title: work.title || "",
+          company: work.company || "",
+          startDate: work.startDate || "",
+          endDate: work.endDate || "",
+          description: work.description || "",
+          location: work.location || "",
+          isCurrentJob: work.isCurrentJob || false,
+          _id: work._id || "",
+        }));
+        setWorkExperienceList(workList);
+        setSkills((prev) => [...prev, ...res.data.skills]);
+      }
+    }
+    fetchProfile();
+  }, []);
 
 
   // Add and Remove Skills
@@ -42,6 +103,7 @@ const MainContent = () => {
     console.log("Remove Skill", skills)
   }
 
+  // add Work Experience
   const addWorkExperience = () => {
     setWorkExperienceList([...workExperienceList, {
       _id: Date.now().toString(),
@@ -68,8 +130,22 @@ const MainContent = () => {
   }
 
   const handleSubmit = () => {
+    console.log("Personal Info: ",)
     console.log("Education List:", educationList);
+    console.log("Work Experience List:", workExperienceList);
   }
+
+  const handleProfileImage = (e) => {
+    const file = e.target.files[0];
+    setProfileImageFile(file);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProfileImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+
 
 
   return (
@@ -80,11 +156,12 @@ const MainContent = () => {
         <div className="flex justify-center mb-8">
           <div className="relative">
             <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center">
-              <span className="text-4xl">👤</span>
+              <Image src={profileImage || "/defaultProfile.png"} width={96} height={96} alt="Profile" className="w-24 h-24 rounded-full object-cover" />
             </div>
-            <button className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full border-2 border-gray-200 flex items-center justify-center shadow-sm">
-              <span className="text-sm">📷</span>
+            <button onClick={() => document.getElementById("takeEmployProfileImage").click()} className="absolute bottom-0 right-0 size-7 bg-white rounded-full border-2 border-gray-200 flex items-center justify-center shadow-sm">
+              <FcCamera className="w-4 h-4 opacity-80" />
             </button>
+            <input id='takeEmployProfileImage' onChange={handleProfileImage} type="file" className="hidden" />
           </div>
         </div>
 
@@ -94,92 +171,10 @@ const MainContent = () => {
         {/* Form Sections */}
         <div className="space-y-6">
           {/* Personal Information Section */}
-          <div className="bg-white rounded-lg">
-            <div className="grid grid-cols-3 gap-4 mb-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">Full Name</label>
-                <input
-                  type="text"
-                  defaultValue="Atiqur Rifat"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">Designation</label>
-                <input
-                  type="text"
-                  defaultValue="UI/UX Designer"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">Mobile Number</label>
-                <input
-                  type="text"
-                  defaultValue="+123456789"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 mb-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">Date Of Birth</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    defaultValue="01 January 2000"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                  />
-                  <Calendar className="absolute right-3 top-2.5 w-4 h-4 text-gray-400" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">Age</label>
-                <input
-                  type="text"
-                  defaultValue="25"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">Gender</label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500">
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">Address</label>
-                <input
-                  type="text"
-                  defaultValue="2471 Derby Ave, Strubens Valley, Gauteng"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">Social Media Link</label>
-                <input
-                  type="text"
-                  defaultValue="LinkedIn.com/profile"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                />
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-600 mb-2">Summary</label>
-              <textarea
-                rows={3}
-                defaultValue="Creative and detail-oriented UI/UX Designer with expertise in crafting intuitive mobile and web experiences. Skilled in wireframing, prototyping, and design systems"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500 resize-none"
-              />
-            </div>
+          <div>
+            <PersonalInfo setPersonalInfo={setPersonalInfo} personalInfo={personalInfo} />
           </div>
+
 
           {/* Education Qualification Section */}
           <div className='space-y-4'>
@@ -201,8 +196,8 @@ const MainContent = () => {
 
           {/* Work Experience Section */}
           <div className='space-y-4'>
-            {workExperienceList.map((singleEorkExperience) => (
-              <WorkExperience key={singleEorkExperience._id} setWorkExperienceList={setWorkExperienceList} workExperienceList={workExperienceList} singleEorkExperience={singleEorkExperience} />
+            {workExperienceList.map((singleWorkExperience) => (
+              <WorkExperience key={singleWorkExperience._id} setWorkExperienceList={setWorkExperienceList} workExperienceList={workExperienceList} singleWorkExperience={singleWorkExperience} />
             ))}
 
 
@@ -230,13 +225,13 @@ const MainContent = () => {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {skills.map((skill, index) => (
+              {skills?.map((sk, index) => (
                 <div
                   key={index}
                   className="flex items-center gap-2 px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
                 >
-                  {skill}
-                  <button onClick={() => removeSkill(skill)}>
+                  {sk}
+                  <button onClick={() => removeSkill(sk)}>
                     <X className="w-3 h-3 cursor-pointer hover:text-purple-900" />
                   </button>
                 </div>

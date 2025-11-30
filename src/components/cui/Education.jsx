@@ -38,7 +38,7 @@ const Education = ({ educationList, setEducationList, singleEducation }) => {
             value={education?.degree}
             onChange={handleEducationChange}
             type="text"
-            defaultValue="Computer Science"
+            placeholder="Computer Science"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
           />
         </div>
@@ -49,7 +49,7 @@ const Education = ({ educationList, setEducationList, singleEducation }) => {
             value={education?.institute}
             onChange={handleEducationChange}
             type="text"
-            defaultValue="Oxford University"
+            placeholder="Oxford University"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
           />
         </div>
@@ -60,7 +60,7 @@ const Education = ({ educationList, setEducationList, singleEducation }) => {
             value={education?.session}
             onChange={handleEducationChange}
             type="text"
-            defaultValue="2020-2024"
+            placeholder="2020-2024"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
           />
         </div>
@@ -74,7 +74,7 @@ const Education = ({ educationList, setEducationList, singleEducation }) => {
             value={education?.passingYear}
             onChange={handleEducationChange}
             type="text"
-            defaultValue="2025"
+            placeholder="2025"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
           />
         </div>
@@ -85,7 +85,7 @@ const Education = ({ educationList, setEducationList, singleEducation }) => {
             value={education?.grade}
             onChange={handleEducationChange}
             type="text"
-            defaultValue="GPA 5.00"
+            placeholder="GPA 5.00"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
           />
         </div>
