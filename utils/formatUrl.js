@@ -1,5 +1,4 @@
 
-
 export const formatUrl = (url) => {
   if (!url || typeof url !== 'string') return '';
   if (url.startsWith('http://')) return url;

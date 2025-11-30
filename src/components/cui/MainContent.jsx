@@ -34,6 +34,7 @@ const MainContent = () => {
       console.log("profile data: ", res.data);
 
       if (res.data) {
+        setProfileImage(formatUrl(res.data.image));
         setPersonalInfo({
           name: res.data.name || "",
           designation: res.data.designation || "",
