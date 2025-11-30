@@ -6,6 +6,7 @@ import {
   Zap,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export default function BannerSection() {
@@ -30,9 +31,11 @@ export default function BannerSection() {
               Opportunities, Faster.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <button className="px-6 w-2/3 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white rounded-lg hover:opacity-90 transition font-medium flex items-center justify-center gap-2 text-sm sm:text-base">
-                Start Auto Apply <ArrowRight className="w-4 h-4" />
-              </button>
+              <Link href="/auto-apply" className="w-full">
+                <button className="px-6 w-2/3 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white rounded-lg hover:opacity-90 transition font-medium flex items-center justify-center gap-2 text-sm sm:text-base">
+                  Start Auto Apply <ArrowRight className="w-4 h-4" />
+                </button>
+              </Link>
             </div>
             <div className="flex flex-wrap gap-4 sm:gap-6 mt-6 sm:mt-8 text-xs sm:text-sm lg:text-base">
               <div className="flex items-center gap-2 text-gray-700">
