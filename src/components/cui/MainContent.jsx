@@ -150,6 +150,10 @@ const MainContent = () => {
       formData.append(`skills`, skill);
     });
 
+    if (profileImageFile) {
+      formData.append('image', profileImageFile);
+    }
+
     const res = await myFetch('/user/profile', {
       method: 'PATCH',
       body: formData
