@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Swal from "sweetalert2";
-import SidebarProfile from "../SidebarProfile";
+
 import { Input } from "@/components/ui/input";
 import { myFetch } from "../../../../../../utils/myFetch";
 import { toast } from "sonner";
+import SidebarProfile from "@/components/jobSeeker/profile/Sidebar";
 
 export default function ChangePasswordPage() {
   const [password, setPassword] = useState({

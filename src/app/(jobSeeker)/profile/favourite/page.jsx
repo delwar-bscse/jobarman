@@ -7,7 +7,6 @@ import {
   Star,
   Settings,
   LogOut,
-  X,
   Lock,
   HelpCircle,
   Trash2,
@@ -17,70 +16,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import SidebarProfile from "../settings/SidebarProfile";
+import SidebarProfile from "@/components/jobSeeker/profile/Sidebar";
 
 export default function FavoriteListPage() {
-  const [activeMenu, setActiveMenu] = useState("Favorite List"); // Default active menu
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false); // Track Settings submenu toggle
-  const pathname = usePathname(); // Get the current route
-
-  const menuItems = [
-    { icon: User, label: "My Profile", path: "/profile/myProfile" },
-    { icon: Heart, label: "Favorite List", path: "/profile/favourite" },
-    { icon: FileText, label: "Payment History", path: "/profile/payment" },
-    { icon: Star, label: "Platform Review", path: "/profile/platformReview" },
-    {
-      icon: Settings,
-      label: "Settings",
-      subItems: [
-        {
-          icon: Lock,
-          label: "Change Password",
-          path: "/profile/settings/changePassword",
-        },
-        {
-          icon: HelpCircle,
-          label: "Help and Support",
-          path: "/profile/settings/helpSupport",
-        },
-        {
-          icon: Trash2,
-          label: "Delete Account",
-          path: "/profile/settings/deleteAccount",
-        },
-      ],
-    },
-    { icon: LogOut, label: "Log Out", path: "/profile/logout" },
-  ];
-
-  // Update activeMenu based on the current route
-  useEffect(() => {
-    const currentPath = pathname;
-    const matchingItem = menuItems.find(
-      (item) =>
-        item.path === currentPath ||
-        (item.subItems && item.subItems.some((sub) => sub.path === currentPath))
-    );
-    if (matchingItem) {
-      setActiveMenu(matchingItem.label);
-      if (matchingItem.label === "Settings") {
-        setIsSettingsOpen(true);
-      } else {
-        setIsSettingsOpen(false);
-      }
-    }
-  }, [pathname]);
-
-  const handleMenuClick = (label) => {
-    if (label === "Settings") {
-      setIsSettingsOpen(!isSettingsOpen);
-    } else {
-      setActiveMenu(label);
-      setIsSettingsOpen(false);
-    }
-  };
-
   return (
     <div className="w-full bg-[#FBFBFB]">
       {/* Back Button */}

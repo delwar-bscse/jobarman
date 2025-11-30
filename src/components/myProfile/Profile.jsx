@@ -117,7 +117,7 @@ export default function ProfilePage({ data }) {
 
           {/* Menu Items */}
           <nav className="space-y-2 flex-1">
-            {menuItems.map((item, index) => (
+            {menuItems?.map((item, index) => (
               <div key={index}>
                 <Link href={item.path || "#"}>
                   <button

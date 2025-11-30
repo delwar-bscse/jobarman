@@ -49,16 +49,20 @@ export default function SidebarProfile() {
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState("Change Password");
+
   const handleSubMenuClick = (href, label) => {
     setActiveMenu(label);
     router.push(href);
   };
-  const handleMenuClick = (label) => {
-    if (label === "Settings") {
+
+  // UPDATED — main menu now navigates!
+  const handleMenuClick = (item) => {
+    if (item.label === "Settings") {
       setIsSettingsOpen(!isSettingsOpen);
     } else {
-      setActiveMenu(label);
-      setIsSettingsOpen(false); // Close settings submenu if another item is clicked
+      setActiveMenu(item.label);
+      setIsSettingsOpen(false);
+      router.push(item.href); // MAIN NAVIGATION FIXED
     }
   };
 
@@ -103,12 +107,14 @@ export default function SidebarProfile() {
                 }`}
               />
               <span className="text-sm font-medium">{item.label}</span>
+
               {item.label === "Settings" && (
                 <span className="ml-auto text-gray-400">
                   {isSettingsOpen ? "⌄" : "›"}
                 </span>
               )}
             </button>
+
             {item.label === "Settings" && isSettingsOpen && (
               <div className="ml-6 mt-2 space-y-2">
                 {item.subItems.map((subItem, subIndex) => (
