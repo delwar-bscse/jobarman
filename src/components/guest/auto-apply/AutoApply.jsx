@@ -16,6 +16,7 @@ import { useState } from "react";
 
 export default function AutoApply({ data }) {
   const [formValues, setFormValues] = useState(null);
+  console.log(formValuess);
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB] px-4">
@@ -38,7 +39,7 @@ export default function AutoApply({ data }) {
 
           <div className="mt-4">
             <Label className="block text-sm font-medium text-gray-600 mb-2">
-              Slect Resume
+              Select Resume
             </Label>
 
             <Input

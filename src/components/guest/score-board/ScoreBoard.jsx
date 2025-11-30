@@ -15,6 +15,7 @@ export default async function ScoreBoard() {
   });
 
   const resume = res?.data;
+  console.log("resume", resume);
   return (
     <div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 lg:space-x-10 p-5 lg:p-0 ">
@@ -35,7 +36,7 @@ export default async function ScoreBoard() {
           })}
         </div>
         <div className="lg:col-span-2 bg-white  overflow-y-auto p-3">
-          {Array.isArray(data) && data.length > 0 ? (
+          {Array.isArray(data) && resume?.length > 0 ? (
             <ResumeDetails resume={resume[0]} />
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500">
