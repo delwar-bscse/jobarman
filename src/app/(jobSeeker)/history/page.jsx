@@ -45,9 +45,9 @@ export default function HistoryPage() {
   return (
     <div className="px-4 sm:px-6 py-6">
       <div className="flex flex-wrap justify-center gap-4 mb-6">
-        {names?.map((item) => (
+        {names?.map((item, i) => (
           <Button
-            key={item._id}
+            key={i}
             onClick={() => handleParams(item.name)}
             className={
               active === item.name

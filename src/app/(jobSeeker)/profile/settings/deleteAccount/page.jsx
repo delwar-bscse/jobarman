@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import SidebarProfile from "../SidebarProfile";
+import SidebarProfile from "@/components/jobSeeker/profile/Sidebar";
 import { toast } from "sonner";
 import { myFetch } from "../../../../../../utils/myFetch";
 
