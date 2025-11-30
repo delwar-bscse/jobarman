@@ -41,7 +41,7 @@ export const experienceLevel = (values = "") => {
 
 
 const JobsPage = async ({ searchParams }) => {
-  const searchParamsValue = (await searchParams);
+  const searchParamsValue = await searchParams;
   const searchTerm = searchParamsValue.searchTerm || "";
   const location = searchParamsValue.location || "";
   const category = searchParamsValue.category || "";
@@ -51,6 +51,7 @@ const JobsPage = async ({ searchParams }) => {
   // const experience_level2 = searchParamsValue.experience_level || "";
   const job_type = formatEnum(searchParamsValue.job_type) || "";
   const job_level = formatEnum(searchParamsValue.job_level) || "";
+  const page = Number(searchParamsValue.page) || 1;
 
   console.log("searchParams : ", searchTerm);
   console.log("location : ", location);
@@ -61,6 +62,7 @@ const JobsPage = async ({ searchParams }) => {
   // console.log("experience_level2 : ", experience_level2);
   console.log("job_level : ", job_level);
   console.log("job_type : ", job_type);
+  console.log("page : ", page);
 
 
 
@@ -68,7 +70,7 @@ const JobsPage = async ({ searchParams }) => {
   const jobs = await myFetch(`/job-post/feed?searchTerm=${searchTerm}&location=${location}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&experience_level=${experience_level}&job_level=${job_level}&job_type=${job_type}`, {
     method: "GET",
   });
-  console.log("jobs", jobs.data);
+  // console.log("jobs", jobs.data);
 
   return (
     <div className="min-h-screen bg-white">
@@ -89,7 +91,7 @@ const JobsPage = async ({ searchParams }) => {
           <FilterSide />
 
           {/* Job Cards Grid */}
-          <JobCard data={jobs?.data} />
+          <JobCard data={jobs?.data} pagination={jobs?.pagination} />
         </div>
       </div>
     </div>

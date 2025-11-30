@@ -3,16 +3,17 @@ import { GoStarFill } from "react-icons/go";
 import dayjs from "dayjs";
 import { myFetch } from "../../../utils/myFetch";
 
-export default async function Notifications() {
-  const res = await myFetch("/notification");
+export default async function Notifications({ searchParams }) {
+  const date = (await searchParams)?.date
+  const res = await myFetch(`/notification?date=${date}`);
 
   const Pill = ({ label, color }) => {
     const styles =
       color === "green"
         ? "bg-green-50 text-green-700 border border-green-200"
         : color === "blue"
-        ? "bg-blue-50 text-blue-700 border border-blue-200"
-        : "bg-gray-50 text-gray-700 border border-gray-200";
+          ? "bg-blue-50 text-blue-700 border border-blue-200"
+          : "bg-gray-50 text-gray-700 border border-gray-200";
     return (
       <span className={`text-xs px-2 py-1 rounded ${styles}`}>{label}</span>
     );

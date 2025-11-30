@@ -56,10 +56,10 @@ export default function NotificationsPage() {
   return (
     <main className="w-full bg-white">
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* notificaitons details */}
+        {/* Notificaitons Top */}
         <NotificationDetails />
 
-        {/* notifications content */}
+        {/* Notifications content */}
         <Notifications />
       </section>
     </main>
