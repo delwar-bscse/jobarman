@@ -24,7 +24,7 @@ export default function ResumeDetails({ resume }) {
     social_media_link,
     nationality,
     clearance,
-  } = resume.personalInfo;
+  } = resume.personalInfo || {};
 
   return (
     <div className="h-full overflow-y-auto bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 lg:p-6 space-y-5 sm:space-y-6">
@@ -107,7 +107,7 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressio
               </div>
             </div>
 
-            {resume.skills.hadr && (
+            {/* {resume.skills.hadr && (
               <div>
                 <h4 className="font-semibold text-gray-800">HA/DR:</h4>
                 <p className="text-gray-700">{resume.skills.hadr}</p>
@@ -126,9 +126,9 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressio
                 </h4>
                 <p className="text-gray-700">{resume.skills.security}</p>
               </div>
-            )}
+            )} */}
           </div>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             {resume.skills.automation && (
               <div>
                 <h4 className="font-semibold text-gray-800">
@@ -145,7 +145,7 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressio
                 <p className="text-gray-700">{resume.skills.major}</p>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
 
