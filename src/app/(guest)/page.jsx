@@ -109,7 +109,7 @@ export default function Home() {
       <Review />
 
       {/* Resume Score Generator Section */}
-      <ResumeGenerator></ResumeGenerator>
+      <ResumeGenerator />
 
       {/* Are You Employer Section */}
       <section className="bg-[#EFF5FF]">

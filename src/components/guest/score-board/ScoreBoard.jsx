@@ -17,16 +17,16 @@ export default async function ScoreBoard() {
   const resume = res?.data;
   return (
     <div>
-      <div className="max-w-7xl mx-auto grid grid-cols-3">
-        <div className="lg:col-span-1">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 lg:space-x-10 p-5 lg:p-0 ">
+        <div className="lg:col-span-1 p-4">
           <ResumeScorecard />
           <h1 className="text-2xl font-semibold">Score Backdown</h1>
           {Array.from({ length: 5 }).map((_, i) => {
             let item = data[0];
             return (
-              <div key={i} className="mb-4 p-4  rounded-lg bg-white ">
+              <div key={i} className="my-6  rounded-lg bg-white ">
                 <div className="flex items-center justify-between">
-                  <h1 className="text-2xl font-semibold">{item.title}</h1>
+                  <h1 className="text-xl font-semibold">{item.title}</h1>
                   <h2 className="font-semibold text-xl">{item.count}</h2>
                 </div>
                 <p>{item.des}</p>
@@ -34,7 +34,7 @@ export default async function ScoreBoard() {
             );
           })}
         </div>
-        <div className="lg:col-span-2 bg-white   overflow-y-auto p-3">
+        <div className="lg:col-span-2 bg-white  overflow-y-auto p-3">
           {Array.isArray(data) && data.length > 0 ? (
             <ResumeDetails resume={resume[0]} />
           ) : (

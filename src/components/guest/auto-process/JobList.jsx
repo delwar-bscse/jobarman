@@ -19,10 +19,10 @@ export default function JobList() {
       {jobsArray.map((job, index) => (
         <div
           key={index}
-          className="w-full bg-white rounded-xl shadow-sm p-4 flex items-center gap-4"
+          className="w-full bg-white rounded-xl shadow-sm p-4 my-8 flex items-center justify-between gap-4"
         >
           {/* Job Image */}
-          <div>
+          <div className="sm:flex sm:space-x-4">
             <Image
               src="/auto-process.png"
               alt="Job"
@@ -30,18 +30,17 @@ export default function JobList() {
               height={70}
               className="rounded-md"
             />
-          </div>
 
-          {/* Text Section */}
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold">{job.title}</h2>
-            <p className="text-sm text-gray-600">{job.company}</p>
-            <p className="text-sm text-gray-600">{job.location}</p>
+            <div className="">
+              <h2 className="text-lg font-semibold">{job.title}</h2>
+              <p className="text-sm text-gray-600">{job.company}</p>
+              <p className="text-sm text-gray-600">{job.location}</p>
+            </div>
           </div>
 
           {/* Right Section */}
           <div className="flex flex-col items-end gap-2">
-            <span className="text-lg font-bold">{job.progress}</span>
+            <p className="text-lg font-bold">{job.progress}</p>
             <Link href="/scroe-board">
               <button className="bg-[#123499] text-white text-sm px-5 py-2 rounded-full">
                 {job.status}
