@@ -54,7 +54,6 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
 
   return (
     <div className="bg-white rounded-lg">
-      <h3 className="text-lg font-bold text-gray-900 mb-4">Work Experience</h3>
 
       <div className="grid grid-cols-3 gap-4 mb-4">
         <div>
@@ -133,13 +132,13 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
       <div className="flex items-center gap-2 mb-4">
         <input
           type="checkbox"
-          id="currentlyWorking"
+          id={workExperience._id + "_currentlyWorking"}
           name="isCurrentJob"
           checked={workExperience?.isCurrentJob}
           onChange={handleWorkExperienceChange}
           className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
         />
-        <label htmlFor="currentlyWorking" className="text-sm text-gray-700 cursor-pointer">
+        <label htmlFor={workExperience._id + "_currentlyWorking"} className="text-sm text-gray-700 cursor-pointer">
           Currently Work This Company
         </label>
       </div>

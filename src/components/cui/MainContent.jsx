@@ -11,46 +11,26 @@ const MainContent = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageFile, setProfileImageFile] = useState(null);
   const [personalInfo, setPersonalInfo] = useState({
-    name: "BD Calling IT",
-    designation: "Raj Mistri",
-    phone: "+8801883847915",
-    date_of_birth: "2004-03-15T00:00:00.000Z",
+    name: "",
+    designation: "",
+    phone: "",
+    date_of_birth: "",
     // age: 20,
-    gender: "Female",
-    address: "Dhaka,Bangladesh",
-    linkedin: "edrer",
-    bio: "This is huge company",
+    gender: "",
+    address: "",
+    linkedin: "",
+    bio: "",
   }
   );
-  const [educationList, setEducationList] = useState([
-    {
-      degree: "Bachelor of Science in Computer Science",
-      institute: "University of California, Berkeley",
-      session: "2018 - 2020",
-      passingYear: 2022,
-      grade: "A",
-      _id: "6929aabe566a3286d235f90d"
-    }
-  ]);
-  const [workExperienceList, setWorkExperienceList] = useState([
-    {
-      title: "Backend Developer",
-      company: "TechNova Solutions",
-      startDate: "2023-01-10T00:00:00.000Z",
-      endDate: "2024-11-01T00:00:00.000Z",
-      description: "Worked on building scalable microservices using Node.js, Express, and MongoDB. Implemented real-time features using Redis and WebSockets.",
-      location: "Dhaka, Bangladesh",
-      isCurrentJob: false,
-      _id: "692ac1fbedb37f5ac29d497e"
-    }
-  ]);
+  const [educationList, setEducationList] = useState([]);
+  const [workExperienceList, setWorkExperienceList] = useState([]);
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState([]);
 
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const res = await myFetch('/user/profile', 'GET');
+      const res = await myFetch('/user/profile');
       console.log("profile data: ", res.data);
 
       if (res.data) {
@@ -65,16 +45,17 @@ const MainContent = () => {
           linkedin: res.data.linkedin || "",
           bio: res.data.bio || "",
         });
-        const eduList = res.data.education?.map((edu) => ({
+        const eduList = res.data.educations?.map((edu) => ({
           degree: edu.degree || "",
           institute: edu.institute || "",
           session: edu.session || "",
           passingYear: edu.passingYear || 0,
           grade: edu.grade || "",
           _id: edu._id || "",
-        }));
+        })) || [];
+        // console.log("Education List : ", eduList)
         setEducationList(eduList);
-        const workList = res.data.workExperience?.map((work) => ({
+        const workList = res.data.workExperiences?.map((work) => ({
           title: work.title || "",
           company: work.company || "",
           startDate: work.startDate || "",
@@ -83,8 +64,10 @@ const MainContent = () => {
           location: work.location || "",
           isCurrentJob: work.isCurrentJob || false,
           _id: work._id || "",
-        }));
+        })) || [];
+        // console.log("Work Experience List : ", workList)
         setWorkExperienceList(workList);
+        // console.log("Skill Array : ", res.data.skills)
         setSkills((prev) => [...prev, ...res.data.skills]);
       }
     }
@@ -129,10 +112,49 @@ const MainContent = () => {
     }]);
   }
 
-  const handleSubmit = () => {
-    console.log("Personal Info: ",)
+  const handleSubmit = async () => {
+    console.log("Personal Info: ", personalInfo);
     console.log("Education List:", educationList);
     console.log("Work Experience List:", workExperienceList);
+    const sendEducationList = educationList.map((edu) => ({
+      degree: edu.degree,
+      institute: edu.institute,
+      session: edu.session,
+      passingYear: edu.passingYear,
+      grade: edu.grade,
+    }));
+    const sendWorkExperienceList = workExperienceList.map((work) => ({
+      title: work.title,
+      company: work.company,
+      startDate: work.startDate,
+      endDate: work.endDate,
+      description: work.description,
+      location: work.location,
+      isCurrentJob: work.isCurrentJob,
+    }));
+    console.log("Send Education List: ", sendEducationList);
+    console.log("Send Work Experience List: ", sendWorkExperienceList);
+
+    const formData = new FormData();
+    formData.append('name', personalInfo.name);
+    formData.append('designation', personalInfo.designation);
+    formData.append('phone', personalInfo.phone);
+    formData.append('date_of_birth', personalInfo.date_of_birth);
+    formData.append('gender', personalInfo.gender);
+    formData.append('address', personalInfo.address);
+    formData.append('linkedin', personalInfo.linkedin);
+    formData.append('bio', personalInfo.bio);
+    formData.append('educations', JSON.stringify(sendEducationList));
+    formData.append('workExperiences', JSON.stringify(sendWorkExperienceList));
+    skills.length > 0 && skills.forEach((skill) => {
+      formData.append(`skills`, skill);
+    });
+
+    const res = await myFetch('/user/profile', {
+      method: 'PATCH',
+      body: formData
+    });
+    console.log("Profile Update Response: ", res);
   }
 
   const handleProfileImage = (e) => {
@@ -182,7 +204,7 @@ const MainContent = () => {
             <h3 className="text-lg font-bold text-gray-900 mb-4">Educational Qualification</h3>
 
             <div className='space-y-4'>
-              {educationList.map((singleEducation) => (
+              {educationList?.length > 0 && educationList?.map((singleEducation) => (
                 <Education key={singleEducation._id} setEducationList={setEducationList} educationList={educationList} singleEducation={singleEducation} />
               ))}
             </div>
@@ -196,7 +218,9 @@ const MainContent = () => {
 
           {/* Work Experience Section */}
           <div className='space-y-4'>
-            {workExperienceList.map((singleWorkExperience) => (
+            <h3 className="text-lg font-bold text-gray-900 mb-4">Work Experience</h3>
+            
+            {workExperienceList?.length > 0 && workExperienceList?.map((singleWorkExperience) => (
               <WorkExperience key={singleWorkExperience._id} setWorkExperienceList={setWorkExperienceList} workExperienceList={workExperienceList} singleWorkExperience={singleWorkExperience} />
             ))}
 
@@ -225,7 +249,7 @@ const MainContent = () => {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {skills?.map((sk, index) => (
+              {skills?.length > 0 && skills?.map((sk, index) => (
                 <div
                   key={index}
                   className="flex items-center gap-2 px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
