@@ -64,21 +64,21 @@ export default function AddNewResumeForm2({ name }) {
   const onSubmit = async (data) => {
     console.log("FORM DATA:", data);
 
-    try {
-      const res = await myFetch("/resume", {
-        method: "POST",
-        body: data,
-      });
+    // try {
+    //   const res = await myFetch("/resume", {
+    //     method: "POST",
+    //     body: data,
+    //   });
 
-      console.log("res", res);
-      if (res.success) {
-        toast.success("Resume create successfully");
-      } else {
-        toast.error(res.message || "Resume create failed");
-      }
-    } catch (err) {
-      toast.error(err.message);
-    }
+    //   console.log("res", res);
+    //   if (res.success) {
+    //     toast.success("Resume create successfully");
+    //   } else {
+    //     toast.error(res.message || "Resume create failed");
+    //   }
+    // } catch (err) {
+    //   toast.error(err.message);
+    // }
   };
 
   return (
