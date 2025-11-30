@@ -53,6 +53,14 @@ export default function SidebarProfile() {
     setActiveMenu(label);
     router.push(href);
   };
+  const handleMenuClick = (label) => {
+    if (label === "Settings") {
+      setIsSettingsOpen(!isSettingsOpen);
+    } else {
+      setActiveMenu(label);
+      setIsSettingsOpen(false); // Close settings submenu if another item is clicked
+    }
+  };
 
   return (
     <div className="w-72 bg-white rounded-xl p-6 flex flex-col">
