@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import React, { useEffect, useState } from 'react'
 import WorkExperience from './WorkExperience';
 import { X } from "lucide-react";
@@ -6,6 +7,8 @@ import PersonalInfo from './PersonalInfo';
 import { FcCamera } from "react-icons/fc";
 import Image from 'next/image';
 import { myFetch } from '../../../utils/myFetch';
+import { formatUrl } from '../../../utils/formatUrl';
+import { toast } from 'sonner';
 
 const MainContent = () => {
   const [profileImage, setProfileImage] = useState(null);
@@ -28,50 +31,52 @@ const MainContent = () => {
   const [skills, setSkills] = useState([]);
 
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const res = await myFetch('/user/profile');
-      console.log("profile data: ", res.data);
 
-      if (res.data) {
-        setProfileImage(formatUrl(res.data.image));
-        setPersonalInfo({
-          name: res.data.name || "",
-          designation: res.data.designation || "",
-          phone: res.data.phone || "",
-          date_of_birth: res.data.date_of_birth || "",
-          age: res.data.age || 0,
-          gender: res.data.gender || "",
-          address: res.data.address || "",
-          linkedin: res.data.linkedin || "",
-          bio: res.data.bio || "",
-        });
-        const eduList = res.data.educations?.map((edu) => ({
-          degree: edu.degree || "",
-          institute: edu.institute || "",
-          session: edu.session || "",
-          passingYear: edu.passingYear || 0,
-          grade: edu.grade || "",
-          _id: edu._id || "",
-        })) || [];
-        // console.log("Education List : ", eduList)
-        setEducationList(eduList);
-        const workList = res.data.workExperiences?.map((work) => ({
-          title: work.title || "",
-          company: work.company || "",
-          startDate: work.startDate || "",
-          endDate: work.endDate || "",
-          description: work.description || "",
-          location: work.location || "",
-          isCurrentJob: work.isCurrentJob || false,
-          _id: work._id || "",
-        })) || [];
-        // console.log("Work Experience List : ", workList)
-        setWorkExperienceList(workList);
-        // console.log("Skill Array : ", res.data.skills)
-        setSkills((prev) => [...prev, ...res.data.skills]);
-      }
+  const fetchProfile = async () => {
+    const res = await myFetch('/user/profile');
+    // console.log("profile data: ", res.data);
+    // console.log("Profile Image : ", formatUrl(res.data.image))
+
+    if (res.data) {
+      setProfileImage(formatUrl(res.data.image));
+      setPersonalInfo({
+        name: res.data.name || "",
+        designation: res.data.designation || "",
+        phone: res.data.phone || "",
+        date_of_birth: res.data.date_of_birth || "",
+        age: res.data.age || 0,
+        gender: res.data.gender || "",
+        address: res.data.address || "",
+        linkedin: res.data.linkedin || "",
+        bio: res.data.bio || "",
+      });
+      const eduList = res.data.educations?.map((edu) => ({
+        degree: edu.degree || "",
+        institute: edu.institute || "",
+        session: edu.session || "",
+        passingYear: edu.passingYear || 0,
+        grade: edu.grade || "",
+        _id: edu._id || "",
+      })) || [];
+      // console.log("Education List : ", eduList)
+      setEducationList(eduList);
+      const workList = res.data.workExperiences?.map((work) => ({
+        title: work.title || "",
+        company: work.company || "",
+        startDate: work.startDate || "",
+        endDate: work.endDate || "",
+        description: work.description || "",
+        location: work.location || "",
+        isCurrentJob: work.isCurrentJob || false,
+        _id: work._id || "",
+      })) || [];
+      // console.log("Work Experience List : ", workList)
+      setWorkExperienceList(workList);
+      // console.log("Skill Array : ", res.data.skills)
+      setSkills((prev) => [...prev, ...res.data.skills]);
     }
+  };
+  useEffect(() => {
     fetchProfile();
   }, []);
 
@@ -123,6 +128,7 @@ const MainContent = () => {
       session: edu.session,
       passingYear: edu.passingYear,
       grade: edu.grade,
+      isCurrentJob: edu.isCurrentJob,
     }));
     const sendWorkExperienceList = workExperienceList.map((work) => ({
       title: work.title,
@@ -160,6 +166,12 @@ const MainContent = () => {
       body: formData
     });
     console.log("Profile Update Response: ", res);
+    if (res.success) {
+      toast.success(res.message || "Profile updated successfully!");
+      fetchProfile();
+    } else {
+      toast.error(res.message || "Failed to update profile. Please try again.");
+    }
   }
 
   const handleProfileImage = (e) => {
@@ -224,7 +236,7 @@ const MainContent = () => {
           {/* Work Experience Section */}
           <div className='space-y-4'>
             <h3 className="text-lg font-bold text-gray-900 mb-4">Work Experience</h3>
-            
+
             {workExperienceList?.length > 0 && workExperienceList?.map((singleWorkExperience) => (
               <WorkExperience key={singleWorkExperience._id} setWorkExperienceList={setWorkExperienceList} workExperienceList={workExperienceList} singleWorkExperience={singleWorkExperience} />
             ))}
