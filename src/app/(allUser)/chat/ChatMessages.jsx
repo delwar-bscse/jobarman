@@ -7,7 +7,7 @@ const ChatMessages = ({
   setOpenMenuIndex,
 }) => {
   return (
-    <div className="flex-1 p-4 overflow-y-auto bg-gray-50 h-screen">
+    <div className="flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-230px)]">
       {selectedUser ? (
         userMessages.length === 0 ? (
           <div className="text-center text-gray-400 mt-10">
@@ -72,10 +72,10 @@ const ChatMessages = ({
                 {msg.sender === "user" && (
                   <Image
                     src="/chat-user.jpg"
-                    alt="user"
+                    alt="body"
                     width={32}
                     height={32}
-                    className="w-8 h-8 rounded-full mr-2 hidden sm:block"
+                    className="w-8 h-8 object-cover rounded-full mr-3"
                     sizes="100vh"
                   />
                 )}

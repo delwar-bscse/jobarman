@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import Sidebar from "./Sidebar";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
@@ -14,90 +14,69 @@ const ChatInterface = () => {
   const [newMessage, setNewMessage] = useState("");
   const [openMenuIndex, setOpenMenuIndex] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+
   const fileInputRef = useRef(null);
   const messagesEndRef = useRef(null);
+
   const selectedUser = users.find((u) => u.id === selectedUserId);
-  const activeChatId = selectedUser?.id;
   const userMessages = chats[selectedUserId] || [];
 
-  // Fetch users on mount
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        setUsers(initialUsers);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers();
-  }, []);
-
-  // Fetch chats when user selected
-  useEffect(() => {
-    if (selectedUserId) {
-      const fetchChats = async (userId) => {
-        try {
-          setLoading(true);
-          setChats((prev) => ({
-            ...prev,
-            [userId]: initialChats[userId] || [],
-          }));
-        } catch (err) {
-          setError(err.message);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchChats(selectedUserId);
-    }
-  }, [selectedUserId]);
-
+  // -------------------------
+  // User selection handler
+  // -------------------------
   const handleUserSelect = (id) => {
     setSelectedUserId(id);
     setOpenMenuIndex(null);
-    setIsSidebarOpen(false);
   };
 
+  // -------------------------
+  // File Upload
+  // -------------------------
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (file) setSelectedFile(file);
   };
 
-  const handleSendMessage = async (e) => {
+  // -------------------------
+  // Send Message
+  // -------------------------
+  const handleSendMessage = (e) => {
     e.preventDefault();
     if (!newMessage.trim() && !selectedFile) return;
 
-    const updatedChats = {
-      ...chats,
-      [activeChatId]: [
-        ...chats[activeChatId],
-        {
-          sender: "user",
-          text: newMessage,
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        },
-      ],
+    const message = {
+      sender: "user",
+      text: newMessage,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      file: selectedFile || null,
     };
 
-    setChats(updatedChats);
+    setChats((prev) => ({
+      ...prev,
+      [selectedUserId]: [...(prev[selectedUserId] || []), message],
+    }));
+
+    setNewMessage("");
+    setSelectedFile(null);
   };
+
   const handleVideoCall = () => {
-    alert(`Starting video call with ${selectedUser.name}...`);
+    if (selectedUser) alert(`Starting video call with ${selectedUser.name}...`);
   };
 
   return (
-    <div className="flex min-h-screen/2 bg-gray-100 max-w-7xl mx-auto">
+    <div className="flex min-h-screen bg-gray-100 max-w-7xl mx-auto">
+      {/* Sidebar */}
       <Sidebar
         users={users}
         selectedUserId={selectedUserId}
         handleUserSelect={handleUserSelect}
       />
+
+      {/* Chat Area */}
       <div
         className={`flex-1 flex flex-col transition-all duration-300 ${
           selectedUserId ? "block" : "hidden"
@@ -107,6 +86,7 @@ const ChatInterface = () => {
           selectedUser={selectedUser}
           handleVideoCall={handleVideoCall}
         />
+
         <div className="relative flex-1">
           <ChatMessages
             userMessages={userMessages}
@@ -116,6 +96,7 @@ const ChatInterface = () => {
           />
           <div ref={messagesEndRef} />
         </div>
+
         <MessageInput
           newMessage={newMessage}
           setNewMessage={setNewMessage}
