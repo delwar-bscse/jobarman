@@ -2,26 +2,23 @@
 import { useState } from "react";
 import { Menu, Video } from "lucide-react";
 import VideoCall from "./VideoCall";
+import Image from "next/image";
 
-const ChatHeader = ({ selectedUser, setIsSidebarOpen, handleVideoCall }) => {
+const ChatHeader = ({ selectedUser, handleVideoCall }) => {
   const [isVideoCallOpen, setIsVideoCallOpen] = useState(false);
 
   return (
     <>
       <div className="bg-white p-4 border-b flex items-center justify-between shadow-sm">
-        <button
-          className="md:hidden text-gray-600"
-          onClick={() => setIsSidebarOpen(true)}
-        >
-          <Menu size={24} />
-        </button>
-
         {selectedUser ? (
           <div className="flex items-center flex-1">
-            <img
-              src={selectedUser.avatar}
-              alt={selectedUser.name}
-              className="w-10 h-10 rounded-full mr-3"
+            <Image
+              src="/chat-user.jpg"
+              alt="header"
+              width={32}
+              height={32}
+              className="w-8 h-8 object-cover rounded-full mr-3"
+              sizes="100vh"
             />
             <div className="flex-1">
               <div className="font-semibold text-gray-800 truncate">

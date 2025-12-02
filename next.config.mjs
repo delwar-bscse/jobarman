@@ -15,6 +15,12 @@ const nextConfig = {
         port: "",
         pathname: "**", // Allow all paths under this domain
       },
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com",
+        port: "",
+        pathname: "**", // Allow all paths under this domain
+      },
     ],
   },
 
