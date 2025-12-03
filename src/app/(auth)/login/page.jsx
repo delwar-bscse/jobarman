@@ -22,7 +22,7 @@ export default function LoginPage() {
       method: "POST",
       body: { email, password },
     });
-    console.log("Login Response : ", res?.data);
+    console.log("Login Response : ", res);
 
     if (res?.data) {
       setCookie("accessToken", res?.data?.createToken);
