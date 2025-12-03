@@ -6,19 +6,38 @@ export default function CustomImage({
   width = 100,
   height = 100,
   className = "",
+  fallback = "/fallback.png", // optional fallback image
 }) {
-  const image = src?.startsWith("http")
+  // Return fallback if no SRC
+  if (!src) {
+    return (
+      <Image
+        src={fallback}
+        alt={title || "image"}
+        width={width}
+        height={height}
+        className={`object-cover ${className}`}
+        loading="lazy"
+        sizes="100vh"
+      />
+    );
+  }
+
+  // Build image URL safely
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_URL || "";
+  const image = src.startsWith("https")
     ? src
-    : `${process.env.NEXT_PUBLIC_IMAGE_URL || ""}${src}`;
+    : new URL(src, baseUrl).toString();
 
   return (
     <Image
       src={image}
-      alt={title}
+      alt={title || "image"}
       width={width}
       height={height}
-      sizes="100vw"
       className={`object-cover ${className}`}
+      loading="lazy"
+      sizes="100vh"
     />
   );
 }
