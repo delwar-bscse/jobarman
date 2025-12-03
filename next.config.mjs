@@ -11,6 +11,12 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "shariful5001.binarybards.onlinehttps",
+        port: "",
+        pathname: "**", // Allow all paths under this domain
+      },
+      {
+        protocol: "https",
         hostname: "i.ibb.co",
         port: "",
         pathname: "**", // Allow all paths under this domain

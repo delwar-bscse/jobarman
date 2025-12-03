@@ -9,7 +9,7 @@ const MessageInput = ({
   loading = false,
   selectedUser,
 }) => {
-  if (!selectedUser) return null;
+  // if (!selectedUser) return null;
 
   return (
     <form

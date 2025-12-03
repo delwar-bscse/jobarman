@@ -1,28 +1,25 @@
-/* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
-import { Menu, Video } from "lucide-react";
-import VideoCall from "./VideoCall";
-import Image from "next/image";
+import { Video } from "lucide-react";
+// import VideoCall from "./VideoCall";
+import CustomImage from "shared/CustomImage";
 
 const ChatHeader = ({ selectedUser, handleVideoCall }) => {
-  const [isVideoCallOpen, setIsVideoCallOpen] = useState(false);
+  // const [isVideoCallOpen, setIsVideoCallOpen] = useState(false);
 
   return (
     <>
       <div className="bg-white p-4 border-b flex items-center justify-between shadow-sm">
         {selectedUser ? (
           <div className="flex items-center flex-1">
-            <Image
-              src="/chat-user.jpg"
-              alt="header"
+            <CustomImage
+              src={selectedUser?.participants?.image}
+              title={selectedUser.participants.name}
               width={32}
               height={32}
               className="w-8 h-8 object-cover rounded-full mr-3"
-              sizes="100vh"
             />
             <div className="flex-1">
               <div className="font-semibold text-gray-800 truncate">
-                {selectedUser.name}
+                {selectedUser?.participants?.name}
               </div>
               <div className="text-sm text-green-500">
                 {selectedUser.status || "Offline"}
@@ -43,12 +40,12 @@ const ChatHeader = ({ selectedUser, handleVideoCall }) => {
         )}
       </div>
 
-      {isVideoCallOpen && selectedUser && (
+      {/* {isVideoCallOpen && selectedUser && (
         <VideoCall
           selectedUser={selectedUser}
           onClose={() => setIsVideoCallOpen(false)}
         />
-      )}
+      )} */}
     </>
   );
 };
