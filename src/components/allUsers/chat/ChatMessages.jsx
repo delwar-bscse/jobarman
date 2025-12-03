@@ -1,25 +1,47 @@
+"use client";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { myFetch } from "utils/myFetch";
 
-const ChatMessages = ({
-  userMessages,
-  selectedUser,
-  openMenuIndex,
-  setOpenMenuIndex,
-}) => {
+const ChatMessages = () => {
+  const [messages, setMessages] = useState(null);
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const [myId, setMyId] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await myFetch("/user/profile");
+      console.log("profile data", res);
+      setMyId(res?.data?._id);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const message = await myFetch(`/message/${id}`);
+      setMessages(message?.data?.messages);
+    };
+    fetchData();
+  }, [id]);
+
   return (
     <div className="flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-230px)]">
-      {selectedUser ? (
-        userMessages.length === 0 ? (
+      {messages ? (
+        messages.length === 0 ? (
           <div className="text-center text-gray-400 mt-10">
             No messages yet. Start a conversation!
           </div>
         ) : (
           <>
-            {userMessages.map((msg, i) => (
+            {messages?.map((msg, i) => (
               <div
                 key={i}
                 className={`mb-4 flex items-end ${
-                  msg.sender === "user" ? "justify-end" : "justify-start"
+                  msg.sender === myId ? "justify-end" : "justify-start"
                 } max-w-full`}
               >
                 {msg.sender === "bot" && (
@@ -46,28 +68,6 @@ const ChatMessages = ({
                       {msg.time}
                     </span>
                   </div>
-
-                  {openMenuIndex === i && (
-                    <div
-                      className={`absolute top-5 z-10 bg-white border rounded-lg shadow-md text-sm text-gray-600 w-28 ${
-                        msg.sender === "user"
-                          ? "right-0 sm:-left-32"
-                          : "left-0 sm:-right-32"
-                      }`}
-                    >
-                      <ul className="p-2 space-y-1">
-                        <li className="hover:bg-gray-100 px-3 py-1 rounded cursor-pointer">
-                          Edit
-                        </li>
-                        <li className="hover:bg-gray-100 px-3 py-1 rounded cursor-pointer">
-                          Delete
-                        </li>
-                        <li className="hover:bg-gray-100 px-3 py-1 rounded cursor-pointer">
-                          Copy
-                        </li>
-                      </ul>
-                    </div>
-                  )}
                 </div>
                 {msg.sender === "user" && (
                   <Image
