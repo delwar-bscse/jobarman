@@ -1,22 +1,23 @@
 import { Plus } from "lucide-react";
 import React from "react";
 
-export default function Projects({ register, projArray }) {
+export default function Skills({ register, skillArray }) {
   return (
     <section className="mb-6 sm:mb-8">
       <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
-        Selected Project
+        Core Skills
       </h2>
+
       <div
         className="mb-5 p-3 sm:p-4 border border-gray-300 rounded-lg bg-white shadow-sm"
       >
-        {projArray.fields.map((proj, i) => (
-          <div key={proj.id} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3">
+        {skillArray.fields.map((proj, i) => (
+          <div key={i} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-3">
             <div className="flex flex-col gap-1">
-              <label className="text-sm text-gray-600">Project Title</label>
+              <label className="text-sm text-gray-600">Title</label>
               <input
-                {...register(`projects.${i}.title`)}
-                placeholder="Enter your title"
+                {...register(`core_features.${i}.title`)}
+                placeholder="Enter title"
                 className="flex items-center gap-2 border px-3 py-2 rounded-lg outline-none"
               />
             </div>
@@ -24,9 +25,9 @@ export default function Projects({ register, projArray }) {
               <label className="text-sm text-gray-600">Description</label>
               <textarea
                 rows={1}
-                {...register(`projects.${i}.description`)}
+                {...register(`core_features.${i}.description`)}
                 className="border px-3 py-2 rounded-lg outline-none"
-                placeholder="Enter your description"
+                placeholder="Enter description"
               />
             </div>
 
@@ -42,15 +43,15 @@ export default function Projects({ register, projArray }) {
         ))}
         <button
           type="button"
-          className="text-blue-600 w-full flex items-center justify-center mt-4 gap-1"
+          className="text-blue-600 w-full flex items-center justify-center gap-1 mt-5"
           onClick={() => {
-            projArray.append({
+            skillArray.append({
               title: "",
               description: "",
             });
           }}
         >
-          <Plus className="w-4 h-4" /> Add Other Project
+          <Plus className="w-4 h-4" /> Add Other Skills
         </button>
       </div>
     </section>

@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Link, Briefcase, User } from "lucide-react";
+import { MapPin, Phone, Mail, Link, Briefcase, User, ChevronsLeftRightEllipsis, Handshake, Sparkles } from "lucide-react";
 
 export default function PersonalInfo({ register }) {
   return (
@@ -58,7 +58,7 @@ export default function PersonalInfo({ register }) {
 
         {/* Social Media */}
         <div>
-          <label className="text-sm font-medium">Social Media</label>
+          <label className="text-sm font-medium">Social Media Link</label>
           <div className="flex items-center gap-2 border px-3 py-2 rounded-lg">
             <Link size={18} className="text-gray-400" />
             <input
@@ -70,17 +70,56 @@ export default function PersonalInfo({ register }) {
         </div>
 
         {/* Portfolio */}
-        {/* <div>
-          <label className="text-sm font-medium">Portfolio</label>
+        <div>
+          <label className="text-sm font-medium">Portfolio Link</label>
           <div className="flex items-center gap-2 border px-3 py-2 rounded-lg">
-            <Briefcase size={18} className="text-gray-400" />
+            <ChevronsLeftRightEllipsis size={18} className="text-gray-400" />
             <input
               {...register("personalInfo.portfolio")}
               placeholder="github.com/username"
               className="flex-1 outline-none text-sm"
             />
           </div>
-        </div> */}
+        </div>
+
+        {/* Portfolio */}
+        <div>
+          <label className="text-sm font-medium">Work Authorization</label>
+          <div className="flex items-center gap-2 border px-3 py-2 rounded-lg">
+            <Handshake size={18} className="text-gray-400" />
+            <input
+              {...register("personalInfo.work_authorization")}
+              placeholder="US Citizen"
+              className="flex-1 outline-none text-sm"
+            />
+          </div>
+        </div>
+
+        {/* Portfolio */}
+        <div>
+          <label className="text-sm font-medium">Clearance</label>
+          <div className="flex items-center gap-2 border px-3 py-2 rounded-lg">
+            <Sparkles size={18} className="text-gray-400" />
+            <input
+              {...register("personalInfo.clearance")}
+              placeholder="DoD Secret"
+              className="flex-1 outline-none text-sm"
+            />
+          </div>
+        </div>
+
+        {/* Portfolio */}
+        <div>
+          <label className="text-sm font-medium">Open to Work</label>
+          <div className="flex items-center gap-2 border px-3 py-2 rounded-lg">
+            <Briefcase size={18} className="text-gray-400" />
+            <input
+              {...register("personalInfo.open_to_work")}
+              placeholder="Remote"
+              className="flex-1 outline-none text-sm"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
