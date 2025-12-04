@@ -13,7 +13,7 @@ export default function DeleteAccountPage() {
   const [showInput, setShowInput] = useState(false);
   const [confirmText, setConfirmText] = useState("");
 
-  console.log();
+  console.log("l");
 
   // Step 1 → User clicks "Yes"
   const handleYesClick = () => {
