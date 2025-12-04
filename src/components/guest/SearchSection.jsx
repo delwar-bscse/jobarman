@@ -1,10 +1,10 @@
 "use client";
 import { Search, SlidersHorizontal } from "lucide-react";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import FilterModal from "./FilterModal";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function SearchSection() {
+function SearchSectionSuspense() {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
   const { replace } = useRouter();
@@ -59,4 +59,13 @@ export default function SearchSection() {
       </div>
     </section>
   );
+}
+
+
+export default function SearchSection() {
+  return (
+    <Suspense fallback={<div>Loading...</div>} >
+      <SearchSectionSuspense />
+    </Suspense>
+  )
 }

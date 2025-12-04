@@ -4,7 +4,7 @@ import Interviews from "@/components/jobSeeker/Interviews";
 import RejectedJobs from "@/components/jobSeeker/RejectedJobs";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { myFetch } from "../../../../utils/myFetch";
 
 const names = [
@@ -13,7 +13,7 @@ const names = [
   { name: "INTERVIEW", label: "Interview" },
 ];
 
-export default function HistoryPage() {
+function HistoryPageSuspense() {
   const [active, setActive] = useState("PENDING");
   const [interviews, setInterviews] = useState("complete");
   const [data, setData] = useState([]);
@@ -91,4 +91,13 @@ export default function HistoryPage() {
       {active === "INTERVIEW" && <Interviews data={data} />}
     </div>
   );
+}
+
+
+export default function HistoryPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>} >
+      <HistoryPageSuspense />
+    </Suspense>
+  )
 }

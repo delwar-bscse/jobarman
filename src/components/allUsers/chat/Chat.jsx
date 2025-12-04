@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, Suspense } from "react";
 import Sidebar from "./Sidebar";
 import ChatHeader from "./ChatHeader";
 import ChatMessages from "./ChatMessages";
@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { myFetch } from "utils/myFetch";
 import { toast } from "sonner";
 
-const Chat = ({ chatUsers }) => {
+const ChatSuspense = ({ chatUsers }) => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
@@ -66,9 +66,8 @@ const Chat = ({ chatUsers }) => {
 
       {/* Chat Area */}
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 ${
-          selectedUser ? "block" : "hidden"
-        } md:block`}
+        className={`flex-1 flex flex-col transition-all duration-300 ${selectedUser ? "block" : "hidden"
+          } md:block`}
       >
         <ChatHeader
           selectedUser={selectedUser}
@@ -93,4 +92,11 @@ const Chat = ({ chatUsers }) => {
   );
 };
 
-export default Chat;
+
+export default function Chat({ chatUsers }) {
+  return (
+    <Suspense fallback={<div>Loading...</div>} >
+      <ChatSuspense chatUsers={chatUsers} />
+    </Suspense>
+  )
+}

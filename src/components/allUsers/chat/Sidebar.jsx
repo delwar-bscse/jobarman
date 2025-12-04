@@ -1,8 +1,9 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import CustomImage from "shared/CustomImage";
 
-const Sidebar = ({ chatUsers, selectedUserId }) => {
+const SidebarSuspense = ({ chatUsers, selectedUserId }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -69,4 +70,11 @@ const Sidebar = ({ chatUsers, selectedUserId }) => {
   );
 };
 
-export default Sidebar;
+
+export default function Sidebar({ chatUsers, selectedUserId }) {
+  return (
+    <Suspense fallback={<div>Loading...</div>} >
+      <SidebarSuspense chatUsers={chatUsers} selectedUserId={selectedUserId} />
+    </Suspense>
+  )
+}

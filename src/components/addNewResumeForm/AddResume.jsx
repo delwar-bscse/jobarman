@@ -12,13 +12,13 @@ import { myFetch } from "../../../utils/myFetch";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
 import Skills from "./Skills";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 /* -----------------------------------------------------------
    MAIN FORM (React Hook Form Version)
 ----------------------------------------------------------- */
 
-export default function AddNewResumeForm2({ name }) {
+function AddNewResumeForm2Suspense({ name }) {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const { register, handleSubmit, control, reset } = useForm({
@@ -123,7 +123,7 @@ export default function AddNewResumeForm2({ name }) {
 
     }
     fetchResume();
-  },[]);
+  }, []);
 
   // dynamic sections
   const skillArray = useFieldArray({ control, name: "core_features" });
@@ -223,4 +223,13 @@ export default function AddNewResumeForm2({ name }) {
       </div>
     </form>
   );
+}
+
+
+export default function AddNewResumeForm2({ name }) {
+  return (
+    <Suspense fallback={<div>Loading...</div>} >
+      <AddNewResumeForm2Suspense name={name} />
+    </Suspense>
+  )
 }
