@@ -248,10 +248,10 @@ export default function ProfilePage({ data }) {
                         <div className="pl-4 border-l-4 border-[#B0DCC1]">
                           <h4 className="font-semibold">{edu?.degree}</h4>
                           <p className="text-[#008F37] font-semibold text-md mt-2">
-                            University : {edu.institute}
+                            University : {edu?.institute}
                           </p>
                           <div className="mt-3 space-y-1 text-xs text-gray-600">
-                            <p>Session : {edu?.startDate?.slice(0, 10)}</p>
+                            <p>Session : {edu?.startDate.slice(0, 10)}</p>
                             <p>PassingYear : {edu?.passingYear}</p>
                             <p>Grade : {edu?.grade}</p>
                           </div>
