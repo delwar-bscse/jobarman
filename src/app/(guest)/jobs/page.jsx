@@ -10,10 +10,7 @@ export const formatEnum = (value) => {
   const returnValues = newValues?.map((value) => {
     if (typeof value !== "string") return "";
 
-    return value
-      .trim()
-      .toUpperCase()
-      .replace(/\s+/g, "_");
+    return value.trim().toUpperCase().replace(/\s+/g, "_");
   });
 
   console.log("Return Values : ", returnValues);
@@ -21,7 +18,7 @@ export const formatEnum = (value) => {
 };
 
 export const experienceLevel = (values = "") => {
-  const enumArr = ["No experience", "Fresher", "Intermediate", "Expert",]
+  const enumArr = ["No experience", "Fresher", "Intermediate", "Expert"];
   const newValues = values.split(",");
   // console.log("New values : ",newValues)
   const newArry = newValues.map((value) => {
@@ -34,11 +31,9 @@ export const experienceLevel = (values = "") => {
     } else if (value === enumArr[3]) {
       return "5+yrs";
     }
-  })
+  });
   return newArry.join(",");
-}
-
-
+};
 
 const JobsPage = async ({ searchParams }) => {
   const searchParamsValue = await searchParams;
@@ -47,30 +42,25 @@ const JobsPage = async ({ searchParams }) => {
   const category = searchParamsValue.category || "";
   const minPrice = searchParamsValue.minPrice || "1";
   const maxPrice = searchParamsValue.maxPrice || "9999";
-  const experience_level = experienceLevel(searchParamsValue.experience_level) || "";
+  const experience_level =
+    experienceLevel(searchParamsValue.experience_level) || "";
   // const experience_level2 = searchParamsValue.experience_level || "";
   const job_type = formatEnum(searchParamsValue.job_type) || "";
   const job_level = formatEnum(searchParamsValue.job_level) || "";
   const page = Number(searchParamsValue.page) || 1;
 
-  console.log("searchParams : ", searchTerm);
-  console.log("location : ", location);
-  console.log("category : ", category);
-  console.log("minPrice : ", minPrice);
-  console.log("maxPrice : ", maxPrice);
-  console.log("experience_level : ", experience_level);
-  // console.log("experience_level2 : ", experience_level2);
-  console.log("job_level : ", job_level);
-  console.log("job_type : ", job_type);
-  console.log("page : ", page);
+  const jobs = await myFetch(
+    `/job-post/feed?searchTerm=${searchTerm}&location=${location}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&experience_level=${experience_level}&job_level=${job_level}&job_type=${job_type}`,
+    {
+      method: "GET",
+    }
+  );
 
-
-
-
-  const jobs = await myFetch(`/job-post/feed?searchTerm=${searchTerm}&location=${location}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&experience_level=${experience_level}&job_level=${job_level}&job_type=${job_type}`, {
-    method: "GET",
+  // get favorate data
+  const res = await myFetch("/favourite", {
+    tags: ["favoratesList"],
   });
-  // console.log("jobs", jobs.data);
+  const favoratesList = res?.data?.map((favorate) => favorate.post._id);
 
   return (
     <div className="min-h-screen bg-white">
@@ -91,7 +81,11 @@ const JobsPage = async ({ searchParams }) => {
           <FilterSide />
 
           {/* Job Cards Grid */}
-          <JobCard data={jobs?.data} pagination={jobs?.pagination} />
+          <JobCard
+            data={jobs?.data}
+            pagination={jobs?.pagination}
+            favoratesList={favoratesList}
+          />
         </div>
       </div>
     </div>
