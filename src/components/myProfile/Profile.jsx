@@ -240,13 +240,13 @@ export default function ProfilePage({ data }) {
                       <div
                         key={index}
                         className={
-                          index !== data?.educations.length - 1
+                          index !== data?.educations?.length - 1
                             ? "pb-6 border-b border-gray-200"
                             : ""
                         }
                       >
                         <div className="pl-4 border-l-4 border-[#B0DCC1]">
-                          <h4 className="font-semibold">{edu.degree}</h4>
+                          <h4 className="font-semibold">{edu?.degree}</h4>
                           <p className="text-[#008F37] font-semibold text-md mt-2">
                             University : {edu.institute}
                           </p>
