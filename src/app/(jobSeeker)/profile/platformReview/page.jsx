@@ -5,12 +5,13 @@ import { useRouter, usePathname } from "next/navigation"
 import { Heart, FileText, Star, Settings, LogOut, X, Lock, HelpCircle, Trash2, User } from "lucide-react"
 import Image from "next/image"
 import Swal from "sweetalert2"
+import { myFetch } from "../../../../../utils/myFetch"
 
 export default function PlatformReviewPage() {
   const router = useRouter()
   const pathname = usePathname()
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-  const [rating, setRating] = useState(4)
+  const [rating, setRating] = useState()
   const [review, setReview] = useState("")
   const [hoveredStar, setHoveredStar] = useState(0)
 
@@ -57,7 +58,10 @@ export default function PlatformReviewPage() {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    console.log("Rating : ", rating)
+    console.log("Review : ", review)
+
     if (!review.trim()) {
       Swal.fire({
         icon: "warning",
@@ -67,16 +71,37 @@ export default function PlatformReviewPage() {
       })
       return
     }
+    if (rating <= 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Please enter your rating",
+        text: "Rating cannot be empty",
+        confirmButtonColor: "#123499",
+      })
+      return
+    }
 
-    Swal.fire({
-      icon: "success",
-      title: "Review Submitted!",
-      text: "Thank you for your feedback. Your review has been submitted successfully.",
-      confirmButtonColor: "#123499",
-    }).then(() => {
-      setReview("")
-      setRating(4)
-    })
+    const res = await myFetch("/review", { method: "POST", body: { rating, comment: review } });
+    console.log(res?.data);
+
+    if (res?.success) {
+      Swal.fire({
+        icon: "success",
+        title: "Review Submitted!",
+        text: "Thank you for your feedback. Your review has been submitted successfully.",
+        confirmButtonColor: "#123499",
+      }).then(() => {
+        setReview("")
+        setRating(0)
+      })
+    }else{
+      Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: "Unable to submit your review. Please try again later.",
+        confirmButtonColor: "#123499",
+      })
+    }
   }
 
   const activeMenu = getActiveMenu()
@@ -104,9 +129,8 @@ export default function PlatformReviewPage() {
             {menuItems.map((item, index) => (
               <div key={index}>
                 <button
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                    activeMenu === item.label ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white" : ""
-                  }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${activeMenu === item.label ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white" : ""
+                    }`}
                   onClick={() => handleMenuClick(item)}
                 >
                   <item.icon className={`w-5 h-5 ${activeMenu === item.label ? "text-white" : "text-black"}`} />
@@ -120,9 +144,8 @@ export default function PlatformReviewPage() {
                     {item.subItems.map((subItem, subIndex) => (
                       <button
                         key={subIndex}
-                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                          activeMenu === subItem.label ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white" : ""
-                        }`}
+                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${activeMenu === subItem.label ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white" : ""
+                          }`}
                         onClick={() => handleSubMenuClick(subItem)}
                       >
                         <subItem.icon
@@ -142,11 +165,11 @@ export default function PlatformReviewPage() {
         <div className="flex-1 ml-8 flex items-center justify-center">
           <div className="bg-white rounded-2xl p-8 shadow-lg max-w-md w-full border border-gray-200">
             {/* Close Button */}
-            <div className="flex justify-end mb-6">
+            {/* <div className="flex justify-end mb-6">
               <button className="text-gray-400 hover:text-gray-600">
                 <X className="w-6 h-6" />
               </button>
-            </div>
+            </div> */}
 
             {/* Logo */}
             <div className="flex justify-center mb-6">
@@ -165,9 +188,8 @@ export default function PlatformReviewPage() {
                   className="transition-transform hover:scale-110"
                 >
                   <Star
-                    className={`w-10 h-10 ${
-                      star <= (hoveredStar || rating) ? "fill-[#FF8F27] text-[#FF8F27]" : "text-gray-300"
-                    }`}
+                    className={`w-10 h-10 ${star <= (hoveredStar || rating) ? "fill-[#FF8F27] text-[#FF8F27]" : "text-gray-300"
+                      }`}
                   />
                 </button>
               ))}
