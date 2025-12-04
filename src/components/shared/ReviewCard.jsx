@@ -1,11 +1,12 @@
 import { Star } from "lucide-react";
 import Image from "next/image";
+import CustomImage from "../../../shared/CustomImage";
 
 export default function ReviewCard({ name, role, rating = 5, text, image }) {
   return (
     <div className="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow duration-300">
       <div className="flex items-center gap-3 mb-4">
-        <Image
+        <CustomImage
           src={image || "/placeholder.svg"}
           alt={name}
           width={10}
