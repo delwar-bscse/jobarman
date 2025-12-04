@@ -139,7 +139,7 @@ export default function Navbar() {
                   title="profile image"
                   width={52}
                   height={52}
-                  // className="w-10 h-7 lg:w-8 lg:h-8 text-gray-500 border border-gray-300 rounded-full p-1 hover:ring-2 hover:ring-[#123499] transition"
+                  className="w-10 h-10 lg:w-12 lg:h-12 rounded-full"
                 />
               </button>
 

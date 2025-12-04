@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CustomImage from "../../../../shared/CustomImage";
 import Link from "next/link";
 import { ArrowRight, Heart } from "lucide-react";
@@ -11,7 +11,10 @@ export default function JobDetailsRight({ details }) {
   const [favoriteList, setFavoriteList] = useState(null);
   const [refreshFav, setRefreshFav] = useState(false);
 
-  const favoratesList = favoriteList?.map((favorate) => favorate.post._id);
+  const favoratesList = useMemo(
+    () => favoriteList?.map((item) => item.post._id),
+    [favoriteList]
+  );
 
   // get favorate data
   useEffect(() => {
@@ -91,15 +94,17 @@ export default function JobDetailsRight({ details }) {
           <div className="flex items-center gap-3">
             <button
               onClick={() => handleFavorateItem(details?._id)}
-              className="rounded-full border border-gray-300 w-10 h-10 grid place-items-center text-gray-600 hover:bg-gray-100"
+              className="rounded-full border border-gray-300 w-10 h-10 grid place-items-center hover:bg-gray-100"
             >
               <Heart
-                fill="currentColor"
-                className={`${
+                fill={
+                  favoratesList?.includes(details._id) ? "currentColor" : "none"
+                }
+                className={
                   favoratesList?.includes(details._id)
-                    ? "text-red-500 "
+                    ? "text-red-500 fill-red-500"
                     : "text-gray-400"
-                }`}
+                }
               />
             </button>
             <button
@@ -138,14 +143,14 @@ export default function JobDetailsRight({ details }) {
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           Responsibilities
         </h2>
-        {/* <ul className="space-y-2">
-                      {job.responsibilities.map((resp, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
-                          <span className="text-gray-700">{resp}</span>
-                        </li>
-                      ))}
-                    </ul> */}
+        <ul className="space-y-2">
+          {/* {job.responsibilities.map((resp, index) => ( */}
+          <li className="flex items-start gap-2">
+            <span className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
+            <span className="text-gray-700">description</span>
+          </li>
+          {/* ))} */}
+        </ul>
       </div>
 
       {/* Benefits */}
@@ -153,14 +158,10 @@ export default function JobDetailsRight({ details }) {
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           Benefits & Perks
         </h2>
-        {/* <ul className="space-y-2">
-                      {job.benefits.map((benefit, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></span>
-                          <span className="text-gray-700">{benefit}</span>
-                        </li>
-                      ))}
-                    </ul> */}
+        <li className="flex items-start gap-2">
+          <span className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
+          <span className="text-gray-700">description</span>
+        </li>
       </div>
     </div>
   );

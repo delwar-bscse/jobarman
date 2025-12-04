@@ -13,40 +13,6 @@ import HowItWorks from "@/components/guest/HowItWorks";
 import Categories from "@/components/guest/Categories";
 
 export default function Home() {
-  // const [reviews, setReviews] = useState([]);
-  // Filters modal state
-  // const [filtersOpen, setFiltersOpen] = useState(false);
-  // const [category, setCategory] = useState("Sr. UI/UX Designer");
-  // const [employeeType, setEmployeeType] = useState("Full Time");
-  // const [jobType, setJobType] = useState("Remote");
-  // const [minSalary, setMinSalary] = useState("5000");
-  // const [maxSalary, setMaxSalary] = useState("8000");
-  // const [distance, setDistance] = useState(10);
-
-  // AI banner carousel state & data
-
-  // const startXRef = useRef(0);
-  // const draggingRef = useRef(false);
-  // const [paused, setPaused] = useState(false);
-
-  // const getClientX = (e) => ("touches" in e ? e.touches[0].clientX : e.clientX);
-
-  // useEffect(() => {
-  //   const load = async () => {
-  //     try {
-  //       const res = await fetch("/testimonials.json");
-  //       if (!res.ok) return;
-  //       const data = await res.json();
-  //       setReviews(data);
-  //     } catch (e) {
-  //       // silent fail
-  //     }
-  //   };
-  //   load();
-  // }, []);
-
-  // testimonials data moved to shared module: ./components/shared/testimonials
-
   return (
     <main className="w-full bg-white">
       <BannerSection />

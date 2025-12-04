@@ -33,7 +33,7 @@ export default function JobDetails({ job, trigger }) {
                 <div className="rounded-xl border border-gray-200 bg-white">
                   <div className="p-3">
                     <CustomImage
-                      src={job?.post?.thumbnail}
+                      src={job?.user?.image}
                       alt="We are Hiring"
                       width={10}
                       height={10}

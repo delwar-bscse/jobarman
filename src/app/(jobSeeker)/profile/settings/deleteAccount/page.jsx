@@ -22,7 +22,6 @@ export default function DeleteAccountPage() {
 
   // Step 2 → Validate & delete
   const handleFinalDelete = async () => {
-    console.log(confirmTextsdf, "pass");
     try {
       const res = await myFetch("/user/delete-account", {
         method: "DELETE",
@@ -33,6 +32,7 @@ export default function DeleteAccountPage() {
 
       if (res.success) {
         toast.success("Delete Account successfully");
+        router.push("/login");
       } else {
         toast.error(res.message || "Delete Account  failed");
       }

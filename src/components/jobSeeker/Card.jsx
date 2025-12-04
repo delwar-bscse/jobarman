@@ -20,7 +20,7 @@ export default function Card({ data }) {
         >
           <div className="p-3">
             <CustomImage
-              src={job?.post?.thumbnail}
+              src={job?.user?.image}
               title="We are Hiring"
               width={112}
               height={112}
