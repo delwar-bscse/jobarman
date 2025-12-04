@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import {
   Select,
@@ -7,12 +8,48 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { myFetch } from "../../../utils/myFetch";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function FilterModal({ trigger }) {
-  const [employee, setEmployee] = useState("Full Time");
-  const [type, setType] = useState("Remote");
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+  const { replace } = useRouter();
+  const [category, setCategory] = useState("");
+  const [allCategories, setAllCategories] = useState([]);
+  const [employeeType, setEmployeeType] = useState("Full Time");
+  const [jobType, setJobType] = useState("Remote");
+  const [minPrice, setMinPrice] = useState();
+  const [maxPrice, setMaxPrice] = useState();
+  const [distance, setDistance] = useState(0);
+
+
+  const fetchData = async () => {
+    const res = await myFetch("/job-category");
+    setAllCategories(res.data);
+    // console.log("Categories : ", res.data);
+  };
+
+  useEffect(() => {
+    // console.log("Filter Modal")
+    fetchData();
+  }, []);
+
+  const handleSubmit = () => {
+    // console.log("Category : ", category, ", employeeType : ", employeeType, ", jobType : ", jobType, ", minPrice", minPrice, ", maxPrice : ", maxPrice, ", distance : ", distance)
+    params.set("category", category);
+    params.set("employeeType", employeeType);
+    params.set("job_type", jobType);
+    params.set("minPrice", minPrice);
+    params.set("maxPrice", maxPrice);
+    params.set("radius", distance);
+    replace(`/jobs?${params.toString()}`);
+    // setFiltersOpen(false)
+  }
+
+
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -20,16 +57,18 @@ export default function FilterModal({ trigger }) {
         <div className="relative bg-white w-full max-w-md rounded-xl  p-6">
           <div className="space-y-5">
             <div>
-              <Select>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Category
+              </label>
+              <Select onValueChange={(e) => setCategory(e)}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a fruit" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="1">Sr. UI/UX Designer</SelectItem>
-                    <SelectItem value="2">Frontend Engineer</SelectItem>
-                    <SelectItem value="3">Backend Engineer</SelectItem>
-                    <SelectItem value="4">Product Designer</SelectItem>
+                    {allCategories?.map((c) => (
+                      <SelectItem key={c._id} value={c._id}>{c.name}</SelectItem>
+                    ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -49,12 +88,11 @@ export default function FilterModal({ trigger }) {
                   <button
                     key={t.label}
                     type="button"
-                    onClick={() => setEmployee(t.label)}
-                    className={`px-4 py-2 rounded-md text-sm ${
-                      employee === t.label
-                        ? "bg-[#FF8F27] text-white"
-                        : "border"
-                    }`}
+                    onClick={() => setEmployeeType(t.label)}
+                    className={`px-4 py-2 rounded-md text-sm ${employeeType === t.label
+                      ? "bg-[#FF8F27] text-white"
+                      : "border"
+                      }`}
                   >
                     {t.label}
                   </button>
@@ -76,10 +114,9 @@ export default function FilterModal({ trigger }) {
                   <button
                     key={t.label}
                     type="button"
-                    onClick={() => setType(t.label)}
-                    className={`px-4 py-2  text-sm rounded-full ${
-                      type === t.label ? "bg-[#093CD4] text-white" : "border "
-                    }`}
+                    onClick={() => setJobType(t.label)}
+                    className={`px-4 py-2  text-sm rounded-full ${jobType === t.label ? "bg-[#093CD4] text-white" : "border "
+                      }`}
                   >
                     {t.label}
                   </button>
@@ -98,9 +135,10 @@ export default function FilterModal({ trigger }) {
                     Min Salary
                   </span>
                   <input
-                    type="text"
-                    // value={minSalary}
-                    // onChange={(e) => setMinSalary(e.target.value)}
+                    type="number"
+                    min={0}
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
                     className="w-full border rounded-lg px-3 py-2 text-sm"
                     placeholder="$5000"
                   />
@@ -110,7 +148,10 @@ export default function FilterModal({ trigger }) {
                     Max Salary
                   </span>
                   <input
-                    type="text"
+                    type="number"
+                    min={0}
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
                     className="w-full border rounded-lg px-3 py-2 text-sm"
                     placeholder="$8000"
                   />
@@ -124,6 +165,8 @@ export default function FilterModal({ trigger }) {
                 Distance
               </label>
               <input
+                value={distance}
+                onChange={(e) => setDistance(e.target.value)}
                 type="range"
                 min={1}
                 max={20}
@@ -140,7 +183,7 @@ export default function FilterModal({ trigger }) {
 
           <button
             type="button"
-            onClick={() => setFiltersOpen(false)}
+            onClick={handleSubmit}
             className="w-full mt-5 bg-orange-500 text-white rounded-lg py-3 font-semibold"
           >
             Apply

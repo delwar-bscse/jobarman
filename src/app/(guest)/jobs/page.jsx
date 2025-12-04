@@ -37,6 +37,7 @@ export const experienceLevel = (values = "") => {
 
 const JobsPage = async ({ searchParams }) => {
   const searchParamsValue = await searchParams;
+  const page = Number(searchParamsValue.page) || 1;
   const searchTerm = searchParamsValue.searchTerm || "";
   const location = searchParamsValue.location || "";
   const category = searchParamsValue.category || "";
@@ -47,7 +48,8 @@ const JobsPage = async ({ searchParams }) => {
   // const experience_level2 = searchParamsValue.experience_level || "";
   const job_type = formatEnum(searchParamsValue.job_type) || "";
   const job_level = formatEnum(searchParamsValue.job_level) || "";
-  const page = Number(searchParamsValue.page) || 1;
+  const employeeType = searchParamsValue.employeeType || "";
+  const radius = searchParamsValue.radius || 500;
 
   const jobs = await myFetch(
     `/job-post/feed?searchTerm=${searchTerm}&location=${location}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&experience_level=${experience_level}&job_level=${job_level}&job_type=${job_type}`,
@@ -59,6 +61,12 @@ const JobsPage = async ({ searchParams }) => {
   // get favorate data
   const res = await myFetch("/favourite", {
     tags: ["favoratesList"],
+
+
+
+
+  const jobs = await myFetch(`/job-post/feed?searchTerm=${searchTerm}&location=${location}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&experience_level=${experience_level}&job_level=${job_level}&job_type=${job_type}&page=${page}&employeeType=${employeeType}`, {
+    method: "GET",
   });
   const favoratesList = res?.data?.map((favorate) => favorate.post._id);
 
