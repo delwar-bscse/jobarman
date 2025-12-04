@@ -14,13 +14,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { CustomModal } from "@/components/modal/CustomModal";
 import { FaBars } from "react-icons/fa";
 import Notifications from "@/components/notifications/Notifications";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function NotificationDetails() {
+function NotificationDetailsSuspense() {
   const [isRotated, setIsRotated] = useState(false);
   const searchParams = useSearchParams();
   const { replace } = useRouter();
@@ -139,4 +139,12 @@ export default function NotificationDetails() {
       </div>
     </div>
   );
+}
+
+export default function NotificationDetails() {
+  return (
+    <Suspense fallback={<div>Loading...</div>} >
+      <NotificationDetailsSuspense />
+    </Suspense>
+  )
 }

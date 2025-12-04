@@ -8,19 +8,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { myFetch } from "../../../utils/myFetch";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function FilterModal({ trigger }) {
+function FilterModalSuspense({ trigger }) {
+  const [allCategories, setAllCategories] = useState([]);
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
   const { replace } = useRouter();
   const [category, setCategory] = useState("");
-  const [allCategories, setAllCategories] = useState([]);
-  const [employeeType, setEmployeeType] = useState("Full Time");
-  const [jobType, setJobType] = useState("Remote");
+  const [employeeType, setEmployeeType] = useState();
+  const [jobType, setJobType] = useState();
   const [minPrice, setMinPrice] = useState();
   const [maxPrice, setMaxPrice] = useState();
   const [distance, setDistance] = useState(0);
@@ -39,12 +39,12 @@ export default function FilterModal({ trigger }) {
 
   const handleSubmit = () => {
     // console.log("Category : ", category, ", employeeType : ", employeeType, ", jobType : ", jobType, ", minPrice", minPrice, ", maxPrice : ", maxPrice, ", distance : ", distance)
-    params.set("category", category);
-    params.set("employeeType", employeeType);
-    params.set("job_type", jobType);
-    params.set("minPrice", minPrice);
-    params.set("maxPrice", maxPrice);
-    params.set("radius", distance);
+    if (category) params.set("category", category);
+    if (employeeType) params.set("employeeType", employeeType);
+    if (jobType) params.set("job_type", jobType);
+    if (minPrice) params.set("minPrice", minPrice);
+    if (maxPrice) params.set("maxPrice", maxPrice);
+    if (distance) params.set("radius", distance);
     replace(`/jobs?${params.toString()}`);
     // setFiltersOpen(false)
   }
@@ -192,4 +192,13 @@ export default function FilterModal({ trigger }) {
       </DialogContent>
     </Dialog>
   );
+}
+
+
+export default function FilterModal({ trigger }) {
+  return (
+    <Suspense fallback={<div>Loading...</div>} >
+      <FilterModalSuspense trigger={trigger} />
+    </Suspense>
+  )
 }

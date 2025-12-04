@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { MapPin, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
@@ -9,7 +9,7 @@ import { DualRangeSlider } from '@/components/ui/dual-range-slider';
 import { myFetch } from "../../../../utils/myFetch";
 
 
-export default function FilterSide() {
+function FilterSideSuspense() {
   const [values, setValues] = useState([0, 9999]);
   const searchParams = useSearchParams();
   const { replace } = useRouter();
@@ -300,4 +300,13 @@ export default function FilterSide() {
       </div>
     </div >
   );
+}
+
+
+export default function FilterSide() {
+  return (
+    <Suspense fallback={<div>Loading...</div>} >
+      <FilterSideSuspense />
+    </Suspense>
+  )
 }
