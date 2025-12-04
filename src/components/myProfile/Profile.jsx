@@ -252,8 +252,8 @@ export default function ProfilePage({ data }) {
                           </p>
                           <div className="mt-3 space-y-1 text-xs text-gray-600">
                             <p>Session : {edu?.startDate?.slice(0, 10)}</p>
-                            <p>PassingYear : {edu.passingYear}</p>
-                            <p>Grade : {edu.grade}</p>
+                            <p>PassingYear : {edu?.passingYear}</p>
+                            <p>Grade : {edu?.grade}</p>
                           </div>
                         </div>
                       </div>
