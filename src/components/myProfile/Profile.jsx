@@ -54,7 +54,7 @@ export default function ProfilePage({ data }) {
 
   const infoItems = [
     { label: "Gender", value: data.gender },
-    { label: "Date Of Birth", value: data.date_of_birth.slice(0, 10) },
+    { label: "Date Of Birth", value: data?.date_of_birth?.slice(0, 10) },
     { label: "Nationality", value: data.nationality },
     { label: "Language", value: data.language },
     { label: "Address", value: data.address },

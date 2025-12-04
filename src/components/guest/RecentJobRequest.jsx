@@ -3,43 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { myFetch } from "../../../utils/myFetch";
-
-// Recent Job Request candidates data
-const recentRequests = [
-  {
-    id: 1,
-    name: "Ronald Richards",
-    role: "Sr. UIUX Designer",
-    experience: "5 Years Experience",
-    match: 90,
-    avatar: "/avatars/floyd.svg",
-    about:
-      "A Dedicated And Reliable Professional With Strong Teamwork And Problem-Solving Skills, Committed To Delivering Quality Results On Time.",
-  },
-  {
-    id: 2,
-    name: "Albert Flores",
-    role: "Sr. UIUX Designer",
-    experience: "5 Years Experience",
-    match: 70,
-    avatar: "/avatars/courtney.svg",
-    about:
-      "A Dedicated And Reliable Professional With Strong Teamwork And Problem-Solving Skills, Committed To Delivering Quality Results On Time.",
-  },
-  {
-    id: 3,
-    name: "Cody Fisher",
-    role: "Sr. UIUX Designer",
-    experience: "5 Years Experience",
-    match: 40,
-    avatar: "/avatars/marvin.svg",
-    about:
-      "A Dedicated And Reliable Professional With Strong Teamwork And Problem-Solving Skills, Committed To Delivering Quality Results On Time.",
-  },
-];
+import CustomImage from "../../../shared/CustomImage";
 
 export default async function RecentJobRequest() {
   const res = await myFetch("/application/recent-applications");
+  console.log("res", res.data);
 
   return (
     <section className="py-16 sm:py-24 bg-white">
@@ -58,7 +26,7 @@ export default async function RecentJobRequest() {
               key={item._id}
               className="relative bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex gap-4 items-start"
             >
-              <Image
+              <CustomImage
                 src={item.user.image}
                 alt={item.user.name}
                 width={10}
