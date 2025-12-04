@@ -9,10 +9,7 @@ import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
 
 export default function JobCard({ data, pagination, favoratesList }) {
-  console.log("favoratesList", favoratesList);
-
   const handleFavorateItem = async (id) => {
-    console.log("id", id);
     try {
       const res = await myFetch("/favourite", {
         method: "POST",
