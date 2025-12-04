@@ -51,16 +51,10 @@ const JobsPage = async ({ searchParams }) => {
   const employeeType = searchParamsValue.employeeType || "";
   const radius = searchParamsValue.radius || 500;
 
-  const jobs = await myFetch(
-    `/job-post/feed?searchTerm=${searchTerm}&location=${location}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&experience_level=${experience_level}&job_level=${job_level}&job_type=${job_type}`,
-    {
-      method: "GET",
-    }
-  );
-
   // get favorate data
   const res = await myFetch("/favourite", {
     tags: ["favoratesList"],
+  });
 
 
 
