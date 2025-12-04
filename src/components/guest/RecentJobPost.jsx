@@ -3,52 +3,9 @@ import CustomImage from "../../../shared/CustomImage";
 import Link from "next/link";
 import { myFetch } from "../../../utils/myFetch";
 
-// Recent Jobs data
-const recentJobs = [
-  {
-    id: 1,
-    title: "Sr. UIUX Designer",
-    company: "Design-Hill",
-    location: "California, United State.",
-    type: "Full Time",
-    remote: true,
-    remaining: "05 Days Remaining",
-    image: "/cardpic.png",
-  },
-  {
-    id: 2,
-    title: "Sr. UIUX Designer",
-    company: "Design-Hill",
-    location: "California, United State.",
-    type: "Full Time",
-    remote: true,
-    remaining: "05 Days Remaining",
-    image: "/cardpic.png",
-  },
-  {
-    id: 3,
-    title: "Sr. UIUX Designer",
-    company: "Design-Hill",
-    location: "California, United State.",
-    type: "Full Time",
-    remote: true,
-    remaining: "05 Days Remaining",
-    image: "/cardpic.png",
-  },
-  {
-    id: 4,
-    title: "Sr. UIUX Designer",
-    company: "Design-Hill",
-    location: "California, United State.",
-    type: "Full Time",
-    remote: true,
-    remaining: "05 Days Remaining",
-    image: "/cardpic.png",
-  },
-];
-
 export default async function RecentJobPost() {
   const res = await myFetch("/job-post/recent-posts");
+  console.log("recent----------------------------------------", res);
   return (
     <section className="py-16 sm:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
