@@ -17,6 +17,7 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { myFetch } from "../../../../../../utils/myFetch";
 import { toast } from "sonner";
+import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 
 export default function HelpSupportPage() {
   const router = useRouter();
@@ -110,82 +111,7 @@ export default function HelpSupportPage() {
     <div className="w-full bg-[#FBFBFB]">
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
         {/* Sidebar */}
-        <div className="w-72 bg-white rounded-xl p-6 flex flex-col">
-          {/* Profile Card */}
-          <div className="text-center mb-8">
-            <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-              <span className="text-4xl">👤</span>
-            </div>
-            <h2 className="text-xl font-bold text-gray-900">Atiqur Rifat</h2>
-            <p className="text-sm text-gray-600">UX Designer</p>
-            <div className="flex items-center justify-center gap-1 mt-2">
-              <Image
-                src="/premiumplan.svg"
-                width={24}
-                height={24}
-                alt="Profile"
-                className="w-6 h-6 rounded-full"
-              />
-              <span className="text-sm font-semibold text-[#FF8F27]">
-                Premium Plan
-              </span>
-            </div>
-          </div>
-
-          {/* Menu Items */}
-          <nav className="space-y-2 flex-1">
-            {menuItems.map((item, index) => (
-              <div key={index}>
-                <button
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                    isMenuActive(item.href)
-                      ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                      : ""
-                  }`}
-                  onClick={() => handleMenuClick(item)}
-                >
-                  <item.icon
-                    className={`w-5 h-5 ${
-                      isMenuActive(item.href) ? "text-white" : "text-black"
-                    }`}
-                  />
-                  <span className="text-sm font-medium">{item.label}</span>
-                  {item.label === "Settings" && (
-                    <span className="ml-auto text-gray-400">
-                      {isSettingsOpen ? "⌄" : "›"}
-                    </span>
-                  )}
-                </button>
-                {item.label === "Settings" && isSettingsOpen && (
-                  <div className="ml-6 mt-2 space-y-2">
-                    {item.subItems.map((subItem, subIndex) => (
-                      <button
-                        key={subIndex}
-                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                          isSubMenuActive(subItem.href)
-                            ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                            : ""
-                        }`}
-                        onClick={() => handleSubMenuClick(subItem.href)}
-                      >
-                        <subItem.icon
-                          className={`w-5 h-5 ${
-                            isSubMenuActive(subItem.href)
-                              ? "text-white"
-                              : "text-black"
-                          }`}
-                        />
-                        <span className="text-sm font-medium">
-                          {subItem.label}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
-        </div>
+        <EmployeeSidebar />
 
         {/* Main Content */}
         <div className="flex-1 ml-8">

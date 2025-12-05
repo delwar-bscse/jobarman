@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import SidebarProfile from "@/components/jobSeeker/profile/Sidebar";
 import { toast } from "sonner";
 import { myFetch } from "../../../../../../utils/myFetch";
+import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 
 export default function DeleteAccountPage() {
   const router = useRouter();
@@ -45,9 +46,7 @@ export default function DeleteAccountPage() {
     <div className="w-full bg-[#FBFBFB]">
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
         {/* Sidebar */}
-        <div className="w-72 bg-white rounded-xl p-6 flex flex-col">
-          <SidebarProfile />
-        </div>
+          <EmployeeSidebar />
 
         {/* Main Content */}
 

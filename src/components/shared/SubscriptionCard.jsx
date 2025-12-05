@@ -1,4 +1,6 @@
+"use client";
 import { Building2, Award, Crown, Check } from "lucide-react";
+import { myFetch } from "../../../utils/myFetch";
 
 export default function SubscriptionCard({ plan }) {
   const Icon =
@@ -7,8 +9,21 @@ export default function SubscriptionCard({ plan }) {
     plan.name === "Free"
       ? "ring-blue-300"
       : plan.name === "Pro"
-      ? "ring-orange-300"
-      : "ring-yellow-300";
+        ? "ring-orange-300"
+        : "ring-yellow-300";
+
+  const buySubscription = async () => {
+    console.log("Buy Subscription ID : ", plan?._id)
+    const res = await myFetch(`/subscription/stripe`, {
+      method: "POST",
+      body: { receipt: plan?._id }
+    });
+    console.log("Subscription Response : ", res?.data);
+    if (res?.success && res?.data) {
+      window.location.href = res?.data;
+    }
+  }
+
 
   return (
     <div className="relative flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm w-full max-w-xs mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg">
@@ -21,11 +36,10 @@ export default function SubscriptionCard({ plan }) {
 
       {/* Header with price */}
       <div
-        className={`bg-gradient-to-r ${
-          plan.highlighted
-            ? "from-[#1D4ED8] to-[#1E3A8A]"
-            : "from-[#3B82F6] to-[#2563EB]"
-        } text-white px-4 pt-6 pb-4 sm:px-5 sm:pt-7 sm:pb-5 md:px-6 md:pt-8 md:pb-6 text-center rounded-t-xl`}
+        className={`bg-gradient-to-r ${plan.highlighted
+          ? "from-[#1D4ED8] to-[#1E3A8A]"
+          : "from-[#3B82F6] to-[#2563EB]"
+          } text-white px-4 pt-6 pb-4 sm:px-5 sm:pt-7 sm:pb-5 md:px-6 md:pt-8 md:pb-6 text-center rounded-t-xl`}
       >
         <div className="flex flex-col items-center gap-1">
           <div className="flex items-baseline gap-1 sm:gap-1.5 md:gap-2">
@@ -36,8 +50,8 @@ export default function SubscriptionCard({ plan }) {
               {plan.name === "Free"
                 ? "/ Free Plan (Starter)"
                 : plan.period
-                ? `/${plan.period}`
-                : "/per month"}
+                  ? `/${plan.period}`
+                  : "/per month"}
             </span>
           </div>
         </div>
@@ -60,11 +74,11 @@ export default function SubscriptionCard({ plan }) {
       {/* Footer CTA */}
       <div className="px-4 pb-4 pt-2 sm:px-5 sm:pb-5 sm:pt-2.5 md:px-6 md:pb-6 md:pt-3 bg-[#EEF6FB] rounded-b-xl">
         <button
-          className={`w-full py-2.5 text-sm sm:py-2.5 sm:text-base md:py-3 md:text-base rounded-md font-semibold transition-colors ${
-            plan.name === "Free"
-              ? "bg-blue-50 text-[#123499] border border-blue-300 hover:bg-blue-100"
-              : "bg-[#123499] text-white hover:bg-blue-700"
-          }`}
+          onClick={buySubscription}
+          className={`w-full py-2.5 text-sm sm:py-2.5 sm:text-base md:py-3 md:text-base rounded-md font-semibold transition-colors ${plan.name === "Free"
+            ? "bg-blue-50 text-[#123499] border border-blue-300 hover:bg-blue-100"
+            : "bg-[#123499] text-white hover:bg-blue-700"
+            }`}
         >
           Buy Now
         </button>

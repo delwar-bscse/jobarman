@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { myFetch } from "../../../../../../utils/myFetch";
 import { toast } from "sonner";
 import SidebarProfile from "@/components/jobSeeker/profile/Sidebar";
+import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 
 export default function ChangePasswordPage() {
   const [password, setPassword] = useState({
@@ -86,7 +87,8 @@ export default function ChangePasswordPage() {
   return (
     <div className="w-full bg-[#FBFBFB]">
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
-        <SidebarProfile />
+        {/* <SidebarProfile /> */}
+        <EmployeeSidebar />
 
         <div className="flex-1 ml-8 flex items-center justify-center">
           <div className="bg-white rounded-2xl p-8 shadow-lg max-w-md w-full border border-gray-200">

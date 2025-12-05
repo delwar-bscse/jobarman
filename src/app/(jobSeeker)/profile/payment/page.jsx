@@ -1,13 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 
-import { useState } from "react"
-import { Heart, FileText, Star, Settings, LogOut, X, Lock, HelpCircle, Trash2, User, Eye, EyeOff } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { FileText, Eye, EyeOff, X } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
+import { myFetch } from "../../../../../utils/myFetch"
+import dayjs from "dayjs"
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import EmployeeSidebar from "@/components/cui/EmployeeSidebar"
 
 export default function PaymentHistoryPage() {
-  const [activeMenu, setActiveMenu] = useState("Payment History")
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [paymentId, setPaymentId] = useState(null)
   const [showPasswordModal, setShowPasswordModal] = useState(true)
   const [showOTPModal, setShowOTPModal] = useState(false)
   const [showPaymentHistory, setShowPaymentHistory] = useState(false)
@@ -15,41 +19,34 @@ export default function PaymentHistoryPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [otp, setOtp] = useState(["", "", "", "", "", ""])
   const [selectedTransaction, setSelectedTransaction] = useState(null)
+  const [transactions, setTransactions] = useState([])
 
-  const menuItems = [
-    { icon: User, label: "My Profile", path: "/profile/myProfile" },
-    { icon: Heart, label: "Favorite List", path: "/profile/favourite" },
-    { icon: FileText, label: "Payment History", path: "/profile/payment" },
-    { icon: Star, label: "Platform Review", path: "/profile/platformReview" },
-    {
-      icon: Settings,
-      label: "Settings",
-      subItems: [
-        { icon: Lock, label: "Change Password", path: "/profile/settings/changePassword" },
-        { icon: HelpCircle, label: "Help and Support", path: "/profile/settings/helpSupport" },
-        { icon: Trash2, label: "Delete Account", path: "/profile/settings/deleteAccount" },
-      ],
-    },
-    { icon: LogOut, label: "Log Out", path: "/profile/logout" },
-  ]
+  const divRef = useRef(null);
 
-  const transactions = [
-    { id: 1, service: "Premium Plan", date: "01 Dec 2025 At 10:30pm", amount: "$19.99", status: "Successful" },
-    { id: 2, service: "Premium Plan", date: "01 Dec 2025 At 10:30pm", amount: "$19.99", status: "Successful" },
-    { id: 3, service: "Premium Plan", date: "01 Dec 2025 At 10:30pm", amount: "$19.99", status: "Successful" },
-    { id: 4, service: "Premium Plan", date: "01 Dec 2025 At 10:30pm", amount: "$19.99", status: "Successful" },
-    { id: 5, service: "Premium Plan", date: "01 Dec 2025 At 10:30pm", amount: "$19.99", status: "Successful" },
-    { id: 6, service: "Premium Plan", date: "01 Dec 2025 At 10:30pm", amount: "$19.99", status: "Successful" },
-    { id: 7, service: "Premium Plan", date: "01 Dec 2025 At 10:30pm", amount: "$19.99", status: "Successful" },
-    { id: 8, service: "Premium Plan", date: "01 Dec 2025 At 10:30pm", amount: "$19.99", status: "Successful" },
-  ]
-
-  const handlePasswordContinue = () => {
+  const handlePasswordContinue = async () => {
     if (password.trim()) {
-      setShowPasswordModal(false)
-      setShowOTPModal(true)
+      const res = await myFetch("/subscription/transactions", { method: "POST", body: { password } });
+      console.log("password response : ", res);
+
+      if (res?.success) {
+        setShowPasswordModal(false);
+        setShowOTPModal(true);
+      }
     }
   }
+
+  const fetchPaymentDetails = async () => {
+    const res = await myFetch(`/subscription/details/${paymentId}`, { method: "GET" });
+    console.log("Payment details response : ", res);
+
+    if (res?.success) {
+      setSelectedTransaction(res?.data)
+    }
+  }
+
+  useEffect(() => {
+    fetchPaymentDetails()
+  }, [paymentId])
 
   const handleOTPChange = (index, value) => {
     if (value.length <= 1 && /^\d*$/.test(value)) {
@@ -62,82 +59,63 @@ export default function PaymentHistoryPage() {
     }
   }
 
-  const handleOTPVerify = () => {
-    if (otp.every((digit) => digit !== "")) {
+  const handleOTPVerify = async () => {
+    console.log("otp : ", otp.join(""));
+    const res = await myFetch(`/subscription/transactions-by-otp?otp=${otp.join("")}`, { method: "GET" });
+    console.log("otp response : ", res);
+
+    if (res?.success) {
+      setTransactions(res?.data)
       setShowOTPModal(false)
       setShowPaymentHistory(true)
-      setSelectedTransaction(transactions[0])
+      setPaymentId(res?.data[0]?._id)
+      // setSelectedTransaction(res?.data[0])
     }
   }
 
-  const handleMenuClick = (label) => {
-    if (label === "Settings") {
-      setIsSettingsOpen(!isSettingsOpen)
-    } else {
-      setActiveMenu(label)
-      setIsSettingsOpen(false)
-    }
-  }
+  // Download payment details PDF
+  const handleDownload = async () => {
+    const element = divRef.current;
+
+    // Capture the original div
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+
+    // PDF setup
+    // const pdf = new jsPDF("p", "mm", "a6");
+    const pdf = new jsPDF({
+      orientation: "p",
+      unit: "mm",
+      format: [100, 160],
+    });
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+    // Original image dimensions (in px)
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+
+    // Convert px → mm (because jsPDF uses mm)
+    const ratio = imgWidth / imgHeight;
+    const mmWidth = 92; // Choose any size, but maintain aspect ratio
+    const mmHeight = mmWidth / ratio;
+
+    // Center horizontally + vertically
+    const x = (pdfWidth - mmWidth) / 2;
+    const y = (pdfHeight - mmHeight) / 2;
+
+    pdf.addImage(imgData, "PNG", x, y, mmWidth, mmHeight);
+    pdf.save("payment-details.pdf");
+  };
+
+
 
   return (
     <div className="w-full bg-[#FBFBFB]">
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
         {/* Sidebar */}
-        <div className="w-72 bg-white rounded-xl p-6 flex flex-col">
-          <div className="text-center mb-8">
-            <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-              <span className="text-4xl">👤</span>
-            </div>
-            <h2 className="text-xl font-bold text-gray-900">Atiqur Rifat</h2>
-            <p className="text-sm text-gray-600">UX Designer</p>
-            <div className="flex items-center justify-center gap-1 mt-2">
-              <Image src="/premiumplan.svg" width={24} height={24} alt="Profile" className="w-6 h-6 rounded-full" />
-              <span className="text-sm font-semibold text-[#FF8F27]">Premium Plan</span>
-            </div>
-          </div>
-
-          <nav className="space-y-2 flex-1">
-            {menuItems.map((item, index) => (
-              <div key={index}>
-                <Link href={item.path || "#"}>
-                  <button
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                      activeMenu === item.label ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white" : ""
-                    }`}
-                    onClick={() => handleMenuClick(item.label)}
-                  >
-                    <item.icon className={`w-5 h-5 ${activeMenu === item.label ? "text-white" : "text-black"}`} />
-                    <span className="text-sm font-medium">{item.label}</span>
-                    {item.label === "Settings" && (
-                      <span className="ml-auto text-gray-400">{isSettingsOpen ? "⌄" : "›"}</span>
-                    )}
-                  </button>
-                </Link>
-                {item.label === "Settings" && isSettingsOpen && (
-                  <div className="ml-6 mt-2 space-y-2">
-                    {item.subItems.map((subItem, subIndex) => (
-                      <Link key={subIndex} href={subItem.path}>
-                        <button
-                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                            activeMenu === subItem.label
-                              ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                              : ""
-                          }`}
-                          onClick={() => setActiveMenu(subItem.label)}
-                        >
-                          <subItem.icon
-                            className={`w-5 h-5 ${activeMenu === subItem.label ? "text-white" : "text-black"}`}
-                          />
-                          <span className="text-sm font-medium">{subItem.label}</span>
-                        </button>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
-        </div>
+        <EmployeeSidebar />
 
         {/* Main Content */}
         <div className="flex-1 ml-8">
@@ -222,7 +200,7 @@ export default function PaymentHistoryPage() {
                     </div>
 
                     <p className="text-end text-md text-gray-600 mb-6">
-                      Didn't receive a code?{" "}
+                      Didn&apos;t receive a code?{" "}
                       <span className="text-blue-600 font-semibold cursor-pointer hover:underline">Resend</span>
                     </p>
 
@@ -239,33 +217,31 @@ export default function PaymentHistoryPage() {
           ) : (
             /* Payment History Display */
             <div className="max-w-6xl mx-auto">
-              
 
               <div className="grid gap-8" style={{ gridTemplateColumns: "1fr 1fr" }}>
                 {/* Transaction List */}
                 <div className="bg-white rounded-lg p-6 border border-gray-200">
-                    <h1 className="text-2xl font-semibold text-gray-900 mb-4">Payment History</h1>
+                  <h1 className="text-2xl font-semibold text-gray-900 mb-4">Payment History</h1>
                   <div className="space-y-3">
                     {transactions.map((transaction) => (
                       <div
-                        key={transaction.id}
-                        onClick={() => setSelectedTransaction(transaction)}
-                        className={`p-4 rounded-lg cursor-pointer transition-colors ${
-                          selectedTransaction?.id === transaction.id
-                            ? "bg-[#FEF3E6] border"
-                            : "bg-gray-50 border border-gray-200 hover:bg-gray-100"
-                        }`}
+                        key={transaction._id}
+                        onClick={() => setPaymentId(transaction._id)}
+                        className={`p-4 rounded-lg cursor-pointer transition-colors ${selectedTransaction?._id === transaction._id
+                          ? "bg-[#FEF3E6] border"
+                          : "bg-gray-50 border border-gray-200 hover:bg-gray-100"
+                          }`}
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                             <FileText className="w-5 h-5 text-blue-600" />
                           </div>
                           <div className="flex-1">
-                            <p className="font-semibold text-gray-900">{transaction.service}</p>
-                            <p className="text-xs text-gray-600">{transaction.date}</p>
+                            <p className="font-semibold text-gray-900">{transaction.name}</p>
+                            <p className="text-xs text-gray-600">{dayjs(transaction.startDate).format("YYYY-MM-DD HH:mm A")}</p>
                           </div>
                           <div className="text-right">
-                            <p className="font-bold text-gray-900">{transaction.amount}</p>
+                            <p className="font-bold text-gray-900">{transaction.price}</p>
                             <p className="text-xs text-green-600 font-semibold">{transaction.status}</p>
                           </div>
                         </div>
@@ -277,61 +253,64 @@ export default function PaymentHistoryPage() {
                 {/* Payment Details */}
                 <div className="bg-white rounded-lg p-6 border border-gray-200 max-h-full overflow-y-auto">
                   {selectedTransaction && (
-                    <div>
-                      <div className="mb-6">
-                        <p className="text-3xl font-bold text-[#FF8F27]">{selectedTransaction.amount}</p>
-                        <p className="text-sm text-gray-600 mt-1">Service Information</p>
-                        <p className="text-lg font-semibold text-gray-900 mt-2">{selectedTransaction.service}</p>
-                        <span className="inline-block mt-2 px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                          {selectedTransaction.status}
-                        </span>
-                      </div>
+                    <div className="">
+                      <div ref={divRef} className="">
+                        <div className="mb-6">
+                          <p className="text-3xl font-bold text-[#FF8F27]">{selectedTransaction.price}</p>
+                          <p className="text-sm text-gray-600 mt-1">Service Information</p>
+                          <p className="text-lg font-semibold text-gray-900 mt-2">{selectedTransaction.name}</p>
+                          <p className="inline-block mt-2 px-3 py-1 leading-4 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                            {selectedTransaction.status}
+                          </p>
+                        </div>
 
-                      <div className="border-t border-gray-200 pt-6">
-                        <h3 className="font-bold text-gray-900 mb-4">User Information</h3>
-                        <div className="space-y-3">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Name</span>
-                            <span className="font-semibold text-gray-900">Shakir Ahmed</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Location</span>
-                            <span className="font-semibold text-gray-900">247 Derby Ave, Strubens Valley</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">E-Mail</span>
-                            <span className="font-semibold text-gray-900">User@Gmail.Com</span>
+                        <div className="border-t border-gray-200 pt-6">
+                          <h3 className="font-bold text-gray-900 mb-4">User Information</h3>
+                          <div className="space-y-3">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Name</span>
+                              <span className="font-semibold text-gray-900">{selectedTransaction?.user?.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Location</span>
+                              <span className="font-semibold text-gray-900">{selectedTransaction?.user?.address}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">E-Mail</span>
+                              <span className="font-semibold text-gray-900">{selectedTransaction?.user?.email}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="border-t border-gray-200 pt-6 mt-6">
-                        <h3 className="font-bold text-gray-900 mb-4">Payment Details</h3>
-                        <div className="space-y-3">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Service Fee</span>
-                            <span className="font-semibold text-gray-900">{selectedTransaction.amount}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Trx ID</span>
-                            <span className="font-semibold text-gray-900">1234567891001</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Date & Time</span>
-                            <span className="font-semibold text-gray-900">01 Jan 25, 10:30 Am</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Tax</span>
-                            <span className="font-semibold text-gray-900">0.00</span>
-                          </div>
-                          <div className="flex justify-between border-t border-gray-200 pt-3 mt-3">
-                            <span className="font-bold text-gray-900">Total:</span>
-                            <span className="font-bold text-gray-900">{selectedTransaction.amount}</span>
+                        <div className="border-t border-gray-200 pt-6 mt-6">
+                          <h3 className="font-bold text-gray-900 mb-4">Payment Details</h3>
+                          <div className="space-y-3">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Service Fee</span>
+                              <span className="font-semibold text-gray-900">{selectedTransaction.price}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Trx ID</span>
+                              <span className="font-semibold text-gray-900">1234567891001</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Date & Time</span>
+                              <span className="font-semibold text-gray-900">{dayjs(selectedTransaction.createdAt).format("YYYY-MM-DD HH:mm A")}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Tax</span>
+                              <span className="font-semibold text-gray-900">0.00</span>
+                            </div>
+                            <div className="flex justify-between border-t border-gray-200 pt-3 mt-3">
+                              <span className="font-bold text-gray-900">Total:</span>
+                              <span className="font-bold text-gray-900">{selectedTransaction.price}</span>
+                            </div>
                           </div>
                         </div>
+                        <div className="h-2" />
                       </div>
 
-                      <button className="w-full mt-6 border-2 border-blue-600 text-blue-600 font-bold py-3 px-4 rounded-lg hover:bg-blue-50">
+                      <button onClick={handleDownload} className="w-full mt-6 border-2 border-blue-600 text-blue-600 font-bold py-3 px-4 rounded-lg hover:bg-blue-50">
                         Download Payment History
                       </button>
                     </div>

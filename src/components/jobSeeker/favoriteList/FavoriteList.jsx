@@ -4,23 +4,17 @@ import { Heart, MapPin, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import SidebarProfile from "@/components/jobSeeker/profile/Sidebar";
+import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 
 export default function FavoriteListPage({ data }) {
   console.log("favorate data", data);
   return (
     <div className="w-full bg-[#FBFBFB]">
-      {/* Back Button */}
-      <div className="max-w-7xl mx-auto -mb-10 pt-10">
-        <Link href="/profile/myProfile">
-          <div className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6">
-            <ArrowLeft className="w-5 h-5" />
-          </div>
-        </Link>
-      </div>
 
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
         {/* Sidebar */}
-        <SidebarProfile />
+        {/* <SidebarProfile /> */}
+        <EmployeeSidebar />
 
         {/* Main Content */}
         <div className="flex-1 ml-8">

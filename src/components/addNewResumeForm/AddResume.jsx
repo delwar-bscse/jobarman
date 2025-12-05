@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
 import Skills from "./Skills";
 import { Suspense, useEffect } from "react";
+import dayjs from "dayjs";
 
 /* -----------------------------------------------------------
    MAIN FORM (React Hook Form Version)
@@ -96,13 +97,22 @@ function AddNewResumeForm2Suspense({ name }) {
             ? resume.core_features
             : [{ title: "", description: "" }],
           workExperiences: resume.workExperiences?.length
-            ? resume.workExperiences
+            ? resume.workExperiences.map((item) => ({
+              title: item.title,
+              company: item.company,
+              startDate: dayjs(item.startDate).format("YYYY-MM-DD"),
+              endDate: dayjs(item.endDate).format("YYYY-MM-DD"),
+              designation: item.designation,
+              description: item.description,
+              isCurrentJob: item.isCurrentJob,
+            }))
             : [
               {
                 title: "",
                 company: "",
                 startDate: "",
                 endDate: "",
+                designation: "",
                 description: "",
                 isCurrentJob: false,
               },
