@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React from "react";
 import JobDetails from "./JobDetails";
 import CustomImage from "../../../shared/CustomImage";
