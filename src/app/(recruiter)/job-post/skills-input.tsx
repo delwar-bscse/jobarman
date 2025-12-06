@@ -36,7 +36,7 @@ export default function SkillsInput({ skills, setSkills }: SkillsInputProps) {
         className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
       />
       <div className="flex flex-wrap gap-2">
-        {skills.map((skill, index) => (
+        {skills?.map((skill, index) => (
           <div
             key={index}
             className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full text-sm"

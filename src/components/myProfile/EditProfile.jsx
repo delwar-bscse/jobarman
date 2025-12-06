@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -130,7 +131,7 @@ export default function EditProfilePage({ data }) {
     //   console.log("update", key, value);
     // });
     for (const [key, value] of Object.entries(formValues)) {
-      console.log(`${key} ${value}`);
+      // console.log(`${key} ${value}`);
       formData.append(key, value);
     }
 
