@@ -1,35 +1,96 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";
-import RichTextEditor from "./rich-text-editor";
+// import RichTextEditor from "./rich-text-editor";
 import SkillsInput from "./skills-input";
+import Image from "next/image";
+import BenefitsInput from "./benefits-input";
+import ResponsibilitiesInput from "./responsibilities-input";
+import { myFetch } from "utils/myFetch";
 
 export default function EditJobPost() {
+  const [imageFile, setImageFile] = useState(null);
+  const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
-    jobTitle: "UX Designer",
-    minSalary: "1,000",
-    maxSalary: "6,000",
-    jobCategory: "UX Designer",
+    title: "UX Designer",
+    min_salary: 0,
+    max_salary: 0,
+    category: "UX Designer",
     employmentType: "Full Time",
-    jobType: "Remote",
-    experience: "5 years",
-    jobLevel: "Mid Level",
+    job_type: "Remote",
+    experience_level: "0 years",
+    job_level: "Mid Level",
     location: "Enter Your Location",
-    jobDescription: "Add your description...",
-    skills: ["Job keyword", "tags etc."],
-    deadline: "01 Sep 2025",
+    description: "Add your description...",
+    deadline: "2002-06-26",
   });
 
-  const [editorContent, setEditorContent] = useState("Add your description...");
+  // const [editorContent, setEditorContent] = useState("Add your description...");
   const [skills, setSkills] = useState(["Job keyword", "tags etc."]);
+  const [benefits, setBenefits] = useState(["job benefits......", "tags etc."]);
+  const [responsibilities, setResponsibilities] = useState(["job responsibilities......"]);
+  const [allCategories, setAllCategories] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleUpdate = () => {};
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await myFetch("/job-category");
+      setAllCategories(res.data);
+      console.log("Categories : ", res.data);
+    };
+
+    fetchData();
+  }, []);
+
+  const handleUpdate = async () => {
+    console.log("form data : ", formData);
+    console.log("form image : ", imageFile);
+    console.log("form required_skills : ", skills);
+    console.log("form benefits : ", benefits);
+    console.log("form responsibilities : ", responsibilities);
+
+    const newFormData = new FormData();
+
+    newFormData.append("title", formData?.title);
+    newFormData.append("description", formData?.description);
+    newFormData.append("category", formData?.category);
+    newFormData.append("job_type", formData?.job_type);
+    newFormData.append("job_level", formData?.job_level);
+    newFormData.append("experience_level", formData?.experience_level);
+    newFormData.append("min_salary", formData?.min_salary);
+    newFormData.append("max_salary", formData?.min_salary);
+    newFormData.append("location", formData?.location);
+    newFormData.append("deadline", formData?.deadline);
+    imageFile && newFormData.append("image", imageFile);
+    benefits?.length > 0 && benefits.forEach((benefit) => newFormData.append("benefits", benefit));
+    responsibilities?.length > 0 && responsibilities.forEach((responsibility) => newFormData.append("responsibilities", responsibility));
+    skills?.length > 0 && skills.forEach((skill) => newFormData.append("required_skills", skill));
+
+
+
+    const res = await myFetch("/job-post", {
+      method: "POST",
+      body: formData
+    })
+    console.log("Create Post Res : ", res)
+  };
+
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+    setImageFile(file);
+    setImage(reader.result);
+  };
+
 
   return (
     <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
@@ -54,7 +115,7 @@ export default function EditJobPost() {
                 htmlFor="dropzone-file"
                 className="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 "
               >
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                {!image ? <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg
                     className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
                     aria-hidden="true"
@@ -73,8 +134,12 @@ export default function EditJobPost() {
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     Upload Cover Image
                   </p>
-                </div>
-                <input id="dropzone-file" type="file" className="hidden" />
+                </div> :
+                  <div className="w-full h-full">
+                    <Image src={image} alt="Post image" width={200} height={150} className="object-contain h-full w-full " />
+                  </div>}
+
+                <input onChange={handleImage} accept="image/*" id="dropzone-file" type="file" className="hidden" />
               </label>
             </div>
 
@@ -86,8 +151,8 @@ export default function EditJobPost() {
                 </label>
                 <input
                   type="text"
-                  name="jobTitle"
-                  value={formData.jobTitle}
+                  name="title"
+                  value={formData.title}
                   onChange={handleInputChange}
                   className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 />
@@ -100,9 +165,9 @@ export default function EditJobPost() {
                     Min Salary
                   </label>
                   <input
-                    type="text"
-                    name="minSalary"
-                    value={formData.minSalary}
+                    type="number"
+                    name="min_salary"
+                    value={formData.min_salary}
                     onChange={handleInputChange}
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
@@ -112,9 +177,9 @@ export default function EditJobPost() {
                     Max Salary
                   </label>
                   <input
-                    type="text"
-                    name="maxSalary"
-                    value={formData.maxSalary}
+                    type="number"
+                    name="max_salary"
+                    value={formData.max_salary}
                     onChange={handleInputChange}
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   />
@@ -131,14 +196,18 @@ export default function EditJobPost() {
                 Job Category
               </label>
               <select
-                name="jobCategory"
-                value={formData.jobCategory}
+                name="category"
+                value={formData.category}
                 onChange={handleInputChange}
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
-                <option>UX Designer</option>
+
+                {allCategories?.map((category) => (
+                  <option key={category._id} value={category?._id}>{category?.name}</option>
+                ))}
+                {/* <option>UX Designer</option>
                 <option>UI Designer</option>
-                <option>Product Designer</option>
+                <option>Product Designer</option> */}
               </select>
             </div>
             <div>
@@ -151,9 +220,8 @@ export default function EditJobPost() {
                 onChange={handleInputChange}
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
-                <option>Full Time</option>
-                <option>Part Time</option>
-                <option>Contract</option>
+                <option value="FULL_TIME">Full Time</option>
+                <option value="PART_TIME">Part Time</option>
               </select>
             </div>
             <div>
@@ -161,14 +229,14 @@ export default function EditJobPost() {
                 Job Type
               </label>
               <select
-                name="jobType"
-                value={formData.jobType}
+                name="job_type"
+                value={formData.job_type}
                 onChange={handleInputChange}
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
-                <option>Remote</option>
-                <option>On-site</option>
-                <option>Hybrid</option>
+                <option value="REMOTE">Remote</option>
+                <option value="INTERNSHIP">On-site</option>
+                <option value="FREELANCE">Hybrid</option>
               </select>
             </div>
           </div>
@@ -181,15 +249,16 @@ export default function EditJobPost() {
                 Experience
               </label>
               <select
-                name="experience"
-                value={formData.experience}
+                name="experience_level"
+                value={formData.experience_level}
                 onChange={handleInputChange}
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
-                <option>5 years</option>
-                <option>1-2 years</option>
-                <option>3-5 years</option>
-                <option>5+ years</option>
+                <option value="0-1yrs">0 years</option>
+                <option value="1-3yrs">1-3 years</option>
+                <option value="3-5yrs">3-5 years</option>
+                <option value="5-10yrs">10 years</option>
+                <option value="10+yrs">10+ years</option>
               </select>
             </div>
             <div>
@@ -197,14 +266,14 @@ export default function EditJobPost() {
                 Job Level
               </label>
               <select
-                name="jobLevel"
-                value={formData.jobLevel}
+                name="job_level"
+                value={formData.job_level}
                 onChange={handleInputChange}
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
-                <option>Mid Level</option>
-                <option>Junior</option>
-                <option>Senior</option>
+                <option value="ENTRY_LEVEL">Entry Level</option>
+                <option value="MID_LEVEL">Mid level</option>
+                <option value="SENIOR_LEVEL">Senior level</option>
                 <option>Lead</option>
               </select>
             </div>
@@ -223,14 +292,32 @@ export default function EditJobPost() {
           </div>
 
           {/* Job Description */}
-
+          {/* 
           <label className="block text-sm font-medium text-gray-900 mb-3 sm:mb-4">
             Job Description
           </label>
-          <RichTextEditor value={editorContent} onChange={setEditorContent} />
+          <RichTextEditor value={editorContent} onChange={setEditorContent} /> 
+          */}
+
+
+          {/* Responsibilities Section */}
+          <div>
+            <label className="block text-sm font-medium text-gray-900 mb-3">
+              Responsibilities
+            </label>
+            <ResponsibilitiesInput setResponsibilities={setResponsibilities} responsibilities={responsibilities} />
+          </div>
+
+
+          {/* Benefits Section */}
+          <div>
+            <label className="block text-sm font-medium text-gray-900 mb-3">
+              Benefits
+            </label>
+            <BenefitsInput setBenefits={setBenefits} benefits={benefits} />
+          </div>
 
           {/* Skills Section */}
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-900 mb-3">
