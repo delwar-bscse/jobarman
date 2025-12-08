@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-const EmployeeSidebar = () => {
+const RecruiterSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
@@ -26,15 +26,9 @@ const EmployeeSidebar = () => {
   // ACTIVE MENU (Parent)
   // ============================
   const getActiveMenu = () => {
-    if (pathname.startsWith("/profile/myProfile")) return "My Profile";
-    else if (pathname.startsWith("/profile/favorite")) return "Favorite List";
-    else if (pathname.startsWith("/profile/payment")) return "Payment History";
-    else if (pathname.startsWith("/profile/platformReview")) return "Platform Review";
-
-    else if (pathname.startsWith("/profile/settings")) return "Settings";
-
-    else if (pathname.startsWith("/profile/logout")) return "Log Out";
-
+    if (pathname.startsWith("/profile/companyProfile")) return "Company Profile";
+    else if (pathname.startsWith("/profile/companyPayment")) return "Payment History";
+    else if (pathname.startsWith("/profile/companySettings")) return "Settings";
     else return "";
   };
 
@@ -42,43 +36,31 @@ const EmployeeSidebar = () => {
   // ACTIVE SUB MENU
   // ============================
   const getActiveSubMenu = () => {
-    if (pathname === "/profile/settings/changePassword")
+    if (pathname === "/profile/companySettings/changePassword")
       return "Change Password";
-    if (pathname === "/profile/settings/helpSupport")
+    if (pathname === "/profile/companySettings/helpSupport")
       return "Help and Support";
-    if (pathname === "/profile/settings/deleteAccount")
+    if (pathname === "/profile/companySettings/deleteAccount")
       return "Delete Account";
     return "";
   };
 
   const menuItems = [
-    { icon: User, label: "My Profile", route: "/profile/myProfile" },
-    { icon: Heart, label: "Favorite List", route: "/profile/favorite" },
-    { icon: FileText, label: "Payment History", route: "/profile/payment" },
-    { icon: Star, label: "Platform Review", route: "/profile/platformReview" },
+    { icon: User, label: "Company Profile", route: "/profile/companyProfile" },
+    { icon: FileText, label: "Payment History", route: "/profile/companyPayment" },
     {
       icon: Settings,
       label: "Settings",
       subItems: [
+        { icon: Lock, label: "Change Password", route: "/profile/companySettings/changePassword" },
         {
-          icon: Lock,
-          label: "Change Password",
-          route: "/profile/settings/changePassword",
+          icon: HelpCircle, label: "Help and Support", route: "/profile/companySettings/helpSupport",
         },
-        {
-          icon: HelpCircle,
-          label: "Help and Support",
-          route: "/profile/settings/helpSupport",
-        },
-        {
-          icon: Trash2,
-          label: "Delete Account",
-          route: "/profile/settings/deleteAccount",
-        },
+        { icon: Trash2, label: "Delete Account", route: "/profile/companySettings/deleteAccount" },
       ],
     },
-    { icon: LogOut, label: "Log Out", route: "/profile/logout" },
-  ];
+    { icon: LogOut, label: "Log Out", route: "/profile/companyLogout" },
+  ]
 
   // Handle parent menu click
   const handleMenuClick = (item) => {
@@ -112,21 +94,15 @@ const EmployeeSidebar = () => {
         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-            <span className="text-4xl">👤</span>
+            <span className="text-4xl">🏢</span>
           </div>
-          <h2 className="text-xl font-bold text-gray-900">Atiqur Rifat</h2>
-          <p className="text-sm text-gray-600">UX Designer</p>
+          <h2 className="text-xl font-bold text-gray-900">Design Hill</h2>
+          <p className="text-sm text-gray-600 mt-2">
+            Marketing that Performs. Web, Social, and Paid Ads by a Google Partner & B Corp Agency.
+          </p>
           <div className="flex items-center justify-center gap-1 mt-2">
-            <Image
-              src="/premiumplan.svg"
-              width={24}
-              height={24}
-              alt="Profile"
-              className="w-6 h-6 rounded-full"
-            />
-            <span className="text-sm font-semibold text-[#FF8F27]">
-              Premium Plan
-            </span>
+            <Image src="/premiumplan.svg" width={24} height={24} alt="Premium" className="w-6 h-6" />
+            <span className="text-sm font-semibold text-[#FF8F27]">Premium Plan</span>
           </div>
         </div>
 
@@ -193,4 +169,4 @@ const EmployeeSidebar = () => {
   );
 };
 
-export default EmployeeSidebar;
+export default RecruiterSidebar;

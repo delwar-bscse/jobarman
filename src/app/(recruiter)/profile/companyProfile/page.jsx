@@ -1,30 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Settings, LogOut, Lock, Trash2, User, MapPin, Edit, Trash, ChevronLeft, ChevronRight } from "lucide-react"
+import { MapPin, Edit, Trash, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import RecruiterSidebar from "@/components/cui/ReqruiterSidebar"
 
 export default function CompanyProfilePage() {
-  const [activeMenu, setActiveMenu] = useState("Company Profile")
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [activeTab, setActiveTab] = useState("Home")
   const [activeJobTab, setActiveJobTab] = useState("Active Jobs")
-  const pathname = usePathname()
-
-  const menuItems = [
-    { icon: User, label: "Company Profile", path: "/profile/companyProfile" },
-    {
-      icon: Settings,
-      label: "Settings",
-      subItems: [
-        { icon: Lock, label: "Change Password", path: "/profile/companySettings/changePassword" },
-        { icon: Trash2, label: "Delete Account", path: "/profile/companySettings/deleteAccount" },
-      ],
-    },
-    { icon: LogOut, label: "Log Out", path: "/profile/companyLogout" },
-  ]
 
   const companyImages = [
     "/company-office.jpg",
@@ -119,30 +103,6 @@ export default function CompanyProfilePage() {
     specialtiesList: "Digital Marketing, Paid Ads, Branding, and Creative"
   }
 
-  useEffect(() => {
-    const currentPath = pathname
-    const matchingItem = menuItems.find(
-      (item) => item.path === currentPath || (item.subItems && item.subItems.some((sub) => sub.path === currentPath))
-    )
-    if (matchingItem) {
-      setActiveMenu(matchingItem.label)
-      if (matchingItem.label === "Settings") {
-        setIsSettingsOpen(true)
-      } else {
-        setIsSettingsOpen(false)
-      }
-    }
-  }, [pathname])
-
-  const handleMenuClick = (label) => {
-    if (label === "Settings") {
-      setIsSettingsOpen(!isSettingsOpen)
-    } else {
-      setActiveMenu(label)
-      setIsSettingsOpen(false)
-    }
-  }
-
   const previousImage = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? companyImages.length - 1 : prev - 1))
   }
@@ -155,75 +115,7 @@ export default function CompanyProfilePage() {
     <div className="w-full bg-[#FBFBFB]">
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
         {/* Sidebar */}
-        <div className="w-72 bg-white rounded-xl p-6 flex flex-col">
-          {/* Profile Card */}
-          <div className="text-center mb-8">
-            <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-              <span className="text-4xl">🏢</span>
-            </div>
-            <h2 className="text-xl font-bold text-gray-900">Design Hill</h2>
-            <p className="text-sm text-gray-600 mt-2">
-              Marketing that Performs. Web, Social, and Paid Ads by a Google Partner & B Corp Agency.
-            </p>
-            <div className="flex items-center justify-center gap-1 mt-2">
-              <Image src="/premiumplan.svg" width={24} height={24} alt="Premium" className="w-6 h-6" />
-              <span className="text-sm font-semibold text-[#FF8F27]">Premium Plan</span>
-            </div>
-          </div>
-
-          {/* Menu Items */}
-          <nav className="space-y-2 flex-1">
-            {menuItems.map((item, index) => (
-              <div key={index}>
-                {item.path ? (
-                  <Link href={item.path}>
-                    <button
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                        activeMenu === item.label ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white" : ""
-                      }`}
-                      onClick={() => handleMenuClick(item.label)}
-                    >
-                      <item.icon className={`w-5 h-5 ${activeMenu === item.label ? "text-white" : "text-black"}`} />
-                      <span className="text-sm font-medium">{item.label}</span>
-                    </button>
-                  </Link>
-                ) : (
-                  <>
-                    <button
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                        activeMenu === item.label ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white" : ""
-                      }`}
-                      onClick={() => handleMenuClick(item.label)}
-                    >
-                      <item.icon className={`w-5 h-5 ${activeMenu === item.label ? "text-white" : "text-black"}`} />
-                      <span className="text-sm font-medium">{item.label}</span>
-                      {item.label === "Settings" && (
-                        <span className="ml-auto text-gray-400">{isSettingsOpen ? "⌄" : "›"}</span>
-                      )}
-                    </button>
-                    {item.label === "Settings" && isSettingsOpen && (
-                      <div className="ml-6 mt-2 space-y-2">
-                        {item.subItems.map((subItem, subIndex) => (
-                          <Link key={subIndex} href={subItem.path}>
-                            <button
-                              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                                activeMenu === subItem.label ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white" : ""
-                              }`}
-                              onClick={() => setActiveMenu(subItem.label)}
-                            >
-                              <subItem.icon className={`w-5 h-5 ${activeMenu === subItem.label ? "text-white" : "text-black"}`} />
-                              <span className="text-sm font-medium">{subItem.label}</span>
-                            </button>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            ))}
-          </nav>
-        </div>
+        <RecruiterSidebar />
 
         {/* Main Content */}
         <div className="flex-1 ml-8">
