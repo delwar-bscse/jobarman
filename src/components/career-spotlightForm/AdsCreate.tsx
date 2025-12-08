@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { myFetch } from "utils/myFetch";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   organization_name: string;
@@ -32,11 +33,19 @@ type Inputs = {
   contact_info: string;
 };
 
+type OptionsWithBody = {
+  method?: string;
+  headers?: {};
+  cache?: string;
+  body?: any; // Or a more specific type for 'body'
+};
 export default function AdsCreateForm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
@@ -56,19 +65,40 @@ export default function AdsCreateForm() {
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const [vaildImage, setValidImage] = useState("");
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const imageTypes = ["image/jpg", "image/jpeg", "image/png"];
+
     const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setPreviewImage(url);
-      setFile(file);
+    if (!file) return;
+
+    if (!imageTypes.includes(file.type)) {
+      toast.error("Only JPG, JPEG, PNG images are allowed");
+      setValidImage("Only JPG, JPEG, PNG images are allowed");
+      return;
     }
+    const url = URL.createObjectURL(file);
+    setPreviewImage(url);
+    setFile(file);
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const formData = new FormData();
-    formData.append("data", JSON.stringify(data));
+
+    const contact = {
+      type: "email",
+      details: data.contact_info,
+    };
+
+    const entries = Object.entries(data);
+
+    for (const [key, value] of entries) {
+      if (key != "contact_info") formData.append(key, value);
+    }
+
+    data.contact_info &&
+      formData.append("contact_info", JSON.stringify(contact));
 
     if (file) {
       formData.append("image", file);
@@ -77,17 +107,18 @@ export default function AdsCreateForm() {
       const res = await myFetch("/spotlight", {
         method: "POST",
         body: formData,
-      });
+      } as OptionsWithBody);
 
       if (res.success) {
         toast.success(res.message || "Not create post");
+        reset();
+        router.push("/career-spotlight");
       } else {
-        toast.error(res.message || "try again failed post create");
+        toast.error(res.error[0].message || "try again failed post create");
       }
     } catch (err) {
       toast.error(err.message || "Ads post create");
     }
-    console.log("📌 SUBMITTED DATA:", data);
   };
 
   const errorText = "text-red-500 text-xs mt-1";
@@ -129,6 +160,8 @@ export default function AdsCreateForm() {
               )}
             </div>
           </Label>
+          {/* image error */}
+          {<p className="text-red-500 mt-2">{vaildImage}</p>}
         </div>
 
         {/* FORM */}
@@ -341,6 +374,7 @@ export default function AdsCreateForm() {
             <div>
               <Label>Contact Info</Label>
               <Input
+                type="email"
                 {...register("contact_info", {
                   required: "Contact info is required",
                 })}
