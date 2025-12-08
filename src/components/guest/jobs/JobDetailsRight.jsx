@@ -8,13 +8,24 @@ import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
 
 export default function JobDetailsRight({ details }) {
+  console.log("details", details);
   const [favoriteList, setFavoriteList] = useState(null);
   const [refreshFav, setRefreshFav] = useState(false);
+  const [profile, setProfile] = useState(null);
 
   const favoratesList = useMemo(
     () => favoriteList?.map((item) => item.post._id),
     [favoriteList]
   );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await myFetch("/user/profile");
+      setProfile(res?.data);
+    };
+
+    fetchData();
+  }, []);
 
   // get favorate data
   useEffect(() => {
@@ -91,29 +102,34 @@ export default function JobDetailsRight({ details }) {
           </div>
 
           {/* Right: Save + Apply */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => handleFavorateItem(details?._id)}
-              className="rounded-full border border-gray-300 w-10 h-10 grid place-items-center hover:bg-gray-100"
-            >
-              <Heart
-                fill={
-                  favoratesList?.includes(details._id) ? "currentColor" : "none"
-                }
-                className={
-                  favoratesList?.includes(details._id)
-                    ? "text-red-500 fill-red-500"
-                    : "text-gray-400"
-                }
-              />
-            </button>
-            <button
-              onClick={() => setIsApplyOpen(true)}
-              className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2"
-            >
-              Apply Now <ArrowRight size={18} />
-            </button>
-          </div>
+          {profile?.role === "EMPLOYEE" && (
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => handleFavorateItem(details?._id)}
+                className="rounded-full border border-gray-300 w-10 h-10 grid place-items-center hover:bg-gray-100"
+              >
+                <Heart
+                  fill={
+                    favoratesList?.includes(details?._id)
+                      ? "currentColor"
+                      : "none"
+                  }
+                  className={
+                    favoratesList?.includes(details?._id)
+                      ? "text-red-500 fill-red-500"
+                      : "text-gray-400"
+                  }
+                />
+              </button>
+
+              <button
+                onClick={() => setIsApplyOpen(true)}
+                className="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2"
+              >
+                Apply Now <ArrowRight size={18} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

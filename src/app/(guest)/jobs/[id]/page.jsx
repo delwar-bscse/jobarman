@@ -34,9 +34,11 @@ const HeroBanner = () => {
 const JobDetailsPage = ({ params }) => {
   const resolvedParams = use(params);
   const jobId = resolvedParams.id;
+  console.log("jobId", jobId);
 
   //  details
   const [details, setDetails] = useState(null);
+  console.log("details", details);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -45,6 +47,7 @@ const JobDetailsPage = ({ params }) => {
       try {
         setLoading(true);
         const res = await myFetch(`/job-post/${jobId}`);
+        console.log(res);
         setDetails(res.data);
       } catch (err) {
         setError(err.message || "Failed to load job details");

@@ -1,13 +1,14 @@
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { myFetch } from "../../../utils/myFetch";
 import CustomImage from "../../../shared/CustomImage";
 
 export default async function RecentJobRequest() {
+  const myProfile = await myFetch("/user/profile");
   const res = await myFetch("/application/recent-applications");
-  console.log("res", res.data);
+
+  const role = myProfile?.data?.role === "EMPLOYEE" ? "/jobs" : "all-jobs";
 
   return (
     <section className="py-16 sm:py-24 bg-white">
@@ -51,7 +52,7 @@ export default async function RecentJobRequest() {
         </div>
 
         <div className="flex justify-center mt-8">
-          <Link href="/jobs">
+          <Link href={role}>
             <button className="px-6 py-2 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition font-medium flex items-center gap-2">
               Brows All
               <ArrowRight className="w-4 h-4" />
