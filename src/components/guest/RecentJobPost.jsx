@@ -5,7 +5,7 @@ import { myFetch } from "../../../utils/myFetch";
 
 export default async function RecentJobPost() {
   const res = await myFetch("/job-post/recent-posts");
-  console.log("recent----------------------------------------", res);
+
   return (
     <section className="py-16 sm:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,7 +68,7 @@ export default async function RecentJobPost() {
         </div>
 
         <div className="flex justify-center mt-8">
-          <Link href="/jobs">
+          <Link href="/my-jobs">
             <button className="px-6 py-2 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition font-medium flex items-center gap-2">
               Brows All
               <ArrowRight className="w-4 h-4" />
