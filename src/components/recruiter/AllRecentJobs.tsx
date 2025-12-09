@@ -16,7 +16,7 @@ export default function AllRecentJobs({ data, pagination }) {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
         {data?.map((item: any) => (
-          <Link key={item._id} href={`/jobs/${item._id}`}>
+          <Link key={item._id} href={`/jobs/${item.post}`}>
             <div
               key={item._id}
               className="relative bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex gap-4 items-start"
