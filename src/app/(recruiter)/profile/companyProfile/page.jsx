@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { MapPin, Edit, Trash, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import RecruiterSidebar from "@/components/cui/ReqruiterSidebar"
+import RecruiterSidebar from "@/components/cui/RecruiterSidebar"
 
 export default function CompanyProfilePage() {
   const [activeTab, setActiveTab] = useState("Home")
@@ -357,7 +357,7 @@ export default function CompanyProfilePage() {
             </div>
 
             {/* Edit Profile Button */}
-            <Link href="/profile/editCompanyProfile">
+            <Link href="/profile/edit-home">
               <button className="w-full mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
                 Edit Profile
               </button>

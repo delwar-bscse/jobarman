@@ -9,7 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { myFetch } from "../../../../../utils/myFetch";
-import RecruiterSidebar from "@/components/cui/ReqruiterSidebar";
+import RecruiterSidebar from "@/components/cui/RecruiterSidebar";
 import Image from "next/image";
 import { set } from "date-fns";
 import { formatUrl } from "../../../../../utils/formatUrl";
@@ -33,7 +33,7 @@ function EditHomeSuspense({ name }) {
   useEffect(() => {
     const fetchResume = async () => {
       const res = await myFetch(`/user/profile`);
-      console.log("profile update res :", res.data);
+      console.log("profile get res :", res.data);
 
       if (res.data) {
         const oldProfile = res.data;
@@ -56,6 +56,7 @@ function EditHomeSuspense({ name }) {
 
   const onSubmit = async (data) => {
     console.log("FORM DATA:", data);
+    console.log("FILE DATA:", file);
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
       formData.append(key, value);
@@ -70,7 +71,7 @@ function EditHomeSuspense({ name }) {
         body: formData,
       });
 
-      console.log("res", res);
+      console.log("profile update res", res);
       if (res.success) {
         toast.success("Profile update successfully");
       } else {
@@ -85,10 +86,9 @@ function EditHomeSuspense({ name }) {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      setFile(reader.result);
+      setFile(file);
     };
     reader.readAsDataURL(file);
-    setFile(file);
     setPreview(URL.createObjectURL(file));
 
   };

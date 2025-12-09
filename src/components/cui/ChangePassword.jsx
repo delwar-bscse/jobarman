@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 import { myFetch } from "../../../utils/myFetch";
 import { usePathname } from "next/navigation";
-import RecruiterSidebar from "./ReqruiterSidebar";
+import RecruiterSidebar from "./RecruiterSidebar";
 
 export default function ChangePasswordComponent() {
   const pathname = usePathname();

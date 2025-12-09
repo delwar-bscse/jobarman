@@ -4,7 +4,7 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
-import RecruiterSidebar from "./ReqruiterSidebar";
+import RecruiterSidebar from "./RecruiterSidebar";
 import { myFetch } from "../../../utils/myFetch";
 
 export default function DeleteAccount() {

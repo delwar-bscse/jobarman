@@ -9,7 +9,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import EmployeeSidebar from "./EmployeeSidebar"
 import { myFetch } from "../../../utils/myFetch"
-import RecruiterSidebar from "./ReqruiterSidebar"
+import RecruiterSidebar from "./RecruiterSidebar"
 import { usePathname } from "next/navigation"
 
 export default function PaymentHistoryComponent() {

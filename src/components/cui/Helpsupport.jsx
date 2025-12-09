@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
 import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
-import RecruiterSidebar from "./ReqruiterSidebar";
+import RecruiterSidebar from "./RecruiterSidebar";
 import { myFetch } from "../../../utils/myFetch";
 
 export default function HelpSupport() {
