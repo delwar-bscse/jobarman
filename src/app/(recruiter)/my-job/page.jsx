@@ -24,9 +24,11 @@ const JobPost = async () => {
           </button>
 
           {/* Primary Button */}
-          <button className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
-            Post Insight
-          </button>
+          <Link href="/post-insight">
+            <button className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
+              Post Insight
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -65,34 +67,6 @@ const JobPost = async () => {
           </Link>
         ))}
       </div>
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {jobData.map((job, index) => (
-          <Link
-            className="border border-gray-200 rounded-lg overflow-hidden bg-white"
-            key={index}
-          >
-            <div className="job-image">
-              <img src="cardpic.png" alt="Job" className="w-full h-auto" />
-            </div>
-            <div className="p-4">
-              <h3 className="text-lg font-semibold">{job.title}</h3>
-              <p className="text-gray-600">{job.company}</p>
-              <p className="text-gray-600">{job.location}</p>
-              <div className="flex space-x-2 mt-2">
-                <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                  {job.type}
-                </span>
-                <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                  {job.remote}
-                </span>
-              </div>
-              <p className="text-orange-500 font-bold mt-2">
-                {job.daysRemaining}
-              </p>
-            </div>
-          </Link>
-        ))}
-      </div> */}
     </div>
   );
 };
