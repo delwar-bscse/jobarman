@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverActions: {
+    bodySizeLimit: '500mb'
+  },
+
   images: {
     // Allowed external image patterns
     remotePatterns: [

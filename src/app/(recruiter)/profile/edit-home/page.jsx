@@ -1,27 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { ChevronLeft, Pencil } from "lucide-react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-// import PersonalInfo from "./PersonalInfo";
-// import { myFetch } from "../../../utils/myFetch";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
-import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 import { myFetch } from "../../../../../utils/myFetch";
 import RecruiterSidebar from "@/components/cui/RecruiterSidebar";
 import Image from "next/image";
-import { set } from "date-fns";
 import { formatUrl } from "../../../../../utils/formatUrl";
 
-/* -----------------------------------------------------------
-   MAIN FORM (React Hook Form Version)
------------------------------------------------------------ */
 
-function EditHomeSuspense({ name }) {
+export default function EditHome() {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const { register, handleSubmit, control, reset } = useForm({
+  const [galleryPreview, setGalleryPreview] = useState([]);
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       name: "",
       bio: "",
@@ -30,34 +23,54 @@ function EditHomeSuspense({ name }) {
   });
 
 
-  useEffect(() => {
-    const fetchResume = async () => {
-      const res = await myFetch(`/user/profile`);
-      console.log("profile get res :", res.data);
+  const fetchProfile = async () => {
+    const res = await myFetch(`/user/profile`);
+    console.log("profile get res :", res.data);
 
-      if (res.data) {
-        const oldProfile = res.data;
+    if (res.data) {
+      const oldProfile = res.data;
 
-        const cover = formatUrl(oldProfile.cover) || "";
-        setPreview(cover);
+      const cover = formatUrl(oldProfile.cover) || "";
+      setPreview(cover);
 
-        const normalized = {
-          name: oldProfile.name || "",
-          bio: oldProfile.bio || "",
-          company_overview: oldProfile.company_overview || "",
-        };
+      const normalized = {
+        name: oldProfile.name || "",
+        bio: oldProfile.bio || "",
+        company_overview: oldProfile.company_overview || "",
+      };
 
-        reset(normalized);
-      }
-
+      reset(normalized);
     }
-    fetchResume();
+
+  }
+
+  const fetchGallery = async () => {
+    const res = await myFetch(`/user/gallery`);
+    console.log("gallery get res :", res.data);
+
+    if (res.data) {
+      const oldGallery = res.data.map((item) => {
+        return {
+          id: item._id,
+          image: formatUrl(item.image)
+        }
+      });
+
+      setGalleryPreview(oldGallery);
+    }
+
+  }
+
+  useEffect(() => {
+    fetchGallery();
+    fetchProfile();
   }, []);
 
   const onSubmit = async (data) => {
     console.log("FORM DATA:", data);
     console.log("FILE DATA:", file);
     const formData = new FormData();
+
     for (const [key, value] of Object.entries(data)) {
       formData.append(key, value);
     }
@@ -72,6 +85,7 @@ function EditHomeSuspense({ name }) {
       });
 
       console.log("profile update res", res);
+
       if (res.success) {
         toast.success("Profile update successfully");
       } else {
@@ -93,12 +107,47 @@ function EditHomeSuspense({ name }) {
 
   };
 
+  const handleGalleryFile = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formDataGallery = new FormData();
+    formDataGallery.append("image", file);
+
+
+
+    console.log("gallery update res Test")
+    const resGallery = await myFetch("/user/gallery", {
+      method: "POST",
+      body: formDataGallery,
+    });
+    console.log("gallery update res", resGallery)
+
+    if (resGallery.success) {
+      toast.success("Gallery update successfully");
+      fetchGallery();
+    } else {
+      toast.error(resGallery.message || "Gallery update failed");
+    }
+
+  };
+
+  const handleGalleryFileDelete = async (id) => {
+    const res = await myFetch(`/user/gallery/${id}`, {
+      method: "DELETE",
+    });
+    console.log("Delete res : ", res);
+    if (res.success) {
+      fetchGallery();
+    }
+  };
+
   return (
     <div className="flex max-w-[1440px] mx-auto">
       <div>
         <RecruiterSidebar />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 max-w-[900px] mx-auto">
         <div className="w-full h-40 relative">
           {preview ? <Image src={preview} alt="bg" width={1000} height={300} className="w-full h-40 object-cover" /> : <div className="w-full h-40 bg-gray-200" />}
           <div onClick={() => document.getElementById("recruiterCoverImage").click()} className="flex absolute bottom-4 right-4 items-center gap-2 bg-white p-2 rounded-lg text-gray-700 cursor-pointer">
@@ -142,26 +191,36 @@ function EditHomeSuspense({ name }) {
           </div>
 
           {/* similar structure for Projects, Education, Certifications… */}
+          <div className="flex flex-wrap gap-3">
+            <div onClick={() => document.getElementById("recruiterGalleryImage").click()} className="border-2 border-dashed border-gray-400 size-48 flex flex-col items-center justify-center bg-gray-100 rounded-sm cursor-pointer">
+              <span className="text-5xl text-gray-500">+</span>
+              <span className="font-semibold text-gray-500">Add Image</span>
+              <input
+                type="file"
+                id="recruiterGalleryImage"
+                accept="image/*"
+                onChange={handleGalleryFile}
+                className="hidden"
+              />
+            </div>
+            {galleryPreview.length > 0 && galleryPreview.map((item) => (
+              <div key={item.id} className="relative size-48 border-2 border-gray-200 rounded-sm overflow-hidden">
+                <Image src={item.image} alt="gallery image" width={100} height={100} className="w-full h-full object-cover" />
+                <span onClick={() => handleGalleryFileDelete(item.id)} className="absolute top-2 right-2 bg-gray-300 rounded-full size-5 flex items-center justify-center text-[12px] font-semibold text-gray-600 cursor-pointer">X</span>
+              </div>
+            ))}
+          </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-center pt-8">
             <button
               type="submit"
-              className="px-10 py-3 bg-blue-600 text-white rounded-lg shadow-md"
+              className="px-20 py-3 bg-blue-600 text-white rounded-lg shadow-md"
             >
-              Add Resume
+              Update
             </button>
           </div>
         </form>
       </div>
     </div>
   );
-}
-
-
-export default function EditHome({ name }) {
-  return (
-    <Suspense fallback={<div>Loading...</div>} >
-      <EditHomeSuspense name={name} />
-    </Suspense>
-  )
 }
