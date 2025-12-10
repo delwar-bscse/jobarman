@@ -2,15 +2,22 @@
 
 import { FileText, Edit2, Trash2, Plus } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import Swal from "sweetalert2";
 import { myFetch } from "../../../utils/myFetch";
 import { revalidate } from "../../../utils/revalidateTags";
 
-export default function ResumeList({ data, setSelectResume }) {
-  const handleDeleteResume = (id) => {
+export default function ResumeList({ data }) {
+  const params = useParams();
+  const activeResumeId = params?.id;
+
+  const handleDeleteResume = (e, id) => {
+    e.preventDefault(); // Prevent Link navigation
+    e.stopPropagation(); // Stop event bubbling
+
     Swal.fire({
       title: "Are you sure?",
-      text: "You want delete this resume !",
+      text: "You want to delete this resume!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -26,7 +33,7 @@ export default function ResumeList({ data, setSelectResume }) {
           revalidate("resume");
           Swal.fire({
             title: "Deleted!",
-            text: "Your file has been deleted.",
+            text: "Your resume has been deleted.",
             icon: "success",
           });
         } else {
@@ -40,10 +47,6 @@ export default function ResumeList({ data, setSelectResume }) {
     });
   };
 
-  const handleSelectResume = (id) => {
-    setSelectResume(id);
-  };
-
   return (
     <div className="h-full flex flex-col bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
       {/* Title */}
@@ -53,44 +56,54 @@ export default function ResumeList({ data, setSelectResume }) {
 
       {/* Scrollable list */}
       <div className="flex-1 space-y-2 sm:space-y-3 overflow-y-auto pr-1">
-        {data?.map((resume) => (
-          <div
-            key={resume._id}
-            onClick={() => handleSelectResume(resume._id)}
-            className={`p-2.5 sm:p-3 rounded-lg border cursor-pointer transition-all flex items-center gap-2.5 sm:gap-3 ${"border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"}`}
-          >
-            {/* Icon */}
-            <div className="bg-orange-500 p-1.5 sm:p-2 rounded-lg flex-shrink-0">
-              <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-            </div>
+        {data?.length > 0 ? (
+          data.map((resume) => {
+            const isActive = activeResumeId === resume._id;
 
-            {/* Text */}
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">
-                {resume.resume_name}
-              </h3>
-              {/* <p className="text-xs text-gray-600 line-clamp-1">
-                {resume.summary || "No summary"}
-              </p> */}
-            </div>
+            return (
+              <Link key={resume._id} href={`/my-resume/${resume._id}`}>
+                <div
+                  className={`p-2.5 sm:p-3 rounded-lg my-3 border cursor-pointer transition-all flex items-center gap-2.5 sm:gap-3 bg-white  ${
+                    isActive ? "border-green-500 shadow-md" : "border-gray-200"
+                  }`}
+                >
+                  {/* Icon */}
+                  <div className="bg-orange-500 p-1.5 sm:p-2 rounded-lg flex-shrink-0">
+                    <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  </div>
 
-            {/* Actions */}
-            <div className="flex gap-1 sm:gap-1.5">
-              <Link
-                href={`/add-new-resume?id=${resume._id}`}
-                className="p-1.5 hover:bg-gray-100 rounded transition-colors"
-              >
-                <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600" />
+                  {/* Text */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">
+                      {resume.resume_name}
+                    </h3>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-1 sm:gap-1.5">
+                    <Link
+                      href={`/add-new-resume?id=${resume._id}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="p-1.5 hover:bg-gray-100 rounded transition-colors"
+                    >
+                      <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600" />
+                    </Link>
+                    <button
+                      onClick={(e) => handleDeleteResume(e, resume._id)}
+                      className="p-1.5 hover:bg-red-100 rounded transition-colors"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600" />
+                    </button>
+                  </div>
+                </div>
               </Link>
-              <button
-                onClick={() => handleDeleteResume(resume._id)}
-                className="p-1.5 hover:bg-red-100 rounded transition-colors"
-              >
-                <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600" />
-              </button>
-            </div>
+            );
+          })
+        ) : (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            <p className="text-sm">No resumes found. Create your first one!</p>
           </div>
-        ))}
+        )}
       </div>
 
       {/* Add button */}

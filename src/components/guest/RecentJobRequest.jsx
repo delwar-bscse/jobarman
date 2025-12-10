@@ -8,7 +8,7 @@ export default async function RecentJobRequest() {
   const myProfile = await myFetch("/user/profile");
   const res = await myFetch("/application/recent-applications");
 
-  const role = myProfile?.data?.role === "EMPLOYEE" ? "/jobs" : "all-jobs";
+  const role = myProfile?.data?.role === "EMPLOYEE" ? "/jobs" : "/my-request";
 
   return (
     <section className="py-16 sm:py-24 bg-white">

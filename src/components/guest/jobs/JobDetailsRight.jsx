@@ -70,7 +70,7 @@ export default function JobDetailsRight({ details }) {
           <div className="flex items-start gap-4">
             <div className="w-14 h-14 rounded-full overflow-hidden ring-1 ring-gray-200">
               <CustomImage
-                src={details?.thumbnail}
+                src={details?.recruiter?.image}
                 title={`${details?.title} logo`}
                 width={56}
                 height={56}
@@ -87,7 +87,7 @@ export default function JobDetailsRight({ details }) {
                   href={`#`}
                   className="text-blue-600 font-medium hover:underline"
                 >
-                  No Compnay
+                  {details?.recruiter?.name}
                 </Link>
               </div>
               <div className="mt-2 flex flex-wrap items-center gap-2">
