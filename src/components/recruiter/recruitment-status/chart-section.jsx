@@ -12,7 +12,7 @@ import {
 import { RecentApplicants } from "./recent-applicants";
 import Status from "./Status";
 
-const data = [
+const chartData = [
   {
     day: "Sun",
     Application: 1000,
@@ -64,31 +64,42 @@ const data = [
   },
 ];
 
-const card = [
-  {
-    label: "Application",
-    value: "776",
-    color: "text-orange-500",
-  },
-  {
-    label: "Qualified",
-    value: "520",
-    color: "text-green-500",
-  },
-  {
-    label: "Engagement",
-    value: "90%",
-    color: "text-blue-500",
-  },
-  {
-    label: "Rejected",
-    value: "400",
-    color: "text-red-500",
-  },
+const statuses = [
+  { color: "bg-orange-500", label: "Application" },
+  { color: "bg-green-500", label: "Qualified" },
+  { color: "bg-blue-500", label: "Engagement" },
+  { color: "bg-red-500", label: "Reject" },
 ];
 
-export default function ChartSection() {
+const options = [
+  { value: "week", label: "Week" },
+  { value: "month", label: "Month" },
+];
+export default function ChartSection({ data }) {
   const [timeframe, setTimeframe] = useState("week");
+
+  const card = [
+    {
+      label: "Application",
+      value: data?.summary?.total,
+      color: "text-orange-500",
+    },
+    {
+      label: "Qualified",
+      value: data?.summary?.qualified,
+      color: "text-green-500",
+    },
+    {
+      label: "Engagement",
+      value: data?.summary?.engaged,
+      color: "text-blue-500",
+    },
+    {
+      label: "Rejected",
+      value: data?.summary?.rejected,
+      color: "text-red-500",
+    },
+  ];
   return (
     <div className="max-w-7xl mx-auto py-10">
       {/* status */}
@@ -126,45 +137,34 @@ export default function ChartSection() {
 
           {/* Legend */}
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-orange-500"></div>
-              <span>Application</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500"></div>
-              <span>Qualified</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-500"></div>
-              <span>Engagement</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
-              <span>Reject</span>
-            </div>
+            {statuses.map((item) => (
+              <div key={item.label} className="flex items-center gap-2">
+                <div
+                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${item.color}`}
+                ></div>
+                <span>{item.label}</span>
+              </div>
+            ))}
           </div>
 
           <div className="flex gap-2">
-            <button
-              onClick={() => setTimeframe("week")}
-              className={`px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm rounded-lg transition-colors font-medium cursor-pointer ${
-                timeframe === "week"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
-            >
-              Week
-            </button>
-            <button
-              onClick={() => setTimeframe("month")}
-              className={`px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm rounded-lg transition-colors font-medium cursor-pointer ${
-                timeframe === "month"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
-            >
-              Month
-            </button>
+            {options.map((opt) => {
+              const active = timeframe === opt.value;
+
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => setTimeframe(opt.value)}
+                  className={`px-3 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm rounded-lg font-medium transition-colors ${
+                    active
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -172,7 +172,7 @@ export default function ChartSection() {
         <div className="w-full h-64 sm:h-80 lg:h-96">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
-              data={data}
+              data={chartData}
               margin={{ top: 5, right: 10, left: -20, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
