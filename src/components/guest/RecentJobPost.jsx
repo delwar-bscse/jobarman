@@ -68,7 +68,7 @@ export default async function RecentJobPost() {
         </div>
 
         <div className="flex justify-center mt-8">
-          <Link href="/my-jobs">
+          <Link href="/my-job">
             <button className="px-6 py-2 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition font-medium flex items-center gap-2">
               Brows All
               <ArrowRight className="w-4 h-4" />
