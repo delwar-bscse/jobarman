@@ -1,11 +1,9 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, use, useEffect } from "react";
 import { ChevronLeft } from "lucide-react";
-import { myFetch } from "../../../../../utils/myFetch";
 import JobsDetailsLeft from "@/components/guest/jobs/JobsDetailsSidebar";
 import JobDetailsRight from "@/components/guest/jobs/JobDetailsRight";
+import { myFetch } from "../../../../../utils/myFetch";
 
 const HeroBanner = () => {
   return (
@@ -31,35 +29,35 @@ const HeroBanner = () => {
   );
 };
 
-const JobDetailsPage = ({ params }) => {
-  const resolvedParams = use(params);
-  const jobId = resolvedParams.id;
-  console.log("jobId", jobId);
+export default async function JobDetailsPage({ params }) {
+  const jobId = (await params).id;
+
+  const res = await myFetch(`/job-post/${jobId}`);
 
   //  details
-  const [details, setDetails] = useState(null);
-  console.log("details", details);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // const [details, setDetails] = useState(null);
+  // console.log("details", details);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchPostDetails = async () => {
-      try {
-        setLoading(true);
-        const res = await myFetch(`/job-post/${jobId}`);
-        console.log(res);
-        setDetails(res.data);
-      } catch (err) {
-        setError(err.message || "Failed to load job details");
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchPostDetails = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const res = await myFetch(`/job-post/${jobId}`);
+  //       console.log(res);
+  //       setDetails(res.data);
+  //     } catch (err) {
+  //       setError(err.message || "Failed to load job details");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    if (jobId) {
-      fetchPostDetails();
-    }
-  }, [jobId]);
+  //   if (jobId) {
+  //     fetchPostDetails();
+  //   }
+  // }, [jobId]);
 
   // favoriat list
 
@@ -72,14 +70,11 @@ const JobDetailsPage = ({ params }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left: job details */}
-          {loading ? (
-            <span>Loading...</span>
-          ) : (
-            <JobDetailsRight details={details} />
-          )}
+
+          <JobDetailsRight details={res?.data} />
 
           {/* left side */}
-          <JobsDetailsLeft details={details} />
+          <JobsDetailsLeft details={res?.data} />
         </div>
       </div>
       {/* {isApplyOpen && (
@@ -87,9 +82,7 @@ const JobDetailsPage = ({ params }) => {
       )} */}
     </div>
   );
-};
-
-export default JobDetailsPage;
+}
 
 // const ApplyModal = ({ job, onClose }) => {
 //   const [resume, setResume] = useState(null);
