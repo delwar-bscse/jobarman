@@ -37,7 +37,7 @@ export default function Jobs({ res }) {
       {/* Job Cards Grid */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {res?.data?.map((job) => (
+        {res?.map((job) => (
           <div
             key={job._id}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex items-center gap-4"
