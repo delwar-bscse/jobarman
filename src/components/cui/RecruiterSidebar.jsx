@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { IoIosArrowForward } from "react-icons/io";
 import {
@@ -16,11 +17,24 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import Image from "next/image";
+import { myFetch } from "../../../utils/myFetch";
+import { formatUrl } from "../../../utils/formatUrl";
 
 const RecruiterSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
+  const [profileData, setProfileData] = useState(null);
+
+  const fetchProfile = async () => {
+    const res = await myFetch(`/user/profile`);
+    console.log("profile get res :", res.data);
+    setProfileData(res.data);
+  }
+  
+    useEffect(() => {
+      fetchProfile();
+    }, []);
 
   // ============================
   // ACTIVE MENU (Parent)
@@ -94,15 +108,19 @@ const RecruiterSidebar = () => {
         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-            <span className="text-4xl">🏢</span>
+            <Image
+              src={formatUrl(profileData?.image)}
+              width={24}
+              height={24}
+              alt="Logo"
+              className="w-16 h-16"
+            />
           </div>
-          <h2 className="text-xl font-bold text-gray-900">Design Hill</h2>
-          <p className="text-sm text-gray-600 mt-2">
-            Marketing that Performs. Web, Social, and Paid Ads by a Google Partner & B Corp Agency.
-          </p>
+          <h2 className="text-xl font-bold text-gray-900">{profileData?.name}</h2>
+          <p className="text-sm text-gray-600 mt-2">{profileData?.bio}</p>
           <div className="flex items-center justify-center gap-1 mt-2">
             <Image src="/premiumplan.svg" width={24} height={24} alt="Premium" className="w-6 h-6" />
-            <span className="text-sm font-semibold text-[#FF8F27]">Premium Plan</span>
+            <span className="text-sm font-semibold text-[#FF8F27]">{profileData?.subscription}</span>
           </div>
         </div>
 

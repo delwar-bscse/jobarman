@@ -154,6 +154,9 @@ export default function EditHome() {
             <Pencil size={16} />
             <span>Edit Cover Image</span>
           </div>
+          <button onClick={() => window.history.back()} type="button" className="absolute top-2 left-2 p-1 bg-gray-200 hover:bg-gray-200 rounded-full">
+              <ChevronLeft size={20} />
+            </button>
           <input id="recruiterCoverImage" onChange={handleFile} type="file" accept="image/*" className="hidden" />
         </div>
         <form
@@ -161,13 +164,11 @@ export default function EditHome() {
           className="max-w-7xl mx-auto p-6 bg-white min-h-screen"
         >
           {/* header */}
-          <div className="flex items-center gap-4 mb-8">
-            <button type="button" className="p-2 hover:bg-gray-200 rounded-lg">
+          {/* <div className="flex items-center gap-4 mb-8">
+            <button onClick={() => window.history.back()} type="button" className="p-2 hover:bg-gray-200 rounded-lg">
               <ChevronLeft size={22} />
             </button>
-
-
-          </div>
+          </div> */}
           {/* COMPANY NAME */}
           <div className="flex-1 items-center">
             <h2 className="text-xl font-bold mb-4">Company Name</h2>

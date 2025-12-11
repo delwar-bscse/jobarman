@@ -107,13 +107,13 @@ export default function EditAbout() {
           className="max-w-7xl mx-auto p-6 bg-white min-h-screen"
         >
           {/* header */}
-          <div className="flex items-center gap-4 mb-8">
+          {/* <div className="flex items-center gap-4 mb-8">
             <button type="button" className="p-2 hover:bg-gray-200 rounded-lg">
               <ChevronLeft size={22} />
             </button>
 
 
-          </div>
+          </div> */}
 
 
           {/* ABOUT US */}
