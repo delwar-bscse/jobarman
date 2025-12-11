@@ -1,10 +1,11 @@
-import React from "react";
+import { myFetch } from "utils/myFetch";
 import ChartSection from "../../../../components/recruiter/recruitment-status/chart-section";
 
-export default function page() {
+export default async function page() {
+  const res = await myFetch("/job-post/insights/691ee038f0eaa81d00667734");
   return (
     <div>
-      <ChartSection />
+      <ChartSection data={res?.data} />
     </div>
   );
 }

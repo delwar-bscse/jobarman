@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import CustomImage from "../../../../shared/CustomImage";
 import { myFetch } from "../../../../utils/myFetch";
+import Status from "@/components/recruiter/recruitment-status/Status";
 
 const JobPost = async () => {
   const res = await myFetch("/job-post/recent-posts");
@@ -12,24 +13,7 @@ const JobPost = async () => {
     <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="my-6">
         <h2 className="text-2xl font-bold">My Job Post</h2>
-        <div className="flex space-x-4 mt-5 md:mt-5">
-          {/* Secondary Button */}
-          <button className="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition">
-            Interview
-          </button>
-
-          {/* Secondary Button */}
-          <button className="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition">
-            Short Listed
-          </button>
-
-          {/* Primary Button */}
-          <Link href="/post-insight">
-            <button className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
-              Post Insight
-            </button>
-          </Link>
-        </div>
+        <Status />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
