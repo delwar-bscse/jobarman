@@ -1,9 +1,11 @@
-import Image from "next/image";
 import UserResume from "./UserResume";
 import Status from "./Status";
 import ShortListResume from "./ShortListResume";
+import { myFetch } from "utils/myFetch";
 
-export default function ShortList() {
+export default async function ShortList() {
+  const res = await myFetch("/application?status=SHORTLISTED");
+
   return (
     <div className="max-w-7xl mx-auto ">
       {/* status */}
@@ -11,7 +13,7 @@ export default function ShortList() {
 
       <div className="grid grid-cols-3 space-x-4">
         <div className="col-span-1">
-          <ShortListResume />
+          <ShortListResume data={res?.data} />
         </div>
 
         {/* resume */}
