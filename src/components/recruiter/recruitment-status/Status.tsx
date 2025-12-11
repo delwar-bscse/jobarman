@@ -7,7 +7,7 @@ export default function Status() {
   const pathname = usePathname();
 
   const links = [
-    { href: "/interview", label: "Interview" },
+    { href: "/interviews", label: "Interviews" },
     { href: "/short-list", label: "Short Listed" },
     { href: "/post-insight", label: "Post Insight" },
   ];
