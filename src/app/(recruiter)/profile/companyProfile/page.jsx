@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client"
 
 import { useState, useEffect } from "react"
@@ -5,18 +6,16 @@ import { MapPin, Edit, Trash, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import RecruiterSidebar from "@/components/cui/RecruiterSidebar"
+import { myFetch } from "../../../../../utils/myFetch"
+import { formatUrl } from "../../../../../utils/formatUrl"
+import { toCapitalizeSentence } from "../../../../../utils/textFormat"
 
 export default function CompanyProfilePage() {
   const [activeTab, setActiveTab] = useState("Home")
   const [activeJobTab, setActiveJobTab] = useState("Active Jobs")
+  const [profileData, setProfileData] = useState(null);
 
-  const companyImages = [
-    "/company-office.jpg",
-    "/company-office2.jpg",
-    "/company-office3.jpg",
-  ]
-
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [galleryPreview, setGalleryPreview] = useState([]);
 
   const jobs = [
     {
@@ -81,35 +80,35 @@ export default function CompanyProfilePage() {
     },
   ]
 
-  const galleryImages = [
-    "/gallery1.jpg",
-    "/gallery2.jpg",
-    "/gallery3.jpg",
-    "/gallery4.jpg",
-    "/gallery5.jpg",
-    "/gallery6.jpg",
-    "/gallery7.jpg",
-    "/gallery8.jpg",
-  ]
 
-  const companyInfo = {
-    aboutUs: "Dependopolis Is A Full-Service Integrated Marketing Agency Specializing In 360-Degree Marketing, Branding, Digital Transformation, And Digital Presence. Since 2021, We Have Partnered With Businesses To Create Tailored Strategies That Drive Sustainable Growth. Our Approach Combines Marketing Expertise With Innovative Digital Solutions, Translating Business Objectives Into Measurable Results. We Work With Both Emerging Ventures And Established Brands, Offering A Comprehensive Suite Of Services Designed To Enhance Brand Impact And Market Positioning.",
-    specialties: "Brand And Creative, Branding & Identity, Digital Presence, Integrated Marketing, Digital Marketing",
-    industry: "Marketing",
-    companySize: "11-50 employees",
-    headquarters: "Dhaka",
-    type: "Public Company",
-    founded: "2021",
-    specialtiesList: "Digital Marketing, Paid Ads, Branding, and Creative"
+  const fetchProfile = async () => {
+    const res = await myFetch(`/user/profile`);
+    console.log("profile get res :", res.data);
+    setProfileData(res.data);
   }
 
-  const previousImage = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? companyImages.length - 1 : prev - 1))
+
+  const fetchGallery = async () => {
+    const res = await myFetch(`/user/gallery`);
+    console.log("gallery get res :", res.data);
+
+    if (res.data) {
+      const oldGallery = res.data.map((item) => {
+        return {
+          id: item._id,
+          image: formatUrl(item.image)
+        }
+      });
+
+      setGalleryPreview(oldGallery);
+    }
+
   }
 
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev === companyImages.length - 1 ? 0 : prev + 1))
-  }
+  useEffect(() => {
+    fetchGallery();
+    fetchProfile();
+  }, []);
 
   return (
     <div className="w-full bg-[#FBFBFB]">
@@ -120,87 +119,72 @@ export default function CompanyProfilePage() {
         {/* Main Content */}
         <div className="flex-1 ml-8">
           <div className="max-w-5xl mx-auto">
-            {/* Company Header Image with Navigation */}
+            {/* Company Header Image */}
             <div className="relative h-64 mb-6 rounded-lg overflow-hidden">
               <Image
-                src={companyImages[currentImageIndex]}
+                src={formatUrl(profileData?.cover)}
                 alt="Company Office"
                 width={1200}
                 height={256}
                 className="w-full h-full object-cover"
               />
-              <button
-                onClick={previousImage}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={nextImage}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-4 mb-6">
+            <div className="flex justify-center gap-4 mb-6">
               <button
                 onClick={() => setActiveTab("Home")}
-                className={`px-8 py-2.5 rounded-lg font-semibold transition-colors ${
-                  activeTab === "Home"
-                    ? "bg-[#FF8C00] text-white"
-                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-                }`}
+                className={`px-8 py-2.5 rounded-lg font-semibold transition-colors ${activeTab === "Home"
+                  ? "bg-[#FF8C00] text-white"
+                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                  }`}
               >
                 Home
               </button>
               <button
                 onClick={() => setActiveTab("About")}
-                className={`px-8 py-2.5 rounded-lg font-semibold transition-colors ${
-                  activeTab === "About"
-                    ? "bg-[#FF8C00] text-white"
-                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-                }`}
+                className={`px-8 py-2.5 rounded-lg font-semibold transition-colors ${activeTab === "About"
+                  ? "bg-[#FF8C00] text-white"
+                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                  }`}
               >
                 About
               </button>
               <button
                 onClick={() => setActiveTab("Jobs")}
-                className={`px-8 py-2.5 rounded-lg font-semibold transition-colors ${
-                  activeTab === "Jobs"
-                    ? "bg-[#FF8C00] text-white"
-                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-                }`}
+                className={`px-8 py-2.5 rounded-lg font-semibold transition-colors ${activeTab === "Jobs"
+                  ? "bg-[#FF8C00] text-white"
+                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                  }`}
               >
                 Jobs
               </button>
             </div>
 
             {/* Tab Content */}
-            <div className="grid gap-8" style={{ gridTemplateColumns: "536px 1fr" }}>
+            <div className="w-full max-w-[1000px] mx-auto">
               {activeTab === "Home" && (
-                <>
+                <div className="space-y-8">
                   {/* Left Column */}
-                  <div className="w-[536px] space-y-6">
-                    <div className="bg-white rounded-lg p-6 border border-gray-200">
+                  <div className="space-y-6">
+                    <div className="">
                       <h3 className="text-lg font-bold text-gray-900 mb-4">Overview</h3>
                       <p className="text-gray-700 text-sm leading-relaxed">
-                        {companyInfo.aboutUs}
+                        {profileData?.company_overview}
                       </p>
                     </div>
                   </div>
 
                   {/* Right Column */}
                   <div className="space-y-6">
-                    <div className="bg-white rounded-lg p-6 border border-gray-200">
+                    <div className="">
                       <h3 className="text-lg font-bold text-gray-900 mb-6">Gallery</h3>
                       <div className="grid grid-cols-4 gap-3">
-                        {galleryImages.map((img, index) => (
-                          <div key={index} className="aspect-square rounded-lg overflow-hidden">
+                        {galleryPreview.map((item) => (
+                          <div key={item.id} className="aspect-square rounded-lg overflow-hidden">
                             <Image
-                              src={img}
-                              alt={`Gallery ${index + 1}`}
+                              src={item.image}
+                              alt={`Gallery Image ${item.id}`}
                               width={150}
                               height={150}
                               className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
@@ -210,57 +194,62 @@ export default function CompanyProfilePage() {
                       </div>
                     </div>
                   </div>
-                </>
+                </div>
               )}
 
               {activeTab === "About" && (
                 <>
                   {/* Left Column */}
-                  <div className="w-[536px] space-y-6">
-                    <div className="bg-white rounded-lg p-6 border border-gray-200">
-                      <h3 className="text-lg font-bold text-gray-900 mb-4">About Us</h3>
-                      <p className="text-gray-700 text-sm leading-relaxed">
-                        {companyInfo.aboutUs}
-                      </p>
-                    </div>
-
-                    <div className="bg-white rounded-lg p-6 border border-gray-200">
-                      <h3 className="text-lg font-bold text-gray-900 mb-4">Specialties</h3>
-                      <p className="text-gray-700 text-sm leading-relaxed">
-                        {companyInfo.specialties}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Right Column */}
                   <div className="space-y-6">
-                    <div className="bg-white rounded-lg p-6 border border-gray-200">
-                      <h3 className="text-lg font-bold text-gray-900 mb-4">Company Information</h3>
-                      <div className="space-y-3 text-sm">
-                        <div>
-                          <span className="text-gray-600">Industry: </span>
-                          <span className="text-gray-900 font-medium">{companyInfo.industry}</span>
-                        </div>
-                        <div>
-                          <span className="text-gray-600">Company Size: </span>
-                          <span className="text-gray-900 font-medium">{companyInfo.companySize}</span>
-                        </div>
-                        <div>
-                          <span className="text-gray-600">Headquarters: </span>
-                          <span className="text-gray-900 font-medium">{companyInfo.headquarters}</span>
-                        </div>
-                        <div>
-                          <span className="text-gray-600">Type: </span>
-                          <span className="text-gray-900 font-medium">{companyInfo.type}</span>
-                        </div>
-                        <div>
-                          <span className="text-gray-600">Founded: </span>
-                          <span className="text-gray-900 font-medium">{companyInfo.founded}</span>
-                        </div>
-                        <div>
-                          <span className="text-gray-600">Specialties: </span>
-                          <span className="text-gray-900 font-medium">{companyInfo.specialtiesList}</span>
-                        </div>
+                    <div className="">
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">About Us</h3>
+                      <p className="text-gray-700 text-sm leading-relaxed">
+                        {profileData?.about_us}
+                      </p>
+                    </div>
+
+                    <div className="">
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">Mission</h3>
+                      <p className="text-gray-700 text-sm leading-relaxed">
+                        {profileData?.mission}
+                      </p>
+                    </div>
+
+                    {/* Company History */}
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">Company History</h3>
+                      <div>
+                        {
+                          Object.entries(profileData?.overview).map(([key, value]) => {
+                            if (!value) return null
+                            if (key === "_id") return null
+                            return (
+                              <div key={key} className="flex gap-2">
+                                <h3 className="text-gray-800 leading-relaxed w-40">{toCapitalizeSentence(key)}</h3>
+                                <p className="text-gray-700 leading-relaxed">: {value}</p>
+                              </div>
+                            )
+                          })
+                        }
+                      </div>
+                    </div>
+
+                    {/* Contact Information */}
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">Contact Information</h3>
+                      <div>
+                        {
+                          Object.entries(profileData?.contactInfo).map(([key, value]) => {
+                            if (!value) return null
+                            if (key === "_id") return null
+                            return (
+                              <div key={key} className="flex gap-2">
+                                <h3 className="text-gray-800 leading-relaxed w-20">{toCapitalizeSentence(key)}</h3>
+                                <p className="text-gray-700 leading-relaxed">: {value}</p>
+                              </div>
+                            )
+                          })
+                        }
                       </div>
                     </div>
                   </div>
@@ -271,23 +260,21 @@ export default function CompanyProfilePage() {
                 <div className="col-span-2">
                   {/* Active/Close Jobs Toggle */}
                   <div className="flex gap-4 mb-6">
-                    <button 
+                    <button
                       onClick={() => setActiveJobTab("Active Jobs")}
-                      className={`flex-1 font-semibold py-3 rounded-full transition-colors ${
-                        activeJobTab === "Active Jobs"
-                          ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                          : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-                      }`}
+                      className={`flex-1 font-semibold py-3 rounded-full transition-colors ${activeJobTab === "Active Jobs"
+                        ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+                        : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                        }`}
                     >
                       Active Jobs
                     </button>
-                    <button 
+                    <button
                       onClick={() => setActiveJobTab("Close Jobs")}
-                      className={`flex-1 font-semibold py-3 rounded-full transition-colors ${
-                        activeJobTab === "Close Jobs"
-                          ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                          : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-                      }`}
+                      className={`flex-1 font-semibold py-3 rounded-full transition-colors ${activeJobTab === "Close Jobs"
+                        ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+                        : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                        }`}
                     >
                       Close Jobs
                     </button>
@@ -357,11 +344,18 @@ export default function CompanyProfilePage() {
             </div>
 
             {/* Edit Profile Button */}
-            <Link href="/profile/edit-home">
-              <button className="w-full mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
-                Edit Profile
-              </button>
-            </Link>
+            <div className="w-full flex items-center justify-center">
+              {activeTab === "Home" && <Link href="/profile/edit-home">
+                <button className="w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
+                  Edit Profile
+                </button>
+              </Link>}
+              {activeTab === "About" && <Link href="/profile/edit-about">
+                <button className="w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
+                  Edit Profile
+                </button>
+              </Link>}
+            </div>
           </div>
         </div>
       </div>
