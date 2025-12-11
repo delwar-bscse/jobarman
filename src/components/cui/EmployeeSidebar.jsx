@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { IoIosArrowForward } from "react-icons/io";
 import {
@@ -16,11 +17,24 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import Image from "next/image";
+import { myFetch } from "../../../utils/myFetch";
+import { formatUrl } from "../../../utils/formatUrl";
 
 const EmployeeSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
+    const [profileData, setProfileData] = useState(null);
+  
+    const fetchProfile = async () => {
+      const res = await myFetch(`/user/profile`);
+      console.log("profile get res :", res.data);
+      setProfileData(res.data);
+    }
+    
+      useEffect(() => {
+        fetchProfile();
+      }, []);
 
   // ============================
   // ACTIVE MENU (Parent)
@@ -109,24 +123,22 @@ const EmployeeSidebar = () => {
           </div>
       </div> */}
       <div className="w-72 bg-white rounded-xl p-6 flex flex-col">
-        {/* Profile Card */}
+         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-            <span className="text-4xl">👤</span>
-          </div>
-          <h2 className="text-xl font-bold text-gray-900">Atiqur Rifat</h2>
-          <p className="text-sm text-gray-600">UX Designer</p>
-          <div className="flex items-center justify-center gap-1 mt-2">
             <Image
-              src="/premiumplan.svg"
+              src={formatUrl(profileData?.image)}
               width={24}
               height={24}
-              alt="Profile"
-              className="w-6 h-6 rounded-full"
+              alt="Logo"
+              className="w-16 h-16"
             />
-            <span className="text-sm font-semibold text-[#FF8F27]">
-              Premium Plan
-            </span>
+          </div>
+          <h2 className="text-xl font-bold text-gray-900">{profileData?.name}</h2>
+          <p className="text-sm text-gray-600 mt-2">{profileData?.bio}</p>
+          <div className="flex items-center justify-center gap-1 mt-2">
+            <Image src="/premiumplan.svg" width={24} height={24} alt="Premium" className="w-6 h-6" />
+            <span className="text-sm font-semibold text-[#FF8F27]">{profileData?.subscription}</span>
           </div>
         </div>
 
