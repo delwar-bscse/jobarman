@@ -57,12 +57,6 @@ export default async function RecentJobPost() {
                   </span>
                 </div>
               </div>
-              <div className="hidden sm:flex flex-col items-end">
-                <div className="flex items-center gap-1 text-orange-500 text-sm font-medium">
-                  <Calendar className="w-4 h-4" />
-                  {job.remaining}
-                </div>
-              </div>
             </div>
           ))}
         </div>
