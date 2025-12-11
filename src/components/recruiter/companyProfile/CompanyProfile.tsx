@@ -1,28 +1,56 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import RecruiterSidebar from "@/components/cui/RecruiterSidebar";
-import About from "./About";
-import Home from "./Home";
-import Jobs from "./Jobs";
-import BannerHero from "./BannerHero";
 
-export default function CompanyProfilePage({ res }) {
+import Jobs from "@/components/recruiter/companyProfile/Jobs";
+import Home from "@/components/recruiter/companyProfile/Home";
+import About from "@/components/recruiter/companyProfile/About";
+import BannerHero from "@/components/recruiter/companyProfile/BannerHero";
+import { myFetch } from "utils/myFetch";
+import { formatUrl } from "utils/formatUrl";
+import { toCapitalizeSentence } from "../../../../utils/textFormat";
+
+export default function CompanyProfilePage() {
   const [activeTab, setActiveTab] = useState("Home");
+  const [profileData, setProfileData] = useState(null);
+  const [jobs, setJobs] = useState(null);
+  const [galleryPreview, setGalleryPreview] = useState([]);
 
-  const companyInfo = {
-    aboutUs:
-      "Dependopolis Is A Full-Service Integrated Marketing Agency Specializing In 360-Degree Marketing, Branding, Digital Transformation, And Digital Presence. Since 2021, We Have Partnered With Businesses To Create Tailored Strategies That Drive Sustainable Growth. Our Approach Combines Marketing Expertise With Innovative Digital Solutions, Translating Business Objectives Into Measurable Results. We Work With Both Emerging Ventures And Established Brands, Offering A Comprehensive Suite Of Services Designed To Enhance Brand Impact And Market Positioning.",
-    specialties:
-      "Brand And Creative, Branding & Identity, Digital Presence, Integrated Marketing, Digital Marketing",
-    industry: "Marketing",
-    companySize: "11-50 employees",
-    headquarters: "Dhaka",
-    type: "Public Company",
-    founded: "2021",
-    specialtiesList: "Digital Marketing, Paid Ads, Branding, and Creative",
+  const fetchProfile = async () => {
+    const res = await myFetch(`/user/profile`);
+    console.log("profile get res :", res.data);
+    setProfileData(res.data);
   };
+
+  const fetchGallery = async () => {
+    const res = await myFetch(`/user/gallery`);
+    console.log("gallery get res :", res.data);
+
+    if (res.data) {
+      const oldGallery = res.data.map((item) => {
+        return {
+          id: item._id,
+          image: formatUrl(item.image),
+        };
+      });
+
+      setGalleryPreview(oldGallery);
+    }
+  };
+
+  const fetchJobs = async () => {
+    const res = await myFetch("/job-post/recent-posts");
+    setJobs(res?.data);
+  };
+
+  useEffect(() => {
+    fetchGallery();
+    fetchProfile();
+    fetchJobs();
+  }, []);
 
   return (
     <div className="w-full bg-[#FBFBFB]">
@@ -33,8 +61,10 @@ export default function CompanyProfilePage({ res }) {
         {/* Main Content */}
         <div className="flex-1 ml-8">
           <div className="max-w-5xl mx-auto">
-            {/* Company Header Image with Navigation */}
-            <BannerHero />
+            {/* Company Header Image */}
+            <div className="relative h-64 mb-6 rounded-lg overflow-hidden">
+              <BannerHero />
+            </div>
 
             {/* Tabs */}
             <div className="flex gap-4 mb-6">
@@ -54,23 +84,41 @@ export default function CompanyProfilePage({ res }) {
             </div>
 
             {/* Tab Content */}
-            <div
-              className="grid gap-8"
-              style={{ gridTemplateColumns: "536px 1fr" }}
-            >
-              {activeTab === "Home" && <Home companyInfo={companyInfo} />}
+            <div className="w-full max-w-[1000px] mx-auto">
+              {activeTab === "Home" && (
+                <Home
+                  profileData={profileData}
+                  galleryPreview={galleryPreview}
+                />
+              )}
 
-              {activeTab === "About" && <About companyInfo={companyInfo} />}
+              {activeTab === "About" && (
+                <About
+                  profileData={profileData}
+                  toCapitalizeSentence={toCapitalizeSentence}
+                />
+              )}
 
-              {activeTab === "Jobs" && <Jobs res={res} />}
+              {activeTab === "Jobs" && <Jobs res={jobs} />}
             </div>
 
             {/* Edit Profile Button */}
-            <Link href="/profile/edit-home">
-              <button className="w-full mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
-                Edit Profile
-              </button>
-            </Link>
+            <div className="w-full flex items-center justify-center">
+              {activeTab === "Home" && (
+                <Link href="/profile/edit-home">
+                  <button className="w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
+                    Edit Profile
+                  </button>
+                </Link>
+              )}
+              {activeTab === "About" && (
+                <Link href="/profile/edit-about">
+                  <button className="w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
+                    Edit Profile
+                  </button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>

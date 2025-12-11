@@ -30,7 +30,9 @@ export default function About({ profileData, toCapitalizeSentence }) {
                   <h3 className="text-gray-800 leading-relaxed w-40">
                     {toCapitalizeSentence(key)}
                   </h3>
-                  <p className="text-gray-700 leading-relaxed">: {value}</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    : {value as any}
+                  </p>
                 </div>
               );
             })}
@@ -52,7 +54,9 @@ export default function About({ profileData, toCapitalizeSentence }) {
                   <h3 className="text-gray-800 leading-relaxed w-20">
                     {toCapitalizeSentence(key)}
                   </h3>
-                  <p className="text-gray-700 leading-relaxed">: {value}</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    : {value as any}
+                  </p>
                 </div>
               );
             })}
