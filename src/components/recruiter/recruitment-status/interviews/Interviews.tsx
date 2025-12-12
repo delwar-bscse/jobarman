@@ -15,6 +15,24 @@ export default function Interviews({ data }) {
     params.set("id", id);
     router.replace(`${pathname}?${params}`);
   };
+
+  const formatTime = (t) =>
+    t
+      ? new Date(`1970-01-01 ${t}`).toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+        })
+      : "";
+
+  const formatDate = (d) =>
+    d
+      ? new Date(d).toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })
+      : "";
+
   return (
     <div className="max-w-7xl mx-auto ">
       {data?.map((item) => (
@@ -46,7 +64,9 @@ export default function Interviews({ data }) {
               </p>
 
               <button className="mt-2 w-fit rounded-lg border border-blue-600 px-3 py-1 text-xs font-medium text-blue-600">
-                Schedule: 01 Oct 2025 At 11 Am
+                Schedule:
+                {formatDate(item?.interviewDetails?.date)} At{" "}
+                {formatTime(item?.interviewDetails?.time)}
               </button>
             </div>
           </Link>
