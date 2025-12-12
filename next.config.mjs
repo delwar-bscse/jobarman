@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverActions: {
-    bodySizeLimit: '500mb'
+    bodySizeLimit: "500mb",
   },
 
   images: {
@@ -28,6 +28,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "via.placeholder.com",
+        port: "",
+        pathname: "**", // Allow all paths under this domain
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
         port: "",
         pathname: "**", // Allow all paths under this domain
       },

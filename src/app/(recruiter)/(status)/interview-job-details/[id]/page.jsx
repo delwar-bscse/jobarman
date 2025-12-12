@@ -1,0 +1,13 @@
+import InterviewJobDetails from "@/components/recruiter/recruitment-status/interviews/InterviewJobDetails";
+import { myFetch } from "utils/myFetch";
+
+export default async function page({ params }) {
+  const id = (await params).id;
+  const res = await myFetch(`/application/${id}`);
+
+  return (
+    <div>
+      <InterviewJobDetails data={res?.data} />
+    </div>
+  );
+}
