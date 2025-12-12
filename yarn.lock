@@ -682,6 +682,115 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@napi-rs/canvas-android-arm64@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-android-arm64@npm:0.1.84"
+  conditions: os=android & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-darwin-arm64@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-darwin-arm64@npm:0.1.84"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-darwin-x64@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-darwin-x64@npm:0.1.84"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-arm-gnueabihf@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-linux-arm-gnueabihf@npm:0.1.84"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-arm64-gnu@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-linux-arm64-gnu@npm:0.1.84"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-arm64-musl@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-linux-arm64-musl@npm:0.1.84"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-riscv64-gnu@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-linux-riscv64-gnu@npm:0.1.84"
+  conditions: os=linux & cpu=riscv64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-x64-gnu@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-linux-x64-gnu@npm:0.1.84"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-linux-x64-musl@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-linux-x64-musl@npm:0.1.84"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas-win32-x64-msvc@npm:0.1.84":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas-win32-x64-msvc@npm:0.1.84"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@napi-rs/canvas@npm:^0.1.80, @napi-rs/canvas@npm:^0.1.81":
+  version: 0.1.84
+  resolution: "@napi-rs/canvas@npm:0.1.84"
+  dependencies:
+    "@napi-rs/canvas-android-arm64": "npm:0.1.84"
+    "@napi-rs/canvas-darwin-arm64": "npm:0.1.84"
+    "@napi-rs/canvas-darwin-x64": "npm:0.1.84"
+    "@napi-rs/canvas-linux-arm-gnueabihf": "npm:0.1.84"
+    "@napi-rs/canvas-linux-arm64-gnu": "npm:0.1.84"
+    "@napi-rs/canvas-linux-arm64-musl": "npm:0.1.84"
+    "@napi-rs/canvas-linux-riscv64-gnu": "npm:0.1.84"
+    "@napi-rs/canvas-linux-x64-gnu": "npm:0.1.84"
+    "@napi-rs/canvas-linux-x64-musl": "npm:0.1.84"
+    "@napi-rs/canvas-win32-x64-msvc": "npm:0.1.84"
+  dependenciesMeta:
+    "@napi-rs/canvas-android-arm64":
+      optional: true
+    "@napi-rs/canvas-darwin-arm64":
+      optional: true
+    "@napi-rs/canvas-darwin-x64":
+      optional: true
+    "@napi-rs/canvas-linux-arm-gnueabihf":
+      optional: true
+    "@napi-rs/canvas-linux-arm64-gnu":
+      optional: true
+    "@napi-rs/canvas-linux-arm64-musl":
+      optional: true
+    "@napi-rs/canvas-linux-riscv64-gnu":
+      optional: true
+    "@napi-rs/canvas-linux-x64-gnu":
+      optional: true
+    "@napi-rs/canvas-linux-x64-musl":
+      optional: true
+    "@napi-rs/canvas-win32-x64-msvc":
+      optional: true
+  checksum: 10c0/6560820f8fa35c33c99da0768fca15e5df56f91b3e7f9c48997f97ead72d766cd3480e85d326a5a584a902fbdc6cba59fedd2e9ac6aca6465944edd2259a125a
+  languageName: node
+  linkType: hard
+
 "@napi-rs/wasm-runtime@npm:^0.2.11":
   version: 0.2.12
   resolution: "@napi-rs/wasm-runtime@npm:0.2.12"
@@ -1466,17 +1575,6 @@ __metadata:
   version: 1.1.1
   resolution: "@radix-ui/rect@npm:1.1.1"
   checksum: 10c0/0dac4f0f15691199abe6a0e067821ddd9d0349c0c05f39834e4eafc8403caf724106884035ae91bbc826e10367e6a5672e7bec4d4243860fa7649de246b1f60b
-  languageName: node
-  linkType: hard
-
-"@react-pdf-viewer/core@npm:^3.12.0":
-  version: 3.12.0
-  resolution: "@react-pdf-viewer/core@npm:3.12.0"
-  peerDependencies:
-    pdfjs-dist: ^2.16.105 || ^3.0.279
-    react: ">=16.8.0"
-    react-dom: ">=16.8.0"
-  checksum: 10c0/40c28687c11f2b929ea591806e23066103854ff8427f5af592e2aaedd08a9d401144fa4f9fb8c0c4a82c08d4ace6de16dda0192d8050442e75abb10c9c4a5973
   languageName: node
   linkType: hard
 
@@ -2425,7 +2523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clsx@npm:^2.1.1":
+"clsx@npm:^2.0.0, clsx@npm:^2.1.1":
   version: 2.1.1
   resolution: "clsx@npm:2.1.1"
   checksum: 10c0/c4c8eb865f8c82baab07e71bfa8897c73454881c4f99d6bc81585aecd7c441746c1399d08363dc096c550cceaf97bd4ce1e8854e1771e9998d9f94c4fe075839
@@ -2744,6 +2842,13 @@ __metadata:
     has-property-descriptors: "npm:^1.0.0"
     object-keys: "npm:^1.1.1"
   checksum: 10c0/88a152319ffe1396ccc6ded510a3896e77efac7a1bfbaa174a7b00414a1747377e0bb525d303794a47cf30e805c2ec84e575758512c6e44a993076d29fd4e6c3
+  languageName: node
+  linkType: hard
+
+"dequal@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "dequal@npm:2.0.3"
+  checksum: 10c0/f98860cdf58b64991ae10205137c0e97d384c3a4edc7f807603887b7c4b850af1224a33d88012009f150861cbee4fa2d322c4cc04b9313bee312e47f6ecaa888
   languageName: node
   linkType: hard
 
@@ -4168,7 +4273,6 @@ __metadata:
     "@radix-ui/react-select": "npm:^2.2.6"
     "@radix-ui/react-slider": "npm:^1.3.6"
     "@radix-ui/react-slot": "npm:^1.2.4"
-    "@react-pdf-viewer/core": "npm:^3.12.0"
     "@thednp/dommatrix": "npm:^2.0.12"
     "@types/node": "npm:24.9.1"
     "@types/react": "npm:19.2.2"
@@ -4187,6 +4291,7 @@ __metadata:
     next: "npm:16.0.0"
     next-themes: "npm:^0.4.6"
     pdf-viewer-reactjs: "npm:^2.2.3"
+    pdfjs-dist: "npm:^5.4.449"
     postcss: "npm:^8.5.6"
     react: "npm:19.2.0"
     react-circular-progressbar: "npm:^2.2.0"
@@ -4194,6 +4299,7 @@ __metadata:
     react-dom: "npm:19.2.0"
     react-hook-form: "npm:^7.66.1"
     react-icons: "npm:^5.5.0"
+    react-pdf: "npm:^10.2.0"
     react-progressbar-semicircle: "npm:^1.2.1"
     recharts: "npm:^3.3.0"
     simple-peer: "npm:^9.11.1"
@@ -4353,7 +4459,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.0.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -4389,6 +4495,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"make-cancellable-promise@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "make-cancellable-promise@npm:2.0.0"
+  checksum: 10c0/e9d76281ea0005001c3de95d26ea6cd508f44ffd8fa2e19193b92d1e8bc03cf75f87750baec6de3dd032b12f8b747ba88fef3328309fe005dbbdd56ce70617c6
+  languageName: node
+  linkType: hard
+
+"make-event-props@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "make-event-props@npm:2.0.0"
+  checksum: 10c0/8c799634839498064dd73c979842af9d1d5a6156fe447edda6144318c948cfa7edbc434b14cebd5898e148e4d52aa37ffa204a82c1e2ee43e5946442f8b2466d
+  languageName: node
+  linkType: hard
+
 "make-fetch-happen@npm:^15.0.0":
   version: 15.0.3
   resolution: "make-fetch-happen@npm:15.0.3"
@@ -4412,6 +4532,18 @@ __metadata:
   version: 1.1.0
   resolution: "math-intrinsics@npm:1.1.0"
   checksum: 10c0/7579ff94e899e2f76ab64491d76cf606274c874d8f2af4a442c016bd85688927fcfca157ba6bf74b08e9439dc010b248ce05b96cc7c126a354c3bae7fcb48b7f
+  languageName: node
+  linkType: hard
+
+"merge-refs@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "merge-refs@npm:2.0.0"
+  peerDependencies:
+    "@types/react": ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/3a8c72da328ca68dd8f9e1168687a348baae585d9c1a5ae0f524e067663f00ce3e46465a54616d0cf65f03d55cc9b847b0902f4642c4425d6dc009610ea26ebb
   languageName: node
   linkType: hard
 
@@ -4908,6 +5040,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pdfjs-dist@npm:5.4.296":
+  version: 5.4.296
+  resolution: "pdfjs-dist@npm:5.4.296"
+  dependencies:
+    "@napi-rs/canvas": "npm:^0.1.80"
+  dependenciesMeta:
+    "@napi-rs/canvas":
+      optional: true
+  checksum: 10c0/a9e438f12771963f7c29934b4d5e58d508fa43954e4e4cbf951b040c6c89891d048e3d9d3799ed9ec6ceade677628a25f88062b300c5425777ce0b522e457532
+  languageName: node
+  linkType: hard
+
 "pdfjs-dist@npm:^2.6.347":
   version: 2.16.105
   resolution: "pdfjs-dist@npm:2.16.105"
@@ -4920,6 +5064,18 @@ __metadata:
     worker-loader:
       optional: true
   checksum: 10c0/903a2d95fb3b8a2ec66fb3164813e6181512a144abc39b7f87a735fbcf3384b1d2ee3c6ed8dde70bfbe87c8ae5f87fea8c799c22a2ebe2669ed8573bc076d1f6
+  languageName: node
+  linkType: hard
+
+"pdfjs-dist@npm:^5.4.449":
+  version: 5.4.449
+  resolution: "pdfjs-dist@npm:5.4.449"
+  dependencies:
+    "@napi-rs/canvas": "npm:^0.1.81"
+  dependenciesMeta:
+    "@napi-rs/canvas":
+      optional: true
+  checksum: 10c0/da508cb069832b119d1a3be9f1b43d574763455be1585c83a3c1633e0d383ea3f92a0d6b628c8b6ce01dfa7d1012738b3b148f956a4f75ec93e6ba324cf72dcd
   languageName: node
   linkType: hard
 
@@ -5175,6 +5331,29 @@ __metadata:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 10c0/33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1
+  languageName: node
+  linkType: hard
+
+"react-pdf@npm:^10.2.0":
+  version: 10.2.0
+  resolution: "react-pdf@npm:10.2.0"
+  dependencies:
+    clsx: "npm:^2.0.0"
+    dequal: "npm:^2.0.3"
+    make-cancellable-promise: "npm:^2.0.0"
+    make-event-props: "npm:^2.0.0"
+    merge-refs: "npm:^2.0.0"
+    pdfjs-dist: "npm:5.4.296"
+    tiny-invariant: "npm:^1.0.0"
+    warning: "npm:^4.0.0"
+  peerDependencies:
+    "@types/react": ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/a9138b9c54c41899efc98165b99149bc8089aff98f82030d7810764940066ffde584929f0899c10bd527949c19afdce01a10e10a0e49d8c8131c877361132198
   languageName: node
   linkType: hard
 
@@ -6075,7 +6254,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-invariant@npm:^1.3.3":
+"tiny-invariant@npm:^1.0.0, tiny-invariant@npm:^1.3.3":
   version: 1.3.3
   resolution: "tiny-invariant@npm:1.3.3"
   checksum: 10c0/65af4a07324b591a059b35269cd696aba21bef2107f29b9f5894d83cc143159a204b299553435b03874ebb5b94d019afa8b8eff241c8a4cfee95872c2e1c1c4a
@@ -6444,6 +6623,15 @@ __metadata:
     d3-time: "npm:^3.0.0"
     d3-timer: "npm:^3.0.1"
   checksum: 10c0/0a9628db30b898160409628f26d457ba15adc86472531817d73fbeb847de498d94f91dee5f4caa969195744e91be93e100eeff7a392b591ac5349343a36dec29
+  languageName: node
+  linkType: hard
+
+"warning@npm:^4.0.0":
+  version: 4.0.3
+  resolution: "warning@npm:4.0.3"
+  dependencies:
+    loose-envify: "npm:^1.0.0"
+  checksum: 10c0/aebab445129f3e104c271f1637fa38e55eb25f968593e3825bd2f7a12bd58dc3738bb70dc8ec85826621d80b4acfed5a29ebc9da17397c6125864d72301b937e
   languageName: node
   linkType: hard
 
