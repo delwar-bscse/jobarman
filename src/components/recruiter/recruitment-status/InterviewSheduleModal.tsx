@@ -53,12 +53,20 @@ export default function InterviewSheduleModal({ trigger }) {
             </label>
             <div className="grid grid-cols-2 gap-2">
               <label className="flex items-center border rounded-xl px-4 py-3 cursor-pointer gap-2 hover:bg-gray-50">
-                <Input type="radio" name="type" className="accent-blue-600" />
+                <Input
+                  type="radio"
+                  name="type"
+                  className="accent-blue-600 h-4 w-4"
+                />
                 Onsite
               </label>
 
               <label className="flex items-center border rounded-xl px-4 py-3 cursor-pointer gap-2 hover:bg-gray-50">
-                <Input type="radio" name="type" className="accent-blue-600" />
+                <Input
+                  type="radio"
+                  name="type"
+                  className="accent-blue-600 h-4 w-4"
+                />
                 Remote
               </label>
             </div>

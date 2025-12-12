@@ -44,7 +44,8 @@
     "src/app/(recruiter)/seeker-resume/page.jsx",
     "src/components/modal/CustomModal.jsx",
     "utils/revalidateTags.js",
-    "src/components/guest/RecentJobPost.jsx"
+    "src/components/guest/RecentJobPost.jsx",
+    "src/components/recruiter/recruitment-status/interviews/CancelInterview.jsx"
   ],
   "exclude": ["node_modules"]
 }
