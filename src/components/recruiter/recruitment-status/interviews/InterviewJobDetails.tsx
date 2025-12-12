@@ -1,8 +1,8 @@
 import { MapPin, Download, FileText } from "lucide-react";
-import Image from "next/image";
 import CancelInterview from "./CancelInterview";
 import { getRemainingDays } from "utils/remainingDays";
 import CustomImage from "shared/CustomImage";
+import InterviewButton from "./InterviewButton";
 
 export default function InterviewJobDetails({ data }) {
   return (
@@ -106,9 +106,8 @@ export default function InterviewJobDetails({ data }) {
               }
             />
 
-            <button className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition">
-              Start Interview
-            </button>
+            {/* interview */}
+            <InterviewButton />
           </div>
 
           <button className="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
