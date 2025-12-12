@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import ResumeGenerator from "../../../shared/ResumeGenerator";
 import Review from "@/components/guest/Review";
@@ -11,23 +12,45 @@ import RecentJobRequest from "@/components/guest/RecentJobRequest";
 import Image from "next/image";
 import HowItWorks from "@/components/guest/HowItWorks";
 import Categories from "@/components/guest/Categories";
+import RecruiterHero from "@/components/cui/RecruiterHero";
+import { getUserRole } from "../../../utils/getUserRole";
+import { idRecruiter, isEmployee } from "../../../utils/matchUserRole";
 
-export default function Home() {
+export default async function Home() {
+  const existUser = await getUserRole();
+  const existRecruiter = await idRecruiter();
+
+  // await getUserRole()
+  
+  console.log("Home User Role : ", await getUserRole())
+  console.log("Home User Role Recruiter : ", await idRecruiter())
+  console.log("Home User Role Employee : ", await isEmployee())
+
   return (
     <main className="w-full bg-white">
-      <BannerSection />
+    {existRecruiter ? <RecruiterHero /> : <BannerSection /> }
 
       {/* How it works at Jobarman */}
-      <HowItWorks />
+      {!existRecruiter && <HowItWorks />}
 
       {/* Search Section below Hero */}
-      <SearchSection />
+      {!existRecruiter && <SearchSection />}
 
       {/* AI Banner Carousel below Hero */}
-      <CaruselBanner />
+      {/* <CaruselBanner /> */}
 
+
+      {/* Filters Modal to filter jobs */}
+      <FilterModal />
+
+      {/* Recent Job Post Section */}
+      {existRecruiter && <RecentJobPost />}
+
+      {/* Recent Job Request Section */}
+      {existRecruiter &&<RecentJobRequest />}
+      
       {/* Who’s Hiring Right Now banner */}
-      <section className="py-8">
+      {existRecruiter && <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-xl overflow-hidden">
             <Image
@@ -57,28 +80,20 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Filters Modal to filter jobs */}
-      <FilterModal />
-
-      {/* Recent Job Post Section */}
-      <RecentJobPost />
-
-      {/* Recent Job Request Section */}
-      <RecentJobRequest />
+      </section>}
 
       {/* Job Categories Section */}
-      <Categories />
+      {!existRecruiter && <Categories />}
 
       {/* Social Proof Section */}
-      <Review />
+      {/* Join over 1,000,000 professionals */}
+      {!existRecruiter && <Review />}
 
       {/* Resume Score Generator Section */}
-      <ResumeGenerator />
+      {!existRecruiter && <ResumeGenerator />}
 
       {/* Are You Employer Section */}
-      <section className="bg-[#EFF5FF]">
+      {!existUser && <section className="bg-[#EFF5FF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-[#EFF5FF] rounded-lg p-8 sm:p-12">
             <div>
@@ -108,7 +123,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* Subscription Plan Section */}
       <Subscription />

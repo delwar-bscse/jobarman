@@ -4,6 +4,7 @@ import React from "react";
 import CustomImage from "../../../../shared/CustomImage";
 import { myFetch } from "../../../../utils/myFetch";
 import Status from "@/components/recruiter/recruitment-status/Status";
+import JobPostCard from "@/components/cui/PostCard";
 
 const JobPost = async () => {
   const res = await myFetch("/job-post/recent-posts");
@@ -19,35 +20,7 @@ const JobPost = async () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {res?.data?.map((job) => (
           <Link href={`/my-job-details/${job._id}`} key={job._id}>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex items-center gap-4">
-              <CustomImage
-                src={job.thumbnail}
-                title={job.title}
-                width={30}
-                height={30}
-                className="w-32 h-32 rounded-lg"
-              />
-              <div className="flex-1">
-                <h1 className="text-gray-900 font-semibold hover:text-blue-600">
-                  {job.title}
-                </h1>
-                <div className="text-sm mt-1">
-                  <Link href="#" className="text-blue-600 hover:underline">
-                    {job.company}
-                  </Link>
-                </div>
-                <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
-                  <MapPin className="w-4 h-4 text-gray-600" />
-                  <span>{job.location}</span>
-                </div>
-                <div className="mt-2 flex items-center gap-4 text-sm">
-                  <span className="flex items-center text-gray-700">
-                    <span className="w-2 h-2 bg-blue-600 rounded-full inline-block mr-2"></span>
-                    {job.job_type}
-                  </span>
-                </div>
-              </div>
-            </div>
+            <JobPostCard job={job} />
           </Link>
         ))}
       </div>
