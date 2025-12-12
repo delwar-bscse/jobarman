@@ -1,8 +1,12 @@
 import AllRecentJobs from "@/components/recruiter/AllRecentJobs";
 import { myFetch } from "utils/myFetch";
 
-export default async function page() {
-  const res = await myFetch("/job-post/recent-posts");
+export default async function page({ searchParams }) {
+
+  const allSearchParams = await searchParams;
+  const status = allSearchParams.status || "active";
+  console.log("status", status);
+  const res = await myFetch(`/job-post/recent-posts?status=${status}`);
 
   return (
     <div>

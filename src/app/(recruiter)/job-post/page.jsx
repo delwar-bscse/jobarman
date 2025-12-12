@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,15 +9,20 @@ import Image from "next/image";
 import BenefitsInput from "./benefits-input";
 import ResponsibilitiesInput from "./responsibilities-input";
 import { myFetch } from "utils/myFetch";
+import { useSearchParams } from "next/navigation";
+import dayjs from "dayjs";
+const { formatUrl } = require("utils/formatUrl");
 
 export default function EditJobPost() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const [imageFile, setImageFile] = useState(null);
   const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
     title: "UX Designer",
     min_salary: 0,
     max_salary: 0,
-    category: "UX Designer",
+    category: "",
     employmentType: "Full Time",
     job_type: "Remote",
     experience_level: "0 years",
@@ -27,9 +33,9 @@ export default function EditJobPost() {
   });
 
   // const [editorContent, setEditorContent] = useState("Add your description...");
-  const [skills, setSkills] = useState(["Job keyword", "tags etc."]);
-  const [benefits, setBenefits] = useState(["job benefits......", "tags etc."]);
-  const [responsibilities, setResponsibilities] = useState(["job responsibilities......"]);
+  const [skills, setSkills] = useState([]);
+  const [benefits, setBenefits] = useState([]);
+  const [responsibilities, setResponsibilities] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
 
   const handleInputChange = (e) => {
@@ -37,14 +43,43 @@ export default function EditJobPost() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await myFetch("/job-category");
-      setAllCategories(res.data);
-      console.log("Categories : ", res.data);
-    };
+  const fetchDataJob = async () => {
+    const resCat = await myFetch("/job-category");
+    setAllCategories(resCat.data);
+    // console.log("Categories : ", resCat.data);
 
-    fetchData();
+    const res = await myFetch("/job-post/" + id);
+    // console.log("Category set : ", resCat.data?.filter((item)=> item.name === res.data?.category)[0]?._id,)
+    setFormData((prev) => ({
+      ...prev,
+      title: res.data?.title,
+      min_salary: res.data?.min_salary.toString(),
+      max_salary: res.data?.max_salary.toString(),
+      category: resCat.data?.filter((item) => item.name === res.data?.category)[0]?._id.toString(),
+      employmentType: res.data?.employmentType,
+      job_type: res.data?.job_type,
+      experience_level: res.data?.experience_level,
+      job_level: res.data?.job_level,
+      location: res.data?.location,
+      description: res.data?.description,
+      deadline: dayjs(res.data?.deadline).format("YYYY-MM-DD"),
+    }));
+
+    const oldSkills = res.data?.required_skills || [];
+    setSkills((prev) => [...prev, ...oldSkills]);
+    const oldBenefits = res.data?.benefits || [];
+    setBenefits((prev) => [...prev, ...oldBenefits]);
+    const oldResponsibilities = res.data?.responsibilities || [];
+    setResponsibilities((prev) => [...prev, ...oldResponsibilities]);
+    const formatImage = formatUrl(res.data?.thumbnail);
+    setImage(formatImage);
+    console.log("Get Job Details : ", res.data);
+  };
+
+  useEffect(() => {
+    (async () => {
+      await fetchDataJob();
+    })()
   }, []);
 
   const handleUpdate = async () => {
@@ -62,20 +97,22 @@ export default function EditJobPost() {
     newFormData.append("job_type", formData?.job_type);
     newFormData.append("job_level", formData?.job_level);
     newFormData.append("experience_level", formData?.experience_level);
-    newFormData.append("min_salary", formData?.min_salary);
-    newFormData.append("max_salary", formData?.min_salary);
+    newFormData.append("min_salary", formData?.min_salary.toString());
+    newFormData.append("max_salary", formData?.min_salary.toString());
     newFormData.append("location", formData?.location);
     newFormData.append("deadline", formData?.deadline);
     imageFile && newFormData.append("image", imageFile);
-    benefits?.length > 0 && benefits.forEach((benefit) => newFormData.append("benefits", benefit));
-    responsibilities?.length > 0 && responsibilities.forEach((responsibility) => newFormData.append("responsibilities", responsibility));
-    skills?.length > 0 && skills.forEach((skill) => newFormData.append("required_skills", skill));
+    benefits?.forEach((benefit) => newFormData.append("benefits[]", benefit));
+    responsibilities?.forEach((responsibility) => newFormData.append("responsibilities[]", responsibility));
+    skills?.forEach((skill) => newFormData.append("required_skills[]", skill));
 
 
+    let url = "/job-post"
+    if (id) url = `/job-post/${id}`
 
-    const res = await myFetch("/job-post", {
-      method: "POST",
-      body: formData
+    const res = await myFetch(url, {
+      method: id ? "PATCH" : "POST",
+      body: newFormData
     })
     console.log("Create Post Res : ", res)
   };
@@ -84,11 +121,10 @@ export default function EditJobPost() {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
+      setImageFile(file);
       setImage(reader.result);
     };
     reader.readAsDataURL(file);
-    setImageFile(file);
-    setImage(reader.result);
   };
 
 
@@ -101,7 +137,7 @@ export default function EditJobPost() {
             <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-gray-700" />
           </button>
           <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
-            Edit Job Post
+            {id ? "Edit Job Post" : "New Job Post"}
           </h1>
         </div>
 
@@ -257,7 +293,7 @@ export default function EditJobPost() {
                 <option value="0-1yrs">0 years</option>
                 <option value="1-3yrs">1-3 years</option>
                 <option value="3-5yrs">3-5 years</option>
-                <option value="5-10yrs">10 years</option>
+                <option value="5-10yrs">5-10 years</option>
                 <option value="10+yrs">10+ years</option>
               </select>
             </div>
@@ -345,7 +381,7 @@ export default function EditJobPost() {
               onClick={handleUpdate}
               className="w-full sm:w-auto px-8 sm:px-12 py-3 sm:py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
             >
-              Update
+              {id ? "Update" : "Post"}
             </button>
           </div>
         </div>

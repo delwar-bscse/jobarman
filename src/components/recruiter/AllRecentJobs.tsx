@@ -1,56 +1,40 @@
 "use client";
-import { ArrowBigRight, Calendar, ChevronLeft, MapPin } from "lucide-react";
+
+import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import CustomPagination from "@/components/cui/CustomPagination";
-import CustomImage from "shared/CustomImage";
+import JobPostCard from "../cui/PostCard";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AllRecentJobs({ data }) {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+  const { replace } = useRouter();
+  const status = searchParams.get("status") || "active";
+
+  const handleCloseJob = () => {
+    const newStatus = status === "active" ? "closed" : "active";
+    params.set("status", newStatus);
+    replace(`?${params.toString()}`);
+  };
+
+
   return (
-    <div className="max-w-7xl mx-auto py-9">
-      <div
-        className="flex items-center mb-3 cursor-pointer"
-        onClick={() => history.back()}
-      >
-        <ChevronLeft />
-        <h1 className="text-2xl text-blue-600 font-medium ">All Jobs</h1>
+    <div className="max-w-7xl mx-auto py-9 space-y-4">
+      <div className="flex justify-between">
+        <div
+          className="flex items-center mb-3 cursor-pointer"
+          onClick={() => history.back()}
+        >
+          <ChevronLeft />
+          <p className="text-2xl text-blue-600 font-medium ">All Jobs</p>
+        </div>
+        <button type="button" onClick={handleCloseJob} className={`border-2  rounded-sm px-4 py-2 flex items-center font-semibold transition-colors duration-300 cursor-pointer ${status === "closed" ? "bg-red-400 text-gray-50 border-red-400" : "hover:bg-gray-100 text-gray-400 border-gray-300"}`}>Close Jobs</button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {data?.map((job) => (
-          <div
-            key={job._id}
-            className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex items-center gap-4"
-          >
-            <CustomImage
-              src={job.thumbnail}
-              title={job.title}
-              width={30}
-              height={30}
-              className="w-32 h-32 rounded-lg"
-            />
-            <div className="flex-1">
-              <Link
-                href={`/jobs/${job.id}`}
-                className="text-gray-900 font-semibold hover:text-blue-600"
-              >
-                {job.title}
-              </Link>
-              <div className="text-sm mt-1">
-                <Link href="#" className="text-blue-600 hover:underline">
-                  {job.company}
-                </Link>
-              </div>
-              <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
-                <MapPin className="w-4 h-4 text-gray-600" />
-                <span>{job.location}</span>
-              </div>
-              <div className="mt-2 flex items-center gap-4 text-sm">
-                <span className="flex items-center text-gray-700">
-                  <span className="w-2 h-2 bg-blue-600 rounded-full inline-block mr-2"></span>
-                  {job.job_type}
-                </span>
-              </div>
-            </div>
-          </div>
+          <Link href={`/my-job-details/${job._id}`} key={job._id}>
+            <JobPostCard job={job} />
+          </Link>
         ))}
       </div>
     </div>

@@ -5,9 +5,11 @@ import {
   GraduationCap,
   MapPin,
 } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 export default function JobsDetailsLeft({ details }) {
+  console.log("Job Details console : ", details)
   return (
     <div className="lg:col-span-1">
       {/* Profile Match + Location */}
@@ -26,40 +28,43 @@ export default function JobsDetailsLeft({ details }) {
       </div>
 
       {/* Job Overview */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-        <h3 className="text-lg font-bold text-gray-900 mb-4">Job Overview</h3>
-        {/* Top row: 3 columns */}
-        <div className="grid grid-cols-2 gap-8 text-sm">
-          <div className="flex flex-col items-start p-3">
-            <Calendar size={24} className="text-blue-600 mb-2" />
-            <span className="text-gray-600">Job Expire In:</span>
-            <span className="font-semibold text-gray-900">
-              {details?.deadline?.slice(0, 10)}
-            </span>
+      <div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <h3 className="text-lg font-bold text-gray-900 mb-4">Job Overview</h3>
+          {/* Top row: 3 columns */}
+          <div className="grid grid-cols-2 gap-8 text-sm">
+            <div className="flex flex-col items-start p-3">
+              <Calendar size={24} className="text-blue-600 mb-2" />
+              <span className="text-gray-600">Job Expire In:</span>
+              <span className="font-semibold text-gray-900">
+                {details?.deadline?.slice(0, 10)}
+              </span>
+            </div>
+            <div className="flex flex-col items-start p-3">
+              <Briefcase size={24} className="text-blue-600 mb-2" />
+              <span className="text-gray-600">Job Level:</span>
+              <span className="font-semibold text-gray-900">
+                {details?.job_level}
+              </span>
+            </div>
           </div>
-          <div className="flex flex-col items-start p-3">
-            <Briefcase size={24} className="text-blue-600 mb-2" />
-            <span className="text-gray-600">Job Level:</span>
-            <span className="font-semibold text-gray-900">
-              {details?.job_level}
-            </span>
+          {/* Bottom row: 2 columns */}
+          <div className="mt-4 grid grid-cols-2 gap-8 text-sm">
+            <div className="flex flex-col items-start p-3">
+              <DollarSign size={24} className="text-blue-600 mb-2" />
+              <span className="text-gray-600">Salary</span>
+              <span className="font-semibold text-gray-900">
+                ${details?.min_salary}- ${details?.max_salary}
+              </span>
+            </div>
+            <div className="flex flex-col items-start p-3">
+              <GraduationCap size={24} className="text-blue-600 mb-2" />
+              <span className="text-gray-600">Education</span>
+              <span className="font-semibold text-gray-900">Graduation</span>
+            </div>
           </div>
         </div>
-        {/* Bottom row: 2 columns */}
-        <div className="mt-4 grid grid-cols-2 gap-8 text-sm">
-          <div className="flex flex-col items-start p-3">
-            <DollarSign size={24} className="text-blue-600 mb-2" />
-            <span className="text-gray-600">Salary</span>
-            <span className="font-semibold text-gray-900">
-              ${details?.min_salary}- ${details?.max_salary}
-            </span>
-          </div>
-          <div className="flex flex-col items-start p-3">
-            <GraduationCap size={24} className="text-blue-600 mb-2" />
-            <span className="text-gray-600">Education</span>
-            <span className="font-semibold text-gray-900">Graduation</span>
-          </div>
-        </div>
+        <Link href={`/job-post?id=${details?._id}`} className="block bg-green-600 w-full text-white font-semibold py-3 px-4 rounded-lg text-center">Edit Job Post</Link>
       </div>
     </div>
   );

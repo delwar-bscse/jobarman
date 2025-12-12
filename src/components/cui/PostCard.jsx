@@ -24,9 +24,9 @@ const JobPostCard = ({job}) => {
           {job.title}
         </Link>
         <div className="text-sm mt-1">
-          <Link href="#" className="text-blue-600 hover:underline">
+          <p className="text-blue-600 hover:underline">
             {job.company}
-          </Link>
+          </p>
         </div>
         <div className="mt-2 flex items-center gap-2 text-sm text-gray-600">
           <MapPin className="w-4 h-4 text-gray-600" />

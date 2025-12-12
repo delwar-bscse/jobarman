@@ -21,14 +21,14 @@ export default async function Home() {
   const existRecruiter = await idRecruiter();
 
   // await getUserRole()
-  
+
   console.log("Home User Role : ", await getUserRole())
   console.log("Home User Role Recruiter : ", await idRecruiter())
   console.log("Home User Role Employee : ", await isEmployee())
 
   return (
     <main className="w-full bg-white">
-    {existRecruiter ? <RecruiterHero /> : <BannerSection /> }
+      {existRecruiter ? <RecruiterHero /> : <BannerSection />}
 
       {/* How it works at Jobarman */}
       {!existRecruiter && <HowItWorks />}
@@ -37,7 +37,7 @@ export default async function Home() {
       {!existRecruiter && <SearchSection />}
 
       {/* AI Banner Carousel below Hero */}
-      {/* <CaruselBanner /> */}
+      {/* <Carusel Banner /> */}
 
 
       {/* Filters Modal to filter jobs */}
@@ -47,8 +47,8 @@ export default async function Home() {
       {existRecruiter && <RecentJobPost />}
 
       {/* Recent Job Request Section */}
-      {existRecruiter &&<RecentJobRequest />}
-      
+      {existRecruiter && <RecentJobRequest />}
+
       {/* Who’s Hiring Right Now banner */}
       {existRecruiter && <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
