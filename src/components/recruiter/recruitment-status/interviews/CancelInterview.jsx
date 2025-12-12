@@ -13,20 +13,11 @@ export default function CancelInterview({ item, trigger }) {
     const formData = new FormData(e.target);
     const reason = formData.get("reason");
 
-    const data = {
-      feedback: reason,
-      hiringStatus: "rejected",
-    };
-
-    console.log("item", item);
-
     try {
-      const res = await myFetch(`/application/feedback/${item}`, {
-        method: "POST",
-        body: data,
+      const res = await myFetch(`/application/cancel-interview/${item}`, {
+        method: "DELETE",
+        body: { reason },
       });
-
-      console.log("res", res);
 
       if (res?.success) {
         toast.success(res?.message || "Reject item successfully");

@@ -5,14 +5,15 @@ import Status from "@/components/recruiter/recruitment-status/Status";
 import { myFetch } from "utils/myFetch";
 
 export default async function page({ searchParams }) {
-  const status = (await searchParams)?.status;
-  const date = (await searchParams)?.interview_date;
-
-  console.log("date", date);
+  const status = (await searchParams)?.status || "INTERVIEW";
+  const date = (await searchParams)?.interview_date || "";
 
   const res = await myFetch(
     `/application?status=${status}&interview_date=${date}`
   );
+
+  console.log("res", res);
+
   return (
     <div className="max-w-7xl mx-auto ">
       <div className="flex justify-between items-center">

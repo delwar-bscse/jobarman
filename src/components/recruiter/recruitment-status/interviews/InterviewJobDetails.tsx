@@ -77,7 +77,7 @@ export default function InterviewJobDetails({ data }) {
                 <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
               </div>
               <span className="text-gray-900">
-                {data?.interviewDetails?.interview_type}
+                {data?.interviewDetails?.interview_type || "No Type"}
               </span>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function InterviewJobDetails({ data }) {
             />
 
             {/* interview */}
-            <InterviewButton />
+            <InterviewButton item={data?._id} />
           </div>
 
           <button className="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
