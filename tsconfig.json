@@ -45,7 +45,9 @@
     "src/components/modal/CustomModal.jsx",
     "utils/revalidateTags.js",
     "src/components/guest/RecentJobPost.jsx",
-    "src/components/recruiter/recruitment-status/interviews/CancelInterview.jsx"
+    "src/components/recruiter/recruitment-status/interviews/CancelInterview.jsx",
+    "src/app/(recruiter)/(status)/interview-job-details/[id]/page.jsx",
+    "src/components/recruiter/recruitment-status/Calendar.jsx"
   ],
   "exclude": ["node_modules"]
 }

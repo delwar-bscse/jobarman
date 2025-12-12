@@ -1,12 +1,15 @@
 "use client";
 
 import { Calendar } from "@/components/ui/calendar";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import * as React from "react";
 
 export default function CalendarPage() {
-  const [date, setDate] = React.useState<Date | undefined>(
-    new Date(2025, 5, 12)
-  );
+  const [date, setDate] = React.useState();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const handleOk = () => {
     console.log("Selected date:", date);
@@ -18,12 +21,22 @@ export default function CalendarPage() {
     console.log("Cancelled");
   };
 
+  const handleSelectDate = (selectedDate) => {
+    setDate(selectedDate);
+
+    if (!selectedDate) return;
+
+    const params = new URLSearchParams(searchParams);
+    params.set("interview_date", selectedDate.toLocaleDateString("en-CA"));
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
   return (
     <div className="p-4 w-full max-w-sm mx-auto rounded-lg border shadow-sm">
       <Calendar
         mode="single"
         selected={date}
-        onSelect={setDate}
+        onSelect={handleSelectDate}
         className="rounded-lg"
         buttonVariant="ghost"
       />

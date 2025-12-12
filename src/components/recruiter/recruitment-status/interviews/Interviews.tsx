@@ -18,50 +18,51 @@ export default function Interviews({ data }) {
   return (
     <div className="max-w-7xl mx-auto ">
       {data?.map((item) => (
-        <Link href={`interview-job-details/${item._id}`} key={item._id}>
-          <div
-            className="flex justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200 w-full max-w-md "
-            key={item._id}
-            onClick={() => handleParams(item._id)}
+        <div
+          className="flex justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200 w-full max-w-md"
+          // onClick={() => handleParams(item._id)}
+          key={item?._id}
+        >
+          {/* LEFT SIDE clickable → details page */}
+          <Link
+            href={`/interview-job-details/${item._id}`}
+            className="flex items-center gap-10 flex-1"
           >
-            {/* Profile Image */}
-            <div className="flex items-center gap-10">
-              <Image
-                src="/chat-user.jpg"
-                className="w-20 h-20 sm:w-20 sm:h-20  object-cover flex-shrink-0 bg-muted"
-                width={10}
-                height={10}
-                alt="ok"
-                sizes="100vh"
-              />
-              {/* Details */}
-              <div className="flex flex-col">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  {item?.user?.name}
-                </h2>
+            <Image
+              src="/chat-user.jpg"
+              className="w-20 h-20 object-cover flex-shrink-0 bg-muted"
+              width={10}
+              height={10}
+              alt="ok"
+            />
 
-                <p className="text-sm text-gray-700">{item?.title}</p>
-                <p className="text-xs text-gray-500">
-                  {item?.year_of_experience} Years Experience
-                </p>
+            <div className="flex flex-col">
+              <h2 className="text-lg font-semibold text-gray-900">
+                {item?.user?.name}
+              </h2>
+              <p className="text-sm text-gray-700">{item?.title}</p>
+              <p className="text-xs text-gray-500">
+                {item?.year_of_experience} Years Experience
+              </p>
 
-                <button className="mt-2 w-fit rounded-lg border border-blue-600 px-3 py-1 text-xs font-medium text-blue-600 hover:bg-blue-50 transition">
-                  Schedule: 01 Oct 2025 At 11 Am
+              <button className="mt-2 w-fit rounded-lg border border-blue-600 px-3 py-1 text-xs font-medium text-blue-600">
+                Schedule: 01 Oct 2025 At 11 Am
+              </button>
+            </div>
+          </Link>
+
+          {/* RIGHT SIDE → modal trigger NOT wrapped in Link */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <InterviewSheduleModal
+              item={item}
+              trigger={
+                <button>
+                  <Pencil />
                 </button>
-              </div>
-            </div>
-
-            <div>
-              <InterviewSheduleModal
-                trigger={
-                  <button>
-                    <Pencil />
-                  </button>
-                }
-              />
-            </div>
+              }
+            />
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );
