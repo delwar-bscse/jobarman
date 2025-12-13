@@ -9,10 +9,12 @@ export default async function page({ searchParams }) {
   const date = (await searchParams)?.interview_date || "";
 
   const res = await myFetch(
-    `/application?status=${status}&interview_date=${date}`
+    `/application?status=${status}&interview_date=${date}`,
+    {
+      method: "GET",
+      tags: ["interview-shedule"],
+    }
   );
-
-  console.log("res", res);
 
   return (
     <div className="max-w-7xl mx-auto ">

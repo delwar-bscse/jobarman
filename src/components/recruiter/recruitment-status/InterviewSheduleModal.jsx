@@ -7,10 +7,10 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { myFetch } from "utils/myFetch";
+import { revalidate } from "utils/revalidateTags";
 
 export default function InterviewScheduleModal({ item, trigger }) {
   const interviewDetails = item?.interviewDetails;
-  console.log("details=====", item);
   const [open, setOpen] = useState(false);
 
   const getFormattedDate = (date) => {
@@ -57,7 +57,9 @@ export default function InterviewScheduleModal({ item, trigger }) {
         }
       );
 
-      console.log("res", res);
+      if (res.success) {
+        revalidate("interview-shedule");
+      }
     } catch (error) {}
     setOpen(false); // close dialog
   };
