@@ -1,21 +1,11 @@
 "use client";
 import { Pencil } from "lucide-react";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import InterviewSheduleModal from "../InterviewSheduleModal";
 import Link from "next/link";
+import CustomImage from "shared/CustomImage";
 
 export default function Interviews({ data }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const handleParams = (id) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("id", id);
-    router.replace(`${pathname}?${params}`);
-  };
-
   const formatTime = (t) =>
     t
       ? new Date(`1970-01-01 ${t}`).toLocaleTimeString("en-US", {
@@ -38,7 +28,6 @@ export default function Interviews({ data }) {
       {data?.map((item) => (
         <div
           className="flex justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200 w-full max-w-md"
-          // onClick={() => handleParams(item._id)}
           key={item?._id}
         >
           {/* LEFT SIDE clickable → details page */}
@@ -46,12 +35,12 @@ export default function Interviews({ data }) {
             href={`/interview-job-details/${item._id}`}
             className="flex items-center gap-10 flex-1"
           >
-            <Image
-              src="/chat-user.jpg"
+            <CustomImage
+              src={item.user.image}
               className="w-20 h-20 object-cover flex-shrink-0 bg-muted"
               width={10}
               height={10}
-              alt="ok"
+              title="ok"
             />
 
             <div className="flex flex-col">
@@ -64,8 +53,7 @@ export default function Interviews({ data }) {
               </p>
 
               <button className="mt-2 w-fit rounded-lg border border-blue-600 px-3 py-1 text-xs font-medium text-blue-600">
-                Schedule:
-                {formatDate(item?.interviewDetails?.date)} At{" "}
+                Schedule: {formatDate(item?.interviewDetails?.date)} At{" "}
                 {formatTime(item?.interviewDetails?.time)}
               </button>
             </div>

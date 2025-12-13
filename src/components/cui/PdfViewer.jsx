@@ -15,8 +15,8 @@ export default function PdfViewer({ fileUrl }) {
       setWidth(Math.min(800, window.innerWidth - 4));
     };
     updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => window.removeEventListener('resize', updateWidth);
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
   return (
