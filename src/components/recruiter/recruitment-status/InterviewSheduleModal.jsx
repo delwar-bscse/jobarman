@@ -8,60 +8,55 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { myFetch } from "utils/myFetch";
 import { revalidate } from "utils/revalidateTags";
+import { toast } from "sonner";
+import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 
 export default function InterviewScheduleModal({ item, trigger }) {
   const interviewDetails = item?.interviewDetails;
   const [open, setOpen] = useState(false);
-
-  const getFormattedDate = (date) => {
-    if (!date) return "";
-    const parsed = new Date(date);
-    return isNaN(parsed.getTime()) ? "" : parsed.toISOString().split("T")[0];
-  };
-
-  const getFormattedTime = (time) => {
-    if (!time) return "";
-
-    // Case "14:30"
-    if (/^\d{2}:\d{2}$/.test(time)) return time;
-
-    // Case "14:30:00"
-    if (/^\d{2}:\d{2}:\d{2}$/.test(time)) return time.slice(0, 5);
-
-    // Case "9:30 AM"
-    const parsed = new Date(`1970-01-01 ${time}`);
-    if (!isNaN(parsed.getTime())) {
-      const hh = String(parsed.getHours()).padStart(2, "0");
-      const mm = String(parsed.getMinutes()).padStart(2, "0");
-      return `${hh}:${mm}`;
-    }
-
-    return "";
-  };
+  const router = useRouter();
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      date: getFormattedDate(interviewDetails?.date),
-      time: getFormattedTime(interviewDetails?.time),
+      date: dayjs(interviewDetails?.date).format("YYYY-MM-DD"),
+      time: dayjs(
+        `${new Date().toDateString()} ${interviewDetails?.time}`,
+        "hh:mm A"
+      ).format("HH:mm"),
       interview_type: interviewDetails?.interview_type,
     },
   });
 
   const onSubmit = async (data) => {
+    const formatedTime = dayjs(
+      `${new Date().toDateString()} ${data.time}`,
+      "HH:mm"
+    ).format("hh:mm A");
+
     try {
       const res = await myFetch(
         `/application/interview-change-time/${item._id}`,
         {
           method: "PATCH",
-          body: data,
+          body: {
+            date: data?.date,
+            time: formatedTime,
+            interview_type: data?.interview_type,
+          },
         }
       );
 
+      console.log("res shedule", res);
+
       if (res.success) {
-        revalidate("interview-shedule");
+        await revalidate("interview-shedule");
+        router.refresh();
+        setOpen(false);
       }
-    } catch (error) {}
-    setOpen(false); // close dialog
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
