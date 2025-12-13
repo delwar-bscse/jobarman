@@ -57,13 +57,13 @@ export default function InterviewUserDetails({ data }) {
         </div>
       </div>
 
-      <div className="flex gap-3 mb-4">
+      <div className="grid grid-cols-2 gap-3 mb-4">
         <CancelInterview
           item={data?._id}
           trigger={
-            <div className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition">
+            <button className="flex-1 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition">
               Cancel Interview
-            </div>
+            </button>
           }
         />
 
