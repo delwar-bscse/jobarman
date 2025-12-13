@@ -8,11 +8,12 @@ export default async function page({ searchParams }) {
   const status = (await searchParams)?.status || "INTERVIEW";
   const date = (await searchParams)?.interview_date || "";
 
-  const res = await myFetch(`/application`, {
-    tags: ["interview-schedule"],
-  });
-
-  console.log("parent data", res.data[0].interviewDetails);
+  const res = await myFetch(
+    `/application?status=${status}&interview_date=${date}`,
+    {
+      tags: ["interview-schedule"],
+    }
+  );
 
   return (
     <div className="max-w-7xl mx-auto ">

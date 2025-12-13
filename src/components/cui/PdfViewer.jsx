@@ -1,8 +1,8 @@
 "use client";
 
-import { Download } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
+import { Download } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -21,14 +21,15 @@ export default function PdfViewer({ fileUrl }) {
 
   return (
     <div className="">
-      <div className='flex justify-end'>
-
+      <div className="flex justify-end">
         <a
           href={fileUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           download
           className="bg-[#FF5900] hover:bg-[#FF5900]/90 text-white font-semibold py-2 px-4 rounded flex items-center gap-2"
         >
-          <Download/>
+          <Download />
           <span>Download</span>
         </a>
       </div>
