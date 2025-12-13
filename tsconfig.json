@@ -48,7 +48,9 @@
     "src/components/recruiter/recruitment-status/interviews/CancelInterview.jsx",
     "src/app/(recruiter)/(status)/interview-job-details/[id]/page.jsx",
     "src/components/recruiter/recruitment-status/Calendar.jsx",
-    "src/components/recruiter/recruitment-status/InterviewSheduleModal.jsx"
+    "src/components/recruiter/recruitment-status/InterviewSheduleModal.jsx",
+    "src/app/(recruiter)/(status)/interviews/page.jsx",
+    "src/components/recruiter/recruitment-status/interviews/Interviews.jsx"
   ],
   "exclude": ["node_modules"]
 }
