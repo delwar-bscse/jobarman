@@ -7,7 +7,7 @@ export default function Page() {
     const pdfUrl = "/resume.pdf";
 
     return (
-        <div className="p-4">
+        <div className="max-w-[900px] mx-auto py-4">
             <PdfViewer fileUrl={pdfUrl} />
             <ActionButtons />
         </div>

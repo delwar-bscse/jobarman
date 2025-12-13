@@ -23,8 +23,8 @@ const ActionButtons = ({ userId }) => {
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap gap-3">
+    <div className="max-w-[600px] mx-auto space-y-4">
+      <div className="grid grid-cols-3 gap-3">
         <button
           onClick={handleShortListed}
           className="bg-orange-500 text-white font-semibold px-4 py-2 rounded"
@@ -46,10 +46,10 @@ const ActionButtons = ({ userId }) => {
           Reject
         </button>
       </div>
-      <div>
+      <div className="w-full">
         <Link
           href={`/inbox/${userId}`}
-          className="border border-blue-600 text-blue-600 font-semibold px-4 py-2 rounded text-center"
+          className="w-full block border border-blue-600 text-blue-600 font-semibold px-4 py-2 rounded text-center"
         >
           Message
         </Link>

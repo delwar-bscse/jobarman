@@ -1,5 +1,6 @@
 "use client";
 
+import { Download } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
@@ -20,23 +21,36 @@ export default function PdfViewer({ fileUrl }) {
 
   return (
     <div className="">
-      <Document
-        file={fileUrl}
-        onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-        loading={<div className="p-8 text-center">Loading...</div>}
-      >
-        {numPages &&
-          Array.from(new Array(numPages), (_, index) => (
-            <div key={`page_${index + 1}`} className="flex justify-center">
-              <Page
-                pageNumber={index + 1}
-                width={width}
-                renderTextLayer={false}
-                renderAnnotationLayer={false}
-              />
-            </div>
-          ))}
-      </Document>
+      <div className='flex justify-end'>
+
+        <a
+          href={fileUrl}
+          download
+          className="bg-[#FF5900] hover:bg-[#FF5900]/90 text-white font-semibold py-2 px-4 rounded flex items-center gap-2"
+        >
+          <Download/>
+          <span>Download</span>
+        </a>
+      </div>
+      <div>
+        <Document
+          file={fileUrl}
+          onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+          loading={<div className="p-8 text-center">Loading...</div>}
+        >
+          {numPages &&
+            Array.from(new Array(numPages), (_, index) => (
+              <div key={`page_${index + 1}`} className="flex justify-center">
+                <Page
+                  pageNumber={index + 1}
+                  width={width}
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                />
+              </div>
+            ))}
+        </Document>
+      </div>
     </div>
   );
 }
