@@ -1,6 +1,5 @@
 "use client";
 import { Pencil } from "lucide-react";
-import Image from "next/image";
 import InterviewSheduleModal from "../InterviewSheduleModal";
 import Link from "next/link";
 import CustomImage from "shared/CustomImage";

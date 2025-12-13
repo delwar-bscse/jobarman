@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 export default function InterviewScheduleModal({ item, trigger }) {
   const interviewDetails = item?.interviewDetails;
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const { register, handleSubmit } = useForm({
@@ -30,8 +29,6 @@ export default function InterviewScheduleModal({ item, trigger }) {
   });
 
   const onSubmit = async (data) => {
-    console.log("submit data", data);
-
     const formatedTime = dayjs(
       `${new Date().toDateString()} ${data.time}`,
       "HH:mm"
@@ -56,7 +53,6 @@ export default function InterviewScheduleModal({ item, trigger }) {
         await revalidate("interview-shedule");
         router.refresh();
         setOpen(false);
-        // window.location.reload();
       }
     } catch (error) {
       toast.error(error.message);
@@ -126,10 +122,9 @@ export default function InterviewScheduleModal({ item, trigger }) {
 
           <Button
             type="submit"
-            disabled={loading}
             className="w-full bg-blue-700 text-white py-3 rounded-lg text-lg font-medium"
           >
-            {loading ? "Submiting..." : "Submit"}
+            Submit
           </Button>
         </form>
       </DialogContent>
