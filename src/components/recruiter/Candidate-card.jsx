@@ -3,7 +3,7 @@ import CustomImage from "shared/CustomImage";
 
 export default function CandidateCard({ candidate }) {
   return (
-    <Link href={`/my-resume/${candidate._id}`}>
+    <Link href={`/my-request/${candidate._id}`}>
       <div className="border rounded-lg p-4 sm:p-5 shadow-md hover:shadow-lg transition-shadow">
         <div className="flex justify-between">
           {/* Candidate Info */}

@@ -45,6 +45,25 @@ const ActionButtons = ({ userId }) => {
     }
   };
 
+  const handleMessage = async () => {
+    console.log(`User ${userId} shortlisted`);
+    try {
+      const res = await myFetch(`/chat/${applicationDetails?.user?._id}`, {
+        method: "POST",
+      });
+
+      console.log("Create Chat  : ", res?.data);
+
+      if (res?.success) {
+        router.push(`/chat?id=${res?.data?._id}`);
+      } else {
+        toast.error(res.message || "failed");
+      }
+    } catch (error) {
+      toast.error(error.message || "failed");
+    }
+  };
+
   return (
     <div className="max-w-[600px] mx-auto space-y-4">
       <div className="grid grid-cols-3 gap-3">
@@ -76,13 +95,14 @@ const ActionButtons = ({ userId }) => {
         />
       </div>
       <div className="w-full">
-        <Link
-          href={`/chat?id=69203f5ee2a0a7e1b08de15d`}
+        <button
+          onClick={handleMessage}
+          // href={`/chat?id=69203f5ee2a0a7e1b08de15d`}
           // href={`/chat?id=${applicationDetails?.user?._id}`}
           className="w-full block border border-blue-600 text-blue-600 font-semibold px-4 py-2 rounded text-center"
         >
           Message
-        </Link>
+        </button>
       </div>
     </div>
   );

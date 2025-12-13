@@ -71,7 +71,7 @@ export default async function Home() {
                 Building Stronger Teams.
               </p>
               <div className="mt-6">
-                <Link href="/jobs">
+                <Link href="/job-post">
                   <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-md font-semibold">
                     Get Started
                   </button>

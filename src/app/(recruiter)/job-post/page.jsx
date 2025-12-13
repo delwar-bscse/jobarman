@@ -55,7 +55,7 @@ export default function EditJobPost() {
       title: res.data?.title,
       min_salary: res.data?.min_salary.toString(),
       max_salary: res.data?.max_salary.toString(),
-      category: resCat.data?.filter((item) => item.name === res.data?.category)[0]?._id.toString(),
+      category: resCat.data?.filter((item) => item._id === res.data.categoryId)[0]?._id || "",
       employmentType: res.data?.employmentType,
       job_type: res.data?.job_type,
       experience_level: res.data?.experience_level,
