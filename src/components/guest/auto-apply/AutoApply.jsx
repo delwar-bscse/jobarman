@@ -16,7 +16,7 @@ import { useState } from "react";
 
 export default function AutoApply({ data }) {
   const [formValues, setFormValues] = useState(null);
-  console.log(formValuess);
+  // console.log(formValuess);
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB] px-4">

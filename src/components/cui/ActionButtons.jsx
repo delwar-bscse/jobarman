@@ -14,15 +14,15 @@ const ActionButtons = ({ userId }) => {
   const [applicationDetails, setApplicationDetails] = React.useState(null);
 
   const fetchApplicationDetails = async () => {
-    const res = await myFetch(`/application/${userId}`,{
-      revalidate: "application-details"
+    const res = await myFetch(`/application/${userId}`, {
+      revalidate: "application-details",
     });
     console.log("Get application details : ", res?.data);
     setApplicationDetails(res?.data);
   };
 
   useEffect(() => {
-    fetchApplicationDetails()
+    fetchApplicationDetails();
   }, []);
 
   const handleShortListed = async () => {
@@ -73,22 +73,20 @@ const ActionButtons = ({ userId }) => {
         >
           Short Listed
         </button>
-        {applicationDetails && <InterviewScheduleModal
-          item={applicationDetails}
-          trigger={
-            <button
-              className="w-full block bg-green-600 text-white font-semibold px-4 py-2 rounded"
-            >
-              Interview
-            </button>
-          }
-        />}
+        {applicationDetails && (
+          <InterviewScheduleModal
+            item={applicationDetails}
+            trigger={
+              <button className="w-full block bg-green-600 text-white font-semibold px-4 py-2 rounded">
+                Interview
+              </button>
+            }
+          />
+        )}
         <CancelInterview
           item={applicationDetails?._id}
           trigger={
-            <button
-              className="w-full block bg-red-600 text-white font-semibold px-4 py-2 rounded"
-            >
+            <button className="w-full block bg-red-600 text-white font-semibold px-4 py-2 rounded">
               Reject
             </button>
           }
