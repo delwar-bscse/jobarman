@@ -50,7 +50,11 @@
     "src/components/recruiter/recruitment-status/Calendar.jsx",
     "src/components/recruiter/recruitment-status/InterviewSheduleModal.jsx",
     "src/app/(recruiter)/(status)/interviews/page.jsx",
-    "src/components/recruiter/recruitment-status/interviews/Interviews.jsx"
+    "src/components/recruiter/recruitment-status/interviews/Interviews.jsx",
+    "src/app/(recruiter)/(status)/short-list/page.jsx",
+    "src/components/recruiter/recruitment-status/ShortListResume.jsx",
+    "src/components/recruiter/recruitment-status/ShortList.jsx",
+    "src/components/recruiter/recruitment-status/UserResume.jsx"
   ],
   "exclude": ["node_modules"]
 }
