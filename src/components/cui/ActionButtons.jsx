@@ -54,7 +54,7 @@ const ActionButtons = ({ userId }) => {
         >
           Short Listed
         </button>
-        <InterviewScheduleModal
+        {applicationDetails && <InterviewScheduleModal
           item={applicationDetails}
           trigger={
             <button
@@ -63,7 +63,7 @@ const ActionButtons = ({ userId }) => {
               Interview
             </button>
           }
-        />
+        />}
         <CancelInterview
           item={applicationDetails?._id}
           trigger={
@@ -77,7 +77,8 @@ const ActionButtons = ({ userId }) => {
       </div>
       <div className="w-full">
         <Link
-          href={`/inbox/${userId}`}
+          href={`/chat?id=69203f5ee2a0a7e1b08de15d`}
+          // href={`/chat?id=${applicationDetails?.user?._id}`}
           className="w-full block border border-blue-600 text-blue-600 font-semibold px-4 py-2 rounded text-center"
         >
           Message
