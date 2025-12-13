@@ -3,6 +3,8 @@
 import React from "react";
 import { useRouter } from "next/navigation"; // for navigation
 import Link from "next/link";
+import CancelInterview from "../recruiter/recruitment-status/interviews/CancelInterview";
+import InterviewScheduleModal from "../recruiter/recruitment-status/InterviewSheduleModal";
 
 const ActionButtons = ({ userId }) => {
   const router = useRouter();
@@ -17,11 +19,6 @@ const ActionButtons = ({ userId }) => {
     // Add your API call or logic here
   };
 
-  const handleReject = () => {
-    console.log(`User ${userId} rejected`);
-    // Add your API call or logic here
-  };
-
   return (
     <div className="max-w-[600px] mx-auto space-y-4">
       <div className="grid grid-cols-3 gap-3">
@@ -32,19 +29,32 @@ const ActionButtons = ({ userId }) => {
           Short Listed
         </button>
 
-        <button
+        {/* <button
           onClick={handleInterview}
           className="bg-green-600 text-white font-semibold px-4 py-2 rounded"
         >
           Interview
-        </button>
-
-        <button
-          onClick={handleReject}
-          className="bg-red-600 text-white font-semibold px-4 py-2 rounded"
-        >
-          Reject
-        </button>
+        </button> */}
+        <InterviewScheduleModal
+          item={userId}
+          trigger={
+            <button
+              className="w-full block bg-green-600 text-white font-semibold px-4 py-2 rounded"
+            >
+              Interview
+            </button>
+          }
+        />
+        <CancelInterview
+          item={userId}
+          trigger={
+            <button
+              className="w-full block bg-red-600 text-white font-semibold px-4 py-2 rounded"
+            >
+              Reject
+            </button>
+          }
+        />
       </div>
       <div className="w-full">
         <Link
