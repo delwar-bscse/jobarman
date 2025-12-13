@@ -3,6 +3,7 @@ import CancelInterview from "./CancelInterview";
 import { getRemainingDays } from "utils/remainingDays";
 import CustomImage from "shared/CustomImage";
 import InterviewButton from "./InterviewButton";
+import Link from "next/link";
 
 export default function InterviewUserDetails({ data }) {
   return (
@@ -70,10 +71,11 @@ export default function InterviewUserDetails({ data }) {
         {/* interview */}
         <InterviewButton item={data?._id} />
       </div>
-
-      <button className="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
-        Message
-      </button>
+      <Link href={`/chat?id/${data?._id}`}>
+        <button className="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
+          Message
+        </button>
+      </Link>
     </div>
   );
 }

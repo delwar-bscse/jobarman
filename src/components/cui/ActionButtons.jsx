@@ -38,9 +38,7 @@ const ActionButtons = ({ userId }) => {
         <InterviewScheduleModal
           item={userId}
           trigger={
-            <button
-              className="w-full block bg-green-600 text-white font-semibold px-4 py-2 rounded"
-            >
+            <button className="w-full block bg-green-600 text-white font-semibold px-4 py-2 rounded">
               Interview
             </button>
           }
@@ -48,9 +46,7 @@ const ActionButtons = ({ userId }) => {
         <CancelInterview
           item={userId}
           trigger={
-            <button
-              className="w-full block bg-red-600 text-white font-semibold px-4 py-2 rounded"
-            >
+            <button className="w-full block bg-red-600 text-white font-semibold px-4 py-2 rounded">
               Reject
             </button>
           }
@@ -58,7 +54,7 @@ const ActionButtons = ({ userId }) => {
       </div>
       <div className="w-full">
         <Link
-          href={`/inbox/${userId}`}
+          href={`/chat?id/${userId}`}
           className="w-full block border border-blue-600 text-blue-600 font-semibold px-4 py-2 rounded text-center"
         >
           Message
