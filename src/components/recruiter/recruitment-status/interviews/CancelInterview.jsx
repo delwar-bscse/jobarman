@@ -30,7 +30,7 @@ export default function CancelInterview({ item, trigger }) {
   };
   return (
     <Dialog>
-      <DialogTrigger className="w-[50%]">{trigger}</DialogTrigger>
+      <DialogTrigger className="">{trigger}</DialogTrigger>
       <DialogContent>
         <form className="mt-4" onSubmit={handleReject}>
           <Label className="text-xl mb-4"> Cancel Reason</Label>
