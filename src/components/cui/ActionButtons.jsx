@@ -1,22 +1,48 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation"; // for navigation
 import Link from "next/link";
 import CancelInterview from "../recruiter/recruitment-status/interviews/CancelInterview";
 import InterviewScheduleModal from "../recruiter/recruitment-status/InterviewSheduleModal";
+import { myFetch } from "../../../utils/myFetch";
+import { toast } from "sonner";
 
 const ActionButtons = ({ userId }) => {
   const router = useRouter();
+  const [applicationDetails, setApplicationDetails] = React.useState(null);
 
-  const handleShortListed = () => {
-    console.log(`User ${userId} shortlisted`);
-    // Add your API call or logic here
+  const fetchApplicationDetails = async () => {
+    const res = await myFetch(`/application/${userId}`, {
+      revalidate: "application-details",
+    });
+    console.log("Get application details : ", res?.data);
+    setApplicationDetails(res?.data);
   };
 
-  const handleInterview = () => {
-    console.log(`User ${userId} marked for interview`);
-    // Add your API call or logic here
+  useEffect(() => {
+    fetchApplicationDetails();
+  }, []);
+
+  const handleShortListed = async () => {
+    console.log(`User ${userId} shortlisted`);
+    try {
+      const res = await myFetch(`/application/${applicationDetails._id}`, {
+        method: "PATCH",
+        body: { status: "SHORTLISTED" },
+      });
+
+      console.log("Short List res : ", res?.data);
+
+      if (res?.success) {
+        toast.success(res?.message || "Application shortlisted successfully");
+      } else {
+        toast.error(res.message || "failed");
+      }
+    } catch (error) {
+      toast.error(error.message || "failed");
+    }
   };
 
   return (
@@ -28,23 +54,18 @@ const ActionButtons = ({ userId }) => {
         >
           Short Listed
         </button>
-
-        {/* <button
-          onClick={handleInterview}
-          className="bg-green-600 text-white font-semibold px-4 py-2 rounded"
-        >
-          Interview
-        </button> */}
-        <InterviewScheduleModal
-          item={userId}
-          trigger={
-            <button className="w-full block bg-green-600 text-white font-semibold px-4 py-2 rounded">
-              Interview
-            </button>
-          }
-        />
+        {applicationDetails && (
+          <InterviewScheduleModal
+            item={applicationDetails}
+            trigger={
+              <button className="w-full block bg-green-600 text-white font-semibold px-4 py-2 rounded">
+                Interview
+              </button>
+            }
+          />
+        )}
         <CancelInterview
-          item={userId}
+          item={applicationDetails?._id}
           trigger={
             <button className="w-full block bg-red-600 text-white font-semibold px-4 py-2 rounded">
               Reject

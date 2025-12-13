@@ -28,6 +28,7 @@ export default function CancelInterview({ item, trigger }) {
       toast.error(error.message || "Reject item failed");
     }
   };
+  
   return (
     <Dialog>
       <DialogTrigger className="">{trigger}</DialogTrigger>
