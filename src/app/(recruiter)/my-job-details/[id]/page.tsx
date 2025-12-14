@@ -3,6 +3,7 @@ import CandidateCard from "../../../../components/recruiter/Candidate-card";
 import { ChevronLeft, MapPin, Briefcase, Eye, Trash2 } from "lucide-react";
 import CustomImage from "shared/CustomImage";
 import Link from "next/link";
+import MyRequestCard from "@/components/recruiter/myRequest/MyRequestCard";
 
 export default async function page({ params }: { params: { id: string } }) {
   const id = (await params).id;
@@ -109,23 +110,23 @@ export default async function page({ params }: { params: { id: string } }) {
             </div>
           </div>
           <div className="flex gap-2">
-            <button className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium">
-              Interview
-            </button>
-            <button className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium">
-              Short Listed
-            </button>
+            <Link href="/interviews">
+              <button className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium">
+                Interviews
+              </button>
+            </Link>
+            <Link href="/short-list">
+              <button className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors text-sm font-medium">
+                Short Listed
+              </button>
+            </Link>
           </div>
         </div>
 
         <div>
           {/* Candidates Grid */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {res?.data?.map((candidate: any) => (
-                <CandidateCard key={candidate._id} candidate={candidate} />
-              ))}
-            </div>
+            <MyRequestCard res={res} />
           </div>
         </div>
       </div>
