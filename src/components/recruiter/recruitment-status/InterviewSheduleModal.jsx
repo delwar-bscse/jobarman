@@ -47,8 +47,6 @@ export default function InterviewScheduleModal({ item, trigger }) {
         }
       );
 
-      console.log("res shedule", res);
-
       if (res.success) {
         await revalidate("interview-shedule");
         router.refresh();

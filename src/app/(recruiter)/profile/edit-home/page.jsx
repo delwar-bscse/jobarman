@@ -9,7 +9,6 @@ import RecruiterSidebar from "@/components/cui/RecruiterSidebar";
 import Image from "next/image";
 import { formatUrl } from "../../../../../utils/formatUrl";
 
-
 export default function EditHome() {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -22,10 +21,8 @@ export default function EditHome() {
     },
   });
 
-
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`);
-    console.log("profile get res :", res.data);
 
     if (res.data) {
       const oldProfile = res.data;
@@ -41,25 +38,22 @@ export default function EditHome() {
 
       reset(normalized);
     }
-
-  }
+  };
 
   const fetchGallery = async () => {
     const res = await myFetch(`/user/gallery`);
-    console.log("gallery get res :", res.data);
 
     if (res.data) {
       const oldGallery = res.data.map((item) => {
         return {
           id: item._id,
-          image: formatUrl(item.image)
-        }
+          image: formatUrl(item.image),
+        };
       });
 
       setGalleryPreview(oldGallery);
     }
-
-  }
+  };
 
   useEffect(() => {
     fetchGallery();
@@ -67,8 +61,6 @@ export default function EditHome() {
   }, []);
 
   const onSubmit = async (data) => {
-    console.log("FORM DATA:", data);
-    console.log("FILE DATA:", file);
     const formData = new FormData();
 
     for (const [key, value] of Object.entries(data)) {
@@ -83,8 +75,6 @@ export default function EditHome() {
         method: "PATCH",
         body: formData,
       });
-
-      console.log("profile update res", res);
 
       if (res.success) {
         toast.success("Profile update successfully");
@@ -104,7 +94,6 @@ export default function EditHome() {
     };
     reader.readAsDataURL(file);
     setPreview(URL.createObjectURL(file));
-
   };
 
   const handleGalleryFile = async (e) => {
@@ -114,14 +103,10 @@ export default function EditHome() {
     const formDataGallery = new FormData();
     formDataGallery.append("image", file);
 
-
-
-    console.log("gallery update res Test")
     const resGallery = await myFetch("/user/gallery", {
       method: "POST",
       body: formDataGallery,
     });
-    console.log("gallery update res", resGallery)
 
     if (resGallery.success) {
       toast.success("Gallery update successfully");
@@ -129,14 +114,13 @@ export default function EditHome() {
     } else {
       toast.error(resGallery.message || "Gallery update failed");
     }
-
   };
 
   const handleGalleryFileDelete = async (id) => {
     const res = await myFetch(`/user/gallery/${id}`, {
       method: "DELETE",
     });
-    console.log("Delete res : ", res);
+
     if (res.success) {
       fetchGallery();
     }
@@ -149,15 +133,40 @@ export default function EditHome() {
       </div>
       <div className="flex-1 max-w-[900px] mx-auto">
         <div className="w-full h-40 relative">
-          {preview ? <Image src={preview} alt="bg" width={1000} height={300} className="w-full h-40 object-cover" /> : <div className="w-full h-40 bg-gray-200" />}
-          <div onClick={() => document.getElementById("recruiterCoverImage").click()} className="flex absolute bottom-4 right-4 items-center gap-2 bg-white p-2 rounded-lg text-gray-700 cursor-pointer">
+          {preview ? (
+            <Image
+              src={preview}
+              alt="bg"
+              width={1000}
+              height={300}
+              className="w-full h-40 object-cover"
+            />
+          ) : (
+            <div className="w-full h-40 bg-gray-200" />
+          )}
+          <div
+            onClick={() =>
+              document.getElementById("recruiterCoverImage").click()
+            }
+            className="flex absolute bottom-4 right-4 items-center gap-2 bg-white p-2 rounded-lg text-gray-700 cursor-pointer"
+          >
             <Pencil size={16} />
             <span>Edit Cover Image</span>
           </div>
-          <button onClick={() => window.history.back()} type="button" className="absolute top-2 left-2 p-1 bg-gray-200 hover:bg-gray-200 rounded-full">
-              <ChevronLeft size={20} />
-            </button>
-          <input id="recruiterCoverImage" onChange={handleFile} type="file" accept="image/*" className="hidden" />
+          <button
+            onClick={() => window.history.back()}
+            type="button"
+            className="absolute top-2 left-2 p-1 bg-gray-200 hover:bg-gray-200 rounded-full"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <input
+            id="recruiterCoverImage"
+            onChange={handleFile}
+            type="file"
+            accept="image/*"
+            className="hidden"
+          />
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -182,18 +191,31 @@ export default function EditHome() {
           {/* DESCRIPTION (Bio) */}
           <div className="mb-8">
             <h2 className="text-xl font-bold mb-4">Description</h2>
-            <textarea {...register("bio")} placeholder="Enter company description" className="border w-full min-h-20 rounded-sm p-2" />
+            <textarea
+              {...register("bio")}
+              placeholder="Enter company description"
+              className="border w-full min-h-20 rounded-sm p-2"
+            />
           </div>
 
           {/* OVERVIEW */}
           <div className="mb-8">
             <h2 className="text-xl font-bold mb-4">Overview</h2>
-            <textarea placeholder="Type your overview" {...register("company_overview")} className="border w-full min-h-28 rounded-sm p-2" />
+            <textarea
+              placeholder="Type your overview"
+              {...register("company_overview")}
+              className="border w-full min-h-28 rounded-sm p-2"
+            />
           </div>
 
           {/* similar structure for Projects, Education, Certifications… */}
           <div className="flex flex-wrap gap-3">
-            <div onClick={() => document.getElementById("recruiterGalleryImage").click()} className="border-2 border-dashed border-gray-400 size-48 flex flex-col items-center justify-center bg-gray-100 rounded-sm cursor-pointer">
+            <div
+              onClick={() =>
+                document.getElementById("recruiterGalleryImage").click()
+              }
+              className="border-2 border-dashed border-gray-400 size-48 flex flex-col items-center justify-center bg-gray-100 rounded-sm cursor-pointer"
+            >
               <span className="text-5xl text-gray-500">+</span>
               <span className="font-semibold text-gray-500">Add Image</span>
               <input
@@ -204,12 +226,27 @@ export default function EditHome() {
                 className="hidden"
               />
             </div>
-            {galleryPreview.length > 0 && galleryPreview.map((item) => (
-              <div key={item.id} className="relative size-48 border-2 border-gray-200 rounded-sm overflow-hidden">
-                <Image src={item.image} alt="gallery image" width={100} height={100} className="w-full h-full object-cover" />
-                <span onClick={() => handleGalleryFileDelete(item.id)} className="absolute top-2 right-2 bg-gray-300 rounded-full size-5 flex items-center justify-center text-[12px] font-semibold text-gray-600 cursor-pointer">X</span>
-              </div>
-            ))}
+            {galleryPreview.length > 0 &&
+              galleryPreview.map((item) => (
+                <div
+                  key={item.id}
+                  className="relative size-48 border-2 border-gray-200 rounded-sm overflow-hidden"
+                >
+                  <Image
+                    src={item.image}
+                    alt="gallery image"
+                    width={100}
+                    height={100}
+                    className="w-full h-full object-cover"
+                  />
+                  <span
+                    onClick={() => handleGalleryFileDelete(item.id)}
+                    className="absolute top-2 right-2 bg-gray-300 rounded-full size-5 flex items-center justify-center text-[12px] font-semibold text-gray-600 cursor-pointer"
+                  >
+                    X
+                  </span>
+                </div>
+              ))}
           </div>
 
           <div className="flex justify-center pt-8">

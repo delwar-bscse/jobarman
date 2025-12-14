@@ -12,12 +12,11 @@ export default function Modal({ trigger }) {
   useEffect(() => {
     const fetchSubscription = async () => {
       const res = await myFetch("/subscription/subscribe", { method: "GET" });
-      console.log("Subscription Data : ", res);
 
       if (res?.success) {
         setSubscription(res?.data);
       }
-    }
+    };
 
     fetchSubscription();
   }, []);
@@ -26,12 +25,11 @@ export default function Modal({ trigger }) {
     const res = await myFetch(`/subscription/stripe/renew`, {
       method: "POST",
     });
-    console.log("Subscription Renew Response : ", res?.data);
+
     if (res?.success && res?.data) {
       window.location.href = res?.data;
     }
-  }
-
+  };
 
   return (
     <Dialog>
@@ -49,7 +47,9 @@ export default function Modal({ trigger }) {
             <h2 className="mt-4 text-xl font-semibold text-gray-900">
               {subscription?.user?.name}
             </h2>
-            <p className="text-sm text-gray-500">{subscription?.user?.designation}</p>
+            <p className="text-sm text-gray-500">
+              {subscription?.user?.designation}
+            </p>
             <p className="mt-1 text-sm font-medium text-orange-600">
               {subscription?.name}
             </p>
@@ -65,7 +65,9 @@ export default function Modal({ trigger }) {
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <span className="text-sm text-gray-600">Price</span>
-              <span className="text-sm font-medium text-gray-900">${subscription?.price}</span>
+              <span className="text-sm font-medium text-gray-900">
+                ${subscription?.price}
+              </span>
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <span className="text-sm text-gray-600">Start Date</span>
@@ -81,7 +83,9 @@ export default function Modal({ trigger }) {
             </div>
             <div className="flex items-center justify-between px-4 py-3">
               <span className="text-sm text-gray-600">Remaining Days</span>
-              <span className="text-sm font-medium text-gray-900">{subscription?.remainingDays} Days</span>
+              <span className="text-sm font-medium text-gray-900">
+                {subscription?.remainingDays} Days
+              </span>
             </div>
           </div>
 

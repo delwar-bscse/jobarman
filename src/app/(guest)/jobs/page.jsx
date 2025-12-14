@@ -5,7 +5,6 @@ import { myFetch } from "../../../../utils/myFetch";
 
 export const formatEnum = (value) => {
   const newValues = value?.split(",");
-  console.log("Job Type", newValues);
 
   const returnValues = newValues?.map((value) => {
     if (typeof value !== "string") return "";
@@ -13,14 +12,13 @@ export const formatEnum = (value) => {
     return value.trim().toUpperCase().replace(/\s+/g, "_");
   });
 
-  console.log("Return Values : ", returnValues);
   return returnValues?.join(",");
 };
 
 export const experienceLevel = (values = "") => {
   const enumArr = ["No experience", "Fresher", "Intermediate", "Expert"];
   const newValues = values.split(",");
-  // console.log("New values : ",newValues)
+
   const newArry = newValues.map((value) => {
     if (value === enumArr[0]) {
       return "0-1yrs";

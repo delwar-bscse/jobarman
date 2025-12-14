@@ -25,15 +25,12 @@ function FilterModalSuspense({ trigger }) {
   const [maxPrice, setMaxPrice] = useState();
   const [distance, setDistance] = useState(0);
 
-
   const fetchData = async () => {
     const res = await myFetch("/job-category");
     setAllCategories(res.data);
-    // console.log("Categories : ", res.data);
   };
 
   useEffect(() => {
-    // console.log("Filter Modal")
     fetchData();
   }, []);
 
@@ -47,8 +44,7 @@ function FilterModalSuspense({ trigger }) {
     if (distance) params.set("radius", distance);
     replace(`/jobs?${params.toString()}`);
     // setFiltersOpen(false)
-  }
-
+  };
 
   return (
     <Dialog>
@@ -67,7 +63,9 @@ function FilterModalSuspense({ trigger }) {
                 <SelectContent>
                   <SelectGroup>
                     {allCategories?.map((c) => (
-                      <SelectItem key={c._id} value={c._id}>{c.name}</SelectItem>
+                      <SelectItem key={c._id} value={c._id}>
+                        {c.name}
+                      </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>
@@ -89,10 +87,11 @@ function FilterModalSuspense({ trigger }) {
                     key={t.label}
                     type="button"
                     onClick={() => setEmployeeType(t.label)}
-                    className={`px-4 py-2 rounded-md text-sm ${employeeType === t.label
-                      ? "bg-[#FF8F27] text-white"
-                      : "border"
-                      }`}
+                    className={`px-4 py-2 rounded-md text-sm ${
+                      employeeType === t.label
+                        ? "bg-[#FF8F27] text-white"
+                        : "border"
+                    }`}
                   >
                     {t.label}
                   </button>
@@ -115,8 +114,11 @@ function FilterModalSuspense({ trigger }) {
                     key={t.label}
                     type="button"
                     onClick={() => setJobType(t.label)}
-                    className={`px-4 py-2  text-sm rounded-full ${jobType === t.label ? "bg-[#093CD4] text-white" : "border "
-                      }`}
+                    className={`px-4 py-2  text-sm rounded-full ${
+                      jobType === t.label
+                        ? "bg-[#093CD4] text-white"
+                        : "border "
+                    }`}
                   >
                     {t.label}
                   </button>
@@ -194,11 +196,10 @@ function FilterModalSuspense({ trigger }) {
   );
 }
 
-
 export default function FilterModal({ trigger }) {
   return (
-    <Suspense fallback={<div>Loading...</div>} >
+    <Suspense fallback={<div>Loading...</div>}>
       <FilterModalSuspense trigger={trigger} />
     </Suspense>
-  )
+  );
 }

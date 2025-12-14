@@ -62,8 +62,6 @@ export default function ChangePasswordComponent() {
         body: password,
       });
 
-      console.log(res)
-
       if (res.success) {
         Swal.fire({
           icon: "success",
@@ -90,7 +88,11 @@ export default function ChangePasswordComponent() {
     <div className="w-full bg-[#FBFBFB]">
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
         {/* <SidebarProfile /> */}
-        {pathname === "/profile/settings/changePassword" ? <EmployeeSidebar /> : <RecruiterSidebar />}
+        {pathname === "/profile/settings/changePassword" ? (
+          <EmployeeSidebar />
+        ) : (
+          <RecruiterSidebar />
+        )}
 
         <div className="flex-1 ml-8 flex items-center justify-center">
           <div className="bg-white rounded-2xl p-8 shadow-lg max-w-md w-full border border-gray-200">

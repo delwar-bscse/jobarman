@@ -70,11 +70,9 @@ function AddNewResumeForm2Suspense({ name }) {
     },
   });
 
-
   useEffect(() => {
     const fetchResume = async () => {
       const res = await myFetch(`/resume/${id}`);
-      console.log("Edit Resume res :", res.data);
 
       if (res.data) {
         const resume = res.data;
@@ -98,25 +96,25 @@ function AddNewResumeForm2Suspense({ name }) {
             : [{ title: "", description: "" }],
           workExperiences: resume.workExperiences?.length
             ? resume.workExperiences.map((item) => ({
-              title: item.title,
-              company: item.company,
-              startDate: dayjs(item.startDate).format("YYYY-MM-DD"),
-              endDate: dayjs(item.endDate).format("YYYY-MM-DD"),
-              designation: item.designation,
-              description: item.description,
-              isCurrentJob: item.isCurrentJob,
-            }))
+                title: item.title,
+                company: item.company,
+                startDate: dayjs(item.startDate).format("YYYY-MM-DD"),
+                endDate: dayjs(item.endDate).format("YYYY-MM-DD"),
+                designation: item.designation,
+                description: item.description,
+                isCurrentJob: item.isCurrentJob,
+              }))
             : [
-              {
-                title: "",
-                company: "",
-                startDate: "",
-                endDate: "",
-                designation: "",
-                description: "",
-                isCurrentJob: false,
-              },
-            ],
+                {
+                  title: "",
+                  company: "",
+                  startDate: "",
+                  endDate: "",
+                  designation: "",
+                  description: "",
+                  isCurrentJob: false,
+                },
+              ],
           projects: resume.projects?.length
             ? resume.projects
             : [{ title: "", description: "", link: "" }],
@@ -130,8 +128,7 @@ function AddNewResumeForm2Suspense({ name }) {
 
         reset(normalized);
       }
-
-    }
+    };
     fetchResume();
   }, []);
 
@@ -143,7 +140,6 @@ function AddNewResumeForm2Suspense({ name }) {
   const certArray = useFieldArray({ control, name: "certifications" });
 
   const onSubmit = async (data) => {
-    console.log("FORM DATA:", data);
     let method = id ? "PATCH" : "POST";
     let url = id ? `/resume/${id}` : "/resume";
 
@@ -153,7 +149,6 @@ function AddNewResumeForm2Suspense({ name }) {
         body: data,
       });
 
-      console.log("res", res);
       if (res.success) {
         toast.success("Resume create successfully");
       } else {
@@ -192,7 +187,10 @@ function AddNewResumeForm2Suspense({ name }) {
       {/* SUMMARY */}
       <section className="mb-8">
         <h2 className="text-xl font-bold mb-4">Summary</h2>
-        <textarea {...register("personalInfo.summury")} className="border w-full min-h-28 rounded-sm p-2" />
+        <textarea
+          {...register("personalInfo.summury")}
+          className="border w-full min-h-28 rounded-sm p-2"
+        />
       </section>
 
       {/* CORE SKILLS */}
@@ -235,11 +233,10 @@ function AddNewResumeForm2Suspense({ name }) {
   );
 }
 
-
 export default function AddNewResumeForm2({ name }) {
   return (
-    <Suspense fallback={<div>Loading...</div>} >
+    <Suspense fallback={<div>Loading...</div>}>
       <AddNewResumeForm2Suspense name={name} />
     </Suspense>
-  )
+  );
 }

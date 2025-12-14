@@ -8,7 +8,6 @@ import { myFetch } from "../../../../../utils/myFetch";
 import RecruiterSidebar from "@/components/cui/RecruiterSidebar";
 import { formatUrl } from "../../../../../utils/formatUrl";
 
-
 export default function EditAbout() {
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -25,10 +24,8 @@ export default function EditAbout() {
     },
   });
 
-
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`);
-    console.log("profile get res :", res.data);
 
     if (res.data) {
       const oldProfile = res.data;
@@ -48,27 +45,25 @@ export default function EditAbout() {
 
       reset(normalized);
     }
-
-  }
+  };
 
   useEffect(() => {
     fetchProfile();
   }, []);
 
   const onSubmit = async (data) => {
-    console.log("FORM DATA:", data);
     const f1 = {
       total_employees: data.total_employees,
       company_type: data.company_type,
       founded: data.founded,
       revenue: data.revenue,
-    }
+    };
     const f2 = {
       website: data.website,
       email: data.email,
       contact: data.contact,
       address: data.address,
-    }
+    };
     const formData = new FormData();
 
     formData.append("about_us", data.about_us);
@@ -76,15 +71,11 @@ export default function EditAbout() {
     formData.append("overview", JSON.stringify(f1));
     formData.append("contactInfo", JSON.stringify(f2));
 
-
-
     try {
       const res = await myFetch("/user/profile", {
         method: "PATCH",
         body: formData,
       });
-
-      console.log("profile update res", res);
 
       if (res.success) {
         toast.success("Profile update successfully");
@@ -115,17 +106,24 @@ export default function EditAbout() {
 
           </div> */}
 
-
           {/* ABOUT US */}
           <div className="mb-8">
             <h2 className="text-xl font-bold mb-4">About Us</h2>
-            <textarea {...register("about_us")} placeholder="About Us" className="border w-full min-h-28 rounded-sm p-2" />
+            <textarea
+              {...register("about_us")}
+              placeholder="About Us"
+              className="border w-full min-h-28 rounded-sm p-2"
+            />
           </div>
 
           {/* MISSION */}
           <div className="mb-8">
             <h2 className="text-xl font-bold mb-4">Mission</h2>
-            <textarea placeholder="Mission" {...register("mission")} className="border w-full min-h-28 rounded-sm p-2" />
+            <textarea
+              placeholder="Mission"
+              {...register("mission")}
+              className="border w-full min-h-28 rounded-sm p-2"
+            />
           </div>
 
           <div className="grid grid-cols-4 gap-3 pb-8">

@@ -46,10 +46,9 @@ export default function EditJobPost() {
   const fetchDataJob = async () => {
     const resCat = await myFetch("/job-category");
     setAllCategories(resCat.data);
-    // console.log("Categories : ", resCat.data);
 
     const res = await myFetch("/job-post/" + id);
-    // console.log("Category set : ", resCat.data?.filter((item)=> item.name === res.data?.category)[0]?._id,)
+
     setFormData((prev) => ({
       ...prev,
       title: res.data?.title,
@@ -75,7 +74,6 @@ export default function EditJobPost() {
     setResponsibilities((prev) => [...prev, ...oldResponsibilities]);
     const formatImage = formatUrl(res.data?.thumbnail);
     setImage(formatImage);
-    console.log("Get Job Details : ", res.data);
   };
 
   useEffect(() => {
@@ -85,12 +83,6 @@ export default function EditJobPost() {
   }, []);
 
   const handleUpdate = async () => {
-    console.log("form data : ", formData);
-    console.log("form image : ", imageFile);
-    console.log("form required_skills : ", skills);
-    console.log("form benefits : ", benefits);
-    console.log("form responsibilities : ", responsibilities);
-
     const newFormData = new FormData();
 
     newFormData.append("title", formData?.title);
@@ -117,7 +109,6 @@ export default function EditJobPost() {
       method: id ? "PATCH" : "POST",
       body: newFormData,
     });
-    console.log("Create Post Res : ", res);
   };
 
   const handleImage = (e) => {

@@ -18,7 +18,6 @@ export default function CalendarPage() {
 
   const handleCancel = () => {
     setDate(undefined); // or close modal
-    console.log("Cancelled");
   };
 
   const handleSelectDate = (selectedDate) => {

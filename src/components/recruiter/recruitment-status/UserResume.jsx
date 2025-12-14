@@ -13,7 +13,6 @@ export default function UserResume() {
   const [resumeShow, setResumeShow] = useState(null);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  console.log("resumeShow", formatUrl(resumeShow?.resume));
 
   useEffect(() => {
     const fetchData = async () => {

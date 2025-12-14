@@ -127,11 +127,8 @@ export default function EditProfilePage({ data }) {
     e.preventDefault();
 
     const formData = new FormData();
-    // Object.entries((formValues) => {
-    //   console.log("update", key, value);
-    // });
+
     for (const [key, value] of Object.entries(formValues)) {
-      // console.log(`${key} ${value}`);
       formData.append(key, value);
     }
 
@@ -140,8 +137,6 @@ export default function EditProfilePage({ data }) {
         method: "PATCH",
         body: formData,
       });
-
-      console.log("profile data", res);
     } catch (err) {
       toast.error(err.message);
     }
