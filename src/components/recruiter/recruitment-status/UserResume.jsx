@@ -6,6 +6,7 @@ import InterviewSheduleModal from "./InterviewSheduleModal";
 import RejectModal from "./RejectModal";
 import PdfViewer from "../../cui/PdfViewer";
 import { formatUrl } from "utils/formatUrl";
+import CancelInterview from "./interviews/CancelInterview";
 
 // const PDFViewer = dynamic(() => import("pdf-viewer-reactjs"), { ssr: false });
 
@@ -13,6 +14,7 @@ export default function UserResume() {
   const [resumeShow, setResumeShow] = useState(null);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
+  console.log("resumeShow?._id", resumeShow);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,18 +28,20 @@ export default function UserResume() {
 
   return (
     <div>
-      {/* <PDFViewer
-        document={{
-          url: `${process.env.NEXT_PUBLIC_IMAGE_URL}${resumeShow?.resume}`,
-        }}
-      /> */}
       <PdfViewer fileUrl={formatUrl(resumeShow?.resume)} />
 
       {/* message */}
       <div className="p-4">
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div
+          className={`grid ${
+            resumeShow?.inteviewStatus === "cancelled"
+              ? "grid-cols-1"
+              : "grid-cols-2"
+          }  gap-4 mb-4`}
+        >
           {/* Interview Button */}
           <InterviewSheduleModal
+            item={resumeShow}
             trigger={
               <button className="w-full bg-green-700 text-white font-semibold rounded-md px-6 py-2">
                 Interview
@@ -46,13 +50,16 @@ export default function UserResume() {
           />
 
           {/* Reject Button */}
-          <RejectModal
-            trigger={
-              <button className="w-full bg-red-600 text-white font-semibold rounded-md px-6 py-2">
-                Reject
-              </button>
-            }
-          />
+          {resumeShow?.inteviewStatus !== "cancelled" && (
+            <CancelInterview
+              item={resumeShow?._id}
+              trigger={
+                <button className="w-full bg-red-600 text-white font-semibold rounded-md px-6 py-2">
+                  Reject
+                </button>
+              }
+            />
+          )}
         </div>
 
         {/* Message Button */}

@@ -2,8 +2,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useRouter } from "next/navigation"; // for navigation
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import CancelInterview from "../recruiter/recruitment-status/interviews/CancelInterview";
 import InterviewScheduleModal from "../recruiter/recruitment-status/InterviewSheduleModal";
 import { myFetch } from "../../../utils/myFetch";
@@ -12,6 +11,7 @@ import { toast } from "sonner";
 const ActionButtons = ({ userId }) => {
   const router = useRouter();
   const [applicationDetails, setApplicationDetails] = React.useState(null);
+  console.log("applicationDetails", applicationDetails);
 
   const fetchApplicationDetails = async () => {
     const res = await myFetch(`/application/${userId}`, {
@@ -60,13 +60,21 @@ const ActionButtons = ({ userId }) => {
 
   return (
     <div className="max-w-[600px] mx-auto space-y-4">
-      <div className="grid grid-cols-3 gap-3">
-        <button
-          onClick={handleShortListed}
-          className="bg-orange-500 text-white font-semibold px-4 py-2 rounded"
-        >
-          Short Listed
-        </button>
+      <div
+        className={`grid ${
+          applicationDetails?.status !== "SHORTLIST"
+            ? "grid-cols-2"
+            : "grid-cols-3"
+        } gap-3`}
+      >
+        {applicationDetails?.status !== "SHORTLIST" && (
+          <button
+            onClick={handleShortListed}
+            className="bg-orange-500 text-white font-semibold px-4 py-2 rounded"
+          >
+            Short Listed
+          </button>
+        )}
         {applicationDetails && (
           <InterviewScheduleModal
             item={applicationDetails}
@@ -77,14 +85,16 @@ const ActionButtons = ({ userId }) => {
             }
           />
         )}
-        <CancelInterview
-          item={applicationDetails?._id}
-          trigger={
-            <button className="w-full block bg-red-600 text-white font-semibold px-4 py-2 rounded">
-              Reject
-            </button>
-          }
-        />
+        {applicationDetails && (
+          <CancelInterview
+            item={applicationDetails?._id}
+            trigger={
+              <button className="w-full block bg-red-600 text-white font-semibold px-4 py-2 rounded">
+                Reject
+              </button>
+            }
+          />
+        )}
       </div>
       <div className="w-full">
         <button
