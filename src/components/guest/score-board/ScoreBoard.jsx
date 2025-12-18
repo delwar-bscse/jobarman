@@ -4,10 +4,10 @@ import { myFetch } from "../../../../utils/myFetch";
 import ResumeScorecard from "./ResumeScroeBoard";
 import PdfViewer from "@/components/cui/PdfViewer";
 import { formatUrl } from "../../../../utils/formatUrl";
-import { io } from "socket.io-client";
+import { useSocket } from "@/lib/SocketContext";
 
 export default function ScoreBoard({ id }) {
-  const socket = useMemo(() => io(process.env.NEXT_PUBLIC_IMAGE_URL), []);
+  const { socket } = useSocket();
   const [isCompleted, setIsCompleted] = useState(false);
   const [resume, setResume] = useState({});
 
@@ -19,9 +19,20 @@ export default function ScoreBoard({ id }) {
     fetchData();
   }, [id, isCompleted]);
 
-  socket.on(`resume-analysis::${id}`, () => {
-    setIsCompleted(!isCompleted);
-  });
+  useEffect(() => {
+    if (!id || !socket) return;
+
+    const onSocketResponse = () => {
+      setIsCompleted(prev => !prev);
+    };
+
+    const eventName = `resume-analysis::${id}`;
+    socket.on(eventName, onSocketResponse);
+    return () => {
+      socket.off(eventName, onSocketResponse);
+    };
+  }, [id, socket]);
+
 
   return (
     <div>
