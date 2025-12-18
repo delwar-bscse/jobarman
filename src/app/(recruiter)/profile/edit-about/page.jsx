@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { myFetch } from "../../../../../utils/myFetch";
 import RecruiterSidebar from "@/components/cui/RecruiterSidebar";
-import { formatUrl } from "../../../../../utils/formatUrl";
 
 export default function EditAbout() {
   const { register, handleSubmit, reset } = useForm({
