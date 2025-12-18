@@ -6,8 +6,9 @@ const AutoApplying = () => {
   const router = useRouter();
 
   setTimeout(() => {
-    router.push("/auto-process");
+     router.push("/auto-process");
   }, 2000);
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-blue-50">
       {/* Main container */}

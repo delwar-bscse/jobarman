@@ -10,12 +10,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
+import { ChevronLeft, CloudCog } from "lucide-react";
 import { useState } from "react";
+import { myFetch } from "../../../../utils/myFetch";
+import { useRouter } from "next/navigation";
+import PdfViewer from "@/components/cui/PdfViewer";
 
 export default function AutoApply({ data }) {
-  const [formValues, setFormValues] = useState(null);
+  const router = useRouter();
+  const [selectedResume, setSelectedResume] = useState(null);
+  const [selectedResumeReview, setSelectedResumeReview] = useState(null);
+  const [matchPercentage, setMatchPercentage] = useState(0);
+  const [selectedDesignation, setSelectedDesignation] = useState("");
+  // console.log(selectedResumes);
+
+  const handlePdf = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.type !== "application/pdf") {
+      alert("Only PDF files are allowed.");
+      return;
+    }
+
+    console.log("Selected PDF:", file);
+    setSelectedResume(file);
+    setSelectedResumeReview(URL.createObjectURL(file));
+  }
+
+  const handleAutoApply = async() => {
+    const formData = new FormData();
+    formData.append("resume", selectedResume);
+    formData.append("title", selectedDesignation);
+    formData.append("percentage", matchPercentage);
+
+    const res = await myFetch("/application/auto-apply", {
+      method: "POST",
+      body: formData
+    })
+    console.log("Auto apply res : ", res);
+    if (res.success) {
+      localStorage.setItem("autoApplyDataId", JSON.stringify(res.data?._id));
+      router.push("/auto-applying");
+    }
+  }
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB] px-4">
@@ -24,18 +62,18 @@ export default function AutoApply({ data }) {
           className="cursor-pointer"
           onClick={() => history.back()}
         />
-        <h1 className="text-[#123499] text-2xl font-semibold my-3">
+        <h1 onClick={() => window.history.back()} className="text-[#123499] text-2xl font-semibold my-3">
           Auto Apply
         </h1>
       </div>
       <div className=" grid lg:grid-cols-3 gap-5">
         <div className="lg:col-span-1 bg-white rounded-lg  mt-1 p-3">
-          {/* pdf file upload */}
 
           <h1 className=" text-2xl font-semibold text-center text-[#2F2F2F]">
             Auto Apply
           </h1>
 
+          {/* pdf file upload */}
           <div className="mt-4">
             <Label className="block text-sm font-medium text-gray-600 mb-2">
               Select Resume
@@ -44,37 +82,17 @@ export default function AutoApply({ data }) {
             <Input
               type="file"
               accept="application/pdf"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-
-                if (file.type !== "application/pdf") {
-                  alert("Only PDF files are allowed.");
-                  return;
-                }
-
-                setFormValues(file);
-              }}
+              onChange={handlePdf}
               className="w-full border border-gray-300 text-sm px-3 py-2 rounded-lg"
             />
-
-            {/* Show selected filename */}
-            {formValues?.resumePdf && (
-              <p className="mt-2 text-sm text-gray-700">
-                Selected:{" "}
-                <span className="font-semibold">
-                  {formValues.resumePdf.name}
-                </span>
-              </p>
-            )}
           </div>
 
-          {/* select */}
+          {/* select designation */}
           <div className="mt-5">
             <p className=" text-sm font-medium text-gray-600 mb-2">
               Choice Role
             </p>
-            <Select>
+            <Select onValueChange={(e) => setSelectedDesignation(e)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select item" />
               </SelectTrigger>
@@ -98,20 +116,18 @@ export default function AutoApply({ data }) {
           {/* percenties */}
           <div className="mt-5">
             <Label className="block text-sm font-medium text-gray-600 mb-2">
-              Requiment Match
+              Requirement Match
             </Label>
-            <Input type="text" placeholder="your percenties" />
+            <Input type="number" value={matchPercentage} onChange={(e) => setMatchPercentage(e.target.value)} placeholder="Enter percent's" />
           </div>
 
-          <Link href="/auto-applying">
-            <button className="w-full px-6 py-2 mt-5 text-sm sm:text-base border border-[#5980E5] bg-[#395FD2] text-white rounded-lg hover:bg-[#2A57DE] transition font-semibold">
-              Start Apply
-            </button>
-          </Link>
+          <button onClick={handleAutoApply} className="w-full px-6 py-2 mt-5 text-sm sm:text-base border border-[#5980E5] bg-[#395FD2] text-white rounded-lg hover:bg-[#2A57DE] transition font-semibold">
+            Start Apply
+          </button>
         </div>
-        <div className="lg:col-span-2 bg-white   overflow-y-auto p-3">
-          {Array.isArray(data) && data.length > 0 ? (
-            <ResumeDetails resume={data[0]} />
+        <div className="lg:col-span-2 bg-white  min-h-screen overflow-y-auto p-3">
+          {selectedResumeReview ? (
+            <PdfViewer fileUrl={selectedResumeReview} />
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500">
               <p className="text-lg">Select a resume to view details</p>

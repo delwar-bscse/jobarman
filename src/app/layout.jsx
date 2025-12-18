@@ -2,6 +2,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 // import { Toaster } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { SocketProvider } from "@/lib/SocketContext";
 
 const poppins = Poppins({
   weight: "400", // ONLY normal weight first
@@ -14,8 +15,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={poppins.variable}>
       <body>
-        {children}
-        <Toaster />
+        <SocketProvider>
+          {children}
+          <Toaster />
+        </SocketProvider>
       </body>
     </html>
   );
