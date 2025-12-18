@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
 const jobData = {
   title: "Sr. UI/UX Designer",
@@ -10,9 +12,13 @@ const jobData = {
   image: "/job.png", // update with your image path
 };
 
-export default function JobList() {
+export default function JobList({ autoApplyData }) {
   // Create an array of 5 copies of jobData
   const jobsArray = Array.from({ length: 5 }, () => ({ ...jobData }));
+
+  useEffect(() => {
+    console.log("Auto apply data in Component : ", autoApplyData);
+  }, []);
 
   return (
     <div className="space-y-4">
