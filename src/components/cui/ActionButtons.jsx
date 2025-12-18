@@ -17,7 +17,7 @@ const ActionButtons = ({ userId }) => {
     const res = await myFetch(`/application/${userId}`, {
       revalidate: "application-details",
     });
-    console.log("Get application details : ", res?.data);
+
     setApplicationDetails(res?.data);
   };
 
@@ -26,14 +26,11 @@ const ActionButtons = ({ userId }) => {
   }, []);
 
   const handleShortListed = async () => {
-    console.log(`User ${userId} shortlisted`);
     try {
       const res = await myFetch(`/application/${applicationDetails._id}`, {
         method: "PATCH",
         body: { status: "SHORTLISTED" },
       });
-
-      console.log("Short List res : ", res?.data);
 
       if (res?.success) {
         toast.success(res?.message || "Application shortlisted successfully");
@@ -46,13 +43,10 @@ const ActionButtons = ({ userId }) => {
   };
 
   const handleMessage = async () => {
-    console.log(`User ${userId} shortlisted`);
     try {
       const res = await myFetch(`/chat/${applicationDetails?.user?._id}`, {
         method: "POST",
       });
-
-      console.log("Create Chat  : ", res?.data);
 
       if (res?.success) {
         router.push(`/chat?id=${res?.data?._id}`);

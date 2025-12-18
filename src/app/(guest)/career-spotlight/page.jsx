@@ -5,7 +5,6 @@ import Link from "next/link";
 
 export default async function CareerSpotlight() {
   const res = await myFetch("/spotlight");
-  console.log(res);
 
   const statusStyle = (s) =>
     s === "pending"

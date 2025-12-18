@@ -1,7 +1,6 @@
-import React from 'react'
+import React from "react";
 
 const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
-
   const isoToInputDate = (iso) => {
     if (!iso) return "";
     const d = new Date(iso);
@@ -12,9 +11,8 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
   };
 
   const handlePersonalInfoChange = (e) => {
-    // console.log("Get Event : ", e);
     const name = e.target.name;
-    let value = ""
+    let value = "";
 
     if (e.target.type === "text") {
       value = e.target.value;
@@ -38,7 +36,9 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
     <div className="bg-white rounded-lg">
       <div className="grid grid-cols-3 gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Full Name</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Full Name
+          </label>
           <input
             type="text"
             name="name"
@@ -49,7 +49,9 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Designation</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Designation
+          </label>
           <input
             type="text"
             name="designation"
@@ -60,7 +62,9 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Mobile Number</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Mobile Number
+          </label>
           <input
             type="text"
             name="phone"
@@ -74,7 +78,9 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
 
       <div className="grid grid-cols-3 gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Date Of Birth</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Date Of Birth
+          </label>
           <input
             type="date"
             name="date_of_birth"
@@ -85,7 +91,9 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Age</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Age
+          </label>
           <input
             type="number"
             min="0"
@@ -97,8 +105,15 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Gender</label>
-          <select name="gender" onChange={handlePersonalInfoChange} value={personalInfo?.gender} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Gender
+          </label>
+          <select
+            name="gender"
+            onChange={handlePersonalInfoChange}
+            value={personalInfo?.gender}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+          >
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="other">Other</option>
@@ -108,7 +123,9 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Address</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Address
+          </label>
           <input
             type="text"
             name="address"
@@ -119,7 +136,9 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Social Media Link</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Social Media Link
+          </label>
           <input
             type="text"
             name="linkedin"
@@ -132,7 +151,9 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
       </div>
 
       <div className="mt-4">
-        <label className="block text-sm font-medium text-gray-600 mb-2">Summary</label>
+        <label className="block text-sm font-medium text-gray-600 mb-2">
+          Summary
+        </label>
         <textarea
           rows={3}
           value={personalInfo.bio}
@@ -143,7 +164,7 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PersonalInfo
+export default PersonalInfo;

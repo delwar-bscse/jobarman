@@ -46,16 +46,17 @@ export default function EditJobPost() {
   const fetchDataJob = async () => {
     const resCat = await myFetch("/job-category");
     setAllCategories(resCat.data);
-    // console.log("Categories : ", resCat.data);
 
     const res = await myFetch("/job-post/" + id);
-    // console.log("Category set : ", resCat.data?.filter((item)=> item.name === res.data?.category)[0]?._id,)
+
     setFormData((prev) => ({
       ...prev,
       title: res.data?.title,
       min_salary: res.data?.min_salary.toString(),
       max_salary: res.data?.max_salary.toString(),
-      category: resCat.data?.filter((item) => item._id === res.data.categoryId)[0]?._id || "",
+      category:
+        resCat?.data?.filter((item) => item._id === res?.data?.categoryId)[0]
+          ?._id || "",
       employmentType: res.data?.employmentType,
       job_type: res.data?.job_type,
       experience_level: res.data?.experience_level,
@@ -73,22 +74,15 @@ export default function EditJobPost() {
     setResponsibilities((prev) => [...prev, ...oldResponsibilities]);
     const formatImage = formatUrl(res.data?.thumbnail);
     setImage(formatImage);
-    console.log("Get Job Details : ", res.data);
   };
 
   useEffect(() => {
     (async () => {
       await fetchDataJob();
-    })()
+    })();
   }, []);
 
   const handleUpdate = async () => {
-    console.log("form data : ", formData);
-    console.log("form image : ", imageFile);
-    console.log("form required_skills : ", skills);
-    console.log("form benefits : ", benefits);
-    console.log("form responsibilities : ", responsibilities);
-
     const newFormData = new FormData();
 
     newFormData.append("title", formData?.title);
@@ -103,18 +97,18 @@ export default function EditJobPost() {
     newFormData.append("deadline", formData?.deadline);
     imageFile && newFormData.append("image", imageFile);
     benefits?.forEach((benefit) => newFormData.append("benefits[]", benefit));
-    responsibilities?.forEach((responsibility) => newFormData.append("responsibilities[]", responsibility));
+    responsibilities?.forEach((responsibility) =>
+      newFormData.append("responsibilities[]", responsibility)
+    );
     skills?.forEach((skill) => newFormData.append("required_skills[]", skill));
 
-
-    let url = "/job-post"
-    if (id) url = `/job-post/${id}`
+    let url = "/job-post";
+    if (id) url = `/job-post/${id}`;
 
     const res = await myFetch(url, {
       method: id ? "PATCH" : "POST",
-      body: newFormData
-    })
-    console.log("Create Post Res : ", res)
+      body: newFormData,
+    });
   };
 
   const handleImage = (e) => {
@@ -126,7 +120,6 @@ export default function EditJobPost() {
     };
     reader.readAsDataURL(file);
   };
-
 
   return (
     <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
@@ -151,31 +144,46 @@ export default function EditJobPost() {
                 htmlFor="dropzone-file"
                 className="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 "
               >
-                {!image ? <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg
-                    className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 16"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                    />
-                  </svg>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Upload Cover Image
-                  </p>
-                </div> :
+                {!image ? (
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      />
+                    </svg>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Upload Cover Image
+                    </p>
+                  </div>
+                ) : (
                   <div className="w-full h-full">
-                    <Image src={image} alt="Post image" width={200} height={150} className="object-contain h-full w-full " />
-                  </div>}
+                    <Image
+                      src={image}
+                      alt="Post image"
+                      width={200}
+                      height={150}
+                      className="object-contain h-full w-full "
+                    />
+                  </div>
+                )}
 
-                <input onChange={handleImage} accept="image/*" id="dropzone-file" type="file" className="hidden" />
+                <input
+                  onChange={handleImage}
+                  accept="image/*"
+                  id="dropzone-file"
+                  type="file"
+                  className="hidden"
+                />
               </label>
             </div>
 
@@ -237,9 +245,10 @@ export default function EditJobPost() {
                 onChange={handleInputChange}
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
-
                 {allCategories?.map((category) => (
-                  <option key={category._id} value={category?._id}>{category?.name}</option>
+                  <option key={category._id} value={category?._id}>
+                    {category?.name}
+                  </option>
                 ))}
                 {/* <option>UX Designer</option>
                 <option>UI Designer</option>
@@ -335,15 +344,16 @@ export default function EditJobPost() {
           <RichTextEditor value={editorContent} onChange={setEditorContent} /> 
           */}
 
-
           {/* Responsibilities Section */}
           <div>
             <label className="block text-sm font-medium text-gray-900 mb-3">
               Responsibilities
             </label>
-            <ResponsibilitiesInput setResponsibilities={setResponsibilities} responsibilities={responsibilities} />
+            <ResponsibilitiesInput
+              setResponsibilities={setResponsibilities}
+              responsibilities={responsibilities}
+            />
           </div>
-
 
           {/* Benefits Section */}
           <div>

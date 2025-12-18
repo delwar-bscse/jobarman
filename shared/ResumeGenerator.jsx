@@ -1,38 +1,56 @@
 "use client";
-import Link from "next/link";
 import React, { useRef, useState } from "react";
+import { myFetch } from "../utils/myFetch";
+import { useRouter } from "next/navigation";
 
 const ResumeGenerator = () => {
   const fileInputRef = useRef(null);
   const [fileName, setFileName] = useState(null);
-  const [fileURL, setFileURL] = useState(null);
-  const [dragActive, setDragActive] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  console.log("se", selectedFile);
+  const router = useRouter();
 
   const handleClick = () => {
-    if (!fileURL) {
+    if (fileInputRef.current) {
       fileInputRef.current?.click();
     }
   };
-
-  const processFile = (file) => {
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0];
     if (!file) return;
+
+    // ❌ Reject non-PDF files
+    if (file.type !== "application/pdf") {
+      alert("Please select a PDF file.");
+      setSelectedFile(null);
+      setFileName(null);
+      event.target.value = ""; // reset input
+      return;
+    }
+
+    // ✅ Accept PDF
+    setSelectedFile(file);
     setFileName(file.name);
-    setFileURL(URL.createObjectURL(file));
   };
 
-  const handleFileChange = (e) => processFile(e.target.files[0]);
-  const handleDragOver = (e) => {
+  const handleSubmitResume = async (e) => {
     e.preventDefault();
-    setDragActive(true);
-  };
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    setDragActive(false);
-  };
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setDragActive(false);
-    processFile(e.dataTransfer.files[0]);
+    const formData = new FormData();
+    if (selectedFile) {
+      formData.append("resume", selectedFile);
+    }
+    try {
+      const res = await myFetch("/user/analyze-resume", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.success) {
+        router.push(`/scroe-board/${res?.data?._id}`);
+      }
+    } catch (err) {
+      toast.err(err.message);
+    }
   };
 
   return (
@@ -68,15 +86,12 @@ const ResumeGenerator = () => {
           {/* File Upload */}
           <div
             onClick={handleClick}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
             className={`border-2 border-dashed border-[#5980E5] bg-[#395FD2] rounded-xl p-6 sm:p-8 text-center hover:bg-[#2A57DE] transition cursor-pointer 
-              ${dragActive ? "opacity-80" : ""}`}
+             `}
           >
             <input
               type="file"
-              accept=".pdf,.doc,.docx"
+              accept="application/pdf"
               ref={fileInputRef}
               onChange={handleFileChange}
               className="hidden"
@@ -103,7 +118,7 @@ const ResumeGenerator = () => {
                     Drop Your Resume Here Or Click To Browse
                   </p>
                   <p className="text-blue-200 text-xs sm:text-sm">
-                    Supported format: PDF, DOCX
+                    Supported format: PDF only
                   </p>
                 </>
               ) : (
@@ -112,25 +127,18 @@ const ResumeGenerator = () => {
                     Uploaded File:
                   </p>
 
-                  <a
-                    href={fileURL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-200 underline text-xs sm:text-sm break-all mt-1 block"
-                  >
-                    {fileName}
-                  </a>
+                  <p> {fileName}</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Analyze Button */}
-          <Link href="/scroe-board">
+          <div onClick={handleSubmitResume}>
             <button className="w-full px-6 mt-3 py-3 text-sm sm:text-base border border-[#5980E5] bg-[#395FD2] text-white rounded-lg hover:bg-[#2A57DE] transition font-semibold">
               Analyze Resume
             </button>
-          </Link>
+          </div>
         </div>
       </div>
     </section>

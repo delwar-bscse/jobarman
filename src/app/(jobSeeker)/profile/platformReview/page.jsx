@@ -1,30 +1,41 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter, usePathname } from "next/navigation"
-import { Heart, FileText, Star, Settings, LogOut, X, Lock, HelpCircle, Trash2, User } from "lucide-react"
-import Image from "next/image"
-import Swal from "sweetalert2"
-import { myFetch } from "../../../../../utils/myFetch"
-import EmployeeSidebar from "@/components/cui/EmployeeSidebar"
+import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import {
+  Heart,
+  FileText,
+  Star,
+  Settings,
+  LogOut,
+  X,
+  Lock,
+  HelpCircle,
+  Trash2,
+  User,
+} from "lucide-react";
+import Image from "next/image";
+import Swal from "sweetalert2";
+import { myFetch } from "../../../../../utils/myFetch";
+import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 
 export default function PlatformReviewPage() {
-  const router = useRouter()
-  const pathname = usePathname()
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-  const [rating, setRating] = useState()
-  const [review, setReview] = useState("")
-  const [hoveredStar, setHoveredStar] = useState(0)
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [rating, setRating] = useState();
+  const [review, setReview] = useState("");
+  const [hoveredStar, setHoveredStar] = useState(0);
 
   const getActiveMenu = () => {
-    if (pathname === "/profile") return "My Profile"
-    if (pathname === "/profile/favoriteList") return "Favorite List"
-    if (pathname === "/profile/paymentHistory") return "Payment History"
-    if (pathname === "/profile/platformReview") return "Platform Review"
-    if (pathname === "/profile/settings") return "Settings"
-    if (pathname === "/profile/logout") return "Log Out"
-    return "My Profile"
-  }
+    if (pathname === "/profile") return "My Profile";
+    if (pathname === "/profile/favoriteList") return "Favorite List";
+    if (pathname === "/profile/paymentHistory") return "Payment History";
+    if (pathname === "/profile/platformReview") return "Platform Review";
+    if (pathname === "/profile/settings") return "Settings";
+    if (pathname === "/profile/logout") return "Log Out";
+    return "My Profile";
+  };
 
   const menuItems = [
     { icon: User, label: "My Profile", route: "/profile/myProfile" },
@@ -35,42 +46,51 @@ export default function PlatformReviewPage() {
       icon: Settings,
       label: "Settings",
       subItems: [
-        { icon: Lock, label: "Change Password", route: "/profile/settings/changePassword" },
-        { icon: HelpCircle, label: "Help and Support", route: "/profile/settings/helpSupport" },
-        { icon: Trash2, label: "Delete Account", route: "/profile/settings/deleteAccount" },
+        {
+          icon: Lock,
+          label: "Change Password",
+          route: "/profile/settings/changePassword",
+        },
+        {
+          icon: HelpCircle,
+          label: "Help and Support",
+          route: "/profile/settings/helpSupport",
+        },
+        {
+          icon: Trash2,
+          label: "Delete Account",
+          route: "/profile/settings/deleteAccount",
+        },
       ],
     },
     { icon: LogOut, label: "Log Out", route: "/profile/logout" },
-  ]
+  ];
 
   const handleMenuClick = (item) => {
     if (item.label === "Settings") {
-      setIsSettingsOpen(!isSettingsOpen)
+      setIsSettingsOpen(!isSettingsOpen);
     } else if (item.route) {
-      router.push(item.route)
-      setIsSettingsOpen(false)
+      router.push(item.route);
+      setIsSettingsOpen(false);
     }
-  }
+  };
 
   const handleSubMenuClick = (subItem) => {
     if (subItem.route) {
-      router.push(subItem.route)
-      setIsSettingsOpen(false)
+      router.push(subItem.route);
+      setIsSettingsOpen(false);
     }
-  }
+  };
 
   const handleSubmit = async () => {
-    console.log("Rating : ", rating)
-    console.log("Review : ", review)
-
     if (!review.trim()) {
       Swal.fire({
         icon: "warning",
         title: "Please enter a review",
         text: "Review text cannot be empty",
         confirmButtonColor: "#123499",
-      })
-      return
+      });
+      return;
     }
     if (rating <= 0) {
       Swal.fire({
@@ -78,12 +98,14 @@ export default function PlatformReviewPage() {
         title: "Please enter your rating",
         text: "Rating cannot be empty",
         confirmButtonColor: "#123499",
-      })
-      return
+      });
+      return;
     }
 
-    const res = await myFetch("/review", { method: "POST", body: { rating, comment: review } });
-    console.log(res?.data);
+    const res = await myFetch("/review", {
+      method: "POST",
+      body: { rating, comment: review },
+    });
 
     if (res?.success) {
       Swal.fire({
@@ -92,20 +114,20 @@ export default function PlatformReviewPage() {
         text: "Thank you for your feedback. Your review has been submitted successfully.",
         confirmButtonColor: "#123499",
       }).then(() => {
-        setReview("")
-        setRating(0)
-      })
-    }else{
+        setReview("");
+        setRating(0);
+      });
+    } else {
       Swal.fire({
         icon: "error",
         title: "Error!",
         text: "Unable to submit your review. Please try again later.",
         confirmButtonColor: "#123499",
-      })
+      });
     }
-  }
+  };
 
-  const activeMenu = getActiveMenu()
+  const activeMenu = getActiveMenu();
 
   return (
     <div className="w-full bg-[#FBFBFB]">
@@ -125,9 +147,13 @@ export default function PlatformReviewPage() {
 
             {/* Logo */}
             <div className="flex justify-center mb-6">
-              <Image src="/authlogo.svg" width={250} height={250} alt="JOBARMAN Logo" />
+              <Image
+                src="/authlogo.svg"
+                width={250}
+                height={250}
+                alt="JOBARMAN Logo"
+              />
             </div>
-
 
             {/* Star Rating */}
             <div className="flex justify-center gap-3 mb-8">
@@ -140,8 +166,11 @@ export default function PlatformReviewPage() {
                   className="transition-transform hover:scale-110"
                 >
                   <Star
-                    className={`w-10 h-10 ${star <= (hoveredStar || rating) ? "fill-[#FF8F27] text-[#FF8F27]" : "text-gray-300"
-                      }`}
+                    className={`w-10 h-10 ${
+                      star <= (hoveredStar || rating)
+                        ? "fill-[#FF8F27] text-[#FF8F27]"
+                        : "text-gray-300"
+                    }`}
                   />
                 </button>
               ))}
@@ -167,5 +196,5 @@ export default function PlatformReviewPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

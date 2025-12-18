@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
 
 export default function JobDetailsRight({ details }) {
-  console.log("details", details);
   const [favoriteList, setFavoriteList] = useState(null);
   const [refreshFav, setRefreshFav] = useState(false);
   const [profile, setProfile] = useState(null);

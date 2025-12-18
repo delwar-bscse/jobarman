@@ -5,9 +5,8 @@ import { Suspense, useEffect, useState } from "react";
 import { MapPin, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-import { DualRangeSlider } from '@/components/ui/dual-range-slider';
+import { DualRangeSlider } from "@/components/ui/dual-range-slider";
 import { myFetch } from "../../../../utils/myFetch";
-
 
 function FilterSideSuspense() {
   const [values, setValues] = useState([0, 9999]);
@@ -39,20 +38,52 @@ function FilterSideSuspense() {
     fetchData();
   }, []);
 
-
-
-
   // const allCategories = ["Healthcare", "Information Technology", "Hotels & Tourism", "Education", "Financial Services", "Engineering", "Marketing", "Sales", "HR", "Operations",];
-  const visibleCategories = showMoreCategories ? allCategories : allCategories.slice(0, 4);
+  const visibleCategories = showMoreCategories
+    ? allCategories
+    : allCategories.slice(0, 4);
 
-  const jobTypes = ["Full Time", "Part Time", "Contract", "Remote", "Hybrid", "Freelance", "Internship",];
-  const allTags = ["engineering", "design", "ux/ui", "marketing", "management", "construction"]
-  const experienceLevels = ["No experience", "Fresher", "Intermediate", "Expert",];
-  const datePostedOptions = ["All", "Last hour", "Last 24 hours", "Last 7 days", "Last 30 days",];
-  const locations = ["All Cities", "New York", "San Francisco", "Los Angeles", "Chicago", "Boston",];
+  const jobTypes = [
+    "Full Time",
+    "Part Time",
+    "Contract",
+    "Remote",
+    "Hybrid",
+    "Freelance",
+    "Internship",
+  ];
+  const allTags = [
+    "engineering",
+    "design",
+    "ux/ui",
+    "marketing",
+    "management",
+    "construction",
+  ];
+  const experienceLevels = [
+    "No experience",
+    "Fresher",
+    "Intermediate",
+    "Expert",
+  ];
+  const datePostedOptions = [
+    "All",
+    "Last hour",
+    "Last 24 hours",
+    "Last 7 days",
+    "Last 30 days",
+  ];
+  const locations = [
+    "All Cities",
+    "New York",
+    "San Francisco",
+    "Los Angeles",
+    "Chicago",
+    "Boston",
+  ];
 
   // Debounced Search Handler
-  const handleSearch = useDebouncedCallback((type,value) => {
+  const handleSearch = useDebouncedCallback((type, value) => {
     if (value) {
       params.set(type, value);
     } else {
@@ -66,12 +97,12 @@ function FilterSideSuspense() {
     params.set("minPrice", values[0]);
     params.set("maxPrice", values[1]);
     replace(`?${params.toString()}`, { scroll: false });
-  }
+  };
 
   // Single Value Query Params Getter
   const getSingleQueryParams = (type) => {
     return searchParams.get(type) || "";
-  }
+  };
 
   // Single Value Query Params Handler
   const handleSingleQueryParams = (type, value) => {
@@ -84,7 +115,7 @@ function FilterSideSuspense() {
     return new Set(
       (searchParams.get(type) || "")
         .split(",")
-        .map(s => s.trim())
+        .map((s) => s.trim())
         .filter(Boolean)
     );
   };
@@ -95,15 +126,12 @@ function FilterSideSuspense() {
     const raw = searchParams.get(type) || "";
     const prevArray = raw
       .split(",")
-      .map(e => e.trim())
+      .map((e) => e.trim())
       .filter(Boolean);
 
     const newArray = prevArray.includes(value)
-      ? prevArray.filter(e => e !== value)
+      ? prevArray.filter((e) => e !== value)
       : [...prevArray, value];
-
-    // console.log(`Previous ${type} : `, prevArray)
-    // console.log(`New ${type} : `, newArray)
 
     // update params: remove param if empty
     if (newArray.length) {
@@ -114,7 +142,6 @@ function FilterSideSuspense() {
 
     replace(`?${params.toString()}`, { scroll: false });
   };
-
 
   return (
     <div className="lg:col-span-1">
@@ -227,8 +254,12 @@ function FilterSideSuspense() {
               <label key={level} className="flex items-center">
                 <input
                   type="checkbox"
-                  checked={getMultipleQueryParams("experience_level").has(level)}
-                  onChange={() => handleMultipleQueryParams("experience_level", level)}
+                  checked={getMultipleQueryParams("experience_level").has(
+                    level
+                  )}
+                  onChange={() =>
+                    handleMultipleQueryParams("experience_level", level)
+                  }
                   className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
                 />
                 <span className="ml-2 text-sm text-gray-700">{level}</span>
@@ -275,7 +306,10 @@ function FilterSideSuspense() {
               step={10}
             />
           </div>
-          <button onClick={handleSalary} className="mt-3 w-full py-2 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0F2C80] hover:to-[#1F45B8] transition">
+          <button
+            onClick={handleSalary}
+            className="mt-3 w-full py-2 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0F2C80] hover:to-[#1F45B8] transition"
+          >
             Apply
           </button>
         </div>
@@ -290,7 +324,11 @@ function FilterSideSuspense() {
               <span
                 key={tag}
                 onClick={() => handleMultipleQueryParams("tags", tag)}
-                className={`px-3 py-1 text-[#0066CC] text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors duration-300 ${getMultipleQueryParams("tags").has(tag) ? "bg-blue-200 font-semibold" : "bg-blue-100"}`}
+                className={`px-3 py-1 text-[#0066CC] text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors duration-300 ${
+                  getMultipleQueryParams("tags").has(tag)
+                    ? "bg-blue-200 font-semibold"
+                    : "bg-blue-100"
+                }`}
               >
                 {tag}
               </span>
@@ -298,15 +336,14 @@ function FilterSideSuspense() {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 
-
 export default function FilterSide() {
   return (
-    <Suspense fallback={<div>Loading...</div>} >
+    <Suspense fallback={<div>Loading...</div>}>
       <FilterSideSuspense />
     </Suspense>
-  )
+  );
 }

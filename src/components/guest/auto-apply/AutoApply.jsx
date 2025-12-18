@@ -16,7 +16,6 @@ import { useState } from "react";
 
 export default function AutoApply({ data }) {
   const [formValues, setFormValues] = useState(null);
-  // console.log(formValuess);
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB] px-4">
@@ -54,7 +53,6 @@ export default function AutoApply({ data }) {
                   return;
                 }
 
-                console.log("Selected PDF:", file);
                 setFormValues(file);
               }}
               className="w-full border border-gray-300 text-sm px-3 py-2 rounded-lg"

@@ -9,7 +9,6 @@ import Link from "next/link";
 import React from "react";
 
 export default function JobsDetailsLeft({ details }) {
-  console.log("Job Details console : ", details)
   return (
     <div className="lg:col-span-1">
       {/* Profile Match + Location */}
@@ -64,7 +63,12 @@ export default function JobsDetailsLeft({ details }) {
             </div>
           </div>
         </div>
-        <Link href={`/job-post?id=${details?._id}`} className="block bg-green-600 w-full text-white font-semibold py-3 px-4 rounded-lg text-center">Edit Job Post</Link>
+        <Link
+          href={`/job-post?id=${details?._id}`}
+          className="block bg-green-600 w-full text-white font-semibold py-3 px-4 rounded-lg text-center"
+        >
+          Edit Job Post
+        </Link>
       </div>
     </div>
   );

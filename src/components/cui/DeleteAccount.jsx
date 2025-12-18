@@ -15,8 +15,6 @@ export default function DeleteAccount() {
   const [showInput, setShowInput] = useState(false);
   const [confirmText, setConfirmText] = useState("");
 
-  console.log("l");
-
   // Step 1 → User clicks "Yes"
   const handleYesClick = () => {
     setShowInput(true);
@@ -29,8 +27,6 @@ export default function DeleteAccount() {
         method: "DELETE",
         body: { password: confirmText },
       });
-
-      console.log("res", res);
 
       if (res.success) {
         toast.success("Delete Account successfully");
@@ -47,7 +43,11 @@ export default function DeleteAccount() {
     <div className="w-full bg-[#FBFBFB]">
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
         {/* Sidebar */}
-        {pathname === "/profile/settings/deleteAccount" ? <EmployeeSidebar /> : <RecruiterSidebar />}
+        {pathname === "/profile/settings/deleteAccount" ? (
+          <EmployeeSidebar />
+        ) : (
+          <RecruiterSidebar />
+        )}
 
         {/* Main Content */}
 
