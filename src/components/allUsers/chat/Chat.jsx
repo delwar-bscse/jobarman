@@ -16,7 +16,6 @@ const ChatSuspense = ({ chatUsers }) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const fileInputRef = useRef(null);
-  const messagesEndRef = useRef(null);
 
   const selectedUser = chatUsers.find((u) => u._id === id);
 
@@ -76,7 +75,6 @@ const ChatSuspense = ({ chatUsers }) => {
 
         <div className="relative flex-1">
           <ChatMessages />
-          <div ref={messagesEndRef} />
         </div>
 
         <MessageInput

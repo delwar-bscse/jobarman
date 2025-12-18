@@ -1,132 +1,26 @@
-// "use client";
-// import Image from "next/image";
-// import { useSearchParams } from "next/navigation";
-// import { useEffect, useState } from "react";
-// import { myFetch } from "utils/myFetch";
-
-// const ChatMessages = () => {
-//   const [messages, setMessages] = useState(null);
-//   const searchParams = useSearchParams();
-//   const id = searchParams.get("id");
-//   const [myId, setMyId] = useState(null);
-//   const [itemsToShow, setItemsToShow] = useState();
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const res = await myFetch("/user/profile");
-//       console.log("profile data", res);
-//       setMyId(res?.data?._id);
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const message = await myFetch(`/message/${id}`);
-//       setMessages(message?.data?.messages);
-//     };
-//     fetchData();
-//   }, [id]);
-
-//   const handleScroll = (event) => {
-//     const { scrollTop, clientHeight, scrollHeight } = event.target;
-
-//     if (
-//       scrollTop + clientHeight >= scrollHeight - 50 &&
-//       itemsToShow < allData.length
-//     ) {
-//       // -50 for a small buffer
-//       setItemsToShow((prevItemsToShow) =>
-//         Math.min(prevItemsToShow + 10, messages.length)
-//       );
-//     }
-//   };
-
-//   return (
-//     <div
-//       className="flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-230px)]"
-//       onScroll={handleScroll}
-//     >
-//       {messages ? (
-//         messages.length === 0 ? (
-//           <div className="text-center text-gray-400 mt-10">
-//             No messages yet. Start a conversation!
-//           </div>
-//         ) : (
-//           <>
-//             {messages?.map((msg, i) => (
-//               <div
-//                 key={i}
-//                 className={`mb-4 flex items-end ${
-//                   msg.sender === myId ? "justify-end" : "justify-start"
-//                 } max-w-full`}
-//               >
-//                 {msg.sender === "bot" && (
-//                   <Image
-//                     src="/chat-user.jpg"
-//                     alt="body"
-//                     width={32}
-//                     height={32}
-//                     className="w-8 h-8 object-cover rounded-full mr-3"
-//                     sizes="100vh"
-//                   />
-//                 )}
-//                 <div className="relative group max-w-[80%] sm:max-w-[60%]">
-//                   <div
-//                     className={`p-3 rounded-lg shadow-sm ${
-//                       msg.sender === "user"
-//                         ? "bg-blue-500 text-white rounded-br-none"
-//                         : "bg-gray-200 text-gray-800 rounded-bl-none"
-//                     }`}
-//                   >
-//                     {msg.text && <p className="break-words">{msg.text}</p>}
-//                     {/* {msg.file && <FilePreview file={msg.file} />} */}
-//                     <span className="block text-[10px] text-gray-300 mt-1">
-//                       {msg.time}
-//                     </span>
-//                   </div>
-//                 </div>
-//                 {msg.sender === "user" && (
-//                   <Image
-//                     src="/chat-user.jpg"
-//                     alt="body"
-//                     width={32}
-//                     height={32}
-//                     className="w-8 h-8 object-cover rounded-full mr-3"
-//                     sizes="100vh"
-//                   />
-//                 )}
-//               </div>
-//             ))}
-//           </>
-//         )
-//       ) : (
-//         <div className="text-center text-gray-400 mt-10">
-//           Select a user to start chatting
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ChatMessages;
-
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { useSocket } from "@/lib/SocketContext";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef, useMemo, useLayoutEffect } from "react";
 import { myFetch } from "utils/myFetch";
+import { debounce } from "lodash";
 
-const LIMIT = 10;
+const SCROLL_THRESHOLD = 60; // px
 
 const ChatMessages = () => {
+  const { socket } = useSocket();
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [myId, setMyId] = useState(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+
+  const isNearBottom = useRef(true);
+  const messageContainerRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
@@ -134,6 +28,27 @@ const ChatMessages = () => {
   // Use refs for values that shouldn't trigger re-renders
   const loadingRef = useRef(false);
   const hasMoreRef = useRef(true);
+
+  // ------- helpers -------
+  const getIsNearBottom = () => {
+    const el = messageContainerRef.current;
+    if (!el) return true;
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+    return distance < SCROLL_THRESHOLD;
+  };
+
+  const scrollToBottom = () => {
+    const el = messageContainerRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+  };
+
+  const preserveScrollOnPrepend = (prevHeight) => {
+    const el = messageContainerRef.current;
+    if (!el) return;
+    const newHeight = el.scrollHeight;
+    el.scrollTop = newHeight - prevHeight;
+  };
 
   // Load profile
   useEffect(() => {
@@ -157,7 +72,10 @@ const ChatMessages = () => {
       setLoading(true);
 
       try {
+        const prevHeight = messageContainerRef.current?.scrollHeight || 0;
+
         const res = await myFetch(`/message/${id}?page=${pageNumber}`);
+        console.log("All get message : ", res?.data)
         const newMessages = res?.data?.messages || [];
 
         setMessages((prev) => {
@@ -169,19 +87,17 @@ const ChatMessages = () => {
           return [...prev, ...newMessages];
         });
 
-        // No more messages?
-        if (newMessages.length < LIMIT) {
-          hasMoreRef.current = false;
-          setHasMore(false);
-        }
-
-        setPage(pageNumber);
+        requestAnimationFrame(() => {
+          if (pageNumber > 1) {
+            preserveScrollOnPrepend(prevHeight);
+          } else {
+            scrollToBottom();
+          }
+        });
       } catch (error) {
         console.error("Failed to fetch messages:", error);
       } finally {
-        loadingRef.current = false;
         setLoading(false);
-        setIsInitialLoad(false);
       }
     },
     [id]
@@ -194,41 +110,97 @@ const ChatMessages = () => {
     // Reset states
     setMessages([]);
     setPage(1);
-    setHasMore(true);
     setIsInitialLoad(true);
-    loadingRef.current = false;
-    hasMoreRef.current = true;
 
     // Fetch first page
     fetchMessages(1);
   }, [id, fetchMessages]);
 
-  // Scroll handler
-  const handleScroll = useCallback(
-    (e) => {
-      const { scrollTop, clientHeight, scrollHeight } = e.target;
 
-      // Load more when near bottom
-      if (scrollTop + clientHeight >= scrollHeight - 100) {
-        if (!loadingRef.current && hasMoreRef.current) {
-          const nextPage = page + 1;
-          fetchMessages(nextPage);
+
+  // ------- scroll listener: load older when at top; track stickiness -------
+  const handleScroll = useMemo(
+    () =>
+      debounce(() => {
+        const el = messageContainerRef.current;
+        if (!el) return;
+
+        // update "near bottom" flag continuously
+        isNearBottom.current = getIsNearBottom();
+
+        if (!loading && messages.length > 0 && el.scrollTop === 0) {
+          const newPage = page + 1;
+          setPage(newPage);
+          myMessage(newPage);
         }
-      }
-    },
-    [page, fetchMessages]
+      }, 120),
+    [loading, messages.length, page, id]
   );
 
-  // Clean up on unmount
   useEffect(() => {
-    return () => {
-      loadingRef.current = false;
+    return () => handleScroll.cancel();
+  }, [handleScroll]);
+
+  // ------- auto-stick to bottom on list re-render (only when near bottom before) -------
+  useLayoutEffect(() => {
+    if (isNearBottom.current) {
+      scrollToBottom();
+    }
+  }, [messages]);
+
+  // ------- socket: append new message (newest at end) -------
+  useEffect(() => {
+    if (!id || !socket) return;
+
+    const eventName = "new-message::" + id;
+
+    const onNewMsg = (newMsg) => {
+      // capture stickiness just before mutating
+      isNearBottom.current = getIsNearBottom();
+
+      setMsg(prev => [...prev, newMsg]); // append at end (oldest -> newest)
+
+      requestAnimationFrame(() => {
+        if (isNearBottom.current) scrollToBottom();
+      });
     };
-  }, []);
+
+    socket.on(eventName, onNewMsg);
+    return () => {
+      socket.off(eventName, onNewMsg);
+    };
+  }, [id, socket]);
+
+
+  // ------- socket: append new message (newest at end) -------
+  useEffect(() => {
+    if (!id || !socket) return;
+
+    const eventName = "getMessage::" + id;
+
+    const onNewMsg = (newMsg) => {
+      console.log("Message socket response : ", newMsg);
+      // capture stickiness just before mutating
+      // isNearBottom.current = getIsNearBottom();
+
+      setMessages(prev => [...prev, newMsg]);
+
+
+      // requestAnimationFrame(() => {
+      //   if (isNearBottom.current) scrollToBottom();
+      // });
+    };
+
+    socket.on(eventName, onNewMsg);
+    return () => {
+      socket.off(eventName, onNewMsg);
+    };
+  }, [id, socket]);
 
   return (
     <div
       className="flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-230px)]"
+      ref={messageContainerRef}
       onScroll={handleScroll}
     >
       {isInitialLoad && loading ? (
@@ -236,65 +208,52 @@ const ChatMessages = () => {
           Loading messages...
         </div>
       ) : (
-        <>
-          {messages.map((msg, i) => (
-            <div
-              key={`${msg._id || msg.sender}_${msg.time}_${i}`}
-              className={`mb-4 flex items-end ${
-                msg.sender === myId ? "justify-end" : "justify-start"
-              } max-w-full`}
-            >
-              {msg.sender !== myId && (
-                <Image
-                  src="/chat-user.jpg"
-                  alt="user"
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 object-cover rounded-full mr-3"
-                />
-              )}
+        <div>
+          <div className="flex flex-col justify-end gap-4">
+            {messages.map((msg, i) => (
+              <div
+                key={`${msg._id || msg.sender}_${msg.time}_${i}`}
+                className={`mb-4 flex items-end ${msg.sender === myId ? "justify-end" : "justify-start"
+                  } max-w-full`}
+              >
+                {msg.sender !== myId && (
+                  <Image
+                    src="/chat-user.jpg"
+                    alt="user"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 object-cover rounded-full mr-3"
+                  />
+                )}
 
-              <div className="relative group max-w-[80%] sm:max-w-[60%]">
-                <div
-                  className={`p-3 rounded-lg shadow-sm ${
-                    msg.sender === myId
+                <div className="relative group max-w-[80%] sm:max-w-[60%]">
+                  <div
+                    className={`p-3 rounded-lg shadow-sm ${msg.sender === myId
                       ? "bg-blue-500 text-white rounded-br-none"
                       : "bg-gray-200 text-gray-800 rounded-bl-none"
-                  }`}
-                >
-                  {msg.text && <p className="break-words">{msg.text}</p>}
-                  <span className="block text-[10px] text-gray-300 mt-1">
-                    {msg.time}
-                  </span>
+                      }`}
+                  >
+                    {msg.text && <p className="break-words">{msg.text}</p>}
+                    <span className="block text-[10px] text-gray-300 mt-1">
+                      {msg.time}
+                    </span>
+                  </div>
                 </div>
+
+                {msg.sender === myId && (
+                  <Image
+                    src="/chat-user.jpg"
+                    alt="me"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 object-cover rounded-full ml-3"
+                  />
+                )}
               </div>
-
-              {msg.sender === myId && (
-                <Image
-                  src="/chat-user.jpg"
-                  alt="me"
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 object-cover rounded-full ml-3"
-                />
-              )}
-            </div>
-          ))}
-
-          {/* Loading indicator for additional pages */}
-          {loading && !isInitialLoad && (
-            <div className="text-center text-gray-500 py-2">
-              Loading more...
-            </div>
-          )}
-
-          {/* No messages at all */}
-          {!hasMore && messages.length === 0 && !loading && (
-            <div className="text-center text-gray-400 py-4">
-              No messages yet
-            </div>
-          )}
-        </>
+            ))}
+          </div>
+          <div ref={messagesEndRef} />
+        </div>
       )}
     </div>
   );
