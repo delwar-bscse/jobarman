@@ -1,8 +1,6 @@
 import React from "react";
 import SemiCircleProgressBar from "react-progressbar-semicircle";
-const ResumeScorecard = ({ score = 52, total = 100 }) => {
-  const percentage = (score / total) * 100;
-
+const ResumeScorecard = ({ score, total = 100 }) => {
   return (
     <div className="my-5 text-center">
       <h2 className="text-[#123499] text-2xl font-medium text-nowrap">
@@ -14,7 +12,7 @@ const ResumeScorecard = ({ score = 52, total = 100 }) => {
         <div style={{ position: "relative", width: "200px", height: "100px" }}>
           <SemiCircleProgressBar
             size={{ width: 400, height: 700 }}
-            percentage={63}
+            percentage={score}
             stroke="#2A57DE"
             strokeWidth={25}
             background="#d6d6d6"
@@ -30,7 +28,7 @@ const ResumeScorecard = ({ score = 52, total = 100 }) => {
               color: "#2A57DE",
             }}
           >
-            33%
+            {score}%
           </div>
         </div>
       </div>
