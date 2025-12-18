@@ -7,7 +7,6 @@ const AddNewResume = async ({ searchParams }) => {
   // const name = (await searchParams).name;
   const id = (await searchParams).id;
   const res = await myFetch("/resume");
-  console.log("resume data", res?.data);
 
   return (
     <div className="bg-[#FBFBFB]">

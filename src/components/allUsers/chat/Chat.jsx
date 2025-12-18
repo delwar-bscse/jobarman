@@ -46,7 +46,6 @@ const ChatSuspense = ({ chatUsers }) => {
         method: "POST",
         body: message,
       });
-      console.log("create message", res);
     } catch (err) {
       toast.error(err.message || "Message Not Create");
     }
@@ -66,8 +65,9 @@ const ChatSuspense = ({ chatUsers }) => {
 
       {/* Chat Area */}
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 ${selectedUser ? "block" : "hidden"
-          } md:block`}
+        className={`flex-1 flex flex-col transition-all duration-300 ${
+          selectedUser ? "block" : "hidden"
+        } md:block`}
       >
         <ChatHeader
           selectedUser={selectedUser}
@@ -92,11 +92,10 @@ const ChatSuspense = ({ chatUsers }) => {
   );
 };
 
-
 export default function Chat({ chatUsers }) {
   return (
-    <Suspense fallback={<div>Loading...</div>} >
+    <Suspense fallback={<div>Loading...</div>}>
       <ChatSuspense chatUsers={chatUsers} />
     </Suspense>
-  )
+  );
 }

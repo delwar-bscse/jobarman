@@ -9,13 +9,11 @@ function SearchSectionSuspense() {
   const params = new URLSearchParams(searchParams);
   const { replace } = useRouter();
   const [search, setSearch] = useState("");
-  
 
   const handleSubmit = () => {
-    console.log("serarcTerm : ", search);
     params.set("searchTerm", search);
     replace(`/jobs?${params.toString()}`, { scroll: true });
-  }
+  };
 
   return (
     <section className="py-6 sm:py-10 lg:py-12">
@@ -32,7 +30,7 @@ function SearchSectionSuspense() {
         <div className="flex flex-col sm:flex-row items-center rounded-xl overflow-hidden border border-gray-200 shadow-sm">
           <div className="flex-1 flex items-center bg-blue-50 w-full">
             <input
-            onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
               type="text"
               placeholder="Job Title or Company"
               className="w-full bg-transparent px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 lg:py-3 text-gray-700 placeholder-gray-500 outline-none text-sm sm:text-base lg:text-lg"
@@ -51,7 +49,10 @@ function SearchSectionSuspense() {
             }
           />
 
-          <button onClick={handleSubmit} className="flex items-center gap-2 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 font-medium text-sm sm:text-base lg:text-lg w-full sm:w-auto justify-center">
+          <button
+            onClick={handleSubmit}
+            className="flex items-center gap-2 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 font-medium text-sm sm:text-base lg:text-lg w-full sm:w-auto justify-center"
+          >
             <Search className="w-4 sm:w-4 lg:w-5 h-4 sm:h-4 lg:h-5" />
             Search Job
           </button>
@@ -61,11 +62,10 @@ function SearchSectionSuspense() {
   );
 }
 
-
 export default function SearchSection() {
   return (
-    <Suspense fallback={<div>Loading...</div>} >
+    <Suspense fallback={<div>Loading...</div>}>
       <SearchSectionSuspense />
     </Suspense>
-  )
+  );
 }

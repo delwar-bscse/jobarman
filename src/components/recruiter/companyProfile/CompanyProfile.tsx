@@ -21,13 +21,11 @@ export default function CompanyProfilePage() {
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`);
-    console.log("profile get res :", res.data);
     setProfileData(res.data);
   };
 
   const fetchGallery = async () => {
     const res = await myFetch(`/user/gallery`);
-    console.log("gallery get res :", res.data);
 
     if (res.data) {
       const oldGallery = res.data.map((item) => {

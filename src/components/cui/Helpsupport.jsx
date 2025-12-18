@@ -29,7 +29,6 @@ export default function HelpSupport() {
         method: "POST",
         body: { reason, description },
       });
-      console.log("Help Support : ", res)
 
       if (res.success) {
         toast.success("support create successfully");
@@ -48,7 +47,11 @@ export default function HelpSupport() {
     <div className="w-full bg-[#FBFBFB]">
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
         {/* Sidebar */}
-        {pathname === "/profile/settings/helpSupport" ? <EmployeeSidebar /> : <RecruiterSidebar />}
+        {pathname === "/profile/settings/helpSupport" ? (
+          <EmployeeSidebar />
+        ) : (
+          <RecruiterSidebar />
+        )}
 
         {/* Main Content */}
         <div className="flex-1 ml-8">

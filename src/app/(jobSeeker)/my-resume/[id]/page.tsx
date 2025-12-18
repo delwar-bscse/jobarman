@@ -19,8 +19,6 @@ const MyResume = async ({ params }: MyResumeProps) => {
       myFetch("/resume"),
     ]);
 
-    console.log("resumeDetails", resumeDetails);
-
     return (
       <div className="max-w-7xl mx-auto min-h-screen p-3 sm:p-4 lg:p-6">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-4 sm:mb-6 text-[#123499]">

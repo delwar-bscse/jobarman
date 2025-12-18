@@ -18,7 +18,6 @@ export default function SetNewPasswordPage() {
   const router = useRouter();
 
   const handleSubmit = async (e) => {
-    console.log("token : ", getCookie("token"))
     e.preventDefault();
     const token = getCookie("token");
     const res = await myFetch("/auth/reset-password", {
@@ -26,7 +25,6 @@ export default function SetNewPasswordPage() {
       token,
       body: { newPassword: password, confirmPassword: confirmPassword },
     });
-    console.log("Reset Password Response : ", res?.data);
 
     if (res?.success) {
       deleteCookie("token");

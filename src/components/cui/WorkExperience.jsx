@@ -1,9 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { Calendar, X } from "lucide-react";
-import { el } from 'date-fns/locale';
+import { el } from "date-fns/locale";
 
-const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkExperience }) => {
+const WorkExperience = ({
+  workExperienceList,
+  setWorkExperienceList,
+  singleWorkExperience,
+}) => {
   const [workExperience, setWorkExperience] = useState({
     _id: singleWorkExperience?._id,
     title: singleWorkExperience?.title || "",
@@ -25,9 +29,8 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
   };
 
   const handleWorkExperienceChange = (e) => {
-    // console.log("Get Event : ", e);
     const name = e.target.name;
-    let value = ""
+    let value = "";
     if (e.target.type === "text") {
       value = e.target.value;
     } else if (e.target.type === "checkbox") {
@@ -38,7 +41,7 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
       value = e.target.value;
     }
 
-    setWorkExperience(prev => ({
+    setWorkExperience((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -51,13 +54,13 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
     setWorkExperienceList(updatedWorkExperienceList);
   }, [workExperience]);
 
-
   return (
     <div className="bg-white rounded-lg">
-
       <div className="grid grid-cols-3 gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Job Title</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Job Title
+          </label>
           <input
             name="title"
             value={workExperience?.title}
@@ -68,7 +71,9 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Company Name</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Company Name
+          </label>
           <input
             type="text"
             name="company"
@@ -79,7 +84,9 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Location</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Location
+          </label>
           <input
             type="text"
             name="location"
@@ -93,7 +100,9 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
 
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">Start Date</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            Start Date
+          </label>
           <input
             type="date"
             name="startDate"
@@ -104,7 +113,9 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-600 mb-2">End Date</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">
+            End Date
+          </label>
           <input
             type="date"
             name="endDate"
@@ -117,7 +128,9 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-600 mb-2">Description</label>
+        <label className="block text-sm font-medium text-gray-600 mb-2">
+          Description
+        </label>
         <textarea
           rows={3}
           name="description"
@@ -138,12 +151,15 @@ const WorkExperience = ({ workExperienceList, setWorkExperienceList, singleWorkE
           onChange={handleWorkExperienceChange}
           className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
         />
-        <label htmlFor={workExperience._id + "_currentlyWorking"} className="text-sm text-gray-700 cursor-pointer">
+        <label
+          htmlFor={workExperience._id + "_currentlyWorking"}
+          className="text-sm text-gray-700 cursor-pointer"
+        >
           Currently Work This Company
         </label>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default WorkExperience
+export default WorkExperience;

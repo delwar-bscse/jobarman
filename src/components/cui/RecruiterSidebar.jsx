@@ -26,7 +26,6 @@ const RecruiterSidebar = () => {
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`);
-    console.log("profile get res :", res.data);
     setProfileData(res?.data);
   };
 

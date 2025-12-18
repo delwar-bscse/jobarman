@@ -5,7 +5,6 @@ import JobPostCard from "@/components/cui/PostCard";
 
 export default async function RecentJobPost() {
   const res = await myFetch("/job-post/recent-posts");
-  console.log("Recent Jobs : ", res.data);
 
   return (
     <section className="py-16 sm:py-24 bg-white">

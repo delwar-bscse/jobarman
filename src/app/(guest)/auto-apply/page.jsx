@@ -7,8 +7,8 @@ export default async function page() {
     tags: ["resume"],
   });
   return (
-    <div>
+    <>
       <AutoApply data={res?.data} />
-    </div>
+    </>
   );
 }

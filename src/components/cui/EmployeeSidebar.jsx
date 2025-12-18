@@ -24,17 +24,16 @@ const EmployeeSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
-    const [profileData, setProfileData] = useState(null);
-  
-    const fetchProfile = async () => {
-      const res = await myFetch(`/user/profile`);
-      console.log("profile get res :", res.data);
-      setProfileData(res.data);
-    }
-    
-      useEffect(() => {
-        fetchProfile();
-      }, []);
+  const [profileData, setProfileData] = useState(null);
+
+  const fetchProfile = async () => {
+    const res = await myFetch(`/user/profile`);
+    setProfileData(res.data);
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   // ============================
   // ACTIVE MENU (Parent)
@@ -43,12 +42,10 @@ const EmployeeSidebar = () => {
     if (pathname.startsWith("/profile/myProfile")) return "My Profile";
     else if (pathname.startsWith("/profile/favorite")) return "Favorite List";
     else if (pathname.startsWith("/profile/payment")) return "Payment History";
-    else if (pathname.startsWith("/profile/platformReview")) return "Platform Review";
-
+    else if (pathname.startsWith("/profile/platformReview"))
+      return "Platform Review";
     else if (pathname.startsWith("/profile/settings")) return "Settings";
-
     else if (pathname.startsWith("/profile/logout")) return "Log Out";
-
     else return "";
   };
 
@@ -58,10 +55,8 @@ const EmployeeSidebar = () => {
   const getActiveSubMenu = () => {
     if (pathname === "/profile/settings/changePassword")
       return "Change Password";
-    if (pathname === "/profile/settings/helpSupport")
-      return "Help and Support";
-    if (pathname === "/profile/settings/deleteAccount")
-      return "Delete Account";
+    if (pathname === "/profile/settings/helpSupport") return "Help and Support";
+    if (pathname === "/profile/settings/deleteAccount") return "Delete Account";
     return "";
   };
 
@@ -115,7 +110,6 @@ const EmployeeSidebar = () => {
 
   return (
     <div>
-
       {/* Back Button */}
       {/* <div className="max-w-7xl mx-auto -mb-10">
           <div onClick={()=>router.back()} className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6">
@@ -123,7 +117,7 @@ const EmployeeSidebar = () => {
           </div>
       </div> */}
       <div className="w-72 bg-white rounded-xl p-6 flex flex-col">
-         {/* Profile Card */}
+        {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
             <Image
@@ -134,11 +128,21 @@ const EmployeeSidebar = () => {
               className="w-16 h-16"
             />
           </div>
-          <h2 className="text-xl font-bold text-gray-900">{profileData?.name}</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            {profileData?.name}
+          </h2>
           <p className="text-sm text-gray-600 mt-2">{profileData?.bio}</p>
           <div className="flex items-center justify-center gap-1 mt-2">
-            <Image src="/premiumplan.svg" width={24} height={24} alt="Premium" className="w-6 h-6" />
-            <span className="text-sm font-semibold text-[#FF8F27]">{profileData?.subscription}</span>
+            <Image
+              src="/premiumplan.svg"
+              width={24}
+              height={24}
+              alt="Premium"
+              className="w-6 h-6"
+            />
+            <span className="text-sm font-semibold text-[#FF8F27]">
+              {profileData?.subscription}
+            </span>
           </div>
         </div>
 
@@ -150,21 +154,27 @@ const EmployeeSidebar = () => {
             return (
               <div key={index}>
                 <button
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveParent
-                    ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                    : ""
-                    }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
+                    isActiveParent
+                      ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+                      : ""
+                  }`}
                   onClick={() => handleMenuClick(item)}
                 >
                   <item.icon
-                    className={`w-5 h-5 ${isActiveParent ? "text-white" : "text-black"
-                      }`}
+                    className={`w-5 h-5 ${
+                      isActiveParent ? "text-white" : "text-black"
+                    }`}
                   />
                   <span className="text-sm font-medium">{item.label}</span>
 
                   {item.label === "Settings" && (
                     <span className="ml-auto text-gray-400">
-                      <IoIosArrowForward className={`text-gray-400 ${isSettingsOpen ? "rotate-90" : ""} transition-transform duration-200`} />
+                      <IoIosArrowForward
+                        className={`text-gray-400 ${
+                          isSettingsOpen ? "rotate-90" : ""
+                        } transition-transform duration-200`}
+                      />
                     </span>
                   )}
                 </button>
@@ -178,15 +188,17 @@ const EmployeeSidebar = () => {
                       return (
                         <button
                           key={subIndex}
-                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveSub
-                            ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                            : ""
-                            }`}
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
+                            isActiveSub
+                              ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+                              : ""
+                          }`}
                           onClick={() => handleSubMenuClick(subItem)}
                         >
                           <subItem.icon
-                            className={`w-5 h-5 ${isActiveSub ? "text-white" : "text-black"
-                              }`}
+                            className={`w-5 h-5 ${
+                              isActiveSub ? "text-white" : "text-black"
+                            }`}
                           />
                           <span className="text-sm font-medium">
                             {subItem.label}

@@ -7,10 +7,8 @@ import SidebarProfile from "@/components/jobSeeker/profile/Sidebar";
 import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 
 export default function FavoriteListPage({ data }) {
-  console.log("favorate data", data);
   return (
     <div className="w-full bg-[#FBFBFB]">
-
       <div className="flex min-h-screen max-w-7xl mx-auto py-10">
         {/* Sidebar */}
         {/* <SidebarProfile /> */}
