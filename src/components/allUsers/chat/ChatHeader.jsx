@@ -2,7 +2,7 @@ import { Video } from "lucide-react";
 // import VideoCall from "./VideoCall";
 import CustomImage from "shared/CustomImage";
 
-const ChatHeader = ({ selectedUser, handleVideoCall }) => {
+const ChatHeader = () => {
   // const [isVideoCallOpen, setIsVideoCallOpen] = useState(false);
 
   return (

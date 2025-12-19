@@ -3,9 +3,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import CustomImage from "shared/CustomImage";
 
-const SidebarSuspense = ({ chatUsers, selectedUserId }) => {
-  const searchParams = useSearchParams();
+const SidebarSuspense = ({ chatUsers }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  const selectedUser = chatUsers?.length > 0 && chatUsers?.find((u) => u._id === id);
 
   const handleUserSelect = (id) => {
     if (!id) return;
@@ -16,15 +19,15 @@ const SidebarSuspense = ({ chatUsers, selectedUserId }) => {
 
   return (
     <div
-      className={`fixed inset-y-0 left-0 w-64 bg-white shadow-lg border-r transform transition-transform duration-300 ease-in-out z-10
+      className={`fixed inset-y-0 left-0 w-64 h-[100%] bg-white shadow-lg border-r transform transition-transform duration-300 ease-in-out z-10
      
         md:static md:translate-x-0 md:w-1/4 md:min-w-[200px] md:max-w-[300px]`}
     >
-      <div className="p- border-b flex items-center">
+      <div className="border-b flex items-center">
         <input
           type="text"
           placeholder="Search..."
-          className="w-full p-2 border rounded focus:outline-blue-400"
+          className="w-full p-2 border-b  focus:outline-blue-400"
         />
         {/* <button
           className="md:hidden text-gray-600"
@@ -34,13 +37,12 @@ const SidebarSuspense = ({ chatUsers, selectedUserId }) => {
         </button> */}
       </div>
 
-      <div className="overflow-y-auto h-[calc(100vh-60px)]">
-        {chatUsers?.map((user) => (
+      <div className="overflow-y-auto">
+        {chatUsers?.length > 0 && chatUsers?.map((user) => (
           <div
             key={user._id}
-            className={`flex items-center p-3 cursor-pointer hover:bg-gray-100 transition ${
-              selectedUserId === user._id ? "bg-blue-50" : ""
-            }`}
+            className={`flex items-center p-3 cursor-pointer hover:bg-gray-100 transition ${selectedUser?._id === user._id ? "bg-blue-50" : ""
+              }`}
             onClick={() => handleUserSelect(user._id)}
           >
             <CustomImage
@@ -56,7 +58,6 @@ const SidebarSuspense = ({ chatUsers, selectedUserId }) => {
                 {user?.participants?.name}
               </div>
               <div className="text-sm text-gray-500 truncate">
-                {/* {chats[user.id]?.slice(-1)[0]?.text || "No messages yet"} */}
                 No messages yet
               </div>
             </div>
@@ -71,10 +72,10 @@ const SidebarSuspense = ({ chatUsers, selectedUserId }) => {
 };
 
 
-export default function Sidebar({ chatUsers, selectedUserId }) {
+export default function Sidebar({ chatUsers }) {
   return (
     <Suspense fallback={<div>Loading...</div>} >
-      <SidebarSuspense chatUsers={chatUsers} selectedUserId={selectedUserId} />
+      <SidebarSuspense chatUsers={chatUsers} />
     </Suspense>
   )
 }
