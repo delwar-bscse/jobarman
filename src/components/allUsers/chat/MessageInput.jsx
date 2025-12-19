@@ -1,63 +1,68 @@
 "use client";
+
 import { Paperclip } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { myFetch } from "utils/myFetch";
 
-const MessageInput = () => {
+const MessageInput = ({ scrollToBottom }) => {
+  const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
   const [newMessage, setNewMessage] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState(null);
 
-  const fileInputRef = useRef(null);
+  const handleFiles = async (e) => {
+    const files = await e.target.files;
+    if (!files || files.length === 0) return;
 
-  // const selectedUser = chatUsers.find((u) => u._id === id);
-
-  // File Upload
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) setSelectedFile(file);
+    console.log("Input Files: ", files);
+    setSelectedFiles(files);
   };
 
   // Send Message
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!newMessage.trim() && !selectedFile) return;
 
-    const message = {
-      chatId: id,
-      text: newMessage,
-      type: "text",
-    };
+    if (!newMessage.trim() && !selectedFiles) return;
+
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("chatId", id);
+    formData.append("type", "text");
+
+    if (newMessage.trim()) {
+      formData.append("text", newMessage);
+    }
+
+    if (selectedFiles) {
+      Array.from(selectedFiles).forEach((file) => {
+        formData.append("image", file);
+      });
+    }
 
     try {
       const res = await myFetch("/message", {
         method: "POST",
-        body: message,
+        body: formData,
       });
-      console.log("Send text msg res : ", res);
 
       if (res.success) {
         setNewMessage("");
-        setSelectedFile(null);
+        setSelectedFiles(null);
+        scrollToBottom();
       } else {
-        toast.error(res.message || "Message Not Create");
+        toast.error(res.message || "Message not created");
       }
     } catch (err) {
-      toast.error(err.message || "Message Not Create");
+      toast.error(err.message || "Message not created");
+    } finally {
+      setLoading(false);
     }
-
-    setNewMessage("");
-    setSelectedFile(null);
   };
-
-  // Send Video Call
-  // const handleVideoCall = () => {
-  //   if (selectedUser) alert(`Starting video call with ${selectedUser.name}...`);
-  // };
 
   return (
     <form
@@ -67,7 +72,7 @@ const MessageInput = () => {
       <button
         type="button"
         aria-label="Attach file"
-        onClick={() => fileInputRef.current?.click()}
+        onClick={() => document.getElementById("sendFileId").click()}
         className="text-gray-600 hover:text-gray-800"
       >
         <Paperclip size={20} />
@@ -75,9 +80,11 @@ const MessageInput = () => {
 
       <input
         type="file"
-        ref={fileInputRef}
+        accept="image/*"
+        multiple
+        id="sendFileId"
         className="hidden"
-        onChange={handleFileChange}
+        onChange={handleFiles}
       />
 
       <input
@@ -85,16 +92,16 @@ const MessageInput = () => {
         value={newMessage}
         onChange={(e) => setNewMessage(e.target.value)}
         placeholder="Type a message..."
-        // disabled={loading}
+        disabled={loading}
         className="flex-1 p-2 border rounded focus:outline-blue-400"
       />
 
       <button
         type="submit"
-        // disabled={loading}
+        disabled={loading}
         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:bg-blue-300"
       >
-        {/* {loading ? "..." : "Send"} */}Send
+        {loading ? "..." : "Send"}
       </button>
     </form>
   );

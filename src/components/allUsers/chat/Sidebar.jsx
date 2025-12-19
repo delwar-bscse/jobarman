@@ -1,43 +1,57 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import CustomImage from "shared/CustomImage";
+import { useDebounce } from "use-debounce";
 
-const SidebarSuspense = ({ chatUsers }) => {
+const SidebarSuspense = ({ chatUsers, selectedUser }) => {
+  const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
   const id = searchParams.get("id");
+  const search = searchParams.get("search");
 
-  const selectedUser = chatUsers?.length > 0 && chatUsers?.find((u) => u._id === id);
+  // const selectedUser = chatUsers?.length > 0 && chatUsers?.find((u) => u._id === id);
 
   const handleUserSelect = (id) => {
     if (!id) return;
-    const params = new URLSearchParams(searchParams.toString());
     params.set("id", id);
     router.push(`?${params.toString()}`);
   };
 
+  const [debouncedSearchValue] = useDebounce(searchValue, 2000);
+
+  useEffect(() => {
+    if (debouncedSearchValue) {
+      params.set("search", debouncedSearchValue);
+      router.push(`?${params.toString()}`);
+    } else {
+      params.delete("search");
+      router.push(`?${params.toString()}`);
+    }
+  }, [debouncedSearchValue]);
+
+  useEffect(() => {
+    setSearchValue(search || "");
+  }, [search]);
+
   return (
-    <div
-      className={`fixed inset-y-0 left-0 w-64 h-[100%] bg-white shadow-lg border-r transform transition-transform duration-300 ease-in-out z-10
-     
-        md:static md:translate-x-0 md:w-1/4 md:min-w-[200px] md:max-w-[300px]`}
-    >
-      <div className="border-b flex items-center">
+    <div className={`flex flex-col w-64 h-[calc(100vh-98px)] bg-white shadow-lg border-r transform transition-transform duration-300 ease-in-out z-10 md:static md:translate-x-0 md:w-1/4 md:min-w-[200px] md:max-w-[300px]`} >
+      {/* Search Bar */}
+      <div className="flex items-center py-2.5 px-4">
         <input
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           type="text"
           placeholder="Search..."
-          className="w-full p-2 border-b  focus:outline-blue-400"
+          className="w-full p-2 border  focus:outline-blue-400"
         />
-        {/* <button
-          className="md:hidden text-gray-600"
-          onClick={() => setIsSidebarOpen(false)}
-        >
-          <Menu size={24} />
-        </button> */}
       </div>
 
-      <div className="overflow-y-auto">
+      {/* Chat List */}
+      <div className="flex-1 overflow-y-auto">
         {chatUsers?.length > 0 && chatUsers?.map((user) => (
           <div
             key={user._id}

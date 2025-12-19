@@ -14,6 +14,8 @@ import {
 } from "react";
 import { myFetch } from "utils/myFetch";
 import MessageInput from "./MessageInput";
+import { formatUrl } from "utils/formatUrl";
+import { format } from "path";
 // import { myFetchClient } from "utils/myFetchClient";
 
 const SCROLL_THRESHOLD = 60; // px
@@ -184,7 +186,7 @@ const ChatMessages = () => {
       <div
         ref={messageContainerRef}
         onScroll={handleScroll}
-        className="relative flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-236px)]"
+        className="relative flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-239px)]"
       >
         {isInitialLoad && loading ? (
           <div className="text-center text-gray-500 py-4">
@@ -212,14 +214,27 @@ const ChatMessages = () => {
 
                 <div className="max-w-[80%] sm:max-w-[60%]">
                   <div
-                    className={`p-3 rounded-lg shadow-sm ${msg.sender === myId
-                      ? "bg-blue-500 text-white rounded-br-none"
-                      : "bg-gray-200 text-gray-800 rounded-bl-none"
+                    className={`p-3 bg-gray-200 rounded-lg shadow-sm ${msg.sender === myId
+                      ? "text-white rounded-br-none"
+                      : "text-gray-800 rounded-bl-none"
                       }`}
                   >
-                    {msg.text && (
+                    {msg?.text && (
                       <p className="break-words">{msg.text}</p>
                     )}
+                    <div className="flex flex-wrap">
+                      {msg?.image?.map((img, i) => (
+                        <div key={i}>
+                          <Image
+                            src={formatUrl(img)}
+                            alt="img"
+                            width={200}
+                            height={200}
+                            className="w-20 h-20 rounded-lg object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
                     <span className="block text-[10px] text-gray-300 mt-1">
                       {msg.time}
                     </span>
@@ -243,7 +258,7 @@ const ChatMessages = () => {
       </div>
       {/* Loading Indicator */}
       <>
-        <MessageInput />
+        <MessageInput scrollToBottom={scrollToBottom} />
       </>
     </div>
   );
