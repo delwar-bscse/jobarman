@@ -15,7 +15,6 @@ import { revalidate } from "../../../utils/revalidateTags";
 export default function ResumeList({ data }) {
   const params = useSearchParams();
   const activeResumeId = params.get("id");
-  const pathname = usePathname();
   const { replace } = useRouter();
 
   const handleDeleteResume = (e, id) => {
@@ -120,10 +119,7 @@ export default function ResumeList({ data }) {
       </div>
 
       {/* Add button */}
-      <Link
-        href={{ pathname: "/add-new-resume", query: { name: "add-form" } }}
-        className="block mt-3 sm:mt-4"
-      >
+      <Link href={`/add-new-resume`} className="block mt-3 sm:mt-4">
         <button className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 sm:py-3 px-3 rounded-lg font-medium text-sm transition-all shadow-sm hover:shadow">
           <Plus className="w-5 h-5" />
           Add New Resume

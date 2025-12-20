@@ -6,7 +6,9 @@ export default async function MyResume({ searchParams }) {
   const { id } = await searchParams;
 
   try {
-    const resumeList = await myFetch("/resume");
+    const resumeList = await myFetch("/resume", {
+      tags: ["resume"],
+    });
     const resumeDetails = await myFetch(`/resume/${id}`);
 
     return (
