@@ -231,9 +231,9 @@ const ChatMessages = () => {
                           <ImageModal image={img} trigger={<Image
                             src={formatUrl(img)}
                             alt="img"
-                            width={200}
-                            height={200}
-                            className="w-50 h-auto rounded-lg object-cover"
+                            width={100}
+                            height={100}
+                            className="w-30 h-auto rounded-lg object-cover"
                           />} />
                         </div>
                       ))}

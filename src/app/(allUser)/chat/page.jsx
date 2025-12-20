@@ -3,8 +3,6 @@ import Chat from "./../../../components/allUsers/chat/Chat";
 
 export default async function page({ searchParams }) {
   const { id, search } = await searchParams;
-  // console.log("Search Params Id : ", id);
-  // console.log("Search Params Id : ", search);
 
   let url = `/chat`;
   if (id) { url = `/chat?searchTerm${search}` }

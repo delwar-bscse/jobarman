@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { set } from "lodash";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import CustomImage from "shared/CustomImage";
@@ -7,17 +8,17 @@ import { useDebounce } from "use-debounce";
 import { formatUrl } from "utils/formatUrl";
 
 const SidebarSuspense = ({ chatUsers, selectedUser }) => {
+  const [selectedUserId, setSelectedUserId] = useState(selectedUser?._id);
   const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
-  const id = searchParams.get("id");
   const search = searchParams.get("search");
 
-  // const selectedUser = chatUsers?.length > 0 && chatUsers?.find((u) => u._id === id);
 
   const handleUserSelect = (id) => {
     if (!id) return;
+    setSelectedUserId(id);
     params.set("id", id);
     router.push(`?${params.toString()}`);
   };
@@ -39,7 +40,7 @@ const SidebarSuspense = ({ chatUsers, selectedUser }) => {
   }, [search]);
 
   return (
-    <div className={`flex flex-col w-64 h-[calc(100vh-98px)] bg-white shadow-lg border-r transform transition-transform duration-300 ease-in-out z-10 md:static md:translate-x-0 md:w-1/4 md:min-w-[200px] md:max-w-[300px]`} >
+    <>
       {/* Search Bar */}
       <div className="flex items-center py-2.5 px-4">
         <input
@@ -56,7 +57,7 @@ const SidebarSuspense = ({ chatUsers, selectedUser }) => {
         {chatUsers?.length > 0 && chatUsers?.map((user) => (
           <div
             key={user._id}
-            className={`flex items-center p-3 cursor-pointer hover:bg-gray-100 transition ${selectedUser?._id === user._id ? "bg-blue-50" : ""
+            className={`flex items-center p-3 cursor-pointer hover:bg-gray-100 transition ${selectedUserId === user._id ? "bg-blue-50" : ""
               }`}
             onClick={() => handleUserSelect(user._id)}
           >
@@ -82,7 +83,7 @@ const SidebarSuspense = ({ chatUsers, selectedUser }) => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
