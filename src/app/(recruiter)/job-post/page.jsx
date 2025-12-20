@@ -11,7 +11,30 @@ import ResponsibilitiesInput from "./responsibilities-input";
 import { myFetch } from "utils/myFetch";
 import { useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
+import { toast } from "sonner";
+import { toCapitalizeSentence } from "utils/textFormat";
 const { formatUrl } = require("utils/formatUrl");
+
+const JOB_TYPE = {
+  FULL_TIME: "FULL_TIME",
+  PART_TIME: "PART_TIME",
+  FREELANCE: "FREELANCE",
+  INTERNSHIP: "INTERNSHIP",
+  REMOTE: "REMOTE"
+};
+const JOB_LEVEL = {
+  ENTRY_LEVEL: "ENTRY_LEVEL",
+  MID_LEVEL: "MID_LEVEL",
+  SENIOR_LEVEL: "SENIOR_LEVEL"
+};
+
+const EXPERIENCE_LEVEL = {
+  ZERO_ONE: "0-1yrs",
+  ONE_THREE: "1-3yrs",
+  THREE_FIVE: "3-5yrs",
+  FIVE_TEN: "5-10yrs",
+  TEN_PLUS: "10+yrs"
+};
 
 export default function EditJobPost() {
   const searchParams = useSearchParams();
@@ -48,6 +71,7 @@ export default function EditJobPost() {
     setAllCategories(resCat.data);
 
     const res = await myFetch("/job-post/" + id);
+    console.log("Get edit job details : ", res)
 
     setFormData((prev) => ({
       ...prev,
@@ -109,6 +133,14 @@ export default function EditJobPost() {
       method: id ? "PATCH" : "POST",
       body: newFormData,
     });
+
+    console.log("Job Post Update res : ", res);
+
+    if (res.success) {
+      toast.success(id ? "Successfully Updated" : "Successfully Posted");
+    } else {
+      toast.error(res.message || "Oops  failed");
+    }
   };
 
   const handleImage = (e) => {
@@ -279,9 +311,9 @@ export default function EditJobPost() {
                 onChange={handleInputChange}
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
-                <option value="REMOTE">Remote</option>
-                <option value="INTERNSHIP">On-site</option>
-                <option value="FREELANCE">Hybrid</option>
+                {Object.entries(JOB_TYPE)?.map(([key, value]) => (
+                  <option key={key} value={value}>{toCapitalizeSentence(value)}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -300,10 +332,9 @@ export default function EditJobPost() {
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
                 <option value="0-1yrs">0 years</option>
-                <option value="1-3yrs">1-3 years</option>
-                <option value="3-5yrs">3-5 years</option>
-                <option value="5-10yrs">5-10 years</option>
-                <option value="10+yrs">10+ years</option>
+                {Object.entries(EXPERIENCE_LEVEL)?.map(([key, value]) => (
+                  <option key={key} value={value} className="">{toCapitalizeSentence(key)}</option>
+                ))}
               </select>
             </div>
             <div>
@@ -316,10 +347,9 @@ export default function EditJobPost() {
                 onChange={handleInputChange}
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
-                <option value="ENTRY_LEVEL">Entry Level</option>
-                <option value="MID_LEVEL">Mid level</option>
-                <option value="SENIOR_LEVEL">Senior level</option>
-                <option>Lead</option>
+                {Object.entries(JOB_LEVEL)?.map(([key, value]) => (
+                  <option key={key} value={value}>{toCapitalizeSentence(value)}</option>
+                ))}
               </select>
             </div>
             <div>
@@ -337,12 +367,13 @@ export default function EditJobPost() {
           </div>
 
           {/* Job Description */}
-          {/* 
+
           <label className="block text-sm font-medium text-gray-900 mb-3 sm:mb-4">
             Job Description
           </label>
-          <RichTextEditor value={editorContent} onChange={setEditorContent} /> 
-          */}
+          <textarea name="description" value={formData.description} onChange={handleInputChange} className="w-full h-[200px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base p-3" />
+          {/* <RichTextEditor value={editorContent} onChange={setEditorContent} />  */}
+
 
           {/* Responsibilities Section */}
           <div>
