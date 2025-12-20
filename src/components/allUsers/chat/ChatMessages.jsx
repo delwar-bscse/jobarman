@@ -17,7 +17,7 @@ import MessageInput from "./MessageInput";
 import { formatUrl } from "utils/formatUrl";
 import { format } from "path";
 import dayjs from "dayjs";
-// import { myFetchClient } from "utils/myFetchClient";
+import { ImageModal } from "@/components/modal/ImageModal";
 
 const SCROLL_THRESHOLD = 60; // px
 
@@ -34,7 +34,7 @@ const ChatMessages = () => {
   const isNearBottom = useRef(true);
 
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const chatId = searchParams.get("id");
 
   /* ---------------- Helpers ---------------- */
 
@@ -42,8 +42,7 @@ const ChatMessages = () => {
     const el = messageContainerRef.current;
     if (!el) return true;
 
-    const distance =
-      el.scrollHeight - el.scrollTop - el.clientHeight;
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
     return distance < SCROLL_THRESHOLD;
   };
 
@@ -86,7 +85,7 @@ const ChatMessages = () => {
 
   const fetchMessages = useCallback(
     async (pageNumber) => {
-      if (!id) return;
+      if (!chatId) return;
 
       setLoading(true);
 
@@ -94,7 +93,7 @@ const ChatMessages = () => {
       const prevHeight = el?.scrollHeight || 0;
 
       try {
-        const res = await myFetch(`/message/${id}?page=${pageNumber}&limit=20`);
+        const res = await myFetch(`/message/${chatId}?page=${pageNumber}&limit=20`);
         console.log("All Message Res : ", res);
 
         const list = res?.data?.messages || [];
@@ -122,20 +121,20 @@ const ChatMessages = () => {
         setLoading(false);
       }
     },
-    [id]
+    [chatId]
   );
 
   /* ---------------- Initial Load ---------------- */
 
   useEffect(() => {
-    if (!id) return;
+    if (!chatId) return;
 
     setPage(1);
     setIsInitialLoad(true);
     setMessages([]);
 
     fetchMessages(1);
-  }, [id, fetchMessages]);
+  }, [chatId]);
 
   // ------- scroll listener: load older when at top; track stickiness -------
   const handleScroll = useMemo(
@@ -152,16 +151,16 @@ const ChatMessages = () => {
           setPage(newPage);
           fetchMessages(newPage);
         }
-      }, 120),
-    [loading, messages.length, page, id]
+      }, 500),
+    [loading, messages.length, page, chatId]
   );
 
   /* ---------------- Socket Listener ---------------- */
 
   useEffect(() => {
-    if (!id || !socket) return;
+    if (!chatId || !socket) return;
 
-    const eventName = `getMessage::${id}`;
+    const eventName = `getMessage::${chatId}`;
 
     const onNewMessage = (newMsg) => {
       console.log("New Message : ", newMsg);
@@ -178,7 +177,7 @@ const ChatMessages = () => {
 
     socket.on(eventName, onNewMessage);
     return () => socket.off(eventName, onNewMessage);
-  }, [id, socket]);
+  }, [chatId, socket]);
 
   /* ---------------- Render ---------------- */
 
@@ -229,18 +228,18 @@ const ChatMessages = () => {
                     {msg?.type === "image" && <div className="flex flex-wrap gap-2">
                       {msg?.image?.map((img, i) => (
                         <div key={i}>
-                          <Image
+                          <ImageModal image={img} trigger={<Image
                             src={formatUrl(img)}
                             alt="img"
                             width={200}
                             height={200}
                             className="w-50 h-auto rounded-lg object-cover"
-                          />
+                          />} />
                         </div>
                       ))}
                     </div>}
                     <span className="block text-[9px] text-gray-500 mt-1">
-                      {dayjs(msg.createdAt).format("DD/MM/YYYY, hh:mm A")}
+                      {dayjs(msg.createdAt).format("DD MMM, hh:mm A")}
                     </span>
                   </div>
                 </div>
