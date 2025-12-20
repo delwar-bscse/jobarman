@@ -23,7 +23,7 @@ export default function ScoreBoard({ id }) {
     if (!id || !socket) return;
 
     const onSocketResponse = () => {
-      setIsCompleted(prev => !prev);
+      setIsCompleted((prev) => !prev);
     };
 
     const eventName = `resume-analysis::${id}`;
@@ -32,7 +32,6 @@ export default function ScoreBoard({ id }) {
       socket.off(eventName, onSocketResponse);
     };
   }, [id, socket]);
-
 
   return (
     <div>

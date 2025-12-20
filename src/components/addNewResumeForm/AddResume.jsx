@@ -167,7 +167,7 @@ function AddNewResumeForm2Suspense() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-7xl mx-auto p-6 bg-white min-h-screen"
+      className="mx-auto p-6 bg-white min-h-screen"
     >
       {/* header */}
       <div className="flex items-center gap-4 mb-8">
@@ -180,7 +180,7 @@ function AddNewResumeForm2Suspense() {
         </button>
 
         <div className="flex-1 flex flex-col items-center">
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-xl sm:text-3xl font-bold">
             {id ? "Edit New Resume" : "Add New Resume"}
           </h1>
           <input

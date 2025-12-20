@@ -117,8 +117,8 @@ export default function PaymentHistoryComponent() {
   };
 
   return (
-    <div className="w-full bg-[#FBFBFB]">
-      <div className="flex min-h-screen max-w-7xl mx-auto py-10">
+    <div className=" bg-[#FBFBFB] w-[50%] mx-auto">
+      <div className="grid md:grid-cols-[30%_70%] py-10">
         {/* Sidebar */}
         {pathname === "/profile/payment" ? (
           <EmployeeSidebar />

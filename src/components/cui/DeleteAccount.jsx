@@ -41,29 +41,31 @@ export default function DeleteAccount() {
 
   return (
     <div className="w-full bg-[#FBFBFB]">
-      <div className="flex min-h-screen max-w-7xl mx-auto py-10">
+      <div className="grid md:grid-cols-[30%_70%] py-10">
         {/* Sidebar */}
         {pathname === "/profile/settings/deleteAccount" ? (
-          <EmployeeSidebar />
+          <div>
+            {" "}
+            <EmployeeSidebar />
+          </div>
         ) : (
-          <RecruiterSidebar />
+          <div>
+            <RecruiterSidebar />
+          </div>
         )}
 
         {/* Main Content */}
 
-        <div className="flex-1 ml-8 flex items-center justify-center">
+        <div className="flex-1 ml-8 flex items-center justify-center mt-10 md:mt-0">
           <div className="">
-            <h1
-              onClick={() => setShowInput(false)}
-              className="mb-3 cursor-pointer"
-            >
+            <h1 onClick={() => history.back()} className="mb-3 cursor-pointer">
               Back
             </h1>
             <div className="bg-white rounded-2xl p-12 shadow-lg max-w-md w-full">
               {!showInput ? (
                 <>
                   {/* Step 1 – Yes/No */}
-                  <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
+                  <h2 className="text-xl md:text-3xl font-bold text-center text-gray-900 mb-8">
                     Are you sure you want to Delete Account?
                   </h2>
 

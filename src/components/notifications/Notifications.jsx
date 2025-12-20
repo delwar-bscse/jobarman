@@ -1,10 +1,42 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { GoStarFill } from "react-icons/go";
 import dayjs from "dayjs";
 import { myFetch } from "../../../utils/myFetch";
+import { useSocket } from "@/lib/SocketContext";
 
-export default async function Notifications({ date }) {
-  const res = await myFetch(`/notification?date=${date}`);
+export default function Notifications({ date, id }) {
+  const { socket } = useSocket();
+  const [notifications, setNotificaitons] = useState(null);
+
+  let url = `/notification`;
+
+  if (date) {
+    url = `/notification?date=${date}`;
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await myFetch(url);
+      setNotificaitons(res?.data?.data);
+    }
+    fetchData();
+  }, [url]);
+
+  useEffect(() => {
+    if (!id || !socket) return;
+
+    const onSocketResponse = (data) => {
+      setNotificaitons((prev) => [data, ...prev]);
+      console.log("notification sokect response", data);
+    };
+
+    const eventName = `get-notification::${id}`;
+    socket.on(eventName, onSocketResponse);
+    return () => {
+      socket.off(eventName, onSocketResponse);
+    };
+  }, [socket, id]);
 
   const Pill = ({ label, color }) => {
     const styles =
@@ -20,7 +52,7 @@ export default async function Notifications({ date }) {
 
   return (
     <div className="space-y-4">
-      {res?.data?.data?.map((item) => (
+      {notifications?.map((item) => (
         <div
           key={item._id}
           className="rounded-md border border-gray-200 bg-white p-2 sm:p-3 md:p-4 flex items-start justify-between"

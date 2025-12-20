@@ -131,9 +131,10 @@ export default function PlatformReviewPage() {
 
   return (
     <div className="w-full bg-[#FBFBFB]">
-      <div className="flex min-h-screen max-w-7xl mx-auto py-10">
-        {/* Sidebar */}
-        <EmployeeSidebar />
+      <div className="grid md:grid-cols-[30%_70%] py-10">
+        <div>
+          <EmployeeSidebar />
+        </div>
 
         {/* Main Content - Modal */}
         <div className="flex-1 ml-8 flex items-center justify-center">
