@@ -109,14 +109,16 @@ const EmployeeSidebar = () => {
   const activeSubMenu = getActiveSubMenu();
 
   return (
-    <div>
-      {/* Back Button */}
-      {/* <div className="max-w-7xl mx-auto -mb-10">
-          <div onClick={()=>router.back()} className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6">
-            <ArrowLeft className="w-7 h-7" />
-          </div>
-      </div> */}
-      <div className="w-72 bg-white rounded-xl p-6 flex flex-col">
+    <>
+      <div className="max-w-7xl mx-auto -mb-10">
+        <div
+          onClick={() => history.back()}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 cursor-pointer"
+        >
+          <ArrowLeft className="w-7 h-7" />
+        </div>
+      </div>
+      <div className=" bg-white rounded-xl p-6 ">
         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
@@ -213,7 +215,7 @@ const EmployeeSidebar = () => {
           })}
         </nav>
       </div>
-    </div>
+    </>
   );
 };
 

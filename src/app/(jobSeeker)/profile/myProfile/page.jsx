@@ -6,8 +6,8 @@ export default async function page() {
   const res = await myFetch("/user/profile");
 
   return (
-    <div>
+    <>
       <ProfilePage data={res?.data} />
-    </div>
+    </>
   );
 }
