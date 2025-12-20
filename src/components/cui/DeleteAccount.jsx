@@ -40,8 +40,8 @@ export default function DeleteAccount() {
   };
 
   return (
-    <div className="w-full bg-[#FBFBFB]">
-      <div className="grid md:grid-cols-[30%_70%] py-10">
+    <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB]">
+      <div className="grid md:grid-cols-[30%_70%]  mx-auto py-10">
         {/* Sidebar */}
         {pathname === "/profile/settings/deleteAccount" ? (
           <div>
@@ -56,7 +56,7 @@ export default function DeleteAccount() {
 
         {/* Main Content */}
 
-        <div className="flex-1 ml-8 flex items-center justify-center mt-10 md:mt-0">
+        <div className="flex items-center justify-center min-h-screen">
           <div className="">
             <h1 onClick={() => history.back()} className="mb-3 cursor-pointer">
               Back

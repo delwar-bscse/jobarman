@@ -44,7 +44,7 @@ export default function HelpSupport() {
   };
 
   return (
-    <div className="w-full bg-[#FBFBFB]">
+    <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB]">
       <div className="grid md:grid-cols-[30%_70%] py-10">
         {/* Sidebar */}
         {pathname === "/profile/settings/helpSupport" ? (

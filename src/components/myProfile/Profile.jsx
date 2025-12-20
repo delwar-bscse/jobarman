@@ -36,7 +36,7 @@ export default function ProfilePage({ data }) {
 
   return (
     <div className="w-full bg-[#FBFBFB]">
-      <div className="grid xl:grid-cols-[30%_70%]  min-h-screen max-w-7xl mx-auto py-10">
+      <div className="grid xl:grid-cols-[30%_70%]  mx-auto py-10">
         {/* Sidebar */}
         <div className="">
           <EmployeeSidebar />

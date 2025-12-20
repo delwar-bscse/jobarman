@@ -51,8 +51,8 @@ export default function CompanyProfilePage() {
   }, []);
 
   return (
-    <div className="w-full bg-[#FBFBFB]">
-      <div className="flex min-h-screen max-w-7xl mx-auto py-10">
+    <div className="w-full mx-auto bg-[#FBFBFB] lg:px-32">
+      <div className="grid lg:grid-cols-[30%_70%] py-10">
         {/* Sidebar */}
         <RecruiterSidebar />
 
