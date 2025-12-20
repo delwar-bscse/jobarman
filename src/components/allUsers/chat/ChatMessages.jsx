@@ -222,7 +222,7 @@ const ChatMessages = () => {
                     {msg?.text && (
                       <p className="break-words">{msg.text}</p>
                     )}
-                    <div className="flex flex-wrap">
+                    <div className="flex flex-wrap gap-2">
                       {msg?.image?.map((img, i) => (
                         <div key={i}>
                           <Image
@@ -230,7 +230,7 @@ const ChatMessages = () => {
                             alt="img"
                             width={200}
                             height={200}
-                            className="w-20 h-20 rounded-lg object-cover"
+                            className="w-50 h-auto rounded-lg object-cover"
                           />
                         </div>
                       ))}
