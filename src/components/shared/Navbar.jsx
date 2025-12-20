@@ -150,20 +150,23 @@ export default function Navbar() {
 
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-44 lg:w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
-                  <Link
-                    href="/profile/myProfile"
-                    className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    Job Seeker
-                  </Link>
-                  <Link
-                    href="/profile/companyProfile"
-                    className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    Recruiter
-                  </Link>
+                  {role === "EMPLOYEE" ? (
+                    <Link
+                      href="/profile/myProfile"
+                      className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      Job Seeker
+                    </Link>
+                  ) : (
+                    <Link
+                      href="/profile/companyProfile"
+                      className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      Recruiter
+                    </Link>
+                  )}
 
                   <div
                     className="cursor-pointer px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100"
@@ -198,69 +201,15 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-gray-200 bg-white">
           <nav className="flex flex-col gap-3 px-3 py-4 sm:px-4">
-            <Link
-              href="/"
-              className={linkClass("/")}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              href="/jobs"
-              className={linkClass("/jobs")}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Jobs
-            </Link>
-            <Link
-              href="/my-job"
-              className={linkClass("/my-job")}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              My Job
-            </Link>
-            <Link
-              href="/career-spotlight"
-              className={linkClass("/career-spotlight")}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Career Spotlight
-            </Link>
-            <Link
-              href="/pricing"
-              className={linkClass("/pricing")}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/faq"
-              className={linkClass("/faq")}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              FAQ
-            </Link>
-            <Link
-              href="/history"
-              className={linkClass("/history")}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              History
-            </Link>
-            <Link
-              href="/my-resume"
-              className={linkClass("/my-resume")}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              My Resume
-            </Link>
-            <Link
-              href="/analyze-resume"
-              className={linkClass("/analyze-resume")}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Analyze Resume
-            </Link>
+            {menu.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={linkClass(item.href)}
+              >
+                {item.label}
+              </Link>
+            ))}
 
             {/* Icons as Links */}
             <Link

@@ -29,7 +29,7 @@ export default function JobCard({ data, pagination, favoratesList }) {
 
   return (
     <div className="lg:col-span-3">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-2 lg:px-0">
         {data?.map((job) => (
           <Link
             key={job._id}
@@ -43,7 +43,8 @@ export default function JobCard({ data, pagination, favoratesList }) {
                 alt={`${job.title} image`}
                 width={150}
                 height={150}
-                className="object-cover w-full h-full"
+                className="object-cover w-40 h-40 "
+                size="100vh"
               />
             </div>
 
