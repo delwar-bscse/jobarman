@@ -13,7 +13,6 @@ const MessageInput = ({ scrollToBottom }) => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-
   // send message
   const sendMessage = async (formData) => {
     try {
@@ -76,39 +75,42 @@ const MessageInput = ({ scrollToBottom }) => {
   };
 
   return (
-    <form className="p-4 bg-white border-t flex gap-2">
-      <button
-        type="button"
-        aria-label="Attach file"
-        onClick={() => document.getElementById("sendFileId").click()}
-        className="text-gray-600 hover:text-gray-800"
-      >
-        <Paperclip size={20} />
-      </button>
+    <form className="p-4 bg-white border-t sm:flex sm:items-center gap-2">
+      <div className="flex items-center gap-3 mb-3 sm:mb-0 flex-1">
+        <div>
+          <button
+            type="button"
+            aria-label="Attach file"
+            onClick={() => document.getElementById("sendFileId").click()}
+            className="text-gray-600 hover:text-gray-800"
+          >
+            <Paperclip size={20} />
+          </button>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            id="sendFileId"
+            className="hidden"
+            onChange={handleFiles}
+          />
+        </div>
 
-      <input
-        type="file"
-        accept="image/*"
-        multiple
-        id="sendFileId"
-        className="hidden"
-        onChange={handleFiles}
-      />
-
-      <input
-        type="text"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        placeholder="Type a message..."
-        disabled={loading}
-        className="flex-1 p-2 border rounded focus:outline-blue-400"
-      />
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Type a message..."
+          disabled={loading}
+          className="flex-1 p-2 border rounded focus:outline-blue-400"
+        />
+      </div>
 
       <button
         type="button"
         onClick={handleText}
         disabled={loading}
-        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:bg-blue-300"
+        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:bg-blue-300 w-full sm:w-20"
       >
         {loading ? "..." : "Send"}
       </button>
