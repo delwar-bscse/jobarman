@@ -1,10 +1,38 @@
 "use client";
 import { Video } from "lucide-react";
-// import VideoCall from "./VideoCall";
+import { useSearchParams } from "next/navigation";
 import CustomImage from "shared/CustomImage";
+import { toast } from "sonner";
+import { myFetch } from "utils/myFetch";
 
-const ChatHeader = ({selectedUser}) => {
-  // const [isVideoCallOpen, setIsVideoCallOpen] = useState(false);
+const ChatHeader = ({ selectedUser }) => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  // send message
+  const handleVideoCall = async () => {
+
+    const formData = new FormData();
+    formData.append("chatId", id);
+    formData.append("type", "zoom-link");
+
+    try {
+      const res = await myFetch("/message", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.success && res.data && res.data.type === "zoom-link") {
+        console.log("Zoom-Link : ", res?.data);
+        window.open(res.data.text, "_blank", "noopener,noreferrer");
+
+      } else {
+        toast.error(res.message || "Video not created");
+      }
+    } catch (err) {
+      toast.error(err.message || "Video not created");
+    }
+  };
 
   return (
     <>
@@ -28,7 +56,7 @@ const ChatHeader = ({selectedUser}) => {
             </div>
             <button
               className="text-gray-600 hover:text-gray-800"
-              onClick={() => setIsVideoCallOpen(true)}
+              onClick={() => handleVideoCall()}
               title="Start Video Call"
             >
               <Video size={24} />
