@@ -165,7 +165,7 @@ Highlights: Reduced P90 query times by 65%, cut storage/costs 40% via compressio
                   {exp?.title}
                 </h4>
                 <span className="text-xs text-gray-600">
-                  {exp?.startDate.slice(0, 10)}
+                  {exp?.startDate?.slice(0, 10)}
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-gray-600">

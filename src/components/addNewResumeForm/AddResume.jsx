@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { ChevronLeft } from "lucide-react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 // import TextEditor from "./TextEditor";
 import PersonalInfo from "./PersonalInfo";
 import Projects from "./Projects";
@@ -10,16 +10,18 @@ import Education from "./Education";
 import Exprience from "./Exprience";
 import { myFetch } from "../../../utils/myFetch";
 import { toast } from "sonner";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Skills from "./Skills";
 import { Suspense, useEffect } from "react";
 import dayjs from "dayjs";
+import { revalidate } from "../../../utils/revalidateTags";
 
 /* -----------------------------------------------------------
    MAIN FORM (React Hook Form Version)
 ----------------------------------------------------------- */
 
-function AddNewResumeForm2Suspense({ name }) {
+function AddNewResumeForm2Suspense() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const { register, handleSubmit, control, reset } = useForm({
@@ -149,10 +151,13 @@ function AddNewResumeForm2Suspense({ name }) {
         body: data,
       });
 
+      console.log("edit resume", res);
+
       if (res.success) {
-        toast.success("Resume create successfully");
+        toast.success(res?.message);
+        revalidate("resume");
       } else {
-        toast.error(res.message || "Resume create failed");
+        toast.error(res.err[0].message || "Resume create failed");
       }
     } catch (err) {
       toast.error(err.message);
@@ -166,13 +171,17 @@ function AddNewResumeForm2Suspense({ name }) {
     >
       {/* header */}
       <div className="flex items-center gap-4 mb-8">
-        <button type="button" className="p-2 hover:bg-gray-200 rounded-lg">
+        <button
+          type="button"
+          className="p-2 hover:bg-gray-200 rounded-lg"
+          onClick={() => router.back()}
+        >
           <ChevronLeft size={22} />
         </button>
 
         <div className="flex-1 flex flex-col items-center">
           <h1 className="text-3xl font-bold">
-            {name ? "Add New Resume" : "Edit New Resume"}
+            {id ? "Edit New Resume" : "Add New Resume"}
           </h1>
           <input
             {...register("resume_name")}
@@ -192,18 +201,6 @@ function AddNewResumeForm2Suspense({ name }) {
           className="border w-full min-h-28 rounded-sm p-2"
         />
       </section>
-
-      {/* CORE SKILLS */}
-      {/* <section className="mb-8">
-        <h2 className="text-xl font-bold mb-4">Core Skills</h2>
-        <Controller
-          name="coreSkills"
-          control={control}
-          render={({ field }) => (
-            <TextEditor value={field.value} onChange={field.onChange} />
-          )}
-        />
-      </section> */}
 
       <Skills register={register} skillArray={skillArray} />
 
@@ -233,10 +230,10 @@ function AddNewResumeForm2Suspense({ name }) {
   );
 }
 
-export default function AddNewResumeForm2({ name }) {
+export default function AddNewResumeForm2() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <AddNewResumeForm2Suspense name={name} />
+      <AddNewResumeForm2Suspense />
     </Suspense>
   );
 }

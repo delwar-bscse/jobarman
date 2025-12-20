@@ -29,6 +29,13 @@ const employee = [
   { href: "/faq", label: "FAQ" },
 ];
 
+const withOutLogin = [
+  { href: "/", label: "Home" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/faq", label: "FAQ" },
+];
+
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -74,6 +81,15 @@ export default function Navbar() {
     router.push("/login");
   };
 
+  const menus = {
+    RECRUITER: recuiter,
+    EMPLOYEE: employee,
+    GUEST: withOutLogin,
+  };
+
+  const role = profile?.data?.role;
+  const menu = menus[role] || menus.GUEST;
+
   return (
     <header className="border-b-2 border-[#C7DEF2] sticky top-0 bg-white z-50">
       <div className="w-full mx-auto px-3 sm:px-4 lg:px-8 py-3 lg:py-4 flex items-center justify-between">
@@ -90,27 +106,16 @@ export default function Navbar() {
 
         {/* Desktop Navigation - Only visible on large screens (lg: 1024px+) */}
         <nav className="hidden lg:flex items-center gap-3 xl:gap-6 2xl:gap-8">
-          {profile?.data?.role === "RECRUITER" &&
-            recuiter.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={linkClass(item.href)}
-              >
-                {item.label}
-              </Link>
-            ))}
-
-          {profile?.data?.role == "EMPLOYEE" &&
-            employee.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={linkClass(item.href)}
-              >
-                {item.label}
-              </Link>
-            ))}
+          {/* role based conditions */}
+          {menu.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={linkClass(item.href)}
+            >
+              {item.label}
+            </Link>
+          ))}
 
           {/* Icons */}
           <Link
@@ -127,7 +132,6 @@ export default function Navbar() {
           >
             <MessageCircle className="w-5 h-5" />
           </Link>
-
           {/* Profile Avatar */}
           {profile?.data ? (
             <div className="relative" ref={dropdownRef}>
@@ -140,7 +144,7 @@ export default function Navbar() {
                   title="profile image"
                   width={52}
                   height={52}
-                  className="w-10 h-10 lg:w-12 lg:h-12 rounded-full"
+                  className="w-10 h-10 lg:w-12 lg:h-12 rounded-full border"
                 />
               </button>
 

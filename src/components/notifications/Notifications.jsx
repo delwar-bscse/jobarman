@@ -3,8 +3,7 @@ import { GoStarFill } from "react-icons/go";
 import dayjs from "dayjs";
 import { myFetch } from "../../../utils/myFetch";
 
-export default async function Notifications({ searchParams }) {
-  const date = (await searchParams)?.date;
+export default async function Notifications({ date }) {
   const res = await myFetch(`/notification?date=${date}`);
 
   const Pill = ({ label, color }) => {
