@@ -86,12 +86,18 @@ export default function ChangePasswordComponent() {
 
   return (
     <div className="w-full bg-[#FBFBFB]">
-      <div className="flex min-h-screen max-w-7xl mx-auto py-10">
+      <div className="grid md:grid-cols-[30%_70%] py-10">
         {/* <SidebarProfile /> */}
         {pathname === "/profile/settings/changePassword" ? (
-          <EmployeeSidebar />
+          <div>
+            {" "}
+            <EmployeeSidebar />
+          </div>
         ) : (
-          <RecruiterSidebar />
+          <div>
+            {" "}
+            <RecruiterSidebar />
+          </div>
         )}
 
         <div className="flex-1 ml-8 flex items-center justify-center">

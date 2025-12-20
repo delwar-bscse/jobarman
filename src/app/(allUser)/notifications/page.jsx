@@ -1,8 +1,10 @@
 import NotificationDetails from "@/components/notifications/NotificationDetails";
 import Notifications from "@/components/notifications/Notifications";
+import { myFetch } from "../../../../utils/myFetch";
 
 export default async function NotificationsPage({ searchParams }) {
-  const { date } = await searchParams;
+  const { date } = (await searchParams) ?? "";
+  const res = await myFetch("/user/profile");
 
   return (
     <main className="w-full bg-white">
@@ -11,7 +13,7 @@ export default async function NotificationsPage({ searchParams }) {
         <NotificationDetails />
 
         {/* Notifications content */}
-        <Notifications date={date} />
+        <Notifications date={date} id={res?.data?._id} />
       </section>
     </main>
   );

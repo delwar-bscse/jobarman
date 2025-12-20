@@ -45,59 +45,63 @@ export default function HelpSupport() {
 
   return (
     <div className="w-full bg-[#FBFBFB]">
-      <div className="flex min-h-screen max-w-7xl mx-auto py-10">
+      <div className="grid md:grid-cols-[30%_70%] py-10">
         {/* Sidebar */}
         {pathname === "/profile/settings/helpSupport" ? (
-          <EmployeeSidebar />
+          <div>
+            {" "}
+            <EmployeeSidebar />
+          </div>
         ) : (
-          <RecruiterSidebar />
+          <div>
+            <RecruiterSidebar />
+          </div>
         )}
 
         {/* Main Content */}
-        <div className="flex-1 ml-8">
-          <div className="max-w-2xl">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8">
-              GET IN TOUCH
-            </h1>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Reason Field */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Reason
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter Your Reason"
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
+        <div className="px-3 md:px-10">
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">
+            GET IN TOUCH
+          </h1>
 
-              {/* Message Field */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Your Message
-                </label>
-                <textarea
-                  placeholder="Enter Your Message"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                />
-              </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Reason Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Reason
+              </label>
+              <input
+                type="text"
+                placeholder="Enter Your Reason"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg transition-all"
-              >
-                Contact Us
-              </button>
-            </form>
-          </div>
+            {/* Message Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Your Message
+              </label>
+              <textarea
+                placeholder="Enter Your Message"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={6}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg transition-all"
+            >
+              Contact Us
+            </button>
+          </form>
         </div>
       </div>
     </div>

@@ -118,7 +118,7 @@ const EmployeeSidebar = () => {
           <ArrowLeft className="w-7 h-7" />
         </div>
       </div>
-      <div className=" bg-white rounded-xl p-6 ">
+      <div className=" bg-white rounded-xl">
         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
@@ -156,9 +156,9 @@ const EmployeeSidebar = () => {
             return (
               <div key={index}>
                 <button
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
                     isActiveParent
-                      ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+                      ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white w-full px-2"
                       : ""
                   }`}
                   onClick={() => handleMenuClick(item)}
