@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import CustomImage from "shared/CustomImage";
 import { useDebounce } from "use-debounce";
+import { formatUrl } from "utils/formatUrl";
 
 const SidebarSuspense = ({ chatUsers, selectedUser }) => {
   const [searchValue, setSearchValue] = useState("");
@@ -60,7 +61,7 @@ const SidebarSuspense = ({ chatUsers, selectedUser }) => {
             onClick={() => handleUserSelect(user._id)}
           >
             <CustomImage
-              src={user?.participants?.image}
+              src={formatUrl(user?.participants?.image)}
               title={user.participants.name}
               width={32}
               height={32}
@@ -72,7 +73,7 @@ const SidebarSuspense = ({ chatUsers, selectedUser }) => {
                 {user?.participants?.name}
               </div>
               <div className="text-sm text-gray-500 truncate">
-                No messages yet
+                {user?.lastMessage?.text || "No messages yet"}
               </div>
             </div>
             {user.status === "online" && (

@@ -7,43 +7,15 @@ import { toast } from "sonner";
 import { myFetch } from "utils/myFetch";
 
 const MessageInput = ({ scrollToBottom }) => {
+  const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const [newMessage, setNewMessage] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState(null);
 
-  const handleFiles = async (e) => {
-    const files = await e.target.files;
-    if (!files || files.length === 0) return;
-
-    console.log("Input Files: ", files);
-    setSelectedFiles(files);
-  };
-
-  // Send Message
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-
-    if (!newMessage.trim() && !selectedFiles) return;
-
-    setLoading(true);
-
-    const formData = new FormData();
-    formData.append("chatId", id);
-    formData.append("type", "text");
-
-    if (newMessage.trim()) {
-      formData.append("text", newMessage);
-    }
-
-    if (selectedFiles) {
-      Array.from(selectedFiles).forEach((file) => {
-        formData.append("image", file);
-      });
-    }
-
+  // send message
+  const sendMessage = async (formData) => {
     try {
       const res = await myFetch("/message", {
         method: "POST",
@@ -52,7 +24,6 @@ const MessageInput = ({ scrollToBottom }) => {
 
       if (res.success) {
         setNewMessage("");
-        setSelectedFiles(null);
         scrollToBottom();
       } else {
         toast.error(res.message || "Message not created");
@@ -64,11 +35,48 @@ const MessageInput = ({ scrollToBottom }) => {
     }
   };
 
+  // handle files
+  const handleFiles = async (e) => {
+    e.preventDefault();
+    const files = await e.target.files;
+    if (!files || files.length === 0) return;
+
+    console.log("Input Files: ", files);
+    if (!files) return;
+
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("chatId", id);
+    formData.append("type", "image");
+
+    if (files) {
+      Array.from(files).forEach((file) => {
+        formData.append("image", file);
+      });
+    }
+
+    await sendMessage(formData);
+  };
+
+  // handle text
+  const handleText = async (e) => {
+    e.preventDefault();
+
+    if (!newMessage.trim()) return;
+
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("chatId", id);
+    formData.append("type", "text");
+    formData.append("text", newMessage);
+
+    await sendMessage(formData);
+  };
+
   return (
-    <form
-      onSubmit={handleSendMessage}
-      className="p-4 bg-white border-t flex gap-2"
-    >
+    <form className="p-4 bg-white border-t flex gap-2">
       <button
         type="button"
         aria-label="Attach file"
@@ -97,7 +105,8 @@ const MessageInput = ({ scrollToBottom }) => {
       />
 
       <button
-        type="submit"
+        type="button"
+        onClick={handleText}
         disabled={loading}
         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:bg-blue-300"
       >
