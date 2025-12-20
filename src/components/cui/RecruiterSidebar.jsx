@@ -116,7 +116,7 @@ const RecruiterSidebar = () => {
             <ArrowLeft className="w-7 h-7" />
           </div>
       </div> */}
-      <div className="w-72 bg-white rounded-xl p-6 flex flex-col">
+      <div className=" bg-white rounded-xl p-6 flex flex-col">
         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">

@@ -25,7 +25,7 @@ export default function Exprience({ register, expArray }) {
               />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-4 pt-2">
+          <div className="grid md:grid-cols-3 gap-4 pt-2">
             <div className="flex flex-col gap-1">
               <label className="text-sm text-gray-600">Designation</label>
               <input
