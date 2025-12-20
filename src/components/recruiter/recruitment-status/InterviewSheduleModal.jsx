@@ -46,11 +46,15 @@ export default function InterviewScheduleModal({ item, trigger }) {
           },
         }
       );
+      console.log("res", res);
 
       if (res.success) {
+        toast.success(res?.message);
         await revalidate("interview-shedule");
         router.refresh();
         setOpen(false);
+      } else {
+        toast.error(res?.message);
       }
     } catch (error) {
       toast.error(error.message);

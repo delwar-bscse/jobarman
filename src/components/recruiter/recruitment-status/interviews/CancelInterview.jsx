@@ -19,6 +19,8 @@ export default function CancelInterview({ item, trigger }) {
         body: { reason },
       });
 
+      console.log("delete", res);
+
       if (res?.success) {
         toast.success(res?.message || "Reject item successfully");
       } else {
@@ -28,7 +30,7 @@ export default function CancelInterview({ item, trigger }) {
       toast.error(error.message || "Reject item failed");
     }
   };
-  
+
   return (
     <Dialog>
       <DialogTrigger className="">{trigger}</DialogTrigger>
