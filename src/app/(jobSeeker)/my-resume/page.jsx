@@ -2,22 +2,12 @@ import { myFetch } from "utils/myFetch";
 import ResumeDetails from "@/components/jobSeekerResume/ResumeDetails";
 import ResumeList from "@/components/jobSeekerResume/ResumeList";
 
-type Params = {
-  id: string;
-};
-
-type MyResumeProps = {
-  params: Promise<Params>;
-};
-
-const MyResume = async ({ params }: MyResumeProps) => {
-  const { id } = await params;
+export default async function MyResume({ searchParams }) {
+  const { id } = await searchParams;
 
   try {
-    const [resumeDetails, allResumes] = await Promise.all([
-      myFetch(`/resume/${id}`),
-      myFetch("/resume"),
-    ]);
+    const resumeList = await myFetch("/resume");
+    const resumeDetails = await myFetch(`/resume/${id}`);
 
     return (
       <div className="max-w-7xl mx-auto min-h-screen p-3 sm:p-4 lg:p-6">
@@ -27,7 +17,7 @@ const MyResume = async ({ params }: MyResumeProps) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 ">
           <div className="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-            <ResumeList data={allResumes?.data} />
+            <ResumeList data={resumeList?.data} />
           </div>
 
           <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 overflow-y-auto p-4 sm:p-6 lg:p-8">
@@ -52,6 +42,4 @@ const MyResume = async ({ params }: MyResumeProps) => {
       </div>
     );
   }
-};
-
-export default MyResume;
+}

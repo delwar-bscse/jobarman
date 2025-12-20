@@ -54,7 +54,8 @@
     "src/app/(recruiter)/(status)/short-list/page.jsx",
     "src/components/recruiter/recruitment-status/ShortListResume.jsx",
     "src/components/recruiter/recruitment-status/ShortList.jsx",
-    "src/components/recruiter/recruitment-status/UserResume.jsx"
+    "src/components/recruiter/recruitment-status/UserResume.jsx",
+    "src/app/(jobSeeker)/my-resume/page.jsx"
   ],
   "exclude": ["node_modules"]
 }
