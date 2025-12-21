@@ -13,22 +13,21 @@ export default function Status() {
   ];
 
   return (
-    <div className="flex space-x-4 my-5 md:mt-5">
+    <div className="sm:flex space-x-4 my-5 md:mt-5 p-4 post-insight">
       {links.map((link) => {
         const isActive = pathname === link.href;
 
         return (
           <Link key={link.href} href={link.href}>
-            <button
-              className={
-                `px-4 py-2 rounded-lg transition ` +
-                (isActive
+            <div
+              className={`px-4 py-2 text-center rounded-lg transition ${
+                isActive
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300")
-              }
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              }`}
             >
               {link.label}
-            </button>
+            </div>
           </Link>
         );
       })}

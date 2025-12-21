@@ -37,6 +37,18 @@ const nextConfig = {
         port: "",
         pathname: "**", // Allow all paths under this domain
       },
+      {
+        protocol: "https",
+        hostname: "media.licdn.com",
+        port: "",
+        pathname: "**", // Allow all paths under this domain
+      },
+      {
+        protocol: "https",
+        hostname: "blobs.experteer.com",
+        port: "",
+        pathname: "**", // Allow all paths under this domain
+      },
     ],
   },
 

@@ -118,20 +118,25 @@ export default function Navbar() {
           ))}
 
           {/* Icons */}
-          <Link
-            href="/notifications"
-            aria-label="Notifications"
-            className={iconClass("/notifications")}
-          >
-            <Bell className="w-5 h-5" />
-          </Link>
-          <Link
-            href="/chat"
-            aria-label="Messages"
-            className={iconClass("/chat")}
-          >
-            <MessageCircle className="w-5 h-5" />
-          </Link>
+          {(role === "EMPLOYEE" || role === "RECRUITER") && (
+            <Link
+              href="/notifications"
+              aria-label="Notifications"
+              className={iconClass("/notifications")}
+            >
+              <Bell className="w-5 h-5" />
+            </Link>
+          )}
+
+          {(role === "EMPLOYEE" || role === "RECRUITER") && (
+            <Link
+              href="/chat"
+              aria-label="Messages"
+              className={iconClass("/chat")}
+            >
+              <MessageCircle className="w-5 h-5" />
+            </Link>
+          )}
           {/* Profile Avatar */}
           {profile?.data ? (
             <div className="relative" ref={dropdownRef}>

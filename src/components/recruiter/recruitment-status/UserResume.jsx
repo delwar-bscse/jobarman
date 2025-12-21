@@ -32,13 +32,7 @@ export default function UserResume() {
 
       {/* message */}
       <div className="p-4">
-        <div
-          className={`grid ${
-            resumeShow?.inteviewStatus === "cancelled"
-              ? "grid-cols-1"
-              : "grid-cols-2"
-          }  gap-4 mb-4`}
-        >
+        <div className={`grid grid-cols-2 gap-4 mb-4`}>
           {/* Interview Button */}
           <InterviewSheduleModal
             item={resumeShow}
@@ -60,12 +54,14 @@ export default function UserResume() {
               }
             />
           )}
-        </div>
 
-        {/* Message Button */}
-        <button className="w-full border border-blue-600 text-blue-600 font-semibold rounded-md px-6 py-2">
-          Message
-        </button>
+          <div>
+            {/* Message Button */}
+            <button className="w-full border border-blue-600 text-blue-600 font-semibold rounded-md px-6 py-2">
+              Message
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

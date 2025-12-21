@@ -57,8 +57,8 @@ export default function CompanyProfilePage() {
         <RecruiterSidebar />
 
         {/* Main Content */}
-        <div className="flex-1 ml-8">
-          <div className="max-w-5xl mx-auto">
+        <div className="flex-1 ml-">
+          <div className="">
             {/* Company Header Image */}
             <div className="relative h-64 mb-6 rounded-lg overflow-hidden">
               <BannerHero />
