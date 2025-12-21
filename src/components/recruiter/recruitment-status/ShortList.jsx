@@ -11,13 +11,13 @@ export default async function ShortList() {
       {/* status */}
       <Status />
 
-      <div className="grid grid-cols-3 space-x-4">
-        <div className="col-span-1">
+      <div className="grid lg:grid-cols-[30%_70%] space-x-4">
+        <div className="p-4">
           <ShortListResume data={res?.data} />
         </div>
 
         {/* resume */}
-        <div className="col-span-2 border p-3 rounded-md">
+        <div className=" border p-3 rounded-md">
           <UserResume />
         </div>
       </div>

@@ -16,12 +16,12 @@ export default function Interviews({ data }) {
 
         return (
           <div
-            className="flex justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200 w-full max-w-md"
+            className="flex justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200 w-full max-w-md mb-3"
             key={item?._id}
           >
             {/* LEFT SIDE clickable → details page */}
             <Link
-              href={`/interview-job-details/${item._id}`}
+              href={`/interview-job-details/${item?._id}`}
               className="flex items-center gap-10 flex-1"
             >
               <CustomImage
