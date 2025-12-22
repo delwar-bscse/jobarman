@@ -44,7 +44,7 @@ export default function ProfilePage({ data }) {
 
         {/* Main Content */}
 
-        <div className="ml-8">
+        <div className="lg:ml-8">
           {/* Header Section */}
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
             Personal Information

@@ -98,8 +98,8 @@ export default function ChangePasswordComponent() {
 
         {/* Content */}
         <div className="flex justify-center items-center px-4">
-          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-md w-full border border-gray-200">
-            <h2 className="text-2xl text-center font-bold text-[#123499] mb-8">
+          <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md w-full border border-gray-200">
+            <h2 className="text-xl sm:text-2xl text-center font-bold text-[#123499] mb-8">
               Change Password
             </h2>
 
