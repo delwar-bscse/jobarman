@@ -71,7 +71,7 @@ export default function JobCard({ data, pagination, favoratesList }) {
                     <Heart
                       fill="currentColor"
                       className={`${
-                        favoratesList.includes(job._id)
+                        favoratesList?.includes(job?._id)
                           ? "text-red-500 "
                           : "text-gray-400"
                       }`}
