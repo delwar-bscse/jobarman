@@ -1,8 +1,11 @@
 "use client";
 import { Building2, Award, Crown, Check } from "lucide-react";
 import { myFetch } from "../../../utils/myFetch";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function SubscriptionCard({ plan }) {
+  const [loading, setLoading] = useState(false);
   const Icon =
     plan.name === "Free" ? Building2 : plan.name === "Pro" ? Award : Crown;
   const ringColor =
@@ -13,13 +16,28 @@ export default function SubscriptionCard({ plan }) {
       : "ring-yellow-300";
 
   const buySubscription = async () => {
-    const res = await myFetch(`/subscription/stripe`, {
-      method: "POST",
-      body: { receipt: plan?._id },
-    });
+    if (loading) return; // ✅ prevent double clicks
 
-    if (res?.success && res?.data) {
-      window.location.href = res?.data;
+    setLoading(true);
+
+    try {
+      const res = await myFetch(`/subscription/stripe`, {
+        method: "POST",
+        body: { receipt: plan?._id },
+      });
+
+      if (res?.success && res?.data) {
+        // ✅ redirect
+        window.location.href = res.data;
+      } else {
+        throw new Error("Invalid response");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to start subscription. Please try again.");
+    } finally {
+      // ⚠️ Will not run if redirect happens (which is fine)
+      setLoading(false);
     }
   };
 
@@ -74,13 +92,16 @@ export default function SubscriptionCard({ plan }) {
       <div className="px-4 pb-4 pt-2 sm:px-5 sm:pb-5 sm:pt-2.5 md:px-6 md:pb-6 md:pt-3 bg-[#EEF6FB] rounded-b-xl">
         <button
           onClick={buySubscription}
-          className={`w-full py-2.5 text-sm sm:py-2.5 sm:text-base md:py-3 md:text-base rounded-md font-semibold transition-colors ${
+          disabled={loading}
+          className={`w-full py-2.5 text-sm sm:py-2.5 sm:text-base md:py-3 md:text-base rounded-md font-semibold transition-colors  ${
+            loading ? "cursor-not-allowed opacity-60" : ""
+          } ${
             plan.name === "Free"
               ? "bg-blue-50 text-[#123499] border border-blue-300 hover:bg-blue-100"
               : "bg-[#123499] text-white hover:bg-blue-700"
           }`}
         >
-          Buy Now
+          {loading ? "Loading..." : "Buy Now"}
         </button>
       </div>
     </div>
