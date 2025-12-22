@@ -49,6 +49,24 @@ const nextConfig = {
         port: "",
         pathname: "**", // Allow all paths under this domain
       },
+      {
+        protocol: "https",
+        hostname: "d2q79iu7y748jz.cloudfront.net",
+        port: "",
+        pathname: "**", // Allow all paths under this domain
+      },
+      {
+        protocol: "https",
+        hostname: "media.glassdoor.com",
+        port: "",
+        pathname: "**", // Allow all paths under this domain
+      },
+      {
+        protocol: "https",
+        hostname: "logoimg.careerjet.net",
+        port: "",
+        pathname: "**", // Allow all paths under this domain
+      },
     ],
   },
 

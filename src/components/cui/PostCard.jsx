@@ -2,7 +2,6 @@ import CustomImage from "../../../shared/CustomImage";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { getRemainingDays } from "../../../utils/remainingDays";
-import defaultImage from "../../../public/default.webp";
 
 const JobPostCard = ({ job }) => {
   console.log("job", job);

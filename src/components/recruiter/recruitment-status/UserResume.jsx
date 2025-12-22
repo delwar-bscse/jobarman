@@ -32,7 +32,7 @@ export default function UserResume() {
 
       {/* message */}
       <div className="p-4">
-        <div className={`grid grid-cols-2 gap-4 mb-4`}>
+        <div className={`grid md:grid-cols-3 gap-4 mb-4`}>
           {/* Interview Button */}
           <InterviewSheduleModal
             item={resumeShow}
