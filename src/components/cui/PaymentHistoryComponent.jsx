@@ -11,6 +11,7 @@ import EmployeeSidebar from "./EmployeeSidebar";
 import { myFetch } from "../../../utils/myFetch";
 import RecruiterSidebar from "./RecruiterSidebar";
 import { usePathname } from "next/navigation";
+import { toast } from "sonner";
 
 export default function PaymentHistoryComponent() {
   const pathname = usePathname();
@@ -36,6 +37,9 @@ export default function PaymentHistoryComponent() {
       if (res?.success) {
         setShowPasswordModal(false);
         setShowOTPModal(true);
+        toast.success(res.message);
+      } else {
+        toast.error(res?.message);
       }
     }
   };
@@ -76,7 +80,9 @@ export default function PaymentHistoryComponent() {
       setShowOTPModal(false);
       setShowPaymentHistory(true);
       setPaymentId(res?.data[0]?._id);
-      // setSelectedTransaction(res?.data[0])
+      toast.success(res.message);
+    } else {
+      toast.error(res?.message);
     }
   };
 
@@ -117,7 +123,7 @@ export default function PaymentHistoryComponent() {
   };
 
   return (
-    <div className=" bg-[#FBFBFB] sm:w-[50%] mx-auto">
+    <div className=" bg-[#FBFBFB]  mx-auto">
       <div className="grid md:grid-cols-[30%_70%] py-10">
         {/* Sidebar */}
         {pathname === "/profile/payment" ? (

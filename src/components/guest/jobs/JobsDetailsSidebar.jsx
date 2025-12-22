@@ -7,8 +7,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { idRecruiter } from "../../../../utils/matchUserRole";
 
-export default function JobsDetailsLeft({ details }) {
+export default async function JobsDetailsLeft({ details }) {
   return (
     <div className="lg:col-span-1">
       {/* Profile Match + Location */}
@@ -63,12 +64,14 @@ export default function JobsDetailsLeft({ details }) {
             </div>
           </div>
         </div>
-        <Link
-          href={`/job-post?id=${details?._id}`}
-          className="block bg-green-600 w-full text-white font-semibold py-3 px-4 rounded-lg text-center"
-        >
-          Edit Job Post
-        </Link>
+        {(await idRecruiter()) && (
+          <Link
+            href={`/job-post?id=${details?._id}`}
+            className="block bg-green-600 w-full text-white font-semibold py-3 px-4 rounded-lg text-center"
+          >
+            Edit Job Post
+          </Link>
+        )}
       </div>
     </div>
   );

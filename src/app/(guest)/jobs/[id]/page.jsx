@@ -1,17 +1,13 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 import JobsDetailsLeft from "@/components/guest/jobs/JobsDetailsSidebar";
 import JobDetailsRight from "@/components/guest/jobs/JobDetailsRight";
 import { myFetch } from "../../../../../utils/myFetch";
 import HeroBanner from "@/components/cui/HeroBaner";
 
-
-
 export default async function JobDetailsPage({ params }) {
   const jobId = (await params).id;
 
   const res = await myFetch(`/job-post/${jobId}`);
+  console.log("res", res);
 
   return (
     <div className="min-h-screen bg-gray-50">

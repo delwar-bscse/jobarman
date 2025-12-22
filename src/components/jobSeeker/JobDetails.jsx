@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import Link from "next/link";
 import CustomImage from "../../../shared/CustomImage";
@@ -138,9 +137,12 @@ export default function JobDetails({ job, trigger }) {
             </div>
 
             <div className="p-4">
-              <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 rounded-md">
-                View Job Post
-              </button>
+              <Link href={`/jobs/${job._id}`}>
+                {" "}
+                <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 rounded-md">
+                  View Job Post
+                </button>
+              </Link>
             </div>
           </div>
         </div>

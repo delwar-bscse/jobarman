@@ -104,7 +104,7 @@ export default function JobCard({ data, pagination, favoratesList }) {
                   <div className="flex items-center justify-center space-x-1">
                     {/* <Calendar1 className="text-[#FF8F27]" /> */}
                     <span className="text-[#FF8C00] text-sm font-semibold rounded">
-                      {job.deadline.slice(0, 10)}
+                      {job?.deadline?.slice(0, 10)}
                     </span>
                   </div>
                 </div>

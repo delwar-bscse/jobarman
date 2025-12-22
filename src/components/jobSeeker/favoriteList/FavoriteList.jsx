@@ -18,7 +18,7 @@ export default function FavoriteListPage({ data }) {
             {/* Job Card 1 */}
             {data?.map((item) => (
               <div
-                className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex"
+                className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex h-40"
                 key={item?._id}
               >
                 <div className="">
