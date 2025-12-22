@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+"use client";
 import React, { useEffect, useState } from "react";
 import WorkExperience from "./WorkExperience";
 import { X } from "lucide-react";

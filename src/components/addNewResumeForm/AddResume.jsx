@@ -151,11 +151,12 @@ function AddNewResumeForm2Suspense() {
         body: data,
       });
 
-      console.log("edit resume", res);
+      console.log("edit resume", res?.data);
 
       if (res.success) {
         toast.success(res?.message);
         revalidate("resume");
+        router.push(`/my-resume?id=${res?.data?._id}`);
       } else {
         toast.error(res.err[0].message || "Resume create failed");
       }
@@ -223,7 +224,7 @@ function AddNewResumeForm2Suspense() {
           type="submit"
           className="px-10 py-3 bg-blue-600 text-white rounded-lg shadow-md"
         >
-          Add Resume
+          {id ? "Edit Resume" : " Add Resume"}
         </button>
       </div>
     </form>

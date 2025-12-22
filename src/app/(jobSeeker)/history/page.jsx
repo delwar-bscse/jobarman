@@ -21,6 +21,7 @@ function HistoryPageSuspense() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("status") || "PENDING";
+  const interview_type = searchParams.get("interview_type") || "";
 
   const handleParams = (status) => {
     setActive(status);
@@ -34,9 +35,24 @@ function HistoryPageSuspense() {
     router.push(`?${newSearchParams.toString()}`);
   };
 
+  const handleCompleteInComplete = (status) => {
+    setInterviews(status);
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    if (status) {
+      newSearchParams.set("interview_type", status);
+    } else {
+      newSearchParams.delete("interview_type");
+    }
+
+    router.replace(`?${newSearchParams.toString()}`);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      const res = await myFetch(`/application?status=${query ?? ""}`);
+      const res = await myFetch(
+        `/application?status=${query}&interview_type=${interview_type}`
+      );
+      console.log("res", res?.data);
       setData(res.data);
     };
     fetchData();
@@ -63,7 +79,7 @@ function HistoryPageSuspense() {
       {active === "INTERVIEW" && (
         <div className="flex items-center justify-center gap-4 my-4">
           <Button
-            onClick={() => setInterviews("complete")}
+            onClick={() => handleCompleteInComplete("complete")}
             className={
               interviews === "complete"
                 ? "bg-[#2A57DE] text-white border-primary shadow-sm"
@@ -74,9 +90,9 @@ function HistoryPageSuspense() {
           </Button>
 
           <Button
-            onClick={() => setInterviews("incomplete")}
+            onClick={() => handleCompleteInComplete("upcomming")}
             className={
-              interviews === "incomplete"
+              interviews === "upcomming"
                 ? "bg-[#2A57DE] text-white border-primary shadow-sm"
                 : "bg-white text-gray-700 hover:bg-gray-100"
             }
@@ -93,11 +109,10 @@ function HistoryPageSuspense() {
   );
 }
 
-
 export default function HistoryPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>} >
+    <Suspense fallback={<div>Loading...</div>}>
       <HistoryPageSuspense />
     </Suspense>
-  )
+  );
 }

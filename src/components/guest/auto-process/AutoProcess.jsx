@@ -6,18 +6,19 @@ import JobList from "./JobList";
 import { myFetch } from "../../../../utils/myFetch";
 import { useSocket } from "@/lib/SocketContext";
 
-export default function AutoProcess({ value = 175, total = 200 }) {                         // track if user was near bottom before updates
+export default function AutoProcess({ value = 175, total = 200 }) {
+  // track if user was near bottom before updates
   const { socket } = useSocket();
 
   const [score, setScore] = useState({
     completed: 0,
-    total: 0
+    total: 0,
   });
   const [autoApplyData, setAutoApplyData] = useState([]);
 
   useEffect(() => {
-    console.log("Score State: ", score)
-    console.log("Auto Apply State : ", autoApplyData)
+    console.log("Score State: ", score);
+    console.log("Auto Apply State : ", autoApplyData);
   }, [score?.completed, score?.total, autoApplyData]);
 
   useEffect(() => {
@@ -33,8 +34,8 @@ export default function AutoProcess({ value = 175, total = 200 }) {             
       if (socketRes) {
         setScore({
           completed: socketRes?.completed || 0,
-          total: socketRes?.total || 0
-        })
+          total: socketRes?.total || 0,
+        });
         setAutoApplyData(socketRes?.posts);
       }
     };
@@ -49,7 +50,11 @@ export default function AutoProcess({ value = 175, total = 200 }) {             
     <div className="grid grid-cols-1 md:grid-cols-2 max-w-7xl mx-auto p-6">
       <Circle value={score?.completed} total={score?.total} />
       {/* card */}
-      {autoApplyData.length > 0 && <JobList autoApplyData={autoApplyData} />}
+      {autoApplyData.length > 0 ? (
+        <JobList autoApplyData={autoApplyData} />
+      ) : (
+        <p className="flex items-center justify-center text-2xl">Loading...</p>
+      )}
     </div>
   );
 }

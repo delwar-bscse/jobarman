@@ -25,6 +25,7 @@ const EmployeeSidebar = () => {
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
   const [profileData, setProfileData] = useState(null);
+  console.log("profile", profileData);
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`);
@@ -122,18 +123,25 @@ const EmployeeSidebar = () => {
         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-            <Image
-              src={formatUrl(profileData?.image)}
-              width={24}
-              height={24}
-              alt="Logo"
-              className="w-16 h-16"
-            />
+            {profileData?.image ? (
+              <Image
+                src={formatUrl(profileData?.image)}
+                width={24}
+                height={24}
+                alt="Logo"
+                className="w-24 h-24 rounded-full object-cover"
+                sizes="100vh"
+              />
+            ) : (
+              <p>No Image</p>
+            )}
           </div>
           <h2 className="text-xl font-bold text-gray-900">
             {profileData?.name}
           </h2>
-          <p className="text-sm text-gray-600 mt-2">{profileData?.bio}</p>
+          <p className="text-sm text-gray-600 mt-2">
+            {profileData?.designation}
+          </p>
           <div className="flex items-center justify-center gap-1 mt-2">
             <Image
               src="/premiumplan.svg"
