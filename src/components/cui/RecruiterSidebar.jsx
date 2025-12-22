@@ -116,7 +116,7 @@ const RecruiterSidebar = () => {
             <ArrowLeft className="w-7 h-7" />
           </div>
       </div> */}
-      <div className=" bg-white rounded-xl p-6 ">
+      <div className=" bg-white rounded-xl mb-5 sm:mb-0">
         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
@@ -152,7 +152,7 @@ const RecruiterSidebar = () => {
             const isActiveParent = activeMenu === item.label;
 
             return (
-              <div key={index}>
+              <div key={index} className="px-2">
                 <button
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
                     isActiveParent

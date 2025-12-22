@@ -57,7 +57,7 @@ export default function CompanyProfilePage() {
         <RecruiterSidebar />
 
         {/* Main Content */}
-        <div className="flex-1 ml-">
+        <div className="flex-1">
           <div className="">
             {/* Company Header Image */}
             <div className="relative h-64 mb-6 rounded-lg overflow-hidden">

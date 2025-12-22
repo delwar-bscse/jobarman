@@ -40,7 +40,7 @@ export default function DeleteAccount() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB]">
+    <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB] px-3">
       <div className="grid md:grid-cols-[30%_70%]  mx-auto py-10">
         {/* Sidebar */}
         {pathname === "/profile/settings/deleteAccount" ? (

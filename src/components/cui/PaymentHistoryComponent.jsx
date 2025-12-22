@@ -117,7 +117,7 @@ export default function PaymentHistoryComponent() {
   };
 
   return (
-    <div className=" bg-[#FBFBFB] w-[50%] mx-auto">
+    <div className=" bg-[#FBFBFB] sm:w-[50%] mx-auto">
       <div className="grid md:grid-cols-[30%_70%] py-10">
         {/* Sidebar */}
         {pathname === "/profile/payment" ? (
@@ -194,7 +194,7 @@ export default function PaymentHistoryComponent() {
               {/* OTP Modal */}
               {showOTPModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                  <div className="bg-white rounded-lg p-8 w-96 relative">
+                  <div className="bg-white rounded-lg p-8 w-96 relative px-2">
                     <button
                       onClick={() => setShowOTPModal(false)}
                       className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"

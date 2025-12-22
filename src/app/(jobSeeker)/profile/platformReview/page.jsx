@@ -137,8 +137,8 @@ export default function PlatformReviewPage() {
         </div>
 
         {/* Main Content - Modal */}
-        <div className="flex-1 ml-8 flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-md w-full border border-gray-200">
+        <div className="flex-1 lg:ml-8 flex items-center justify-center">
+          <div className="bg-white rounded-2xl  shadow-lg max-w-md w-full border border-gray-200">
             {/* Close Button */}
             {/* <div className="flex justify-end mb-6">
               <button className="text-gray-400 hover:text-gray-600">

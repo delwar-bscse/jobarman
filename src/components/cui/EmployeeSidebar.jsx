@@ -109,7 +109,7 @@ const EmployeeSidebar = () => {
   const activeSubMenu = getActiveSubMenu();
 
   return (
-    <>
+    <div className="mb-5 sm:mb-0 px-2">
       <div className="max-w-7xl mx-auto -mb-10">
         <div
           onClick={() => history.back()}
@@ -215,7 +215,7 @@ const EmployeeSidebar = () => {
           })}
         </nav>
       </div>
-    </>
+    </div>
   );
 };
 
