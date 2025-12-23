@@ -9,6 +9,7 @@ const statusStyles = {
 };
 
 export default function JobDetails({ job, trigger }) {
+  console.log("job", job);
   const fileName = job?.resume?.split("/") || [];
 
   const length = fileName?.length - 1;
@@ -137,7 +138,7 @@ export default function JobDetails({ job, trigger }) {
             </div>
 
             <div className="p-4">
-              <Link href={`/jobs/${job._id}`}>
+              <Link href={`/jobs/${job?.post?._id}`}>
                 {" "}
                 <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 rounded-md">
                   View Job Post

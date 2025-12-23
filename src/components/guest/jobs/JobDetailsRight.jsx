@@ -6,6 +6,7 @@ import { ArrowRight, Heart } from "lucide-react";
 import { myFetch } from "../../../../utils/myFetch";
 import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
+import JobApplyModal from "./JobApplyModal";
 
 export default function JobDetailsRight({ details }) {
   const [favoriteList, setFavoriteList] = useState(null);
@@ -121,12 +122,14 @@ export default function JobDetailsRight({ details }) {
                 />
               </button>
 
-              <button
-                onClick={() => setIsApplyOpen(true)}
-                className="px-5 py-2 bg-blue-600 text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2"
-              >
-                Apply Now <ArrowRight size={18} />
-              </button>
+              <JobApplyModal
+                details={details}
+                trigger={
+                  <span className="px-5 py-2 bg-blue-600 text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2">
+                    Apply Now <ArrowRight size={18} />
+                  </span>
+                }
+              />
             </div>
           )}
         </div>

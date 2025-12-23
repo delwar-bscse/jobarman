@@ -56,7 +56,7 @@ function HistoryPageSuspense() {
       setData(res.data);
     };
     fetchData();
-  }, [query]);
+  }, [query, interview_type]);
 
   return (
     <div className="px-4 sm:px-6 py-6">

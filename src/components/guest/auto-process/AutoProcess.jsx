@@ -1,9 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useEffect, useState } from "react";
 import Circle from "./Circle";
 import JobList from "./JobList";
-import { myFetch } from "../../../../utils/myFetch";
 import { useSocket } from "@/lib/SocketContext";
 
 export default function AutoProcess({ value = 175, total = 200 }) {
@@ -16,10 +14,7 @@ export default function AutoProcess({ value = 175, total = 200 }) {
   });
   const [autoApplyData, setAutoApplyData] = useState([]);
 
-  useEffect(() => {
-    console.log("Score State: ", score);
-    console.log("Auto Apply State : ", autoApplyData);
-  }, [score?.completed, score?.total, autoApplyData]);
+  // useEffect(() => {}, [score?.completed, score?.total, autoApplyData]);
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("autoApplyDataId"));
@@ -47,13 +42,16 @@ export default function AutoProcess({ value = 175, total = 200 }) {
   }, [socket]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 max-w-7xl mx-auto p-6">
-      <Circle value={score?.completed} total={score?.total} />
-      {/* card */}
+    <div className="grid grid-cols-1 md:grid-cols-2 max-w-7xl mx-auto p-6 min-h-[60vh]">
       {autoApplyData.length > 0 ? (
-        <JobList autoApplyData={autoApplyData} />
+        <>
+          <Circle value={score?.completed} total={score?.total} />
+          <JobList autoApplyData={autoApplyData} />
+        </>
       ) : (
-        <p className="flex items-center justify-center text-2xl">Loading...</p>
+        <div className="col-span-full flex items-center justify-center">
+          <p className="text-2xl">Loading...</p>
+        </div>
       )}
     </div>
   );
