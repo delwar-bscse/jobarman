@@ -1,3 +1,4 @@
+import Payment from "@/components/cui/Payment";
 import PaymentHistoryComponent from "@/components/cui/PaymentHistoryComponent";
 import React from "react";
 

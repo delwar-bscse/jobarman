@@ -183,8 +183,8 @@ const MainContent = () => {
   };
 
   return (
-    <div className="flex-1 ml-8">
-      <div className="max-w-5xl mx-auto bg-white p-8">
+    <div className="flex-1 md:ml-8">
+      <div className=" bg-white md:p-8">
         {/* Profile Picture - Centered */}
         <div className="flex justify-center mb-8">
           <div className="relative">

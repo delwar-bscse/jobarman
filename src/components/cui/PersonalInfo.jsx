@@ -34,7 +34,7 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
 
   return (
     <div className="bg-white rounded-lg">
-      <div className="grid grid-cols-3 gap-4 mb-4">
+      <div className="grid lg:grid-cols-3 gap-4 mb-4">
         <div>
           <label className="block text-sm font-medium text-gray-600 mb-2">
             Full Name
@@ -76,7 +76,7 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-4">
+      <div className="grid lg:grid-cols-3 gap-4 mb-4">
         <div>
           <label className="block text-sm font-medium text-gray-600 mb-2">
             Date Of Birth
@@ -121,7 +121,7 @@ const PersonalInfo = ({ personalInfo, setPersonalInfo }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-600 mb-2">
             Address

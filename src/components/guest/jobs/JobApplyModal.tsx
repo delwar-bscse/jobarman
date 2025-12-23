@@ -18,6 +18,7 @@ export default function JobApplyModal({ trigger, details }) {
   const [coverLetterFile, setCoverLetterFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const {
     register,
@@ -118,6 +119,7 @@ export default function JobApplyModal({ trigger, details }) {
         setResumeFile(null);
         setCoverLetterFile(null);
         toast.success(res.message || "Application submitted successfully!");
+        setOpen(false);
       } else {
         toast.error(res.error);
       }
@@ -129,7 +131,7 @@ export default function JobApplyModal({ trigger, details }) {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
         {/* Header Section */}
