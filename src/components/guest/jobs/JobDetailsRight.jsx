@@ -122,11 +122,21 @@ export default function JobDetailsRight({ details }) {
                 />
               </button>
 
-              {details && (
+              {details?.is_third_party_job ? (
+                <Link
+                  href={`${details?.job_url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="px-5 py-2 bg-blue-600 cursor-pointer text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2">
+                    Apply Now <ArrowRight size={18} />
+                  </span>
+                </Link>
+              ) : (
                 <JobApplyModal
                   details={details}
                   trigger={
-                    <span className="px-5 py-2 bg-blue-600 text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2">
+                    <span className="px-5 py-2 bg-blue-600 cursor-pointer text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2">
                       Apply Now <ArrowRight size={18} />
                     </span>
                   }

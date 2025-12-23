@@ -60,23 +60,25 @@ export default function JobCard({ data, pagination, favoratesList }) {
                       <p className="text-sm text-gray-600">{job.company}</p>
                     </div>
                   </div>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleFavorateItem(job?._id);
-                    }}
-                    className={` hover:text-red-500 transition flex-shrink-0 `}
-                  >
-                    <Heart
-                      fill="currentColor"
-                      className={`${
-                        favoratesList?.includes(job?._id)
-                          ? "text-red-500 "
-                          : "text-gray-400"
-                      }`}
-                    />
-                  </button>
+                  <div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleFavorateItem(job?._id);
+                      }}
+                      className={` hover:text-red-500 transition flex-shrink-0 `}
+                    >
+                      <Heart
+                        fill="currentColor"
+                        className={`${
+                          favoratesList?.includes(job?._id)
+                            ? "text-red-500 "
+                            : "text-gray-400"
+                        }`}
+                      />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Location */}
@@ -87,11 +89,13 @@ export default function JobCard({ data, pagination, favoratesList }) {
 
                 {/* Job Details */}
                 <div className="grid lg:grid-cols-2">
-                  <div className="flex items-center gap-1">
-                    <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                    <span className=" text-gray-400 text-xs font-semibold rounded">
-                      {job.job_type}
-                    </span>
+                  <div>
+                    <div className="flex items-center gap-1">
+                      <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                      <span className=" text-gray-400 text-xs font-semibold rounded">
+                        {job.job_type}
+                      </span>
+                    </div>
                   </div>
                   <div className="">
                     {/* <Calendar1 className="text-[#FF8F27]" /> */}
@@ -100,6 +104,20 @@ export default function JobCard({ data, pagination, favoratesList }) {
                     </span>
                   </div>
                 </div>
+
+                <p className="text-gray-400 text-md mt-1">
+                  Job Board :{" "}
+                  <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
+                    {job?.job_board}
+                  </span>
+                </p>
+                <p>
+                  {job?.is_applied === true && (
+                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">
+                      Applied
+                    </span>
+                  )}
+                </p>
               </div>
             </div>
           </Link>

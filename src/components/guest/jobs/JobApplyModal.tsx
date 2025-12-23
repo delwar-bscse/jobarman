@@ -144,7 +144,7 @@ export default function JobApplyModal({ trigger, details }) {
               <CustomImage
                 src={details?.post?.thumbnail}
                 className="w-40 h-32 object-cover"
-                title={details.title}
+                title={details?.title}
               />
             </div>
 
