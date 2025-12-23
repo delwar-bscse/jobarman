@@ -5,13 +5,7 @@ import { useSocket } from "@/lib/SocketContext";
 import { debounce } from "lodash";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-  useMemo,
-} from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { myFetch } from "utils/myFetch";
 import MessageInput from "./MessageInput";
 import { formatUrl } from "utils/formatUrl";
@@ -93,13 +87,18 @@ const ChatMessages = () => {
       const prevHeight = el?.scrollHeight || 0;
 
       try {
-        const res = await myFetch(`/message/${chatId}?page=${pageNumber}&limit=20`);
+        const res = await myFetch(
+          `/message/${chatId}?page=${pageNumber}&limit=20`
+        );
         console.log("All Message Res : ", res);
 
         const list = res?.data?.messages || [];
         const normalized = list
           .slice()
-          .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+          .sort(
+            (a, b) =>
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
 
         setMessages((prev) => {
           if (pageNumber === 1) return normalized;
@@ -193,14 +192,13 @@ const ChatMessages = () => {
             Loading messages...
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {messages.map((msg, i) => (
               <div
                 key={`${msg._id || msg.sender}_${msg.time}_${i}`}
-                className={`flex items-end ${msg.sender === myId
-                  ? "justify-end"
-                  : "justify-start"
-                  }`}
+                className={`flex items-end ${
+                  msg.sender === myId ? "justify-end" : "justify-start"
+                }`}
               >
                 {msg.sender !== myId && (
                   <Image
@@ -214,30 +212,45 @@ const ChatMessages = () => {
 
                 <div className="max-w-[80%] sm:max-w-[60%]">
                   <div
-                    className={`p-3 text-gray-900  bg-gray-100 rounded-lg shadow-sm ${msg.sender === myId
-                      ? "rounded-br-none"
-                      : "rounded-bl-none"
-                      }`}
+                    className={`p-3 text-gray-900  bg-gray-100 rounded-lg shadow-sm ${
+                      msg.sender === myId
+                        ? "rounded-br-none"
+                        : "rounded-bl-none"
+                    }`}
                   >
                     {msg?.type === "text" && (
                       <p className="break-words">{msg.text}</p>
                     )}
                     {msg?.type === "zoom-link" && (
-                      <a href={msg.text} target="_blank" rel="noopener noreferrer" className="break-words">{msg.text}</a>
+                      <a
+                        href={msg.text}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="break-words"
+                      >
+                        {msg.text}
+                      </a>
                     )}
-                    {msg?.type === "image" && <div className="flex flex-wrap gap-2">
-                      {msg?.image?.map((img, i) => (
-                        <div key={i}>
-                          <ImageModal image={img} trigger={<Image
-                            src={formatUrl(img)}
-                            alt="img"
-                            width={100}
-                            height={100}
-                            className="w-30 h-auto rounded-lg object-cover"
-                          />} />
-                        </div>
-                      ))}
-                    </div>}
+                    {msg?.type === "image" && (
+                      <div className="flex flex-wrap gap-2">
+                        {msg?.image?.map((img, i) => (
+                          <div key={i}>
+                            <ImageModal
+                              image={img}
+                              trigger={
+                                <Image
+                                  src={formatUrl(img)}
+                                  alt="img"
+                                  width={100}
+                                  height={100}
+                                  className="w-30 h-auto rounded-lg object-cover"
+                                />
+                              }
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <span className="block text-[9px] text-gray-500 mt-1">
                       {dayjs(msg.createdAt).format("DD MMM, hh:mm A")}
                     </span>
@@ -257,7 +270,6 @@ const ChatMessages = () => {
             ))}
           </div>
         )}
-
       </div>
       <>
         <MessageInput scrollToBottom={scrollToBottom} />
