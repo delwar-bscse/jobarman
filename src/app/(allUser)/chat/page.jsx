@@ -17,8 +17,8 @@ export default async function page({ searchParams }) {
   // console.log("Selected User : ", selectedUser)
 
   return (
-    <div>
+    <>
       <Chat chatUsers={chatUsers} selectedUser={selectedUser} />
-    </div>
+    </>
   );
 }

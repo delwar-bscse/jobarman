@@ -37,13 +37,13 @@ export default function JobCard({ data, pagination, favoratesList }) {
             className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
           >
             {/* Left Side Image */}
-            <div className="w-52">
+            <div className="">
               <CustomImage
                 src={job.thumbnail}
                 alt={`${job.title} image`}
-                width={150}
-                height={150}
-                className="object-cover w-40 h-40 "
+                width={50}
+                height={50}
+                className="object-cover w-28 h-full   sm:w-40 sm:h-40 "
                 size="100vh"
               />
             </div>
@@ -60,23 +60,25 @@ export default function JobCard({ data, pagination, favoratesList }) {
                       <p className="text-sm text-gray-600">{job.company}</p>
                     </div>
                   </div>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleFavorateItem(job?._id);
-                    }}
-                    className={` hover:text-red-500 transition flex-shrink-0 `}
-                  >
-                    <Heart
-                      fill="currentColor"
-                      className={`${
-                        favoratesList?.includes(job?._id)
-                          ? "text-red-500 "
-                          : "text-gray-400"
-                      }`}
-                    />
-                  </button>
+                  <div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleFavorateItem(job?._id);
+                      }}
+                      className={` hover:text-red-500 transition flex-shrink-0 `}
+                    >
+                      <Heart
+                        fill="currentColor"
+                        className={`${
+                          favoratesList?.includes(job?._id)
+                            ? "text-red-500 "
+                            : "text-gray-400"
+                        }`}
+                      />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Location */}
@@ -86,28 +88,36 @@ export default function JobCard({ data, pagination, favoratesList }) {
                 </div>
 
                 {/* Job Details */}
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-2">
+                <div className="grid lg:grid-cols-2">
+                  <div>
                     <div className="flex items-center gap-1">
                       <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                       <span className=" text-gray-400 text-xs font-semibold rounded">
                         {job.job_type}
                       </span>
                     </div>
-                    {/* <div className="flex items-center gap-1">
-                      <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                      <span className=" text-gray-400 text-xs font-semibold rounded">
-                        {job.type}
-                      </span> */}
-                    {/* </div> */}
                   </div>
-                  <div className="flex items-center justify-center space-x-1">
+                  <div className="">
                     {/* <Calendar1 className="text-[#FF8F27]" /> */}
                     <span className="text-[#FF8C00] text-sm font-semibold rounded">
                       {job?.deadline?.slice(0, 10)}
                     </span>
                   </div>
                 </div>
+
+                <p className="text-gray-400 text-md mt-1">
+                  Job Board :{" "}
+                  <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
+                    {job?.job_board}
+                  </span>
+                </p>
+                <p>
+                  {job?.is_applied === true && (
+                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">
+                      Applied
+                    </span>
+                  )}
+                </p>
               </div>
             </div>
           </Link>

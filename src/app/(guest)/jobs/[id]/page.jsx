@@ -25,9 +25,6 @@ export default async function JobDetailsPage({ params }) {
           <JobsDetailsLeft details={res?.data} />
         </div>
       </div>
-      {/* {isApplyOpen && (
-        <ApplyModal job={job} onClose={() => setIsApplyOpen(false)} />
-      )} */}
     </div>
   );
 }

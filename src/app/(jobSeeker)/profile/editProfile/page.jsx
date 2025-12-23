@@ -6,7 +6,7 @@ import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 export default function EditProfilePage() {
   return (
     <div className="w-full bg-[#FBFBFB]">
-      <div className="flex min-h-screen max-w-7xl mx-auto py-10">
+      <div className="grid md:grid-cols-2  mx-auto py-10">
         {/* Sidebar */}
         <EmployeeSidebar />
         {/* Main Content */}

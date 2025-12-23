@@ -87,7 +87,7 @@ export default async function Home() {
       {!existRecruiter && <ResumeGenerator />}
 
       {/* Are You Employer Section */}
-      {!existUser && (
+      {existUser === "RECRUITER" && (
         <section className="bg-[#EFF5FF]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-[#EFF5FF] rounded-lg p-8 sm:p-12">
@@ -102,9 +102,11 @@ export default async function Home() {
                   real time, review candidate profiles, and invite the right
                   people for interviews directly from your dashboard.
                 </p>
-                <button className="px-16 py-3 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white rounded-lg transition font-medium">
-                  Post a Job
-                </button>
+                <Link href={`/job-post`}>
+                  <button className="px-16 py-3 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white rounded-lg transition font-medium">
+                    Post a Job
+                  </button>
+                </Link>
               </div>
               <div>
                 <Image

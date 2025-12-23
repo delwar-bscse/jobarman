@@ -67,6 +67,12 @@ const nextConfig = {
         port: "",
         pathname: "**", // Allow all paths under this domain
       },
+      {
+        protocol: "https",
+        hostname: "internshala-uploads.internshala.com",
+        port: "",
+        pathname: "**", // Allow all paths under this domain
+      },
     ],
   },
 

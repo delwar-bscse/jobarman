@@ -2,12 +2,12 @@
 import React, { useRef, useState } from "react";
 import { myFetch } from "../utils/myFetch";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const ResumeGenerator = () => {
   const fileInputRef = useRef(null);
   const [fileName, setFileName] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  console.log("se", selectedFile);
   const router = useRouter();
 
   const handleClick = () => {
@@ -35,6 +35,10 @@ const ResumeGenerator = () => {
 
   const handleSubmitResume = async (e) => {
     e.preventDefault();
+    if (!selectedFile) {
+      toast.error("Please Resume Upload");
+    }
+
     const formData = new FormData();
     if (selectedFile) {
       formData.append("resume", selectedFile);
