@@ -20,6 +20,8 @@ export default function JobApplyModal({ trigger, details }) {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
 
+  console.log("details?.post?.thumbnail", details?.post?.thumbnail);
+
   const {
     register,
     handleSubmit,
@@ -136,18 +138,14 @@ export default function JobApplyModal({ trigger, details }) {
       <DialogContent className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
         {/* Header Section */}
         <div className="p-8 pb-6">
-          <div className="flex items-start gap-4">
+          <div className="grid sm:grid-cols-[40%_60%] gap-4">
             {/* Company Image */}
-            <div className="w-40 h-32 border rounded-2xl flex-shrink-0 flex items-center justify-center text-white p-4">
-              {details?.post?.thumbnail ? (
-                <CustomImage
-                  src={details?.post?.thumbnail}
-                  className="w-16 h-16 object-cover"
-                  title={details.title}
-                />
-              ) : (
-                <p className="text-gray-400">No Image</p>
-              )}
+            <div className="  rounded-2xl flex-shrink-0 flex items-center justify-center text-white p-4">
+              <CustomImage
+                src={details?.post?.thumbnail}
+                className="w-40 h-32 object-cover"
+                title={details.title}
+              />
             </div>
 
             {/* Job Info */}
@@ -167,7 +165,7 @@ export default function JobApplyModal({ trigger, details }) {
               </div>
 
               {/* Job Type Badges */}
-              <div className="flex gap-3 mt-4">
+              <div className="flex gap-3 mt-4 px-1 mb-1">
                 <span className="flex items-center gap-2 text-blue-600 font-medium">
                   <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
                   {details?.job_type}
@@ -175,7 +173,7 @@ export default function JobApplyModal({ trigger, details }) {
               </div>
 
               {/* Location and Date */}
-              <div className="flex items-center justify-between mt-4">
+              <div className="grid md:grid-cols-2 gap-2">
                 <div className="flex items-center gap-2 text-gray-600">
                   <MapPin className="w-5 h-5" />
                   <span className="font-medium">{details?.location}</span>

@@ -37,13 +37,13 @@ export default function JobCard({ data, pagination, favoratesList }) {
             className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
           >
             {/* Left Side Image */}
-            <div className="w-52">
+            <div className="">
               <CustomImage
                 src={job.thumbnail}
                 alt={`${job.title} image`}
-                width={150}
-                height={150}
-                className="object-cover w-40 h-40 "
+                width={50}
+                height={50}
+                className="object-cover w-28 h-full   sm:w-40 sm:h-40 "
                 size="100vh"
               />
             </div>
@@ -86,22 +86,14 @@ export default function JobCard({ data, pagination, favoratesList }) {
                 </div>
 
                 {/* Job Details */}
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-2">
-                    <div className="flex items-center gap-1">
-                      <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                      <span className=" text-gray-400 text-xs font-semibold rounded">
-                        {job.job_type}
-                      </span>
-                    </div>
-                    {/* <div className="flex items-center gap-1">
-                      <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                      <span className=" text-gray-400 text-xs font-semibold rounded">
-                        {job.type}
-                      </span> */}
-                    {/* </div> */}
+                <div className="grid lg:grid-cols-2">
+                  <div className="flex items-center gap-1">
+                    <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                    <span className=" text-gray-400 text-xs font-semibold rounded">
+                      {job.job_type}
+                    </span>
                   </div>
-                  <div className="flex items-center justify-center space-x-1">
+                  <div className="">
                     {/* <Calendar1 className="text-[#FF8F27]" /> */}
                     <span className="text-[#FF8C00] text-sm font-semibold rounded">
                       {job?.deadline?.slice(0, 10)}

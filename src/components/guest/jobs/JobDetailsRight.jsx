@@ -70,7 +70,7 @@ export default function JobDetailsRight({ details }) {
           <div className="flex items-start gap-4">
             <div className="w-14 h-14 rounded-full overflow-hidden ring-1 ring-gray-200">
               <CustomImage
-                src={details?.recruiter?.image}
+                src={details?.post?.thumbnail}
                 title={`${details?.title} logo`}
                 width={56}
                 height={56}
@@ -122,14 +122,16 @@ export default function JobDetailsRight({ details }) {
                 />
               </button>
 
-              <JobApplyModal
-                details={details}
-                trigger={
-                  <span className="px-5 py-2 bg-blue-600 text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2">
-                    Apply Now <ArrowRight size={18} />
-                  </span>
-                }
-              />
+              {details && (
+                <JobApplyModal
+                  details={details}
+                  trigger={
+                    <span className="px-5 py-2 bg-blue-600 text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2">
+                      Apply Now <ArrowRight size={18} />
+                    </span>
+                  }
+                />
+              )}
             </div>
           )}
         </div>
