@@ -62,7 +62,6 @@ const JobsPage = async ({ searchParams }) => {
     }
   );
   const favoratesList = res?.data?.map((favorate) => favorate.post._id);
-  console.log("jobs", jobs);
 
   return (
     <div className="min-h-screen bg-white">

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
@@ -51,7 +51,7 @@ const EXPERIENCE_LEVEL = {
 
 /* ---------------- COMPONENT ---------------- */
 
-export default function EditJobPost() {
+function EditJobPostForm() {
   const inputRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -447,5 +447,15 @@ export default function EditJobPost() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function EditJobPost() {
+  return (
+    <Suspense
+      fallback={<p className="flex items-center justify-center">Loading....</p>}
+    >
+      <EditJobPostForm />
+    </Suspense>
   );
 }

@@ -9,15 +9,15 @@ import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { myFetch } from "utils/myFetch";
 import MessageInput from "./MessageInput";
 import { formatUrl } from "utils/formatUrl";
-import { format } from "path";
 import dayjs from "dayjs";
 import { ImageModal } from "@/components/modal/ImageModal";
+import CustomImage from "shared/CustomImage";
 
 const SCROLL_THRESHOLD = 60; // px
 
 const ChatMessages = () => {
   const { socket } = useSocket();
-
+  const [profile, setProfile] = useState(null);
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -65,7 +65,7 @@ const ChatMessages = () => {
     const loadProfile = async () => {
       try {
         const res = await myFetch("/user/profile");
-
+        setProfile(res?.data);
         setMyId(res?.data?._id || null);
       } catch (err) {
         console.error("Profile load failed:", err);
@@ -256,8 +256,8 @@ const ChatMessages = () => {
                 </div>
 
                 {msg.sender === myId && (
-                  <Image
-                    src="/chat-user.jpg"
+                  <CustomImage
+                    src={profile?.image}
                     alt="me"
                     width={32}
                     height={32}

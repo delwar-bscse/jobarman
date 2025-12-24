@@ -15,8 +15,6 @@ export default async function page({ searchParams }) {
     }
   );
 
-  console.log("res", res);
-
   return (
     <div className="max-w-7xl mx-auto ">
       <div className="flex justify-between items-center">

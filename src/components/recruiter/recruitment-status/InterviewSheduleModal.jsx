@@ -43,15 +43,11 @@ export default function InterviewScheduleModal({ item, trigger }) {
       },
     };
 
-    console.log("payload", payload);
-
     try {
       const res = await myFetch(`/application/${item._id}`, {
         method: "PATCH",
         body: payload,
       });
-
-      console.log("interview", res);
 
       if (res.success) {
         toast.success(res?.message);

@@ -4,7 +4,6 @@ import CustomImage from "../../../../shared/CustomImage";
 import dayjs from "dayjs";
 
 export default function RecentAdsModal({ trigger, ad }) {
-  console.log("ad", ad);
   const data = [
     // { label: "Title", value: ad.title },
     { label: "Organization Name", value: ad?.organization_name },
