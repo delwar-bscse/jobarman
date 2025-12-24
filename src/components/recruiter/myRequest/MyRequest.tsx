@@ -2,6 +2,7 @@
 import { ChevronLeft } from "lucide-react";
 import CandidateMatch from "./CandidateMatch";
 import MyRequestCard from "./MyRequestCard";
+import PercentageHeader from "@/app/(recruiter)/my-job-details/PercentageHeader";
 
 export default function MyRequest({ res }) {
   return (
@@ -13,9 +14,7 @@ export default function MyRequest({ res }) {
         <ChevronLeft />
         <h1 className="text-2xl text-blue-600 font-medium ">My Request</h1>
       </div>
-
-      <CandidateMatch />
-
+      <PercentageHeader />
       <MyRequestCard res={res} />
     </div>
   );

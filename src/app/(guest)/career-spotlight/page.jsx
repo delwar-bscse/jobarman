@@ -2,6 +2,7 @@ import Image from "next/image";
 import { myFetch } from "../../../../utils/myFetch";
 import CustomImage from "../../../../shared/CustomImage";
 import Link from "next/link";
+import RecentAdsModal from "@/components/guest/recentAdsModal/RecentAdsModal";
 
 export default async function CareerSpotlight() {
   const res = await myFetch("/spotlight");
@@ -62,12 +63,19 @@ export default async function CareerSpotlight() {
                 key={ad._id}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
               >
-                <CustomImage
-                  src={ad.cover_image}
-                  alt={ad.title}
-                  width={100}
-                  height={40}
-                  className="w-full h-40 object-cover"
+                <RecentAdsModal
+                  ad={ad}
+                  trigger={
+                    <div>
+                      <CustomImage
+                        src={ad.cover_image}
+                        alt={ad.title}
+                        width={100}
+                        height={40}
+                        className="w-full h-40 object-cover cursor-pointer"
+                      />
+                    </div>
+                  }
                 />
                 <div className="p-4 flex items-start gap-4">
                   <div className="flex-1">

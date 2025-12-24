@@ -6,7 +6,10 @@ import HeroBanner from "@/components/cui/HeroBaner";
 export default async function JobDetailsPage({ params }) {
   const jobId = (await params).id;
 
-  const res = await myFetch(`/job-post/${jobId}`);
+  const res = await myFetch(`/job-post/${jobId}`, {
+    method: "GET",
+    tags: ['edit-job"'],
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">

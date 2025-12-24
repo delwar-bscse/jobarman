@@ -23,7 +23,8 @@ export default function UserResume() {
     fetchData();
   }, [id]);
 
-  if (!resumeShow?.resume) return <p>Loading...</p>;
+  if (!resumeShow?.resume)
+    return <p className="text-center mt-[15%]">Select item</p>;
 
   return (
     <div>
