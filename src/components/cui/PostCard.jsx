@@ -4,7 +4,6 @@ import { MapPin } from "lucide-react";
 import { getRemainingDays } from "../../../utils/remainingDays";
 
 const JobPostCard = ({ job }) => {
-  console.log("job", job);
   return (
     <div
       key={job._id}

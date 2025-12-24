@@ -7,11 +7,11 @@ import CancelInterview from "../recruiter/recruitment-status/interviews/CancelIn
 import InterviewScheduleModal from "../recruiter/recruitment-status/InterviewSheduleModal";
 import { myFetch } from "../../../utils/myFetch";
 import { toast } from "sonner";
+import RejectInterView from "../recruiter/recruitment-status/interviews/RejectInterView";
 
 const ActionButtons = ({ userId }) => {
   const router = useRouter();
   const [applicationDetails, setApplicationDetails] = React.useState(null);
-  console.log("applicationDetails", applicationDetails);
 
   const fetchApplicationDetails = async () => {
     const res = await myFetch(`/application/${userId}`, {
@@ -67,7 +67,7 @@ const ActionButtons = ({ userId }) => {
             : "grid-cols-3"
         } gap-3`}
       >
-        {applicationDetails?.status !== "SHORTLIST" && (
+        {applicationDetails?.status !== "SHORTLISTED" && (
           <button
             onClick={handleShortListed}
             className="bg-orange-500 text-white font-semibold px-4 py-2 rounded"
@@ -85,8 +85,8 @@ const ActionButtons = ({ userId }) => {
             }
           />
         )}
-        {applicationDetails && (
-          <CancelInterview
+        {applicationDetails?.status !== "REJECTED" && (
+          <RejectInterView
             item={applicationDetails?._id}
             trigger={
               <button className="w-full block bg-red-600 text-white font-semibold px-4 py-2 rounded">

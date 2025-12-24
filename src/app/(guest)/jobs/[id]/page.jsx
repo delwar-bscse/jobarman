@@ -7,7 +7,6 @@ export default async function JobDetailsPage({ params }) {
   const jobId = (await params).id;
 
   const res = await myFetch(`/job-post/${jobId}`);
-  console.log("res", res);
 
   return (
     <div className="min-h-screen bg-gray-50">

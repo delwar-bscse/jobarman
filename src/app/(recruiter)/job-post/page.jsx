@@ -71,7 +71,6 @@ export default function EditJobPost() {
     setAllCategories(resCat.data);
 
     const res = await myFetch("/job-post/" + id);
-    console.log("Get edit job details : ", res);
 
     setFormData((prev) => ({
       ...prev,
@@ -133,8 +132,6 @@ export default function EditJobPost() {
       method: id ? "PATCH" : "POST",
       body: newFormData,
     });
-
-    console.log("Job Post Update res : ", res);
 
     if (res.success) {
       toast.success(id ? "Successfully Updated" : "Successfully Posted");

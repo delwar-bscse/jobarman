@@ -3,6 +3,8 @@ import { myFetch } from "utils/myFetch";
 
 export default async function page() {
   const res = await myFetch("/application/recent-applications");
+  console.log("res", res);
+
   return (
     <>
       <MyRequest res={res} />

@@ -25,7 +25,6 @@ const EmployeeSidebar = () => {
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
   const [profileData, setProfileData] = useState(null);
-  console.log("profile", profileData);
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`);

@@ -28,7 +28,6 @@ export default function Notifications({ date, id }) {
 
     const onSocketResponse = (data) => {
       setNotificaitons((prev) => [data, ...prev]);
-      console.log("notification sokect response", data);
     };
 
     const eventName = `get-notification::${id}`;

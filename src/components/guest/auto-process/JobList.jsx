@@ -16,10 +16,6 @@ export default function JobList({ autoApplyData }) {
   // Create an array of 5 copies of jobData
   const jobsArray = Array.from({ length: 5 }, () => ({ ...jobData }));
 
-  useEffect(() => {
-    console.log("Auto apply data in Component : ", autoApplyData);
-  }, []);
-
   return (
     <div className="space-y-4">
       {autoApplyData.map((job, index) => (

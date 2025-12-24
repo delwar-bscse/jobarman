@@ -9,7 +9,7 @@ import { getUserRole } from "../../../../utils/getUserRole";
 export default function AutoApply() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  console.log("role", isLoggedIn);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -18,14 +18,12 @@ export default function AutoProcess({ value = 175, total = 200 }) {
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("autoApplyDataId"));
-    console.log("Auto apply data id : ", id);
 
     if (!id || !socket) return;
 
     const eventName = "auto-apply-progress::" + id;
 
     const onSocketResponse = (socketRes) => {
-      console.log("Auto apply progress : ", socketRes);
       if (socketRes) {
         setScore({
           completed: socketRes?.completed || 0,

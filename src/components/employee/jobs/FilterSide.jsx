@@ -32,7 +32,6 @@ function FilterSideSuspense() {
     const fetchData = async () => {
       const res = await myFetch("/job-category");
       setAllCategories(res.data);
-      console.log("Categories : ", res.data);
     };
 
     fetchData();

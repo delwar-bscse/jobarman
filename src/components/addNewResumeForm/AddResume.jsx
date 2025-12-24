@@ -151,8 +151,6 @@ function AddNewResumeForm2Suspense() {
         body: data,
       });
 
-      console.log("edit resume", res?.data);
-
       if (res.success) {
         toast.success(res?.message);
         revalidate("resume");

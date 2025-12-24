@@ -11,7 +11,6 @@ const ChatHeader = ({ selectedUser }) => {
 
   // send message
   const handleVideoCall = async () => {
-
     const formData = new FormData();
     formData.append("chatId", id);
     formData.append("type", "zoom-link");
@@ -23,9 +22,7 @@ const ChatHeader = ({ selectedUser }) => {
       });
 
       if (res.success && res.data && res.data.type === "zoom-link") {
-        console.log("Zoom-Link : ", res?.data);
         window.open(res.data.text, "_blank", "noopener,noreferrer");
-
       } else {
         toast.error(res.message || "Video not created");
       }

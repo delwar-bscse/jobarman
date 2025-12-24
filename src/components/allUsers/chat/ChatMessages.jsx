@@ -65,7 +65,7 @@ const ChatMessages = () => {
     const loadProfile = async () => {
       try {
         const res = await myFetch("/user/profile");
-        console.log("My Profile : ", res);
+
         setMyId(res?.data?._id || null);
       } catch (err) {
         console.error("Profile load failed:", err);
@@ -90,7 +90,6 @@ const ChatMessages = () => {
         const res = await myFetch(
           `/message/${chatId}?page=${pageNumber}&limit=20`
         );
-        console.log("All Message Res : ", res);
 
         const list = res?.data?.messages || [];
         const normalized = list
@@ -162,7 +161,6 @@ const ChatMessages = () => {
     const eventName = `getMessage::${chatId}`;
 
     const onNewMessage = (newMsg) => {
-      console.log("New Message : ", newMsg);
       isNearBottom.current = getIsNearBottom();
 
       setMessages((prev) => [...prev, newMsg]);

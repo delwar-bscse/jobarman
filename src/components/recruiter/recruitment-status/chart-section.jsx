@@ -5,7 +5,6 @@ import Status from "./Status";
 import Chart from "./Chart";
 
 export default function ChartSection({ data }) {
-  console.log("data", data);
   const card = [
     {
       label: "Application",
