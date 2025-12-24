@@ -12,7 +12,6 @@ export default function CalendarPage() {
   const searchParams = useSearchParams();
 
   const handleOk = () => {
-    console.log("Selected date:", date);
     // Add your callback logic here
   };
 

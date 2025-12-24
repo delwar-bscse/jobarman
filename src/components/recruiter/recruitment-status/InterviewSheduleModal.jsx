@@ -34,19 +34,20 @@ export default function InterviewScheduleModal({ item, trigger }) {
       "HH:mm"
     ).format("hh:mm A");
 
+    const payload = {
+      status: "INTERVIEW",
+      interviewDetails: {
+        date: data?.date,
+        time: formatedTime,
+        interview_type: data?.interview_type,
+      },
+    };
+
     try {
-      const res = await myFetch(
-        `/application/interview-change-time/${item._id}`,
-        {
-          method: "PATCH",
-          body: {
-            date: data?.date,
-            time: formatedTime,
-            interview_type: data?.interview_type,
-          },
-        }
-      );
-      console.log("res", res);
+      const res = await myFetch(`/application/${item._id}`, {
+        method: "PATCH",
+        body: payload,
+      });
 
       if (res.success) {
         toast.success(res?.message);

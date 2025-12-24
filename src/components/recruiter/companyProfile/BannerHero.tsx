@@ -20,11 +20,11 @@ export default function BannerHero() {
   };
 
   return (
-    <div className="relative w-full h-40 sm:h-56 md:h-64 lg:h-80  mb-6 rounded-lg overflow-hidden">
+    <div className="relative w-ful h-40 sm:h-56 md:h-64 lg:h-80  mb-6 rounded-lg overflow-hidden">
       <Image
         src={companyImages[currentImageIndex]}
         alt="Company Office"
-        width={1200}
+        width={1000}
         height={256}
         className="w-full h-full object-cover"
       />

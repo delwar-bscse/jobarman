@@ -7,7 +7,6 @@ import Link from "next/link";
 import CustomImage from "../../../../shared/CustomImage";
 
 export default function FavoriteListPage({ data }) {
-  console.log("data", data);
   return (
     <div className="w-full bg-[#FBFBFB]">
       <div className="grid lg:grid-cols-[30%_70%] py-10">

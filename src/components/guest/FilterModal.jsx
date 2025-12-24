@@ -35,7 +35,6 @@ function FilterModalSuspense({ trigger }) {
   }, []);
 
   const handleSubmit = () => {
-    // console.log("Category : ", category, ", employeeType : ", employeeType, ", jobType : ", jobType, ", minPrice", minPrice, ", maxPrice : ", maxPrice, ", distance : ", distance)
     if (category) params.set("category", category);
     if (employeeType) params.set("employeeType", employeeType);
     if (jobType) params.set("job_type", jobType);

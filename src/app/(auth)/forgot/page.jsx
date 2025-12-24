@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { myFetch } from "../../../../utils/myFetch";
+import { toast } from "sonner";
 
 export default function ForgotPage() {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function ForgotPage() {
     });
 
     if (res?.success) {
+      toast.success(res.message);
       localStorage.setItem("registeredEmail", email);
       router.push("/otp");
     } else {

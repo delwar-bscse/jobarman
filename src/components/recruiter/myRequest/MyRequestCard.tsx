@@ -3,7 +3,7 @@ import CustomImage from "shared/CustomImage";
 
 export default function MyRequestCard({ res }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-5">
       {res?.data?.map((item) => (
         <Link href={`/my-request/${item._id}`} key={item._id}>
           <div

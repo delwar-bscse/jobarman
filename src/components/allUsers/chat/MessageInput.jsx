@@ -40,7 +40,6 @@ const MessageInput = ({ scrollToBottom }) => {
     const files = await e.target.files;
     if (!files || files.length === 0) return;
 
-    console.log("Input Files: ", files);
     if (!files) return;
 
     setLoading(true);

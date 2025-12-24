@@ -13,10 +13,10 @@ export default function RecruiterHero() {
           className="w-full h-[calc(100vh-90px)] object-cover"
         />
         <div className="absolute top-0 bg-blue-500 w-full h-full bg-opacity-70 flex flex-col items-center justify-center gap-4">
-          <h1 className="text-5xl font-bold text-white w-full max-w-[800px] text-center">
+          <h1 className="text-2xl sm:text-5xl font-bold text-white w-full max-w-[800px] text-center">
             Find Your Perfect Match in Talent & Opportunity
           </h1>
-          <p className="text-2xl text-white w-full max-w-[780px] text-center">
+          <p className="text-xl sm:text-2xl text-white w-full max-w-[780px] text-center">
             Connect with the right candidates faster through AI-driven
             recruitment tools.
           </p>

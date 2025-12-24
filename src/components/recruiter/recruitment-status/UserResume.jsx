@@ -14,7 +14,6 @@ export default function UserResume() {
   const [resumeShow, setResumeShow] = useState(null);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  console.log("resumeShow?._id", resumeShow);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +23,8 @@ export default function UserResume() {
     fetchData();
   }, [id]);
 
-  if (!resumeShow?.resume) return <p>Loading...</p>;
+  if (!resumeShow?.resume)
+    return <p className="text-center mt-[15%]">Select item</p>;
 
   return (
     <div>
@@ -32,7 +32,7 @@ export default function UserResume() {
 
       {/* message */}
       <div className="p-4">
-        <div className={`grid md:grid-cols-3 gap-4 mb-4`}>
+        <div className={`grid md:grid-cols-2 gap-4 mb-4`}>
           {/* Interview Button */}
           <InterviewSheduleModal
             item={resumeShow}
@@ -49,18 +49,17 @@ export default function UserResume() {
               item={resumeShow?._id}
               trigger={
                 <button className="w-full bg-red-600 text-white font-semibold rounded-md px-6 py-2">
-                  Reject
+                  Cancel Interview
                 </button>
               }
             />
           )}
-
-          <div>
-            {/* Message Button */}
-            <button className="w-full border border-blue-600 text-blue-600 font-semibold rounded-md px-6 py-2">
-              Message
-            </button>
-          </div>
+        </div>
+        <div>
+          {/* Message Button */}
+          <button className="w-full border border-blue-600 text-blue-600 font-semibold rounded-md px-6 py-2">
+            Message
+          </button>
         </div>
       </div>
     </div>

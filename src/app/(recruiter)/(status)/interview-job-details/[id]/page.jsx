@@ -6,8 +6,8 @@ export default async function page({ params }) {
   const res = await myFetch(`/application/${id}`);
 
   return (
-    <div>
+    <>
       <InterviewJobDetails data={res?.data} />
-    </div>
+    </>
   );
 }

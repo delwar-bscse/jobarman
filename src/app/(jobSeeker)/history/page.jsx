@@ -52,7 +52,7 @@ function HistoryPageSuspense() {
       const res = await myFetch(
         `/application?status=${query}&interview_type=${interview_type}`
       );
-      console.log("res", res?.data);
+
       setData(res.data);
     };
     fetchData();

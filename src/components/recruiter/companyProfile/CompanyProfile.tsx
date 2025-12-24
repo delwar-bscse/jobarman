@@ -51,21 +51,21 @@ export default function CompanyProfilePage() {
   }, []);
 
   return (
-    <div className="w-full mx-auto bg-[#FBFBFB] lg:px-32">
+    <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB]">
       <div className="grid lg:grid-cols-[30%_70%] py-10">
         {/* Sidebar */}
         <RecruiterSidebar />
 
         {/* Main Content */}
-        <div className="flex-1">
+        <div className="flex-1 px-4 lg:px-0">
           <div className="">
             {/* Company Header Image */}
-            <div className="relative h-64 mb-6 rounded-lg overflow-hidden">
+            <div className="relative lg:h-64 lg:mb-6 rounded-lg overflow-hidden">
               <BannerHero />
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
               {["Home", "About", "Jobs"].map((tab) => (
                 <button
                   key={tab}
@@ -111,7 +111,7 @@ export default function CompanyProfilePage() {
               )}
               {activeTab === "About" && (
                 <Link href="/profile/edit-about">
-                  <button className="w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
+                  <button className="w-[300px] sm:w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
                     Edit Profile
                   </button>
                 </Link>

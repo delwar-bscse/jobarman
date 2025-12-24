@@ -20,8 +20,6 @@ export default function JobApplyModal({ trigger, details }) {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
 
-  console.log("details?.post?.thumbnail", details?.post?.thumbnail);
-
   const {
     register,
     handleSubmit,
