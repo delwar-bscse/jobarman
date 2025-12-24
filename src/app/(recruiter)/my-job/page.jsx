@@ -1,13 +1,11 @@
-import { MapPin } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import CustomImage from "../../../../shared/CustomImage";
 import { myFetch } from "../../../../utils/myFetch";
 import Status from "@/components/recruiter/recruitment-status/Status";
 import JobPostCard from "@/components/cui/PostCard";
 
 const JobPost = async () => {
-  const res = await myFetch("/job-post/recent-posts");
+  const res = await myFetch("/job-post/feed/user");
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">

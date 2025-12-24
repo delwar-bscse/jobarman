@@ -20,12 +20,12 @@ const JOB_TYPE = {
   PART_TIME: "PART_TIME",
   FREELANCE: "FREELANCE",
   INTERNSHIP: "INTERNSHIP",
-  REMOTE: "REMOTE"
+  REMOTE: "REMOTE",
 };
 const JOB_LEVEL = {
   ENTRY_LEVEL: "ENTRY_LEVEL",
   MID_LEVEL: "MID_LEVEL",
-  SENIOR_LEVEL: "SENIOR_LEVEL"
+  SENIOR_LEVEL: "SENIOR_LEVEL",
 };
 
 const EXPERIENCE_LEVEL = {
@@ -33,7 +33,7 @@ const EXPERIENCE_LEVEL = {
   ONE_THREE: "1-3yrs",
   THREE_FIVE: "3-5yrs",
   FIVE_TEN: "5-10yrs",
-  TEN_PLUS: "10+yrs"
+  TEN_PLUS: "10+yrs",
 };
 
 export default function EditJobPost() {
@@ -71,7 +71,7 @@ export default function EditJobPost() {
     setAllCategories(resCat.data);
 
     const res = await myFetch("/job-post/" + id);
-    console.log("Get edit job details : ", res)
+    console.log("Get edit job details : ", res);
 
     setFormData((prev) => ({
       ...prev,
@@ -312,7 +312,9 @@ export default function EditJobPost() {
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
                 {Object.entries(JOB_TYPE)?.map(([key, value]) => (
-                  <option key={key} value={value}>{toCapitalizeSentence(value)}</option>
+                  <option key={key} value={value}>
+                    {toCapitalizeSentence(value)}
+                  </option>
                 ))}
               </select>
             </div>
@@ -333,7 +335,9 @@ export default function EditJobPost() {
               >
                 <option value="0-1yrs">0 years</option>
                 {Object.entries(EXPERIENCE_LEVEL)?.map(([key, value]) => (
-                  <option key={key} value={value} className="">{toCapitalizeSentence(key)}</option>
+                  <option key={key} value={value} className="">
+                    {toCapitalizeSentence(key)}
+                  </option>
                 ))}
               </select>
             </div>
@@ -348,7 +352,9 @@ export default function EditJobPost() {
                 className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base bg-white"
               >
                 {Object.entries(JOB_LEVEL)?.map(([key, value]) => (
-                  <option key={key} value={value}>{toCapitalizeSentence(value)}</option>
+                  <option key={key} value={value}>
+                    {toCapitalizeSentence(value)}
+                  </option>
                 ))}
               </select>
             </div>
@@ -371,9 +377,13 @@ export default function EditJobPost() {
           <label className="block text-sm font-medium text-gray-900 mb-3 sm:mb-4">
             Job Description
           </label>
-          <textarea name="description" value={formData.description} onChange={handleInputChange} className="w-full h-[200px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base p-3" />
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+            className="w-full h-[200px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base p-3"
+          />
           {/* <RichTextEditor value={editorContent} onChange={setEditorContent} />  */}
-
 
           {/* Responsibilities Section */}
           <div>
