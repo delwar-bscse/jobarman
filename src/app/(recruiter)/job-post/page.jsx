@@ -57,6 +57,7 @@ export default function EditJobPost() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
+  const isEdit = !!id; // true if editing
 
   const [imageFile, setImageFile] = useState(null);
   const [image, setImage] = useState(null);
@@ -64,7 +65,13 @@ export default function EditJobPost() {
   const [responsibilities, setResponsibilities] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
 
-  const { register, handleSubmit, reset, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       title: "",
       min_salary: "",
@@ -88,7 +95,6 @@ export default function EditJobPost() {
     if (!id) return;
 
     const res = await myFetch(`/job-post/${id}`);
-    console.log("get category", res.data);
 
     reset({
       title: res.data?.title,
@@ -122,25 +128,22 @@ export default function EditJobPost() {
     setImage(URL.createObjectURL(file));
   };
 
-  /* ---------------- SUBMIT ---------------- */
-
   const handleClickImage = () => {
-    if (inputRef.current) {
-      inputRef.current.click();
-    }
+    if (inputRef.current) inputRef.current.click();
   };
+
+  /* ---------------- SUBMIT ---------------- */
 
   const onSubmit = async (data) => {
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
+      if (value !== "" && value !== null) formData.append(key, value);
     });
 
     imageFile && formData.append("image", imageFile);
 
     responsibilities.forEach((r) => formData.append("responsibilities[]", r));
-
     skills.forEach((s) => formData.append("required_skills[]", s));
 
     const url = id ? `/job-post/${id}` : "/job-post";
@@ -150,18 +153,13 @@ export default function EditJobPost() {
       body: formData,
     });
 
-    console.log("res", res);
-
     if (res.success) {
-      toast.success(id ? "Successfully Updated" : "Successfully Posted");
+      toast.success(isEdit ? "Successfully Updated" : "Successfully Posted");
       revalidate("edit-job");
-      if (!id) {
-        router.push("/my-job");
-      } else {
-        router.back(-1);
-      }
+      if (!isEdit) router.push("/my-job");
+      else router.back(-1);
     } else {
-      toast.error(res.error[0].message || "Oops failed");
+      toast.error(res.error[0]?.message || "Oops failed");
     }
   };
 
@@ -176,16 +174,19 @@ export default function EditJobPost() {
             <ChevronLeft />
           </Button>
           <h1 className="text-2xl font-semibold">
-            {id ? "Edit Job Post" : "New Job Post"}
+            {isEdit ? "Edit Job Post" : "New Job Post"}
           </h1>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-          {/* one */}
+          {/* Cover Image & Title */}
           <div className="grid grid-cols-[40%_60%] gap-7">
             <div>
               <Label>Cover Image</Label>
-              <div onClick={handleClickImage} className="border h-full p-2">
+              <div
+                onClick={handleClickImage}
+                className="border h-full p-2 cursor-pointer"
+              >
                 {image ? (
                   <Image
                     src={image}
@@ -196,7 +197,7 @@ export default function EditJobPost() {
                     sizes="100vh"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center cursor-pointer">
+                  <div className="flex h-full w-full items-center justify-center">
                     <p className="text-sm text-muted-foreground">
                       Upload Cover Image
                     </p>
@@ -213,43 +214,66 @@ export default function EditJobPost() {
             </div>
 
             <div>
-              {/* Title */}
               <div className="space-y-2">
                 <Label htmlFor="title">Job Title</Label>
-                <Input id="title" {...register("title")} />
+                <Input
+                  id="title"
+                  {...register("title", {
+                    required: !isEdit ? "Title is required" : false,
+                  })}
+                />
+                {errors.title && (
+                  <p className="text-red-500 text-sm">{errors.title.message}</p>
+                )}
               </div>
 
-              {/* Salary */}
               <div className="grid grid-cols-2 gap-4 mt-7">
                 <div className="space-y-2">
                   <Label>Min Salary</Label>
-                  <Input type="number" {...register("min_salary")} />
+                  <Input
+                    type="number"
+                    {...register("min_salary", {
+                      required: !isEdit ? "Min salary is required" : false,
+                    })}
+                  />
+                  {errors.min_salary && (
+                    <p className="text-red-500 text-sm">
+                      {errors.min_salary.message}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label>Max Salary</Label>
-                  <Input type="number" {...register("max_salary")} />
+                  <Input
+                    type="number"
+                    {...register("max_salary", {
+                      required: !isEdit ? "Max salary is required" : false,
+                    })}
+                  />
+                  {errors.max_salary && (
+                    <p className="text-red-500 text-sm">
+                      {errors.max_salary.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* two */}
+          {/* Category, Job Type, Experience, Job Level */}
           <div className="space-y-6">
-            {/* Category + Job Type */}
             <div className="grid grid-cols-2 gap-5">
-              {/* Category */}
               <div className="space-y-2">
                 <Label>Category</Label>
-
                 <Controller
                   name="category"
                   control={control}
+                  rules={{ required: !isEdit ? "Category is required" : false }}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
-
                       <SelectContent>
                         {allCategories?.map((c) => (
                           <SelectItem key={c._id} value={c._id}>
@@ -260,21 +284,24 @@ export default function EditJobPost() {
                     </Select>
                   )}
                 />
+                {errors.category && (
+                  <p className="text-red-500 text-sm">
+                    {errors.category.message}
+                  </p>
+                )}
               </div>
 
-              {/* Job Type */}
               <div className="space-y-2">
                 <Label>Job Type</Label>
-
                 <Controller
                   name="job_type"
                   control={control}
+                  rules={{ required: !isEdit ? "Job type is required" : false }}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select job type" />
                       </SelectTrigger>
-
                       <SelectContent>
                         {Object.values(JOB_TYPE).map((t) => (
                           <SelectItem key={t} value={t}>
@@ -285,22 +312,27 @@ export default function EditJobPost() {
                     </Select>
                   )}
                 />
+                {errors.job_type && (
+                  <p className="text-red-500 text-sm">
+                    {errors.job_type.message}
+                  </p>
+                )}
               </div>
             </div>
 
-            {/* Experience */}
             <div className="space-y-2">
               <Label>Experience</Label>
-
               <Controller
                 name="experience_level"
                 control={control}
+                rules={{
+                  required: !isEdit ? "Experience is required" : false,
+                }}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select experience" />
                     </SelectTrigger>
-
                     <SelectContent>
                       {Object.values(EXPERIENCE_LEVEL).map((e) => (
                         <SelectItem key={e} value={e}>
@@ -311,21 +343,24 @@ export default function EditJobPost() {
                   </Select>
                 )}
               />
+              {errors.experience_level && (
+                <p className="text-red-500 text-sm">
+                  {errors.experience_level.message}
+                </p>
+              )}
             </div>
 
-            {/* Job Level */}
             <div className="space-y-2">
               <Label>Job Level</Label>
-
               <Controller
                 name="job_level"
                 control={control}
+                rules={{ required: !isEdit ? "Job level is required" : false }}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select level" />
                     </SelectTrigger>
-
                     <SelectContent>
                       {Object.values(JOB_LEVEL).map((l) => (
                         <SelectItem key={l} value={l}>
@@ -336,19 +371,41 @@ export default function EditJobPost() {
                   </Select>
                 )}
               />
+              {errors.job_level && (
+                <p className="text-red-500 text-sm">
+                  {errors.job_level.message}
+                </p>
+              )}
             </div>
           </div>
 
           {/* Location */}
           <div className="space-y-2">
             <Label>Location</Label>
-            <Input {...register("location")} />
+            <Input
+              {...register("location", {
+                required: !isEdit ? "Location is required" : false,
+              })}
+            />
+            {errors.location && (
+              <p className="text-red-500 text-sm">{errors.location.message}</p>
+            )}
           </div>
 
           {/* Description */}
           <div className="space-y-2">
             <Label>Description</Label>
-            <Textarea {...register("description")} rows={5} />
+            <Textarea
+              {...register("description", {
+                required: !isEdit ? "Description is required" : false,
+              })}
+              rows={5}
+            />
+            {errors.description && (
+              <p className="text-red-500 text-sm">
+                {errors.description.message}
+              </p>
+            )}
           </div>
 
           {/* Responsibilities */}
@@ -369,7 +426,15 @@ export default function EditJobPost() {
           {/* Deadline */}
           <div className="space-y-2">
             <Label>Deadline</Label>
-            <Input type="date" {...register("deadline")} />
+            <Input
+              type="date"
+              {...register("deadline", {
+                required: !isEdit ? "Deadline is required" : false,
+              })}
+            />
+            {errors.deadline && (
+              <p className="text-red-500 text-sm">{errors.deadline.message}</p>
+            )}
           </div>
 
           {/* Submit */}
@@ -377,7 +442,7 @@ export default function EditJobPost() {
             type="submit"
             className="w-full bg-gradient-to-r from-[#2B4CB8] via-[#3B5FD9] to-[#4A6EFA]"
           >
-            {id ? "Update Job" : "Post Job"}
+            {isEdit ? "Update Job" : "Post Job"}
           </Button>
         </form>
       </div>

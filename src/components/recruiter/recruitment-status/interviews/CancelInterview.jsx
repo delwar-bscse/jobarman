@@ -20,12 +20,12 @@ export default function CancelInterview({ item, trigger }) {
       });
 
       if (res?.success) {
-        toast.success(res?.message || "Reject item successfully");
+        toast.success(res?.message || "Cancel Interview item successfully");
       } else {
-        toast.error(res.message || "Reject item failed");
+        toast.error(res.message || "Cancel Interview item failed");
       }
     } catch (error) {
-      toast.error(error.message || "Reject item failed");
+      toast.error(error.message || "RCancel Interview  item failed");
     }
   };
 

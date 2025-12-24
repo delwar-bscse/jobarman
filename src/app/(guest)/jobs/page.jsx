@@ -2,6 +2,7 @@ import Image from "next/image";
 import FilterSide from "@/components/employee/jobs/FilterSide";
 import JobCard from "@/components/employee/jobs/JobCard";
 import { myFetch } from "../../../../utils/myFetch";
+import CustomPagination from "@/components/cui/CustomPagination";
 
 export const formatEnum = (value) => {
   const newValues = value?.split(",");
@@ -61,6 +62,7 @@ const JobsPage = async ({ searchParams }) => {
     }
   );
   const favoratesList = res?.data?.map((favorate) => favorate.post._id);
+  console.log("jobs", jobs);
 
   return (
     <div className="min-h-screen bg-white">
@@ -81,11 +83,20 @@ const JobsPage = async ({ searchParams }) => {
           <FilterSide />
 
           {/* Job Cards Grid */}
-          <JobCard
-            data={jobs?.data}
-            pagination={jobs?.pagination}
-            favoratesList={favoratesList}
-          />
+          <div className="lg:col-span-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-2 lg:px-0">
+              {jobs?.data?.map((job) => (
+                <JobCard
+                  key={job._id}
+                  job={job}
+                  favoratesList={favoratesList}
+                />
+              ))}
+            </div>
+            <div>
+              <CustomPagination totalPages={jobs.pagination?.totalPage} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

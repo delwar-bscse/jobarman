@@ -4,6 +4,7 @@ import Link from "next/link";
 import MyRequestCard from "@/components/recruiter/myRequest/MyRequestCard";
 import PercentageHeader from "../PercentageHeader";
 import PostJobDetails from "../PostJobDetails";
+import HeaderTitle from "../HeaderTitle";
 
 export default async function page({ params, searchParams }) {
   const { post } = await params;
@@ -19,12 +20,7 @@ export default async function page({ params, searchParams }) {
       {/* Header Navigation */}
       <div className="">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <button className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors mb-4">
-            <ChevronLeft className="w-4 h-4" />
-            <span className="text-sm font-medium">
-              {postJobDetails?.data?.title}
-            </span>
-          </button>
+          <HeaderTitle postJobDetails={postJobDetails} />
         </div>
       </div>
 

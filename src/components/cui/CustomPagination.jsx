@@ -1,3 +1,4 @@
+"use client";
 import React, { Suspense } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -37,8 +38,9 @@ const CustomPaginationSuspense = ({ totalPages = 5 }) => {
       {pageNumbers.map((page) => (
         <button
           key={page}
-          className={`px-4 py-2 rounded font-semibold ${currentPage === page ? "bg-[#0066CC] text-white" : "bg-gray-200"
-            }`}
+          className={`px-4 py-2 rounded font-semibold ${
+            currentPage === page ? "bg-[#0066CC] text-white" : "bg-gray-200"
+          }`}
           onClick={() => handlePageChange(page)}
         >
           {page}
@@ -56,11 +58,10 @@ const CustomPaginationSuspense = ({ totalPages = 5 }) => {
   );
 };
 
-
 export default function CustomPagination({ totalPages = 5 }) {
   return (
-    <Suspense fallback={<div>Loading...</div>} >
+    <Suspense fallback={<div>Loading...</div>}>
       <CustomPaginationSuspense totalPages={totalPages} />
     </Suspense>
-  )
+  );
 }
