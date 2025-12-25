@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect, use } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Bell, MessageCircle, User } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useClasses } from "./../../../utils/Navbar";
 import { myFetch } from "utils/myFetch";
-import CustomImage from "shared/CustomImage";
-import { deleteCookie } from "cookies-next/client";
-import { useRouter } from "next/navigation";
+import NotificationMessageNavbar from "./NotificationMessageNavbar";
+import ProfileDropdown from "./ProfileDropDown";
 
 const recuiter = [
   { href: "/", label: "Home" },
@@ -17,7 +16,6 @@ const recuiter = [
   { href: "/career-spotlight", label: "Career Spotlight" },
   { href: "/pricing", label: "Pricing" },
   { href: "/job-post", label: "Post Job" },
-  // { href: "/analyze-resume", label: "Analyze Resume" },
 ];
 
 const employee = [
@@ -40,9 +38,9 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const { linkClass, btnClass, iconClass } = useClasses();
+  const { linkClass } = useClasses();
   const [profile, setProfile] = useState(null);
-  const router = useRouter();
+
   // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -72,14 +70,6 @@ export default function Navbar() {
       isMounted = false;
     };
   }, []);
-
-  // handle logout
-  const handleLogout = () => {
-    deleteCookie("accessToken");
-    deleteCookie("refreshToken");
-    deleteCookie("role");
-    router.push("/login");
-  };
 
   const menus = {
     RECRUITER: recuiter,
@@ -117,76 +107,17 @@ export default function Navbar() {
             </Link>
           ))}
 
-          {/* Icons */}
-          {(role === "EMPLOYEE" || role === "RECRUITER") && (
-            <Link
-              href="/notifications"
-              aria-label="Notifications"
-              className={iconClass("/notifications")}
-            >
-              <Bell className="w-5 h-5" />
-            </Link>
-          )}
+          {/* notification and message */}
+          <NotificationMessageNavbar role={role} />
 
-          {(role === "EMPLOYEE" || role === "RECRUITER") && (
-            <Link
-              href="/chat"
-              aria-label="Messages"
-              className={iconClass("/chat")}
-            >
-              <MessageCircle className="w-5 h-5" />
-            </Link>
-          )}
-          {/* Profile Avatar */}
-          {profile?.data ? (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="focus:outline-none p-1 rounded-full hover:bg-white/50 transition"
-              >
-                <CustomImage
-                  src={profile.data?.image}
-                  title="profile image"
-                  width={52}
-                  height={52}
-                  className="w-10 h-10 lg:w-12 lg:h-12 rounded-full border"
-                />
-              </button>
-
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-44 lg:w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
-                  {role === "EMPLOYEE" ? (
-                    <Link
-                      href="/profile/myProfile"
-                      className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      Job Seeker
-                    </Link>
-                  ) : (
-                    <Link
-                      href="/profile/companyProfile"
-                      className="block px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100 transition"
-                      onClick={() => setDropdownOpen(false)}
-                    >
-                      Recruiter
-                    </Link>
-                  )}
-
-                  <div
-                    className="cursor-pointer px-3 py-2 lg:px-4 lg:py-2 text-sm lg:text-base text-gray-700 hover:bg-gray-100"
-                    onClick={handleLogout}
-                  >
-                    Log Out
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link href="/login" className={btnClass("/login")}>
-              Sign In
-            </Link>
-          )}
+          {/* Profile Section */}
+          <ProfileDropdown
+            data={profile?.data}
+            dropdownRef={dropdownRef}
+            dropdownOpen={dropdownOpen}
+            setDropdownOpen={setDropdownOpen}
+            role={role}
+          />
         </nav>
 
         {/* Mobile/Tablet Menu Button - Visible on <lg (1024px) */}
@@ -216,68 +147,16 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Icons as Links */}
-            <Link
-              href="/notifications"
-              className={`${linkClass(
-                "/notifications"
-              )} flex items-center gap-2`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <Bell className="w-5 h-5" /> Notifications
-            </Link>
-            <Link
-              href="/chat"
-              className={`${linkClass("/chat")} flex items-center gap-2`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <MessageCircle className="w-5 h-5" /> Messages
-            </Link>
+            {/* notification and message */}
+            <NotificationMessageNavbar role={role} />
 
-            {/* Mobile/Tablet Profile Dropdown */}
-            <div className="flex flex-col gap-2 py-2">
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 focus:outline-none text-left w-full"
-              >
-                <User className="w-7 h-7 text-gray-500 border border-gray-300 rounded-full p-1" />
-                <span className="text-sm sm:text-base text-gray-700 font-medium">
-                  Profile
-                </span>
-              </button>
-              {dropdownOpen && (
-                <div className="flex flex-col ml-9 gap-1.5">
-                  <Link
-                    href="/profile/jobseeker"
-                    className="text-sm sm:text-base text-gray-700 hover:text-[#123499] transition"
-                    onClick={() => {
-                      setDropdownOpen(false);
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    Job Seeker
-                  </Link>
-                  <Link
-                    href="/profile/recruiter"
-                    className="text-sm sm:text-base text-gray-700 hover:text-[#123499] transition"
-                    onClick={() => {
-                      setDropdownOpen(false);
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    Recruiter
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            <Link
-              href="/login"
-              className={`w-full text-center ${btnClass("/login")}`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Sign In
-            </Link>
+            <ProfileDropdown
+              data={profile?.data}
+              dropdownRef={dropdownRef}
+              dropdownOpen={dropdownOpen}
+              setDropdownOpen={setDropdownOpen}
+              role={role}
+            />
           </nav>
         </div>
       )}

@@ -28,10 +28,12 @@ export default function JobCard({ job, favoratesList }) {
   };
 
   return (
-    <div>
+    <div className="">
       <Link
-        href={`/jobs/${job._id}`}
-        className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
+        href={job?.is_third_party_job ? job?.job_url : `/jobs/${job._id}`}
+        target={job?.is_third_party_job ? "_blank" : "_self"}
+        rel="noopener noreferrer"
+        className="bg-white h-56 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
       >
         {/* Left Side Image */}
         <div className="">
@@ -39,8 +41,8 @@ export default function JobCard({ job, favoratesList }) {
             src={job.thumbnail}
             alt={`${job.title} image`}
             width={50}
-            height={50}
-            className="object-cover w-28 h-full   sm:w-40 sm:h-40 "
+            height={500}
+            className="object-cover w-28 h-full   sm:w-40 sm:h-full "
             size="100vh"
           />
         </div>
@@ -105,7 +107,7 @@ export default function JobCard({ job, favoratesList }) {
             <p className="text-gray-400 text-md mt-1">
               Job Board :{" "}
               <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
-                {job?.job_board}
+                {job?.job_board || "No"}
               </span>
             </p>
             <p>
