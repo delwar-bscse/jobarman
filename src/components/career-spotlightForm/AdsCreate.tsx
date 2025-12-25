@@ -112,7 +112,7 @@ export default function AdsCreateForm() {
       if (res.success) {
         toast.success(res.message || "Not create post");
         reset();
-        router.push("/career-spotlight");
+        router.push(res?.data);
       } else {
         toast.error(res.error[0].message || "try again failed post create");
       }

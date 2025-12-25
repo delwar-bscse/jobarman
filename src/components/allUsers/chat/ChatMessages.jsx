@@ -224,9 +224,22 @@ const ChatMessages = ({ selectedUser }) => {
                         href={msg.text}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="break-words"
+                        className="group block max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md"
                       >
-                        {msg.text}
+                        <div className="flex items-center justify-between gap-6">
+                          <div className="space-y-1">
+                            <p className="text-base font-semibold text-slate-800">
+                              Zoom Meeting
+                            </p>
+                            <p className="text-sm text-slate-500">
+                              Click to join the meeting
+                            </p>
+                          </div>
+
+                          <span className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition group-hover:bg-blue-700">
+                            Join Meeting
+                          </span>
+                        </div>
                       </a>
                     )}
                     {msg?.type === "image" && (

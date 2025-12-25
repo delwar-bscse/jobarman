@@ -23,7 +23,7 @@ export default function PdfViewer({ fileUrl }) {
     <div className="">
       <div className="flex justify-end">
         <a
-          href={fileUrl}
+          href={`${process.env.NEXT_PUBLIC_IMAGE_URL}${fileUrl}`}
           target="_blank"
           rel="noopener noreferrer"
           download
@@ -35,7 +35,7 @@ export default function PdfViewer({ fileUrl }) {
       </div>
       <div>
         <Document
-          file={fileUrl}
+          file={`${process.env.NEXT_PUBLIC_IMAGE_URL}${fileUrl}`}
           onLoadSuccess={({ numPages }) => setNumPages(numPages)}
           loading={<div className="p-8 text-center">Loading...</div>}
         >

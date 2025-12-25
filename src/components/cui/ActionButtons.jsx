@@ -8,22 +8,12 @@ import InterviewScheduleModal from "../recruiter/recruitment-status/InterviewShe
 import { myFetch } from "../../../utils/myFetch";
 import { toast } from "sonner";
 import RejectInterView from "../recruiter/recruitment-status/interviews/RejectInterView";
+import { revalidate } from "../../../utils/revalidateTags";
 
-const ActionButtons = ({ userId }) => {
+const ActionButtons = ({ applicationDetails }) => {
+  console.log(applicationDetails);
+
   const router = useRouter();
-  const [applicationDetails, setApplicationDetails] = React.useState(null);
-
-  const fetchApplicationDetails = async () => {
-    const res = await myFetch(`/application/${userId}`, {
-      revalidate: "application-details",
-    });
-
-    setApplicationDetails(res?.data);
-  };
-
-  useEffect(() => {
-    fetchApplicationDetails();
-  }, []);
 
   const handleShortListed = async () => {
     try {
@@ -34,6 +24,7 @@ const ActionButtons = ({ userId }) => {
 
       if (res?.success) {
         toast.success(res?.message || "Application shortlisted successfully");
+        revalidate("application-details");
       } else {
         toast.error(res.message || "failed");
       }
