@@ -7,6 +7,7 @@ import CustomPagination from "@/components/cui/CustomPagination";
 import { myFetch } from "../../../../utils/myFetch";
 import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
+import { toUnCapilizeSentence } from "../../../../utils/textFormat";
 
 export default function JobCard({ job, favoratesList }) {
   const handleFavorateItem = async (id) => {
@@ -30,8 +31,8 @@ export default function JobCard({ job, favoratesList }) {
   return (
     <div className="">
       <Link
-        href={job?.is_third_party_job ? job?.job_url : `/jobs/${job?._id}`}
-        target={job?.is_third_party_job ? "_blank" : "_self"}
+        href={!job?._id ? job?.job_url : `/jobs/${job?._id}`}
+        target={!job?._id ? "_blank" : "_self"}
         rel="noopener noreferrer"
         className="bg-white h-56 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
       >
@@ -92,7 +93,7 @@ export default function JobCard({ job, favoratesList }) {
                 <div className="flex items-center gap-1">
                   <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                   <span className=" text-gray-400 text-xs font-semibold rounded">
-                    {job.job_type}
+                    {toUnCapilizeSentence(job.job_type)}
                   </span>
                 </div>
               </div>

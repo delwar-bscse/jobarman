@@ -12,6 +12,8 @@ export default async function JobDetailsPage({ params }) {
     tags: ['edit-job"'],
   });
 
+  console.log(res);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero section to match provided screenshots */}

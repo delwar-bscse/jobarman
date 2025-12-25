@@ -7,6 +7,7 @@ import { myFetch } from "../../../../utils/myFetch";
 import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
 import JobApplyModal from "./JobApplyModal";
+import { toUnCapilizeSentence } from "../../../../utils/textFormat";
 
 export default function JobDetailsRight({ details }) {
   const [favoriteList, setFavoriteList] = useState(null);
@@ -87,7 +88,7 @@ export default function JobDetailsRight({ details }) {
                   href={`#`}
                   className="text-blue-600 font-medium hover:underline"
                 >
-                  {details?.recruiter?.name}
+                  {details?.recruiter?.name || details?.recruiter_company}
                 </Link>
               </div>
               <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -95,14 +96,14 @@ export default function JobDetailsRight({ details }) {
                   Job Type :
                 </span>
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
-                  {details?.job_type}
+                  {toUnCapilizeSentence(details?.job_type)}
                 </span>
               </div>
             </div>
           </div>
 
           {/* Right: Save + Apply */}
-          {profile?.role === "EMPLOYEE" && (
+          {profile?.role !== "RECRUITER" && (
             <div className="flex items-center gap-3">
               <button
                 onClick={() => handleFavorateItem(details?._id)}
@@ -121,15 +122,29 @@ export default function JobDetailsRight({ details }) {
                   }
                 />
               </button>
-
-              <JobApplyModal
-                details={details}
-                trigger={
-                  <span className="px-5 py-2 bg-blue-600 cursor-pointer text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2">
+              {!details?.job_url ? (
+                <>
+                  <JobApplyModal
+                    details={details}
+                    trigger={
+                      <span className="px-5 py-2 bg-blue-600 cursor-pointer text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2">
+                        Apply Now <ArrowRight size={18} />
+                      </span>
+                    }
+                  />
+                </>
+              ) : (
+                <>
+                  <Link
+                    href={details.job_url}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    className="px-5 py-2 bg-blue-600 cursor-pointer text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2"
+                  >
                     Apply Now <ArrowRight size={18} />
-                  </span>
-                }
-              />
+                  </Link>
+                </>
+              )}
             </div>
           )}
         </div>
