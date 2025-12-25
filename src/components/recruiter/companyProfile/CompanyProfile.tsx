@@ -13,7 +13,7 @@ import { myFetch } from "utils/myFetch";
 import { formatUrl } from "utils/formatUrl";
 import { toCapitalizeSentence } from "../../../../utils/textFormat";
 
-export default function CompanyProfilePage() {
+export default function CompanyProfilePage({ data }) {
   const [activeTab, setActiveTab] = useState("Home");
   const [profileData, setProfileData] = useState(null);
   const [jobs, setJobs] = useState(null);
@@ -97,7 +97,7 @@ export default function CompanyProfilePage() {
                 />
               )}
 
-              {activeTab === "Jobs" && <Jobs res={jobs} />}
+              {activeTab === "Jobs" && <Jobs res={data} />}
             </div>
 
             {/* Edit Profile Button */}

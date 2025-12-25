@@ -8,6 +8,7 @@ import { myFetch } from "../../../../../utils/myFetch";
 import RecruiterSidebar from "@/components/cui/RecruiterSidebar";
 import Image from "next/image";
 import { formatUrl } from "../../../../../utils/formatUrl";
+import { revalidate } from "../../../../../utils/revalidateTags";
 
 export default function EditHome() {
   const [file, setFile] = useState(null);
@@ -78,6 +79,7 @@ export default function EditHome() {
 
       if (res.success) {
         toast.success("Profile update successfully");
+        revalidate("company-profile");
       } else {
         toast.error(res.message || "Profile update failed");
       }

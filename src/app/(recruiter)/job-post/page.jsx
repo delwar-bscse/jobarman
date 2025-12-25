@@ -218,6 +218,7 @@ function EditJobPostForm() {
                 <Label htmlFor="title">Job Title</Label>
                 <Input
                   id="title"
+                  placeholder="Enter job title"
                   {...register("title", {
                     required: !isEdit ? "Title is required" : false,
                   })}
@@ -232,6 +233,7 @@ function EditJobPostForm() {
                   <Label>Min Salary</Label>
                   <Input
                     type="number"
+                    placeholder="e.g. 20000"
                     {...register("min_salary", {
                       required: !isEdit ? "Min salary is required" : false,
                     })}
@@ -242,10 +244,12 @@ function EditJobPostForm() {
                     </p>
                   )}
                 </div>
+
                 <div className="space-y-2">
                   <Label>Max Salary</Label>
                   <Input
                     type="number"
+                    placeholder="e.g. 50000"
                     {...register("max_salary", {
                       required: !isEdit ? "Max salary is required" : false,
                     })}
@@ -383,6 +387,7 @@ function EditJobPostForm() {
           <div className="space-y-2">
             <Label>Location</Label>
             <Input
+              placeholder="Enter location"
               {...register("location", {
                 required: !isEdit ? "Location is required" : false,
               })}
@@ -396,6 +401,7 @@ function EditJobPostForm() {
           <div className="space-y-2">
             <Label>Description</Label>
             <Textarea
+              placeholder="Write a short job description..."
               {...register("description", {
                 required: !isEdit ? "Description is required" : false,
               })}

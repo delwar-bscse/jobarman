@@ -25,7 +25,9 @@ const RecruiterSidebar = () => {
   const [profileData, setProfileData] = useState(null);
 
   const fetchProfile = async () => {
-    const res = await myFetch(`/user/profile`);
+    const res = await myFetch(`/user/profile`, {
+      tags: ["company-profile"],
+    });
     setProfileData(res?.data);
   };
 
@@ -116,7 +118,7 @@ const RecruiterSidebar = () => {
             <ArrowLeft className="w-7 h-7" />
           </div>
       </div> */}
-      <div className=" bg-white rounded-xl mb-5 sm:mb-0">
+      <div className=" bg-white rounded-xl mb-5 sm:mb-0 h-screen">
         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
@@ -131,7 +133,10 @@ const RecruiterSidebar = () => {
           <h2 className="text-xl font-bold text-gray-900">
             {profileData?.name}
           </h2>
-          <p className="text-sm text-gray-600 mt-2">{profileData?.bio}</p>
+          <p className="text-sm text-gray-600 mt-2 max-w-sm">
+            {profileData?.bio}
+          </p>
+
           <div className="flex items-center justify-center gap-1 mt-2">
             <Image
               src="/premiumplan.svg"

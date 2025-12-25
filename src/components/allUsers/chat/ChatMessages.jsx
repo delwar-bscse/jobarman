@@ -15,7 +15,7 @@ import CustomImage from "shared/CustomImage";
 
 const SCROLL_THRESHOLD = 60; // px
 
-const ChatMessages = () => {
+const ChatMessages = ({ selectedUser }) => {
   const { socket } = useSocket();
   const [profile, setProfile] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -199,12 +199,12 @@ const ChatMessages = () => {
                 }`}
               >
                 {msg.sender !== myId && (
-                  <Image
-                    src="/chat-user.jpg"
-                    alt="user"
+                  <CustomImage
+                    src={selectedUser?.participants?.image}
+                    title={selectedUser?.participants?.name}
                     width={32}
                     height={32}
-                    className="w-8 h-8 rounded-full mr-3"
+                    className="w-8 h-8 object-cover rounded-full mr-3"
                   />
                 )}
 

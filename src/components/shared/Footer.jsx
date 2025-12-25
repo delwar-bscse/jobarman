@@ -10,6 +10,16 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import { myFetch } from "utils/myFetch";
+
+const recuiter = [
+  { href: "/", label: "Home" },
+  { href: "/my-job", label: "My Job" },
+  { href: "/my-request", label: "My Request" },
+  { href: "/career-spotlight", label: "Career Spotlight" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/job-post", label: "Post Job" },
+];
 
 const employee = [
   { href: "/", label: "Home" },
@@ -17,10 +27,30 @@ const employee = [
   { href: "/my-resume", label: "My Resume" },
   { href: "/history", label: "History" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/faq", label: "FAQ" },
 ];
 
-export default function Footer() {
+const withOutLogin = [
+  { href: "/", label: "Home" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/faq", label: "FAQ" },
+];
+
+export default async function Footer() {
   const currentYear = new Date().getFullYear();
+
+  const data = await myFetch("/user/profile");
+
+  const menus = {
+    RECRUITER: recuiter,
+    EMPLOYEE: employee,
+    GUEST: withOutLogin,
+  };
+
+  const role = data?.data?.role;
+  const menu = menus[role] || menus?.GUEST;
+
   return (
     <footer className="bg-gradient-to-r from-[#2B4CB8] via-[#3B5FD9] to-[#4A6EFA] text-white">
       {/* MAIN FOOTER CONTENT */}
@@ -43,7 +73,7 @@ export default function Footer() {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {employee?.map((item, idx) => (
+              {menu?.map((item, idx) => (
                 <li key={idx}>
                   <Link
                     href={item?.href}

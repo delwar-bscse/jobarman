@@ -1,5 +1,6 @@
 import ReviewCard from "@/components/shared/ReviewCard";
 import { myFetch } from "../../../../utils/myFetch";
+import GlobalBackButton from "../../../../shared/GlobalBackButton";
 
 export default async function ReviewsPage() {
   const res = await myFetch("/review");
@@ -7,6 +8,7 @@ export default async function ReviewsPage() {
     <main className="w-full bg-white">
       <section className="py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <GlobalBackButton />
           <div className="text-center mb-8">
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
               All Reviews

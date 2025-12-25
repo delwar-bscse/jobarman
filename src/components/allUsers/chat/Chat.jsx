@@ -30,7 +30,7 @@ const Chat = ({ chatUsers, selectedUser }) => {
         <div className="">
           <ChatHeader selectedUser={selectedUser} />
         </div>
-        <ChatMessages />
+        <ChatMessages selectedUser={selectedUser} />
       </div>
     </div>
   );
