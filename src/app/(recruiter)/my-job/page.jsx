@@ -16,7 +16,7 @@ const JobPost = async () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {res?.data?.map((job) => (
-          <Link href={`/my-job-details/${job._id}`} key={job._id}>
+          <Link href={`/my-job-details/${job?._id}`} key={job?._id}>
             <JobPostCard job={job} />
           </Link>
         ))}

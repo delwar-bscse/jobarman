@@ -193,7 +193,7 @@ const ChatMessages = () => {
           <div className="grid grid-cols-1 gap-4">
             {messages.map((msg, i) => (
               <div
-                key={`${msg._id || msg.sender}_${msg.time}_${i}`}
+                key={`${msg?._id || msg.sender}_${msg.time}_${i}`}
                 className={`flex items-end ${
                   msg.sender === myId ? "justify-end" : "justify-start"
                 }`}

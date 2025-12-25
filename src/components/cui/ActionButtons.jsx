@@ -27,7 +27,7 @@ const ActionButtons = ({ userId }) => {
 
   const handleShortListed = async () => {
     try {
-      const res = await myFetch(`/application/${applicationDetails._id}`, {
+      const res = await myFetch(`/application/${applicationDetails?._id}`, {
         method: "PATCH",
         body: { status: "SHORTLISTED" },
       });

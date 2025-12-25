@@ -30,7 +30,7 @@ export default function JobCard({ job, favoratesList }) {
   return (
     <div className="">
       <Link
-        href={job?.is_third_party_job ? job?.job_url : `/jobs/${job._id}`}
+        href={job?.is_third_party_job ? job?.job_url : `/jobs/${job?._id}`}
         target={job?.is_third_party_job ? "_blank" : "_self"}
         rel="noopener noreferrer"
         className="bg-white h-56 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
@@ -104,12 +104,14 @@ export default function JobCard({ job, favoratesList }) {
               </div>
             </div>
 
-            <p className="text-gray-400 text-md mt-1">
-              Job Board :{" "}
-              <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
-                {job?.job_board || "No"}
-              </span>
-            </p>
+            {job?.job_board && (
+              <p className="text-gray-400 text-md mt-1">
+                Job Board :{" "}
+                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
+                  {job?.job_board}
+                </span>
+              </p>
+            )}
             <p>
               {job?.is_applied === true && (
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">

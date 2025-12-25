@@ -14,7 +14,7 @@ export default function JobDetailsRight({ details }) {
   const [profile, setProfile] = useState(null);
 
   const favoratesList = useMemo(
-    () => favoriteList?.map((item) => item.post._id),
+    () => favoriteList?.map((item) => item.post?._id),
     [favoriteList]
   );
 
@@ -147,7 +147,7 @@ export default function JobDetailsRight({ details }) {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Requirements</h2>
         <ul className="space-y-2">
-          {details?.required_skills.map((req, index) => (
+          {details?.required_skills?.map((req, index) => (
             <li key={index} className="flex items-start gap-2">
               <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
               <span className="text-gray-700">{req}</span>

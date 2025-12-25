@@ -13,7 +13,7 @@ export default async function page({ searchParams }) {
 
   const chatUsers = res?.data;
   const selectedUser =
-    chatUsers?.length > 0 && chatUsers?.find((u) => u._id === id);
+    chatUsers?.length > 0 && chatUsers?.find((u) => u?._id === id);
 
   return (
     <>

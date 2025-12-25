@@ -118,7 +118,7 @@ export default function Chart() {
             <SelectContent>
               <SelectGroup>
                 {recentJobs?.map((item) => (
-                  <SelectItem value={item._id} key={item._id}>
+                  <SelectItem value={item?._id} key={item?._id}>
                     {item?.title}
                   </SelectItem>
                 ))}

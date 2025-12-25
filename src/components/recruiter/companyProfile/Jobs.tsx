@@ -39,7 +39,7 @@ export default function Jobs({ res }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {res?.map((job) => (
           <div
-            key={job._id}
+            key={job?._id}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex items-center gap-4"
           >
             <CustomImage
@@ -51,7 +51,7 @@ export default function Jobs({ res }) {
             />
             <div className="flex-1">
               <Link
-                href={`/jobs/${job.id}`}
+                href={`/jobs/${job?._id}`}
                 className="text-gray-900 font-semibold hover:text-blue-600"
               >
                 {job.title}

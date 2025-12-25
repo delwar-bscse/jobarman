@@ -11,6 +11,14 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+const employee = [
+  { href: "/", label: "Home" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/my-resume", label: "My Resume" },
+  { href: "/history", label: "History" },
+  { href: "/pricing", label: "Pricing" },
+];
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   return (
@@ -35,18 +43,16 @@ export default function Footer() {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {["Home", "Jobs", "Resume", "History", "Pricing"].map(
-                (item, idx) => (
-                  <li key={idx}>
-                    <Link
-                      href="#"
-                      className="text-blue-100 hover:text-white text-sm transition-colors duration-200"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                )
-              )}
+              {employee?.map((item, idx) => (
+                <li key={idx}>
+                  <Link
+                    href={item?.href}
+                    className="text-blue-100 hover:text-white text-sm transition-colors duration-200"
+                  >
+                    {item?.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

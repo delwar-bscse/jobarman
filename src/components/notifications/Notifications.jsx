@@ -53,7 +53,7 @@ export default function Notifications({ date, id }) {
     <div className="space-y-4">
       {notifications?.map((item) => (
         <div
-          key={item._id}
+          key={item?._id}
           className="rounded-md border border-gray-200 bg-white p-2 sm:p-3 md:p-4 flex items-start justify-between"
         >
           <div className="flex-1">

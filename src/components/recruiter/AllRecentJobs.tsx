@@ -17,7 +17,6 @@ export default function AllRecentJobs({ data }) {
     replace(`?${params.toString()}`);
   };
 
-
   return (
     <div className="max-w-7xl mx-auto py-9 space-y-4">
       <div className="flex justify-between">
@@ -28,11 +27,21 @@ export default function AllRecentJobs({ data }) {
           <ChevronLeft />
           <p className="text-2xl text-blue-600 font-medium ">All Jobs</p>
         </div>
-        <button type="button" onClick={handleCloseJob} className={`border-2  rounded-sm px-4 py-2 flex items-center font-semibold transition-colors duration-300 cursor-pointer ${status === "closed" ? "bg-red-400 text-gray-50 border-red-400" : "hover:bg-gray-100 text-gray-400 border-gray-300"}`}>Close Jobs</button>
+        <button
+          type="button"
+          onClick={handleCloseJob}
+          className={`border-2  rounded-sm px-4 py-2 flex items-center font-semibold transition-colors duration-300 cursor-pointer ${
+            status === "closed"
+              ? "bg-red-400 text-gray-50 border-red-400"
+              : "hover:bg-gray-100 text-gray-400 border-gray-300"
+          }`}
+        >
+          Close Jobs
+        </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {data?.map((job) => (
-          <Link href={`/my-job-details/${job._id}`} key={job._id}>
+          <Link href={`/my-job-details/${job?._id}`} key={job?._id}>
             <JobPostCard job={job} />
           </Link>
         ))}

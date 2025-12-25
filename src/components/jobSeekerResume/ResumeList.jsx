@@ -70,7 +70,7 @@ export default function ResumeList({ data }) {
       <div className="flex-1 space-y-2 sm:space-y-3 overflow-y-auto pr-1">
         {data?.length > 0 ? (
           data.map((resume) => {
-            const isActive = activeResumeId === resume._id;
+            const isActive = activeResumeId === resume?._id;
 
             return (
               <div
@@ -88,21 +88,21 @@ export default function ResumeList({ data }) {
                 {/* Text */}
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">
-                    {resume.resume_name}
+                    {resume?.resume_name}
                   </h3>
                 </div>
 
                 {/* Actions */}
                 <div className="flex gap-1 sm:gap-1.5">
                   <Link
-                    href={`/add-new-resume?id=${resume._id}`}
+                    href={`/add-new-resume?id=${resume?._id}`}
                     onClick={(e) => e.stopPropagation()}
                     className="p-1.5 hover:bg-gray-100 rounded transition-colors"
                   >
                     <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600" />
                   </Link>
                   <button
-                    onClick={(e) => handleDeleteResume(e, resume._id)}
+                    onClick={(e) => handleDeleteResume(e, resume?._id)}
                     className="p-1.5 hover:bg-red-100 rounded transition-colors"
                   >
                     <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600" />

@@ -276,7 +276,7 @@ function EditJobPostForm() {
                       </SelectTrigger>
                       <SelectContent>
                         {allCategories?.map((c) => (
-                          <SelectItem key={c._id} value={c._id}>
+                          <SelectItem key={c?._id} value={c?._id}>
                             {c.name}
                           </SelectItem>
                         ))}

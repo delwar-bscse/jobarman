@@ -17,7 +17,7 @@ export default async function FAQpage() {
           collapsible
           className="w-full my-4"
           defaultValue="item-1"
-          key={item._id}
+          key={item?._id}
         >
           <AccordionItem value="item-1" className="border p-2 rounded">
             <AccordionTrigger className="text-lg sm:text-xl">

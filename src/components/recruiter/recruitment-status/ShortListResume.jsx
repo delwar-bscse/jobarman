@@ -18,8 +18,8 @@ export default function ShortListResume({ data }) {
       {data?.map((item) => (
         <div
           className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200 w-full cursor-pointer"
-          key={item._id}
-          onClick={() => handleParams(item._id)}
+          key={item?._id}
+          onClick={() => handleParams(item?._id)}
         >
           {/* Profile Image */}
           <Image

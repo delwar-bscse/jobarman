@@ -46,7 +46,7 @@ export default function EditHome() {
     if (res.data) {
       const oldGallery = res.data.map((item) => {
         return {
-          id: item._id,
+          id: item?._id,
           image: formatUrl(item.image),
         };
       });

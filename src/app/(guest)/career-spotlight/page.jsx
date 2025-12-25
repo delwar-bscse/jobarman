@@ -60,7 +60,7 @@ export default async function CareerSpotlight() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {res?.data?.spotlights?.map((ad) => (
               <div
-                key={ad._id}
+                key={ad?._id}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
               >
                 <RecentAdsModal

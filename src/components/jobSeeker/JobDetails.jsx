@@ -9,6 +9,7 @@ const statusStyles = {
 };
 
 export default function JobDetails({ job, trigger }) {
+  console.log("id", job);
   const fileName = job?.resume?.split("/") || [];
 
   const length = fileName?.length - 1;
@@ -20,7 +21,7 @@ export default function JobDetails({ job, trigger }) {
       <DialogContent>
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-          key={job._id}
+          key={job?._id}
         >
           <div
             className="relative w-full sm:max-w-2xl md:max-w-4xl bg-white rounded-xl shadow-xl"
@@ -138,7 +139,6 @@ export default function JobDetails({ job, trigger }) {
 
             <div className="p-4">
               <Link href={`/jobs/${job?.post?._id}`}>
-                {" "}
                 <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 rounded-md">
                   View Job Post
                 </button>

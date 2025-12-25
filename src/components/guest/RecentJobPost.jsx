@@ -19,7 +19,7 @@ export default async function RecentJobPost() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {res?.data?.map((job) => (
-            <JobPostCard key={job._id} job={job} />
+            <JobPostCard key={job?._id} job={job} />
           ))}
         </div>
 

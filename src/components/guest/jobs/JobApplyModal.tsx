@@ -106,7 +106,7 @@ export default function JobApplyModal({ trigger, details }) {
         formData.append("doc", coverLetterFile);
       }
 
-      formData.append("post", details._id);
+      formData.append("post", details?._id);
 
       // Submit form
       const res = await myFetch("/application", {
