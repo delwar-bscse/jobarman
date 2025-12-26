@@ -153,7 +153,7 @@ export default async function Footer() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-6 py-4">
           {/* Left Side - Copyright */}
           <div className="text-sm text-blue-100 text-center md:text-left">
-            © {currentYear} Example.com. All Rights Reserved.
+            © {currentYear} JOBARMAN.com. All Rights Reserved.
           </div>
 
           {/* Right Side - Icons + Links */}
