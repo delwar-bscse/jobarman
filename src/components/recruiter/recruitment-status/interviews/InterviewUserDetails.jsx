@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import { myFetch } from "utils/myFetch";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
+import FeedbackForm from "./FeedbackCard";
 export default function InterviewUserDetails({ data }) {
   const router = useRouter();
 
@@ -89,9 +89,9 @@ export default function InterviewUserDetails({ data }) {
           <CancelInterview
             item={data?._id}
             trigger={
-              <button className="flex-1 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition">
+              <div className="flex-1 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition">
                 Cancel Interview
-              </button>
+              </div>
             }
           />
 
@@ -106,6 +106,15 @@ export default function InterviewUserDetails({ data }) {
       >
         Message
       </button>
+
+      <FeedbackForm
+        id={data?._id}
+        trigger={
+          <button className="w-full border-2 mt-4 border-green-700 text-green-700 font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
+            Feedback
+          </button>
+        }
+      />
     </div>
   );
 }
