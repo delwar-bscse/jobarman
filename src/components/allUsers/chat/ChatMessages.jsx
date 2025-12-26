@@ -57,7 +57,7 @@ const ChatMessages = ({ selectedUser }) => {
     if (isNearBottom.current) {
       scrollToBottom();
     }
-  }, [messages]);
+  }, [messages, selectedUser]);
 
   /* ---------------- Load Profile ---------------- */
 
@@ -73,7 +73,7 @@ const ChatMessages = ({ selectedUser }) => {
     };
 
     loadProfile();
-  }, []);
+  }, [chatId, selectedUser]);
 
   /* ---------------- Fetch Messages ---------------- */
 
@@ -132,7 +132,7 @@ const ChatMessages = ({ selectedUser }) => {
     setMessages([]);
 
     fetchMessages(1);
-  }, [chatId]);
+  }, [chatId, selectedUser]);
 
   // ------- scroll listener: load older when at top; track stickiness -------
   const handleScroll = useMemo(
@@ -174,7 +174,7 @@ const ChatMessages = ({ selectedUser }) => {
 
     socket.on(eventName, onNewMessage);
     return () => socket.off(eventName, onNewMessage);
-  }, [chatId, socket]);
+  }, [chatId, socket, selectedUser]);
 
   /* ---------------- Render ---------------- */
 
@@ -185,7 +185,7 @@ const ChatMessages = ({ selectedUser }) => {
         onScroll={handleScroll}
         className="relative flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-239px)]"
       >
-        {isInitialLoad && loading ? (
+        {isInitialLoad ? (
           <div className="text-center text-gray-500 py-4">
             Loading messages...
           </div>

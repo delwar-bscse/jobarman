@@ -59,6 +59,8 @@ export default function InterviewScheduleModal({ item, trigger }) {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setOpen(false);
     }
   };
 

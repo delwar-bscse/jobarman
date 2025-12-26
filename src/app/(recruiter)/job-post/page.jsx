@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { revalidate } from "utils/revalidateTags";
+import GlobalBackButton from "../../../../shared/GlobalBackButton";
 
 /* ---------------- CONSTANTS ---------------- */
 
@@ -153,6 +154,8 @@ function EditJobPostForm() {
       body: formData,
     });
 
+    console.log("update data", res);
+
     if (res.success) {
       toast.success(isEdit ? "Successfully Updated" : "Successfully Posted");
       revalidate("edit-job");
@@ -170,9 +173,7 @@ function EditJobPostForm() {
       <div className="mx-auto max-w-4xl px-4">
         {/* Header */}
         <div className="mb-6 flex items-center gap-3">
-          <Button variant="ghost" size="icon">
-            <ChevronLeft />
-          </Button>
+          <GlobalBackButton />
           <h1 className="text-2xl font-semibold">
             {isEdit ? "Edit Job Post" : "New Job Post"}
           </h1>

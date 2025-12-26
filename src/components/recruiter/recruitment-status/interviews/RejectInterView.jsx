@@ -4,10 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
 import { toast } from "sonner";
 import { myFetch } from "utils/myFetch";
 
 export default function RejectInterView({ item, trigger }) {
+  const [open, setOpen] = useState(false);
+
   const handleReject = async (e) => {
     e.preventDefault();
 
@@ -26,11 +29,13 @@ export default function RejectInterView({ item, trigger }) {
       }
     } catch (error) {
       toast.error(error.message || "Reject item failed");
+    } finally {
+      setOpen(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="">{trigger}</DialogTrigger>
       <DialogContent>
         <form className="mt-4" onSubmit={handleReject}>

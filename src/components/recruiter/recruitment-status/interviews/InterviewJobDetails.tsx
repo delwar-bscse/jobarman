@@ -2,6 +2,7 @@ import { MapPin } from "lucide-react";
 import { getRemainingDays } from "utils/remainingDays";
 import InterviewUserDetails from "./InterviewUserDetails";
 import InterviewRejectUserDetails from "./InterviewRejectUserDetails";
+import CustomImage from "shared/CustomImage";
 
 export default function InterviewJobDetails({ data }) {
   return (
@@ -10,11 +11,12 @@ export default function InterviewJobDetails({ data }) {
         {/* Left Card */}
         <div className="bg-white rounded-2xl shadow-sm p-6">
           <div className="flex gap-4 mb-6">
-            <div className="w-32 h-32 bg-gradient-to-br from-gray-800 to-red-900 rounded-xl flex items-center justify-center">
-              <div className="text-center">
-                <p className="text-white text-sm font-bold">We are</p>
-                <p className="text-red-500 text-2xl font-bold">Hiring</p>
-              </div>
+            <div className="w-40 h-40">
+              <CustomImage
+                src={data?.recruiter?.image}
+                title={data?.title}
+                className="w-32 h-32"
+              />
             </div>
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
@@ -25,20 +27,20 @@ export default function InterviewJobDetails({ data }) {
                 <span>{data?.post?.location}</span>
               </div>
               <div className="flex items-center gap-4 text-sm">
-                <span className="flex items-center gap-1">
+                {/* <span className="flex items-center gap-1">
                   <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
                   Full Time
-                </span>
+                </span> */}
                 <span className="flex items-center gap-1">
                   <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                  Remote
+                  {data?.post?.job_type}
                 </span>
               </div>
             </div>
           </div>
           <div className="text-center">
             <p className="text-orange-500 text-xl font-semibold">
-              {getRemainingDays(data.createdAt)} Days Remaining
+              {data?.remainingDays} Days Remaining
             </p>
           </div>
         </div>

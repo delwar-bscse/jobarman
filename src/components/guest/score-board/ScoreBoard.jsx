@@ -50,6 +50,18 @@ export default function ScoreBoard({ id }) {
                 <h2 className="font-medium text-sm">{item?.description}</h2>
               </div>
             ))}
+
+            <div>
+              <h2 className="text-xl font-medium mb-3">Improvements</h2>
+
+              <ul className="space-y-2 list-disc list-inside text-gray-700">
+                {resume?.analysis?.improvements?.map((item, index) => (
+                  <li key={index} className="pl-5 -indent-5 leading-relaxed">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         ) : (
           <p className="flex items-center justify-center text-center text-gray-500 py-6 text-2xl">
@@ -59,7 +71,7 @@ export default function ScoreBoard({ id }) {
         <div className="lg:col-span-2 bg-white  overflow-y-auto p-3">
           {resume?.filePath ? (
             // <ResumeDetails resume={resume[0]} />
-            <PdfViewer fileUrl={formatUrl(resume?.filePath)} />
+            <PdfViewer fileUrl={resume?.filePath} />
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500">
               <p className="text-lg">Select a resume to view details</p>

@@ -4,7 +4,10 @@ import { myFetch } from "../../../../utils/myFetch";
 import JobPostCard from "@/components/cui/PostCard";
 
 const JobPost = async () => {
-  const res = await myFetch("/job-post/feed/user");
+  const res = await myFetch("/job-post/feed/user", {
+    method: "GET",
+    tags: ["job-post"],
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">

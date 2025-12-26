@@ -178,11 +178,13 @@ export default function JobDetailsRight({ details }) {
         </h2>
         <ul className="space-y-2">
           {/* {job.responsibilities.map((resp, index) => ( */}
-          <li className="flex items-start gap-2">
-            <span className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
-            <span className="text-gray-700">description</span>
-          </li>
-          {/* ))} */}
+          {details?.responsibilities?.map((item, index) => (
+            <li className="flex items-start gap-2" key={index}>
+              <span className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
+
+              <span className="text-gray-700">{item}</span>
+            </li>
+          ))}
         </ul>
       </div>
 

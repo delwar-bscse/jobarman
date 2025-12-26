@@ -9,6 +9,7 @@ const statusStyles = {
 };
 
 export default function Card({ data }) {
+  console.log("data", data);
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {data?.map((job) => (
@@ -18,7 +19,7 @@ export default function Card({ data }) {
         >
           <div className="p-3">
             <CustomImage
-              src={job?.user?.image}
+              src={job?.post?.thumbnail}
               title="We are Hiring"
               width={112}
               height={112}

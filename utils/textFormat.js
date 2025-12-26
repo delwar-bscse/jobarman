@@ -16,8 +16,6 @@ export function toUnCapilizeSentence(str) {
     return "";
   }
 
-  console.log("+++++++++++++", str);
-
   return (
     str[0].toUpperCase() +
     str.split("_").join(" ").toLowerCase()?.slice(1, str.length)

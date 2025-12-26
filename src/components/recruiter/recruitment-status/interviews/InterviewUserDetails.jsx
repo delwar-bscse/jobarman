@@ -1,11 +1,30 @@
+"use client";
 import { MapPin, Download, FileText } from "lucide-react";
 import CancelInterview from "./CancelInterview";
 import { getRemainingDays } from "utils/remainingDays";
 import CustomImage from "shared/CustomImage";
 import InterviewButton from "./InterviewButton";
 import Link from "next/link";
+import dayjs from "dayjs";
+import { myFetch } from "utils/myFetch";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function InterviewUserDetails({ data }) {
+  const router = useRouter();
+
+  const createChatAndRedirectToChatBox = async () => {
+    const res = await myFetch(`/chat/${data?.user?._id}`, {
+      method: "POST",
+    });
+
+    if (!res.data) {
+      toast.error(res.message);
+      return;
+    }
+
+    router.push(`/chat?id=${res?.data?._id}`);
+  };
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
       <div className="flex gap-4 mb-6">
@@ -25,7 +44,7 @@ export default function InterviewUserDetails({ data }) {
             {data?.year_of_experience} Years Experience
           </p>
           <p className="text-sm text-gray-500">
-            Schedule: 01 Oct 2025 At 09 Am
+            Schedule: {dayjs(data?.post?.deadline).format()}
           </p>
         </div>
       </div>
@@ -53,29 +72,40 @@ export default function InterviewUserDetails({ data }) {
             )}
           </div>
           <button className="text-gray-600 hover:text-gray-900">
-            <Download className="w-5 h-5" />
+            <a
+              href={`${process.env.NEXT_PUBLIC_IMAGE_URL}${data?.resume}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+            >
+              <Download />
+            </a>
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <CancelInterview
-          item={data?._id}
-          trigger={
-            <button className="flex-1 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition">
-              Cancel Interview
-            </button>
-          }
-        />
+      {data?.inteviewStatus !== "cancelled" && (
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <CancelInterview
+            item={data?._id}
+            trigger={
+              <button className="flex-1 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition">
+                Cancel Interview
+              </button>
+            }
+          />
 
-        {/* interview */}
-        <InterviewButton item={data?._id} />
-      </div>
-      <Link href={`/chat?id/${data?._id}`}>
-        <button className="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
-          Message
-        </button>
-      </Link>
+          {/* interview */}
+          <InterviewButton item={data?._id} />
+        </div>
+      )}
+
+      <button
+        onClick={createChatAndRedirectToChatBox}
+        className="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-lg hover:bg-blue-50 transition"
+      >
+        Message
+      </button>
     </div>
   );
 }

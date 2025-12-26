@@ -11,8 +11,6 @@ import RejectInterView from "../recruiter/recruitment-status/interviews/RejectIn
 import { revalidate } from "../../../utils/revalidateTags";
 
 const ActionButtons = ({ applicationDetails }) => {
-  console.log(applicationDetails);
-
   const router = useRouter();
 
   const handleShortListed = async () => {
@@ -50,7 +48,7 @@ const ActionButtons = ({ applicationDetails }) => {
   };
 
   return (
-    <div className="max-w-[600px] mx-auto space-y-4">
+    <div className="max-w-[700px] mx-auto space-y-4">
       <div
         className={`grid ${
           applicationDetails?.status !== "SHORTLIST"
@@ -58,14 +56,15 @@ const ActionButtons = ({ applicationDetails }) => {
             : "grid-cols-3"
         } gap-3`}
       >
-        {applicationDetails?.status !== "SHORTLISTED" && (
-          <button
-            onClick={handleShortListed}
-            className="bg-orange-500 text-white font-semibold px-4 py-2 rounded"
-          >
-            Short Listed
-          </button>
-        )}
+        {applicationDetails?.status !== "SHORTLISTED" &&
+          applicationDetails?.status !== "INTERVIEW" && (
+            <button
+              onClick={handleShortListed}
+              className="bg-orange-500 text-white font-semibold px-4 py-2 rounded"
+            >
+              Short Listed
+            </button>
+          )}
         {applicationDetails && (
           <InterviewScheduleModal
             item={applicationDetails}

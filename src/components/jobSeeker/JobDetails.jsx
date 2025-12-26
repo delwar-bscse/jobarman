@@ -9,7 +9,6 @@ const statusStyles = {
 };
 
 export default function JobDetails({ job, trigger }) {
-  console.log("id", job);
   const fileName = job?.resume?.split("/") || [];
 
   const length = fileName?.length - 1;

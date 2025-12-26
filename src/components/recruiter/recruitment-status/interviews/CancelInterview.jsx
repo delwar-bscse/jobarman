@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import { myFetch } from "utils/myFetch";
+import { revalidate } from "utils/revalidateTags";
 
 export default function CancelInterview({ item, trigger }) {
   const [open, setOpen] = useState(false);
@@ -23,6 +24,7 @@ export default function CancelInterview({ item, trigger }) {
 
       if (res?.success) {
         toast.success(res?.message || "Cancel Interview item successfully");
+        revalidate("status");
         setOpen(false);
       } else {
         toast.error(res.message || "Cancel Interview item failed");

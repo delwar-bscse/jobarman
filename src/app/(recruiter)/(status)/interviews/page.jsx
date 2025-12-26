@@ -5,11 +5,11 @@ import Status from "@/components/recruiter/recruitment-status/Status";
 import { myFetch } from "utils/myFetch";
 
 export default async function page({ searchParams }) {
-  // const status = (await searchParams)?.status || "INTERVIEW";
+  const status = (await searchParams)?.status || "INTERVIEW";
   const date = (await searchParams)?.interview_date || "";
 
   const res = await myFetch(
-    `/application?status=INTERVIEW&interview_date=${date}`,
+    `/application?status=${status}&interview_date=${date}`,
     {
       tags: ["interview-schedule"],
     }
