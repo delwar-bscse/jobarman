@@ -8,8 +8,10 @@ export default async function JobDetailsPage({ params }) {
 
   const res = await myFetch(`/job-post/${id}`, {
     method: "GET",
-    tags: ['edit-job"'],
+    tags: ["edit-job"],
   });
+
+  console.log("get  post data", res);
 
   return (
     <div className="min-h-screen bg-gray-50">
