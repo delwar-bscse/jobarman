@@ -102,8 +102,7 @@ export default async function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                {/* 2715 Ash Dr. San Jose, South Dakota 83475 */}
-                Houston, TX 77057 United States
+                2401 Fountain View Dr, Ste 464 PMB 2798 Houston, TX 77057 United States
               </li>
               <li className="flex items-center gap-3">
                 <LinkedinIcon className="w-4 h-4 flex-shrink-0" />
