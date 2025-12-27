@@ -4,7 +4,7 @@ import Circle from "./Circle";
 import JobList from "./JobList";
 import { useSocket } from "@/lib/SocketContext";
 
-export default function AutoProcess({ value = 175, total = 200 }) {
+export default function AutoProcess() {
   // track if user was near bottom before updates
   const { socket } = useSocket();
 
@@ -13,8 +13,7 @@ export default function AutoProcess({ value = 175, total = 200 }) {
     total: 0,
   });
   const [autoApplyData, setAutoApplyData] = useState([]);
-
-  useEffect(() => {}, [score?.completed, score?.total, autoApplyData]);
+  console.log("ai", autoApplyData);
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("autoApplyDataId"));
@@ -48,7 +47,9 @@ export default function AutoProcess({ value = 175, total = 200 }) {
         </>
       ) : (
         <div className="col-span-full flex items-center justify-center">
-          <p className="text-2xl">AI Analizing...</p>
+          <p className="text-2xl">
+            {autoApplyData.length === 0 ? "No Job Match" : "AI Analizing..."}
+          </p>
         </div>
       )}
     </div>
