@@ -25,6 +25,7 @@ export default function InterviewUserDetails({ data }) {
 
     router.push(`/chat?id=${res?.data?._id}`);
   };
+
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6">
       <div className="flex gap-4 mb-6">
@@ -107,14 +108,16 @@ export default function InterviewUserDetails({ data }) {
         Message
       </button>
 
-      <FeedbackForm
-        id={data?._id}
-        trigger={
-          <button className="w-full border-2 mt-4 border-green-700 text-green-700 font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
-            Feedback
-          </button>
-        }
-      />
+      {data?.hiringStatus !== "hired" && (
+        <FeedbackForm
+          id={data?._id}
+          trigger={
+            <button className="w-full border-2 mt-4 border-green-700 text-green-700 font-semibold py-3 rounded-lg hover:bg-blue-50 transition">
+              Feedback
+            </button>
+          }
+        />
+      )}
     </div>
   );
 }

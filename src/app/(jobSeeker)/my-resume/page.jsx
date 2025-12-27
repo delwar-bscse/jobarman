@@ -27,7 +27,11 @@ export default async function MyResume({ searchParams }) {
               <ResumeDetails resume={resumeDetails.data} />
             ) : (
               <div className="flex items-center justify-center h-full text-gray-500">
-                <p className="text-lg">Select a resume to view details</p>
+                <p className="text-lg">
+                  {resumeList?.data?.length > 0
+                    ? "Select Any Resume"
+                    : "No Data"}
+                </p>
               </div>
             )}
           </div>

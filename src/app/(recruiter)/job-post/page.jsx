@@ -154,8 +154,6 @@ function EditJobPostForm() {
       body: formData,
     });
 
-    console.log("update data", res);
-
     if (res.success) {
       toast.success(isEdit ? "Successfully Updated" : "Successfully Posted");
       revalidate("edit-job");

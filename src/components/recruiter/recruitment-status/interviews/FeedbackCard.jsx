@@ -8,8 +8,11 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { myFetch } from "utils/myFetch";
 import { toast } from "sonner";
+import { revalidate } from "utils/revalidateTags";
+import { useState } from "react";
 
 export default function FeedbackForm({ trigger, id }) {
+  const [open, setOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -28,33 +31,32 @@ export default function FeedbackForm({ trigger, id }) {
 
   const onSubmit = async (data) => {
     const payload = {
-      feedback: data.feedback,
+      feedback: data.hiringStatus,
       hiringStatus: data.hiringStatus,
     };
-
-    console.log("Payload:", payload);
 
     try {
       const res = await myFetch(`/application/feedback/${id}`, {
         method: "POST",
-        data: payload,
+        body: payload,
       });
-
-      console.log("Response:", res);
 
       if (res.success) {
         toast.success(res?.message || "Feedback submitted successfully!");
         reset(); // reset form after submit
+        revalidate("interview-schedule");
       } else {
         toast.error("Error: " + (res.message || "Something went wrong"));
       }
     } catch (err) {
       console.error("Submit error:", err);
+    } finally {
+      setOpen(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
 
       <DialogContent className="p-2">

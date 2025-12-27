@@ -19,6 +19,7 @@ const ChatMessages = ({ selectedUser }) => {
   const { socket } = useSocket();
   const [profile, setProfile] = useState(null);
   const [messages, setMessages] = useState([]);
+  console.log("message", messages);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [myId, setMyId] = useState(null);
@@ -179,16 +180,14 @@ const ChatMessages = ({ selectedUser }) => {
   /* ---------------- Render ---------------- */
 
   return (
-    <div>
+    <>
       <div
         ref={messageContainerRef}
         onScroll={handleScroll}
         className="relative flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-239px)]"
       >
-        {isInitialLoad ? (
-          <div className="text-center text-gray-500 py-4">
-            Loading messages...
-          </div>
+        {!chatId ? (
+          <div className="text-center text-gray-500 py-4">No User</div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {messages.map((msg, i) => (
@@ -285,7 +284,7 @@ const ChatMessages = ({ selectedUser }) => {
       <>
         <MessageInput scrollToBottom={scrollToBottom} />
       </>
-    </div>
+    </>
   );
 };
 
