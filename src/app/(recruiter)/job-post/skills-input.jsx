@@ -1,19 +1,12 @@
 "use client";
 
-import type React from "react";
-
 import { useState } from "react";
 import { X } from "lucide-react";
 
-interface SkillsInputProps {
-  skills: string[];
-  setSkills: (skills: string[]) => void;
-}
-
-export default function SkillsInput({ skills, setSkills }: SkillsInputProps) {
+export default function SkillsInput({ skills, setSkills }) {
   const [inputValue, setInputValue] = useState("");
 
-  const handleAddSkill = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleAddSkill = (e) => {
     if (e.key === "Enter" && inputValue.trim()) {
       e.preventDefault();
       setSkills([...skills, inputValue.trim()]);
@@ -21,7 +14,7 @@ export default function SkillsInput({ skills, setSkills }: SkillsInputProps) {
     }
   };
 
-  const handleRemoveSkill = (index: number) => {
+  const handleRemoveSkill = (index) => {
     setSkills(skills.filter((_, i) => i !== index));
   };
 

@@ -3,9 +3,8 @@
 
 import { Suspense, useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 import { toast } from "sonner";
 import SkillsInput from "./skills-input";
@@ -55,10 +54,9 @@ const EXPERIENCE_LEVEL = {
 function EditJobPostForm() {
   const inputRef = useRef(null);
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const isEdit = !!id; // true if editing
+  const isEdit = !!id;
 
   const [imageFile, setImageFile] = useState(null);
   const [image, setImage] = useState(null);
@@ -138,29 +136,42 @@ function EditJobPostForm() {
   const onSubmit = async (data) => {
     const formData = new FormData();
 
+    // Append all form fields (including empty ones for edit)
     Object.entries(data).forEach(([key, value]) => {
-      if (value !== "" && value !== null) formData.append(key, value);
+      formData.append(key, value ?? "");
     });
 
-    imageFile && formData.append("image", imageFile);
+    // Append image only if a new one was selected
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
 
-    responsibilities.forEach((r) => formData.append("responsibilities[]", r));
-    skills.forEach((s) => formData.append("required_skills[]", s));
+    // Always send arrays (even if empty) so backend knows to clear them
+    if (responsibilities.length > 0) {
+      responsibilities.forEach((r) => formData.append("responsibilities[]", r));
+    } else if (isEdit) {
+      formData.append("responsibilities[]", ""); // or handle empty array differently
+    }
+
+    if (skills.length > 0) {
+      skills.forEach((s) => formData.append("required_skills[]", s));
+    }
 
     const url = id ? `/job-post/${id}` : "/job-post";
+    const method = id ? "PATCH" : "POST";
 
     const res = await myFetch(url, {
-      method: id ? "PATCH" : "POST",
+      method,
       body: formData,
     });
 
     if (res.success) {
+      console.log("update", res);
       toast.success(isEdit ? "Successfully Updated" : "Successfully Posted");
       revalidate("edit-job");
-      if (!isEdit) router.push("/my-job");
-      else router.back(-1);
+      router.back();
     } else {
-      toast.error(res.error[0]?.message || "Oops failed");
+      toast.error(res.error?.[0]?.message || "Operation failed");
     }
   };
 
@@ -216,12 +227,11 @@ function EditJobPostForm() {
               <div className="space-y-2">
                 <Label htmlFor="title">Job Title</Label>
                 <Input
-                  id="title"
-                  placeholder="Enter job title"
                   {...register("title", {
                     required: !isEdit ? "Title is required" : false,
                   })}
                 />
+
                 {errors.title && (
                   <p className="text-red-500 text-sm">{errors.title.message}</p>
                 )}

@@ -193,10 +193,16 @@ export default function JobDetailsRight({ details }) {
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           Benefits & Perks
         </h2>
-        <li className="flex items-start gap-2">
-          <span className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
-          <span className="text-gray-700">description</span>
-        </li>
+        <ul className="space-y-2">
+          {/* {job.responsibilities.map((resp, index) => ( */}
+          {details?.benefits?.map((item, index) => (
+            <li className="flex items-start gap-2" key={index}>
+              <span className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
+
+              <span className="text-gray-700">{item}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

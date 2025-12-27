@@ -8,8 +8,6 @@ export function middleware(req) {
     const pathname = req.nextUrl.pathname;
     const accessToken = req.nextUrl.searchParams.get("accessToken");
 
-    console.log(accessToken);
-
     if (pathname === "/" && accessToken) {
       // Create a response instance to set the cookie
 

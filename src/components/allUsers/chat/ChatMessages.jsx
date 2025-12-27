@@ -19,7 +19,6 @@ const ChatMessages = ({ selectedUser }) => {
   const { socket } = useSocket();
   const [profile, setProfile] = useState(null);
   const [messages, setMessages] = useState([]);
-  console.log("message", messages);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [myId, setMyId] = useState(null);

@@ -14,7 +14,7 @@ export default function AutoProcess({ value = 175, total = 200 }) {
   });
   const [autoApplyData, setAutoApplyData] = useState([]);
 
-  // useEffect(() => {}, [score?.completed, score?.total, autoApplyData]);
+  useEffect(() => {}, [score?.completed, score?.total, autoApplyData]);
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("autoApplyDataId"));
@@ -48,7 +48,7 @@ export default function AutoProcess({ value = 175, total = 200 }) {
         </>
       ) : (
         <div className="col-span-full flex items-center justify-center">
-          <p className="text-2xl">Loading...</p>
+          <p className="text-2xl">AI Analizing...</p>
         </div>
       )}
     </div>
