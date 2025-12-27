@@ -1,16 +1,17 @@
 import ActionButtons from "@/components/cui/ActionButtons";
 import PdfViewer from "@/components/cui/PdfViewer";
-
+import { myFetch } from "../../../../../utils/myFetch";
 
 export default async function Page({ params }) {
   const { id } = await params;
-    const pdfUrl = "https://shariful5001.binarybards.online/resume/supports-1765254106586.pdf";
-    // const pdfUrl = "/resume.pdf";
+  const res = await myFetch(`/application/${id}`, {
+    revalidate: "application-details",
+  });
 
-    return (
-        <div className="max-w-[900px] mx-auto py-4">
-            <PdfViewer fileUrl={pdfUrl} />
-            <ActionButtons userId={id} />
-        </div>
-    );
+  return (
+    <div className="max-w-[900px] mx-auto py-4">
+      <PdfViewer fileUrl={res.data?.resume || ""} />
+      <ActionButtons applicationDetails={res.data} />
+    </div>
+  );
 }

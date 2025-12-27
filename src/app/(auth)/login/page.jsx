@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { myFetch } from "../../../../utils/myFetch";
 import { setCookie } from "cookies-next/client";
 import { toast } from "sonner";
+import GoogleLogin from "@/components/auth/GoogleLogin";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -159,12 +160,7 @@ export default function LoginPage() {
 
             {/* Social Login Buttons */}
             <div className="flex gap-4">
-              <button
-                type="button"
-                className="flex-1 flex items-center justify-center gap-2 border border-gray-300 hover:border-gray-400 py-3 rounded-xl transition hover:bg-gray-50"
-              >
-                <FcGoogle className="w-9 h-9" />
-              </button>
+              <GoogleLogin />
               <button
                 type="button"
                 className="flex-1 flex items-center justify-center gap-2 border border-gray-300 hover:border-gray-400 py-3 rounded-xl transition hover:bg-gray-50"

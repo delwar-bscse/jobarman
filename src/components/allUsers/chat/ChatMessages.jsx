@@ -15,10 +15,11 @@ import CustomImage from "shared/CustomImage";
 
 const SCROLL_THRESHOLD = 60; // px
 
-const ChatMessages = () => {
+const ChatMessages = ({ selectedUser }) => {
   const { socket } = useSocket();
   const [profile, setProfile] = useState(null);
   const [messages, setMessages] = useState([]);
+  console.log("message", messages);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [myId, setMyId] = useState(null);
@@ -57,7 +58,7 @@ const ChatMessages = () => {
     if (isNearBottom.current) {
       scrollToBottom();
     }
-  }, [messages]);
+  }, [messages, selectedUser]);
 
   /* ---------------- Load Profile ---------------- */
 
@@ -73,7 +74,7 @@ const ChatMessages = () => {
     };
 
     loadProfile();
-  }, []);
+  }, [chatId, selectedUser]);
 
   /* ---------------- Fetch Messages ---------------- */
 
@@ -132,7 +133,7 @@ const ChatMessages = () => {
     setMessages([]);
 
     fetchMessages(1);
-  }, [chatId]);
+  }, [chatId, selectedUser]);
 
   // ------- scroll listener: load older when at top; track stickiness -------
   const handleScroll = useMemo(
@@ -174,37 +175,35 @@ const ChatMessages = () => {
 
     socket.on(eventName, onNewMessage);
     return () => socket.off(eventName, onNewMessage);
-  }, [chatId, socket]);
+  }, [chatId, socket, selectedUser]);
 
   /* ---------------- Render ---------------- */
 
   return (
-    <div>
+    <>
       <div
         ref={messageContainerRef}
         onScroll={handleScroll}
         className="relative flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-239px)]"
       >
-        {isInitialLoad && loading ? (
-          <div className="text-center text-gray-500 py-4">
-            Loading messages...
-          </div>
+        {!chatId ? (
+          <div className="text-center text-gray-500 py-4">No User</div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {messages.map((msg, i) => (
               <div
-                key={`${msg._id || msg.sender}_${msg.time}_${i}`}
+                key={`${msg?._id || msg.sender}_${msg.time}_${i}`}
                 className={`flex items-end ${
                   msg.sender === myId ? "justify-end" : "justify-start"
                 }`}
               >
                 {msg.sender !== myId && (
-                  <Image
-                    src="/chat-user.jpg"
-                    alt="user"
+                  <CustomImage
+                    src={selectedUser?.participants?.image}
+                    title={selectedUser?.participants?.name}
                     width={32}
                     height={32}
-                    className="w-8 h-8 rounded-full mr-3"
+                    className="w-8 h-8 object-cover rounded-full mr-3"
                   />
                 )}
 
@@ -224,9 +223,22 @@ const ChatMessages = () => {
                         href={msg.text}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="break-words"
+                        className="group block max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md"
                       >
-                        {msg.text}
+                        <div className="flex items-center justify-between gap-6">
+                          <div className="space-y-1">
+                            <p className="text-base font-semibold text-slate-800">
+                              Zoom Meeting
+                            </p>
+                            <p className="text-sm text-slate-500">
+                              Click to join the meeting
+                            </p>
+                          </div>
+
+                          <span className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition group-hover:bg-blue-700">
+                            Join Meeting
+                          </span>
+                        </div>
                       </a>
                     )}
                     {msg?.type === "image" && (
@@ -272,7 +284,7 @@ const ChatMessages = () => {
       <>
         <MessageInput scrollToBottom={scrollToBottom} />
       </>
-    </div>
+    </>
   );
 };
 

@@ -3,7 +3,10 @@ import { myFetch } from "utils/myFetch";
 
 export default async function page({ params }) {
   const id = (await params).id;
-  const res = await myFetch(`/application/${id}`);
+  const res = await myFetch(`/application/${id}`, {
+    method: "GET",
+    tags: ["status"],
+  });
 
   return (
     <>

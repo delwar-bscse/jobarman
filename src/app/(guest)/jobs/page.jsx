@@ -61,7 +61,7 @@ const JobsPage = async ({ searchParams }) => {
       method: "GET",
     }
   );
-  const favoratesList = res?.data?.map((favorate) => favorate.post._id);
+  const favoratesList = res?.data?.map((favorate) => favorate?.post?._id);
 
   return (
     <div className="min-h-screen bg-white">

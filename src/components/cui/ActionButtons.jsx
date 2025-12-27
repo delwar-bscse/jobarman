@@ -8,32 +8,21 @@ import InterviewScheduleModal from "../recruiter/recruitment-status/InterviewShe
 import { myFetch } from "../../../utils/myFetch";
 import { toast } from "sonner";
 import RejectInterView from "../recruiter/recruitment-status/interviews/RejectInterView";
+import { revalidate } from "../../../utils/revalidateTags";
 
-const ActionButtons = ({ userId }) => {
+const ActionButtons = ({ applicationDetails }) => {
   const router = useRouter();
-  const [applicationDetails, setApplicationDetails] = React.useState(null);
-
-  const fetchApplicationDetails = async () => {
-    const res = await myFetch(`/application/${userId}`, {
-      revalidate: "application-details",
-    });
-
-    setApplicationDetails(res?.data);
-  };
-
-  useEffect(() => {
-    fetchApplicationDetails();
-  }, []);
 
   const handleShortListed = async () => {
     try {
-      const res = await myFetch(`/application/${applicationDetails._id}`, {
+      const res = await myFetch(`/application/${applicationDetails?._id}`, {
         method: "PATCH",
         body: { status: "SHORTLISTED" },
       });
 
       if (res?.success) {
         toast.success(res?.message || "Application shortlisted successfully");
+        revalidate("application-details");
       } else {
         toast.error(res.message || "failed");
       }
@@ -59,7 +48,7 @@ const ActionButtons = ({ userId }) => {
   };
 
   return (
-    <div className="max-w-[600px] mx-auto space-y-4">
+    <div className="max-w-[700px] mx-auto space-y-4">
       <div
         className={`grid ${
           applicationDetails?.status !== "SHORTLIST"
@@ -67,14 +56,15 @@ const ActionButtons = ({ userId }) => {
             : "grid-cols-3"
         } gap-3`}
       >
-        {applicationDetails?.status !== "SHORTLISTED" && (
-          <button
-            onClick={handleShortListed}
-            className="bg-orange-500 text-white font-semibold px-4 py-2 rounded"
-          >
-            Short Listed
-          </button>
-        )}
+        {applicationDetails?.status !== "SHORTLISTED" &&
+          applicationDetails?.status !== "INTERVIEW" && (
+            <button
+              onClick={handleShortListed}
+              className="bg-orange-500 text-white font-semibold px-4 py-2 rounded"
+            >
+              Short Listed
+            </button>
+          )}
         {applicationDetails && (
           <InterviewScheduleModal
             item={applicationDetails}

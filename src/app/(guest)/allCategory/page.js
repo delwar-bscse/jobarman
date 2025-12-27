@@ -8,6 +8,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { myFetch } from "../../../../utils/myFetch";
+import GlobalBackButton from "../../../../shared/GlobalBackButton";
 
 const jobCategories = [
   { icon: Stethoscope, label: "Healthcare", count: "2.5k jobs" },
@@ -23,7 +24,7 @@ const AllCategory = async () => {
     <section className="py-16 sm:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-12 flex items-center text-balance">
-          <ChevronLeft className="w-6 h-6 text-blue-600 mr-2" />
+          <GlobalBackButton />
           <span className="text-blue-600">All Category</span>
         </h2>
 

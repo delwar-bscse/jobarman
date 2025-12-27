@@ -21,10 +21,10 @@ const Education = ({ educationList, setEducationList, singleEducation }) => {
 
   useEffect(() => {
     const updatedEducationList = educationList.map((edu) =>
-      edu._id === education._id ? education : edu
+      edu?._id === education?._id ? education : edu
     );
     setEducationList(updatedEducationList);
-  }, [education]);
+  }, [education, educationList, setEducationList]);
 
   return (
     <div className="bg-white rounded-lg border-b border border-gray-200 p-4">

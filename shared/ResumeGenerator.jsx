@@ -3,6 +3,13 @@ import React, { useRef, useState } from "react";
 import { myFetch } from "../utils/myFetch";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ResumeGenerator = () => {
   const fileInputRef = useRef(null);
@@ -70,7 +77,7 @@ const ResumeGenerator = () => {
             Choose The Job Title You Are Targeting
           </p>
 
-          <p className="text-blue-200 text-xs sm:text-sm mt-1 text-start">
+          <p className="text-white text-xs sm:text-sm mt-1 text-start">
             This Helps Us Analyze Your Resume Against Industry-Specific
             Requirements
           </p>
@@ -78,14 +85,24 @@ const ResumeGenerator = () => {
 
         <div className="space-y-6">
           {/* Job Title Selector */}
-          <select className="w-full px-4 py-3 rounded-lg border border-[#5980E5] bg-[#395FD2] text-white text-sm sm:text-base hover:bg-[#2A57DE] focus:outline-none focus:ring-2 focus:ring-white">
-            <option>Software Developer</option>
-            <option>Product Manager</option>
-            <option>Data Scientist</option>
-            <option>UX Designer</option>
-            <option>DevOps Engineer</option>
-            <option>Full Stack Engineer</option>
-          </select>
+          <Select>
+            <SelectTrigger className=" w-full px-4 py-3 rounded-lg border border-[#5980E5] bg-[#395FD2] text-white text-sm sm:text-base hover:bg-[#2A57DE] ">
+              <SelectValue placeholder="Select your role" />
+            </SelectTrigger>
+
+            <SelectContent className="bg-[#395FD2] text-white border border-[#5980E5]">
+              <SelectItem value="software-developer">
+                Software Developer
+              </SelectItem>
+              <SelectItem value="product-manager">Product Manager</SelectItem>
+              <SelectItem value="data-scientist">Data Scientist</SelectItem>
+              <SelectItem value="ux-designer">UX Designer</SelectItem>
+              <SelectItem value="devops-engineer">DevOps Engineer</SelectItem>
+              <SelectItem value="full-stack-engineer">
+                Full Stack Engineer
+              </SelectItem>
+            </SelectContent>
+          </Select>
 
           {/* File Upload */}
           <div

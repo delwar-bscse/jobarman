@@ -44,7 +44,7 @@ export default function InterviewScheduleModal({ item, trigger }) {
     };
 
     try {
-      const res = await myFetch(`/application/${item._id}`, {
+      const res = await myFetch(`/application/${item?._id}`, {
         method: "PATCH",
         body: payload,
       });
@@ -59,6 +59,8 @@ export default function InterviewScheduleModal({ item, trigger }) {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setOpen(false);
     }
   };
 

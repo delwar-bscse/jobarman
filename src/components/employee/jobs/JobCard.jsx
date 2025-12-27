@@ -7,6 +7,7 @@ import CustomPagination from "@/components/cui/CustomPagination";
 import { myFetch } from "../../../../utils/myFetch";
 import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
+import { toUnCapilizeSentence } from "../../../../utils/textFormat";
 
 export default function JobCard({ job, favoratesList }) {
   const handleFavorateItem = async (id) => {
@@ -28,10 +29,12 @@ export default function JobCard({ job, favoratesList }) {
   };
 
   return (
-    <div>
+    <div className="">
       <Link
-        href={`/jobs/${job._id}`}
-        className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
+        href={!job?._id ? job?.job_url : `/jobs/${job?._id}`}
+        target={!job?._id ? "_blank" : "_self"}
+        rel="noopener noreferrer"
+        className="bg-white h-56 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
       >
         {/* Left Side Image */}
         <div className="">
@@ -39,8 +42,8 @@ export default function JobCard({ job, favoratesList }) {
             src={job.thumbnail}
             alt={`${job.title} image`}
             width={50}
-            height={50}
-            className="object-cover w-28 h-full   sm:w-40 sm:h-40 "
+            height={500}
+            className="object-cover w-28 h-full   sm:w-40 sm:h-full "
             size="100vh"
           />
         </div>
@@ -90,7 +93,7 @@ export default function JobCard({ job, favoratesList }) {
                 <div className="flex items-center gap-1">
                   <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
                   <span className=" text-gray-400 text-xs font-semibold rounded">
-                    {job.job_type}
+                    {toUnCapilizeSentence(job.job_type)}
                   </span>
                 </div>
               </div>
@@ -102,12 +105,14 @@ export default function JobCard({ job, favoratesList }) {
               </div>
             </div>
 
-            <p className="text-gray-400 text-md mt-1">
-              Job Board :{" "}
-              <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
-                {job?.job_board}
-              </span>
-            </p>
+            {job?.job_board && (
+              <p className="text-gray-400 text-md mt-1">
+                Job Board :{" "}
+                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
+                  {job?.job_board}
+                </span>
+              </p>
+            )}
             <p>
               {job?.is_applied === true && (
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">

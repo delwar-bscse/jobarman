@@ -66,6 +66,7 @@ export default function AdsCreateForm() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [vaildImage, setValidImage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageTypes = ["image/jpg", "image/jpeg", "image/png"];
@@ -84,6 +85,8 @@ export default function AdsCreateForm() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setLoading(true);
+
     const formData = new FormData();
 
     const contact = {
@@ -112,12 +115,14 @@ export default function AdsCreateForm() {
       if (res.success) {
         toast.success(res.message || "Not create post");
         reset();
-        router.push("/career-spotlight");
+        router.push(res?.data);
       } else {
         toast.error(res.error[0].message || "try again failed post create");
       }
     } catch (err) {
       toast.error(err.message || "Ads post create");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -390,9 +395,12 @@ export default function AdsCreateForm() {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="bg-blue-600 text-white px-16 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              disabled={loading}
+              className={`bg-blue-600 text-white px-16 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors ${
+                loading && "cursor-not-allowed"
+              }`}
             >
-              Continue
+              {loading ? "Loading..." : "Continue"}
             </button>
           </div>
         </form>

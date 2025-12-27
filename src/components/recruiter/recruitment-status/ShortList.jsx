@@ -13,12 +13,16 @@ export default async function ShortList() {
 
       <div className="grid lg:grid-cols-[30%_70%] space-x-4">
         <div className="p-4">
-          <ShortListResume data={res?.data} />
+          {res?.data?.length > 0 ? (
+            <ShortListResume data={res?.data} />
+          ) : (
+            <p className="text-center">No Data</p>
+          )}
         </div>
 
         {/* resume */}
         <div className=" border p-3 rounded-md">
-          <UserResume />
+          <UserResume data={res?.data} />
         </div>
       </div>
     </div>

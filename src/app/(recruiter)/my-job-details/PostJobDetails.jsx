@@ -2,6 +2,7 @@ import CustomImage from "../../../../shared/CustomImage";
 import { Briefcase, Eye, MapPin, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { getRemainingDays } from "utils/remainingDays";
+import DeletePost from "./DeletePost";
 
 export default function PostJobDetails({ postJobDetails }) {
   const { title, thumbnail, location, job_type, deadline, _id } =
@@ -44,9 +45,7 @@ export default function PostJobDetails({ postJobDetails }) {
               <Eye className="w-4 h-4 text-green-600" />
             </button>
           </Link>
-          <button className="w-10 h-10 flex items-center justify-center border border-red-600 rounded-lg hover:bg-gray-50 transition-colors">
-            <Trash2 className="w-4 h-4 text-red-600" />
-          </button>
+          <DeletePost id={_id} />
         </div>
         <div className="text-right">
           <p className="text-xs text-gray-600 mb-1">Time Remaining</p>

@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { revalidate } from "utils/revalidateTags";
+import GlobalBackButton from "../../../../shared/GlobalBackButton";
 
 /* ---------------- CONSTANTS ---------------- */
 
@@ -170,9 +171,7 @@ function EditJobPostForm() {
       <div className="mx-auto max-w-4xl px-4">
         {/* Header */}
         <div className="mb-6 flex items-center gap-3">
-          <Button variant="ghost" size="icon">
-            <ChevronLeft />
-          </Button>
+          <GlobalBackButton />
           <h1 className="text-2xl font-semibold">
             {isEdit ? "Edit Job Post" : "New Job Post"}
           </h1>
@@ -218,6 +217,7 @@ function EditJobPostForm() {
                 <Label htmlFor="title">Job Title</Label>
                 <Input
                   id="title"
+                  placeholder="Enter job title"
                   {...register("title", {
                     required: !isEdit ? "Title is required" : false,
                   })}
@@ -232,6 +232,7 @@ function EditJobPostForm() {
                   <Label>Min Salary</Label>
                   <Input
                     type="number"
+                    placeholder="e.g. 20000"
                     {...register("min_salary", {
                       required: !isEdit ? "Min salary is required" : false,
                     })}
@@ -242,10 +243,12 @@ function EditJobPostForm() {
                     </p>
                   )}
                 </div>
+
                 <div className="space-y-2">
                   <Label>Max Salary</Label>
                   <Input
                     type="number"
+                    placeholder="e.g. 50000"
                     {...register("max_salary", {
                       required: !isEdit ? "Max salary is required" : false,
                     })}
@@ -276,7 +279,7 @@ function EditJobPostForm() {
                       </SelectTrigger>
                       <SelectContent>
                         {allCategories?.map((c) => (
-                          <SelectItem key={c._id} value={c._id}>
+                          <SelectItem key={c?._id} value={c?._id}>
                             {c.name}
                           </SelectItem>
                         ))}
@@ -383,6 +386,7 @@ function EditJobPostForm() {
           <div className="space-y-2">
             <Label>Location</Label>
             <Input
+              placeholder="Enter location"
               {...register("location", {
                 required: !isEdit ? "Location is required" : false,
               })}
@@ -396,6 +400,7 @@ function EditJobPostForm() {
           <div className="space-y-2">
             <Label>Description</Label>
             <Textarea
+              placeholder="Write a short job description..."
               {...register("description", {
                 required: !isEdit ? "Description is required" : false,
               })}

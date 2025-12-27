@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import CustomImage from "shared/CustomImage";
 
 export default function ShortListResume({ data }) {
   const router = useRouter();
@@ -18,17 +18,15 @@ export default function ShortListResume({ data }) {
       {data?.map((item) => (
         <div
           className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-gray-200 w-full cursor-pointer"
-          key={item._id}
-          onClick={() => handleParams(item._id)}
+          key={item?._id}
+          onClick={() => handleParams(item?._id)}
         >
           {/* Profile Image */}
-          <Image
-            src="/chat-user.jpg"
+          <CustomImage
+            src={data?.user?.image}
             className="w-20 h-20 sm:w-20 sm:h-20  object-cover flex-shrink-0 bg-muted"
             width={10}
             height={10}
-            alt="ok"
-            sizes="100vh"
           />
           {/* Details */}
           <div className="flex flex-col">

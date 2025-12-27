@@ -10,9 +10,47 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import { myFetch } from "utils/myFetch";
 
-export default function Footer() {
+const recuiter = [
+  { href: "/", label: "Home" },
+  { href: "/my-job", label: "My Job" },
+  { href: "/my-request", label: "My Request" },
+  { href: "/career-spotlight", label: "Career Spotlight" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/job-post", label: "Post Job" },
+];
+
+const employee = [
+  { href: "/", label: "Home" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/my-resume", label: "My Resume" },
+  { href: "/history", label: "History" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/faq", label: "FAQ" },
+];
+
+const withOutLogin = [
+  { href: "/", label: "Home" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/faq", label: "FAQ" },
+];
+
+export default async function Footer() {
   const currentYear = new Date().getFullYear();
+
+  const data = await myFetch("/user/profile");
+
+  const menus = {
+    RECRUITER: recuiter,
+    EMPLOYEE: employee,
+    GUEST: withOutLogin,
+  };
+
+  const role = data?.data?.role;
+  const menu = menus[role] || menus?.GUEST;
+
   return (
     <footer className="bg-gradient-to-r from-[#2B4CB8] via-[#3B5FD9] to-[#4A6EFA] text-white">
       {/* MAIN FOOTER CONTENT */}
@@ -35,18 +73,16 @@ export default function Footer() {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {["Home", "Jobs", "Resume", "History", "Pricing"].map(
-                (item, idx) => (
-                  <li key={idx}>
-                    <Link
-                      href="#"
-                      className="text-blue-100 hover:text-white text-sm transition-colors duration-200"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                )
-              )}
+              {menu?.map((item, idx) => (
+                <li key={idx}>
+                  <Link
+                    href={item?.href}
+                    className="text-blue-100 hover:text-white text-sm transition-colors duration-200"
+                  >
+                    {item?.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -117,7 +153,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-6 py-4">
           {/* Left Side - Copyright */}
           <div className="text-sm text-blue-100 text-center md:text-left">
-            © {currentYear} Example.com. All Rights Reserved.
+            © {currentYear} JOBARMAN.com. All Rights Reserved.
           </div>
 
           {/* Right Side - Icons + Links */}

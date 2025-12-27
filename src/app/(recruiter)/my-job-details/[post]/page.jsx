@@ -18,10 +18,9 @@ export default async function page({ params, searchParams }) {
   return (
     <main className="min-h-screen bg-white">
       {/* Header Navigation */}
-      <div className="">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <HeaderTitle postJobDetails={postJobDetails} />
-        </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <HeaderTitle postJobDetails={postJobDetails} />
       </div>
 
       {/* Job Header Section */}
