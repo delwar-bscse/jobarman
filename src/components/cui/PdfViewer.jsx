@@ -7,6 +7,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export default function PdfViewer({ fileUrl }) {
+  console.log("file", fileUrl);
   const [numPages, setNumPages] = useState(null);
   const [width, setWidth] = useState(800);
 
@@ -35,7 +36,14 @@ export default function PdfViewer({ fileUrl }) {
       </div>
       <div>
         <Document
-          file={`${process.env.NEXT_PUBLIC_IMAGE_URL}${fileUrl}`}
+          // file={`${process.env.NEXT_PUBLIC_IMAGE_URL}${fileUrl}`}
+          file={
+            fileUrl.startsWith("blob:")
+              ? fileUrl
+              : fileUrl.startsWith("http")
+              ? fileUrl
+              : `${process.env.NEXT_PUBLIC_IMAGE_URL}${fileUrl}`
+          }
           onLoadSuccess={({ numPages }) => setNumPages(numPages)}
           loading={<div className="p-8 text-center">Loading...</div>}
         >
