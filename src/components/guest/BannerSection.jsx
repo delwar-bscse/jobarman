@@ -26,10 +26,14 @@ export default function BannerSection() {
               In <span className="text-blue-600">IT</span> &{" "}
               <span className="text-orange-500">Healthcare</span>
             </h1>
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 text-balance">
+              Our AI matches you with relevant IT and healthcare roles, helping you focus on opportunities that truly fit.
+            </p>
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 text-balance">
+              Jobarman aggregates jobs from leading platforms and refreshes them regularly—so you can search less, apply faster, and stay up to date without jumping between job boards.
+            </p>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 text-balance">
-              Our AI Matches You With The Right Roles And Even Applies On Your
-              Behalf—So You Can Focus On What Matters. More Interviews, Better
-              Opportunities, Faster.
+              Auto-Apply functionality is currently limited to positions posted directly on Jobarman. Expansion to additional listings is in progress, subject to platform support.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <AutoApply />
