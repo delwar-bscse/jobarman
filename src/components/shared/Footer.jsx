@@ -161,11 +161,11 @@ export default async function Footer() {
             {/* Social Media Icons */}
             <div className="flex items-center gap-3">
               {[
-                { Icon: FaFacebookF, color: "text-blue-600", link: "https://www.facebook.com/" },
-                { Icon: FaLinkedinIn, color: "text-blue-600", link: "https://www.linkedin.com/" },
-                { Icon: FaInstagram, color: "text-pink-500", link: "https://www.instagram.com/" },
-                { Icon: FaYoutube, color: "text-red-600", link: "https://www.youtube.com/" },
-                { Icon: FaTiktok, color: "text-gray-800", link: "https://www.tiktok.com/" },
+                { Icon: FaFacebookF, color: "text-blue-600", link: "https://www.facebook.com/profile.php?id=61585636890325" },
+                { Icon: FaLinkedinIn, color: "text-blue-600", link: "https://www.linkedin.com/company/jobarman" },
+                { Icon: FaInstagram, color: "text-pink-500", link: "https://www.instagram.com/jobarman_llc" },
+                { Icon: FaYoutube, color: "text-red-600", link: "https://www.youtube.com/@Jobarman_llc" },
+                { Icon: FaTiktok, color: "text-gray-800", link: "https://www.tiktok.com/@jobarman_llc" },
               ].map(({ Icon, color, link }, idx) => (
                 <Link
                   key={idx}
