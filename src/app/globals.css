@@ -79,3 +79,32 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+
+/* ===== PDF RENDER FIX ===== */
+[data-pdf="true"] {
+  line-height: 1.2 !important;
+}
+
+[data-pdf="true"] h1,
+[data-pdf="true"] h2,
+[data-pdf="true"] h3,
+[data-pdf="true"] h4,
+[data-pdf="true"] p,
+[data-pdf="true"] span,
+[data-pdf="true"] li {
+  line-height: 1.2 !important;
+}
+
+[data-pdf="true"] svg {
+  vertical-align: middle !important;
+}
+
+[data-pdf="true"] .pdf-no-truncate {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  max-width: none !important;
+}
+

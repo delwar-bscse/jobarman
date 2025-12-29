@@ -69,13 +69,13 @@ export default function JobDetailsRight({ details }) {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           {/* Left: Logo + Title + Pills */}
           <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-full overflow-hidden ring-1 ring-gray-200">
+            <div className="">
               <CustomImage
-                src={details?.post?.thumbnail}
+                src={details?.thumbnail}
                 title={`${details?.title} logo`}
-                width={56}
-                height={56}
-                className="w-full h-full object-cover"
+                width={300}
+                height={300}
+                className="w-16 h-auto object-cover border border-gray-200 rounded-sm p-0.5 bg-white"
               />
             </div>
             <div>
@@ -91,13 +91,23 @@ export default function JobDetailsRight({ details }) {
                   {details?.recruiter?.name || details?.recruiter_company}
                 </Link>
               </div>
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
-                  Job Type :
-                </span>
-                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
-                  {toUnCapilizeSentence(details?.job_type)}
-                </span>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
+                    Job Type :
+                  </span>
+                  <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
+                    {toUnCapilizeSentence(details?.job_type)}
+                  </span>
+                </div>
+                {
+                  <p className="text-gray-400 text-md mt-1">
+                    Job Board :{" "}
+                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
+                      {details?.job_board || "Jobarman"}
+                    </span>
+                  </p>
+                }
               </div>
             </div>
           </div>

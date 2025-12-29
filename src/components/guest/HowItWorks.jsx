@@ -21,7 +21,7 @@ const howItWorks = [
     step: "Step-3",
     title: "Auto-Apply With AI",
     description:
-      "Let AI Do The Hard Work: It Finds The Right Jobs, Matches Them To Your Skills, And Applies For You Automatically.",
+      "Let AI do the hard work it finds the right jobs posted directly on Jobarman only, matches them to your skills, and automatically applies exclusively to Jobarman-Posted jobs.",
     icon: PlusCircle,
   },
   {

@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { myFetch } from "utils/myFetch";
+import { link } from "fs";
 
 const recuiter = [
   { href: "/", label: "Home" },
@@ -160,15 +161,17 @@ export default async function Footer() {
             {/* Social Media Icons */}
             <div className="flex items-center gap-3">
               {[
-                { Icon: FaFacebookF, color: "text-blue-600" },
-                { Icon: FaLinkedinIn, color: "text-blue-600" },
-                { Icon: FaInstagram, color: "text-pink-500" },
-                { Icon: FaYoutube, color: "text-red-600" },
-                { Icon: FaTiktok, color: "text-gray-800" },
-              ].map(({ Icon, color }, idx) => (
+                { Icon: FaFacebookF, color: "text-blue-600", link: "https://www.facebook.com/" },
+                { Icon: FaLinkedinIn, color: "text-blue-600", link: "https://www.linkedin.com/" },
+                { Icon: FaInstagram, color: "text-pink-500", link: "https://www.instagram.com/" },
+                { Icon: FaYoutube, color: "text-red-600", link: "https://www.youtube.com/" },
+                { Icon: FaTiktok, color: "text-gray-800", link: "https://www.tiktok.com/" },
+              ].map(({ Icon, color, link }, idx) => (
                 <Link
                   key={idx}
-                  href="#"
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:scale-110 transform transition duration-300"
                 >
                   <Icon className={`w-4 h-4 ${color}`} />

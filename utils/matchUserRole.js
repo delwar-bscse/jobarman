@@ -12,6 +12,6 @@ export const idRecruiter = async () => {
 };
 
 export const isEmployee = async () => {
-  const result = getUserRole() === EUserRole.EMPLOYEE;
+  const result = (await getUserRole()) === EUserRole.EMPLOYEE;
   return result;
 };

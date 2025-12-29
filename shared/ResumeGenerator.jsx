@@ -10,6 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ScoreGeneratorRoles } from "@/constants/ScoreGeneratorRoles";
+
 
 const ResumeGenerator = () => {
   const fileInputRef = useRef(null);
@@ -22,47 +24,57 @@ const ResumeGenerator = () => {
       fileInputRef.current?.click();
     }
   };
+
   const handleFileChange = (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // ❌ Reject non-PDF files
-    if (file.type !== "application/pdf") {
-      alert("Please select a PDF file.");
+    // ✅ Allow PDF and Word files
+    const allowedTypes = [
+      "application/pdf",
+      "application/msword", // .doc
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" // .docx
+    ];
+
+    if (allowedTypes.includes(file.type)) {
+      setSelectedFile(file);
+      setFileName(file.name);
+    } else {
+      toast.error("Please select a PDF or Word file.");
       setSelectedFile(null);
       setFileName(null);
       event.target.value = ""; // reset input
-      return;
     }
-
-    // ✅ Accept PDF
-    setSelectedFile(file);
-    setFileName(file.name);
   };
 
   const handleSubmitResume = async (e) => {
     e.preventDefault();
+
     if (!selectedFile) {
-      toast.error("Please Resume Upload");
+      toast.error("Please upload a resume");
+      return;
     }
 
     const formData = new FormData();
-    if (selectedFile) {
-      formData.append("resume", selectedFile);
-    }
+    formData.append("resume", selectedFile);
+
     try {
       const res = await myFetch("/user/analyze-resume", {
         method: "POST",
         body: formData,
       });
+      console.log("Resume Res : ", res);
 
-      if (res.success) {
-        router.push(`/scroe-board/${res?.data?._id}`);
+      if (res?.success) {
+        router.push(`/scroe-board/${res.data._id}`);
+      } else {
+        toast.error(res?.message || "Resume analysis failed");
       }
     } catch (err) {
-      toast.err(err.message);
+      toast.error(err?.message || "Server error occurred");
     }
   };
+
 
   return (
     <section className="py-10 sm:py-16 max-w-7xl px-4 mb-14 rounded-xl mx-auto bg-gradient-to-r from-[#123499] to-[#2A57DE]">
@@ -87,20 +99,13 @@ const ResumeGenerator = () => {
           {/* Job Title Selector */}
           <Select>
             <SelectTrigger className=" w-full px-4 py-3 rounded-lg border border-[#5980E5] bg-[#395FD2] text-white text-sm sm:text-base hover:bg-[#2A57DE] ">
-              <SelectValue placeholder="Select your role" />
+              <SelectValue placeholder="Select your field" />
             </SelectTrigger>
 
             <SelectContent className="bg-[#395FD2] text-white border border-[#5980E5]">
-              <SelectItem value="software-developer">
-                Software Developer
-              </SelectItem>
-              <SelectItem value="product-manager">Product Manager</SelectItem>
-              <SelectItem value="data-scientist">Data Scientist</SelectItem>
-              <SelectItem value="ux-designer">UX Designer</SelectItem>
-              <SelectItem value="devops-engineer">DevOps Engineer</SelectItem>
-              <SelectItem value="full-stack-engineer">
-                Full Stack Engineer
-              </SelectItem>
+              {Object.entries(ScoreGeneratorRoles).map(([key, value]) => (
+                <SelectItem key={key} value={key}>{value}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
 
@@ -138,7 +143,7 @@ const ResumeGenerator = () => {
                   <p className="text-white font-semibold text-sm sm:text-base">
                     Drop Your Resume Here Or Click To Browse
                   </p>
-                  <p className="text-blue-200 text-xs sm:text-sm">
+                  <p className="text-white text-xs sm:text-sm">
                     Supported format: PDF only
                   </p>
                 </>
@@ -148,7 +153,7 @@ const ResumeGenerator = () => {
                     Uploaded File:
                   </p>
 
-                  <p> {fileName}</p>
+                  <p className="text-white text-xs sm:text-sm"> {fileName}</p>
                 </div>
               )}
             </div>

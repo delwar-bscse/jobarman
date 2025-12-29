@@ -304,6 +304,7 @@ export default function PaymentHistoryComponent() {
                     <PaymentHistory
                       divRef={divRef}
                       selectedTransaction={selectedTransaction}
+                      handleDownload={handleDownload}
                     />
                   )}
                 </div>

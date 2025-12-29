@@ -34,17 +34,16 @@ export default function JobCard({ job, favoratesList }) {
         href={!job?._id ? job?.job_url : `/jobs/${job?._id}`}
         target={!job?._id ? "_blank" : "_self"}
         rel="noopener noreferrer"
-        className="bg-white h-56 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
+        className=" bg-white h-56 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
       >
         {/* Left Side Image */}
-        <div className="">
+        <div className="flex items-center justify-center p-2">
           <CustomImage
             src={job.thumbnail}
             alt={`${job.title} image`}
-            width={50}
-            height={500}
-            className="object-cover w-28 h-full   sm:w-40 sm:h-full "
-            size="100vh"
+            width={500}
+            height={600}
+            className="object-contain w-28 sm:w-40 h-auto"
           />
         </div>
 
@@ -105,14 +104,14 @@ export default function JobCard({ job, favoratesList }) {
               </div>
             </div>
 
-            {job?.job_board && (
+            {
               <p className="text-gray-400 text-md mt-1">
                 Job Board :{" "}
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
-                  {job?.job_board}
+                  {job?.job_board ?? "Jobarman"}
                 </span>
               </p>
-            )}
+            }
             <p>
               {job?.is_applied === true && (
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">

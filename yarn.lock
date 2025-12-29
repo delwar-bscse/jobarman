@@ -4448,6 +4448,7 @@ __metadata:
     socket.io-client: "npm:^4.8.1"
     sonner: "npm:^2.0.7"
     sweetalert2: "npm:^11.26.3"
+    swiper: "npm:^12.0.3"
     tailwind-merge: "npm:^3.4.0"
     tailwindcss: "npm:^3.4.18"
     tailwindcss-animate: "npm:^1.0.7"
@@ -6379,6 +6380,13 @@ __metadata:
   version: 11.26.17
   resolution: "sweetalert2@npm:11.26.17"
   checksum: 10c0/00cbc4c394895f5ea2c9766ced2bb11bc73405c66a850e2981673aac27b55c98ba4e968cd3db25bd52087d3c6243ca4f3bf3b4e3269b8705c1a5c6e5405fb18d
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^12.0.3":
+  version: 12.0.3
+  resolution: "swiper@npm:12.0.3"
+  checksum: 10c0/a854531791ba45cb0f6086904a99878fd207b42024820df68fbf64e01c20d542438c023ec4765b223f4dbffabf6858d311ec749bdca4ea4b4a7b74150a010162
   languageName: node
   linkType: hard
 

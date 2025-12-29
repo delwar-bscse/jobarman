@@ -15,6 +15,7 @@ export default function ScoreBoard({ id }) {
     async function fetchData() {
       const res = await myFetch(`/user/analyze-resume/${id}`);
       setResume(res.data);
+      console.log("Score after completed : ", res)
     }
     fetchData();
   }, [id, isCompleted]);
@@ -23,6 +24,7 @@ export default function ScoreBoard({ id }) {
     if (!id || !socket) return;
 
     const onSocketResponse = () => {
+      console.log("Socket Work")
       setIsCompleted((prev) => !prev);
     };
 
@@ -69,7 +71,7 @@ export default function ScoreBoard({ id }) {
           </p>
         )}
         <div className="lg:col-span-2 bg-white  overflow-y-auto p-3">
-          {resume?.filePath ? (
+          {resume?.filePath?.endsWith(".pdf") ? (
             // <ResumeDetails resume={resume[0]} />
             <PdfViewer fileUrl={resume?.filePath} />
           ) : (

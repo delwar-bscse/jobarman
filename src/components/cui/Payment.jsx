@@ -2,7 +2,7 @@
 import dayjs from "dayjs";
 import React from "react";
 
-export default function PaymentHistory({ divRef, selectedTransaction }) {
+export default function PaymentHistory({ divRef, selectedTransaction, handleDownload }) {
   return (
     <div className="">
       <div ref={divRef} className="">
@@ -80,7 +80,7 @@ export default function PaymentHistory({ divRef, selectedTransaction }) {
       </div>
 
       <button
-        // onClick={handleDownload}
+        onClick={handleDownload}
         className="w-full mt-6 border-2 border-blue-600 text-blue-600 font-bold py-3 px-4 rounded-lg hover:bg-blue-50"
       >
         Download Payment History

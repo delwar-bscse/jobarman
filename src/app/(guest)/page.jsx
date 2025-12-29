@@ -14,10 +14,11 @@ import Categories from "@/components/guest/Categories";
 import RecruiterHero from "@/components/cui/RecruiterHero";
 import { getUserRole } from "../../../utils/getUserRole";
 import { idRecruiter, isEmployee } from "../../../utils/matchUserRole";
-
 export default async function Home() {
   const existUser = await getUserRole();
   const existRecruiter = await idRecruiter();
+  const existEmployee = await isEmployee();
+  console.log("Employee : ", existEmployee)
 
   return (
     <main className="w-full bg-white">
@@ -30,7 +31,7 @@ export default async function Home() {
       {!existRecruiter && <SearchSection />}
 
       {/* AI Banner Carousel below Hero */}
-      {/* <Carusel Banner /> */}
+      {existEmployee && <CaruselBanner />}
 
       {/* Filters Modal to filter jobs */}
       <FilterModal />

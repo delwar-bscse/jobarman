@@ -22,7 +22,7 @@ export default async function MyResume({ searchParams }) {
             <ResumeList data={resumeList?.data} />
           </div>
 
-          <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 overflow-y-auto p-4 sm:p-6 lg:p-8">
+          <div className="lg:col-span-2">
             {resumeDetails?.data ? (
               <ResumeDetails resume={resumeDetails.data} />
             ) : (
