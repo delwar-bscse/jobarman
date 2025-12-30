@@ -11,7 +11,7 @@ import { setCookie } from "cookies-next/client";
 
 export default function OTPPage() {
   const router = useRouter();
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", ""]);
 
   const handleOtpChange = (index, value) => {
     if (/^[0-9]$/.test(value) || value === "") {
@@ -20,15 +20,15 @@ export default function OTPPage() {
       setOtp(newOtp);
 
       // Auto-focus next input
-      if (value && index < 5) {
+      if (value && index < 3) {
         document.getElementById(`otp-${index + 1}`).focus();
       }
     }
   };
 
   const handlePaste = (e) => {
-    const pastedData = e.clipboardData.getData("text").slice(0, 6);
-    if (/^\d{6}$/.test(pastedData)) {
+    const pastedData = e.clipboardData.getData("text").slice(0, 4);
+    if (/^\d{4}$/.test(pastedData)) {
       setOtp(pastedData.split(""));
     }
   };

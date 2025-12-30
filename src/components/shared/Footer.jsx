@@ -11,7 +11,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { myFetch } from "utils/myFetch";
-import { link } from "fs";
 
 const recuiter = [
   { href: "/", label: "Home" },
@@ -37,6 +36,14 @@ const withOutLogin = [
   { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
 ];
+
+const socials = [
+  { Icon: FaFacebookF, color: "text-blue-600", link: "https://www.facebook.com/profile.php?id=61585636890325" },
+  { Icon: FaLinkedinIn, color: "text-blue-600", link: "https://www.linkedin.com/company/jobarman" },
+  { Icon: FaInstagram, color: "text-pink-500", link: "https://www.instagram.com/jobarman_llc" },
+  { Icon: FaYoutube, color: "text-red-600", link: "https://www.youtube.com/@Jobarman_llc" },
+  { Icon: FaTiktok, color: "text-gray-800", link: "https://www.tiktok.com/@jobarman_llc" },
+]
 
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
@@ -107,7 +114,7 @@ export default async function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <LinkedinIcon className="w-4 h-4 flex-shrink-0" />
-                Linkedin.com/Jobarman
+                <a href="https://www.linkedin.com/company/jobarman" target="_blank">linkedin.com/company/jobarman</a>
               </li>
             </ul>
           </div>
@@ -160,13 +167,7 @@ export default async function Footer() {
           <div className="flex flex-col sm:flex-row items-center gap-4">
             {/* Social Media Icons */}
             <div className="flex items-center gap-3">
-              {[
-                { Icon: FaFacebookF, color: "text-blue-600", link: "https://www.facebook.com/profile.php?id=61585636890325" },
-                { Icon: FaLinkedinIn, color: "text-blue-600", link: "https://www.linkedin.com/company/jobarman" },
-                { Icon: FaInstagram, color: "text-pink-500", link: "https://www.instagram.com/jobarman_llc" },
-                { Icon: FaYoutube, color: "text-red-600", link: "https://www.youtube.com/@Jobarman_llc" },
-                { Icon: FaTiktok, color: "text-gray-800", link: "https://www.tiktok.com/@jobarman_llc" },
-              ].map(({ Icon, color, link }, idx) => (
+              {socials.map(({ Icon, color, link }, idx) => (
                 <Link
                   key={idx}
                   href={link}

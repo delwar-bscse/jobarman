@@ -22,7 +22,7 @@ export default function PaymentHistoryComponent() {
   const [showPaymentHistory, setShowPaymentHistory] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", ""]);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [transactions, setTransactions] = useState([]);
 
@@ -64,7 +64,7 @@ export default function PaymentHistoryComponent() {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
-      if (value && index < 5) {
+      if (value && index < 3) {
         document.getElementById(`otp-${index + 1}`)?.focus();
       }
     }
@@ -264,11 +264,10 @@ export default function PaymentHistoryComponent() {
                       <div
                         key={transaction._id}
                         onClick={() => setPaymentId(transaction._id)}
-                        className={`p-4 rounded-lg cursor-pointer transition-colors ${
-                          selectedTransaction?._id === transaction._id
+                        className={`p-4 rounded-lg cursor-pointer transition-colors ${selectedTransaction?._id === transaction._id
                             ? "bg-[#FEF3E6] border"
                             : "bg-gray-50 border border-gray-200 hover:bg-gray-100"
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">

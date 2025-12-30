@@ -29,7 +29,7 @@ export default function CaruselBanner() {
 
   return (
     <div
-      className="relative w-full  cursor-pointer"
+      className="relative w-full max-w-[1440px] mx-auto  cursor-pointer"
       onMouseEnter={() => swiperRef.current?.autoplay?.stop()}
       onMouseLeave={() => swiperRef.current?.autoplay?.start()}
     >
@@ -63,7 +63,7 @@ export default function CaruselBanner() {
       >
         {categoryDatas?.length > 0 && categoryDatas?.map((item: Record<string, any>, index: number) => (
           <SwiperSlide key={index}>
-            <div className='h-[280px] overflow-hidden pb-12 flex items-center justify-center flex-col gap-2'>
+            <div className='h-[300px] overflow-hidden pb-12 flex items-center justify-center flex-col gap-2'>
               <Image
                 src={formatUrl(item?.cover_image)}
                 alt={item?.alt}
