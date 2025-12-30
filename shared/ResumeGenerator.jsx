@@ -14,6 +14,8 @@ import { ScoreGeneratorRoles } from "@/constants/ScoreGeneratorRoles";
 
 
 const ResumeGenerator = () => {
+  const [role, setRole] = useState("");
+  const [customRole, setCustomRole] = useState("");
   const fileInputRef = useRef(null);
   const [fileName, setFileName] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -54,9 +56,14 @@ const ResumeGenerator = () => {
       toast.error("Please upload a resume");
       return;
     }
+    if(!role && !customRole){
+      toast.error("Please select or type your field");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("resume", selectedFile);
+    formData.append("role", role === "custom" ? customRole : role);
 
     try {
       const res = await myFetch("/user/analyze-resume", {
@@ -97,17 +104,28 @@ const ResumeGenerator = () => {
 
         <div className="space-y-6">
           {/* Job Title Selector */}
-          <Select>
-            <SelectTrigger className=" w-full px-4 py-3 rounded-lg border border-[#5980E5] bg-[#395FD2] text-white text-sm sm:text-base hover:bg-[#2A57DE] ">
+          <Select value={role} onValueChange={setRole}>
+            <SelectTrigger className="w-full px-4 py-3 rounded-lg border border-[#5980E5] bg-[#395FD2] text-white">
               <SelectValue placeholder="Select your field" />
             </SelectTrigger>
 
             <SelectContent className="bg-[#395FD2] text-white border border-[#5980E5]">
               {Object.entries(ScoreGeneratorRoles).map(([key, value]) => (
-                <SelectItem key={key} value={key}>{value}</SelectItem>
+                <SelectItem key={key} value={key}>
+                  {value}
+                </SelectItem>
               ))}
             </SelectContent>
-          </Select>
+          </Select>{role === "custom" && (
+            <input
+              type="text"
+              placeholder="Please specify your field"
+              value={customRole}
+              onChange={(e) => setCustomRole(e.target.value)}
+              className="mt-3 w-full px-4 py-2 rounded-lg border border-[#5980E5] bg-[#395FD2] text-white placeholder:text-gray-300"
+            />
+          )}
+
 
           {/* File Upload */}
           <div

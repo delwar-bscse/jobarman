@@ -21,5 +21,6 @@ export const ScoreGeneratorRoles = {
   "physical-therapist": "Physical Therapist",
   "health-informatics-specialist": "Health Informatics Specialist",
   "telemedicine-coordinator": "Telemedicine Coordinator",
-  "public-health-officer": "Public Health Officer"
+  "public-health-officer": "Public Health Officer",
+  "custom": "Other (Please specify below)"
 };
