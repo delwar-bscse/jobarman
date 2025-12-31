@@ -73,7 +73,8 @@ export default function ResumeDetails({ resume }) {
 
     // Center content
     const x = (pdfWidth - finalWidth) / 2;
-    const y = (pdfHeight - finalHeight) / 2;
+    // const y = (pdfHeight - finalHeight) / 2;
+    const y = 10; // start 10mm from top
 
     pdf.addImage(imgData, "PNG", x, y, finalWidth, finalHeight);
     pdf.save("payment-details-a4.pdf");

@@ -1,16 +1,16 @@
 "use client";
 
-import { FileText, Edit2, Trash2, Plus } from "lucide-react";
+import { FileText, Edit2, Trash2, Plus, Upload } from "lucide-react";
 import Link from "next/link";
 import {
-  useParams,
-  usePathname,
   useRouter,
   useSearchParams,
 } from "next/navigation";
 import Swal from "sweetalert2";
 import { myFetch } from "../../../utils/myFetch";
 import { revalidate } from "../../../utils/revalidateTags";
+import UploadResume from "./UploadResume";
+import { CustomModal } from "../modal/CustomModal";
 
 export default function ResumeList({ data }) {
   const params = useSearchParams();
@@ -60,14 +60,15 @@ export default function ResumeList({ data }) {
   };
 
   return (
-    <div className="h-full flex flex-col bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
+    <div className="flex flex-col gap-6 bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
       {/* Title */}
-      <h1 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">
+      <h1 className="text-lg sm:text-xl font-bold text-gray-900">
         My Resumes
       </h1>
 
+
       {/* Scrollable list */}
-      <div className="flex-1 space-y-2 sm:space-y-3 overflow-y-auto pr-1">
+      <div className="flex-1 space-y-2  overflow-y-auto pr-1">
         {data?.length > 0 ? (
           data.map((resume) => {
             const isActive = activeResumeId === resume?._id;
@@ -76,9 +77,8 @@ export default function ResumeList({ data }) {
               <div
                 key={resume?._id}
                 onClick={() => handleParamsSet(resume?._id)}
-                className={`p-2.5 sm:p-3 rounded-lg my-3 border cursor-pointer transition-all flex items-center gap-2.5 sm:gap-3 bg-white  ${
-                  isActive ? "border-green-500 shadow-md" : "border-gray-200"
-                }`}
+                className={`p-2.5 sm:p-3 rounded-lg my-3 border cursor-pointer transition-all flex items-center gap-2.5 sm:gap-3 bg-white  ${isActive ? "border-green-500 shadow-md" : "border-gray-200"
+                  }`}
               >
                 {/* Icon */}
                 <div className="bg-orange-500 p-1.5 sm:p-2 rounded-lg flex-shrink-0">
@@ -94,13 +94,22 @@ export default function ResumeList({ data }) {
 
                 {/* Actions */}
                 <div className="flex gap-1 sm:gap-1.5">
-                  <Link
+                  {!resume?.is_external_resume ? <Link
                     href={`/add-new-resume?id=${resume?._id}`}
                     onClick={(e) => e.stopPropagation()}
                     className="p-1.5 hover:bg-gray-100 rounded transition-colors"
                   >
                     <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600" />
-                  </Link>
+                  </Link> : <CustomModal
+                    title="Upload Resume"
+                    trigger={
+                      <div className="p-1.5 hover:bg-gray-100 rounded transition-colors">
+                        <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-600" />
+                      </div>
+                    }
+                  >
+                    <UploadResume resume={resume} />
+                  </CustomModal>}
                   <button
                     onClick={(e) => handleDeleteResume(e, resume?._id)}
                     className="p-1.5 hover:bg-red-100 rounded transition-colors"
@@ -118,13 +127,27 @@ export default function ResumeList({ data }) {
         )}
       </div>
 
-      {/* Add button */}
-      <Link href={`/add-new-resume`} className="block mt-3 sm:mt-4">
-        <button className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 sm:py-3 px-3 rounded-lg font-medium text-sm transition-all shadow-sm hover:shadow">
-          <Plus className="w-5 h-5" />
-          Add New Resume
-        </button>
-      </Link>
+      <div className="space-y-2">
+        {/* Upload and Add New Resume Buttons */}
+        <CustomModal
+          title="Upload Resume"
+          trigger={
+            <button className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 sm:py-3 px-3 rounded-lg font-medium text-sm transition-all shadow-sm hover:shadow">
+              <Upload className="w-5 h-5" />
+              Upload Resume
+            </button>
+          }
+        >
+          <UploadResume />
+        </CustomModal>
+        {/* Add New Resume button */}
+        <Link href={`/add-new-resume`} className="block">
+          <button className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 sm:py-3 px-3 rounded-lg font-medium text-sm transition-all shadow-sm hover:shadow">
+            <Plus className="w-5 h-5" />
+            Create Resume
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

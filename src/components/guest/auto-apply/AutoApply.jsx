@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronLeft, CloudCog } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { myFetch } from "../../../../utils/myFetch";
 import { useRouter } from "next/navigation";

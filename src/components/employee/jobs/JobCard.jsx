@@ -37,7 +37,7 @@ export default function JobCard({ job, favoratesList }) {
         className=" bg-white h-56 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
       >
         {/* Left Side Image */}
-        <div className="flex items-center justify-center p-2">
+        <div className="flex items-start justify-center p-2">
           <CustomImage
             src={job.thumbnail}
             alt={`${job.title} image`}
@@ -104,14 +104,14 @@ export default function JobCard({ job, favoratesList }) {
               </div>
             </div>
 
-            {
+            {/* {
               <p className="text-gray-400 text-md mt-1">
                 Job Board :{" "}
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
                   {job?.job_board ?? "Jobarman"}
                 </span>
               </p>
-            }
+            } */}
             <p>
               {job?.is_applied === true && (
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">
