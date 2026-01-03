@@ -8,6 +8,7 @@ import { useClasses } from "./../../../utils/Navbar";
 import { myFetch } from "utils/myFetch";
 import NotificationMessageNavbar from "./NotificationMessageNavbar";
 import ProfileDropdown from "./ProfileDropDown";
+import { getUserRole } from "utils/getUserRoleClient";
 
 const recuiter = [
   { href: "/", label: "Home" },
@@ -77,7 +78,8 @@ export default function Navbar() {
     GUEST: withOutLogin,
   };
 
-  const role = profile?.data?.role;
+  // const role = profile?.data?.role;
+  const role = getUserRole();
   const menu = menus[role] || menus.GUEST;
 
   return (
@@ -108,7 +110,7 @@ export default function Navbar() {
           ))}
 
           {/* notification and message */}
-          <NotificationMessageNavbar role={role} />
+          <NotificationMessageNavbar role={role} id={profile?.data?._id} />
 
           {/* Profile Section */}
           <ProfileDropdown

@@ -9,6 +9,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import Image from 'next/image';
 import { myFetch } from 'utils/myFetch';
 import { formatUrl } from 'utils/formatUrl';
+import Link from 'next/link';
 
 export default function CaruselBanner() {
   const [categoryDatas, setCategoryDatas] = React.useState<any>([]);
@@ -21,7 +22,7 @@ export default function CaruselBanner() {
       const res = await myFetch("/spotlight", {
         method: "GET",
       });
-      console.log("Slider : ",res?.data)
+      // console.log("Slider : ",res?.data)
       setCategoryDatas(res?.data);
     };
     fetchCategories();
@@ -63,7 +64,7 @@ export default function CaruselBanner() {
       >
         {categoryDatas?.length > 0 && categoryDatas?.map((item: Record<string, any>, index: number) => (
           <SwiperSlide key={index}>
-            <div className='h-[300px] overflow-hidden pb-12 flex items-center justify-center flex-col gap-2'>
+            <Link href={`/all-spotlight?id=${item?.slug}`} className='h-[300px] overflow-hidden pb-12 flex items-center justify-center flex-col gap-2'>
               <Image
                 src={formatUrl(item?.cover_image)}
                 alt={item?.alt}
@@ -71,7 +72,7 @@ export default function CaruselBanner() {
                 height={600}
                 className="w-full h-full object-cover rounded-sm"
               />
-            </div>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

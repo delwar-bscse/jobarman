@@ -22,6 +22,10 @@ function RegisterPageSuspense() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Passwords & Confirm Password do not match");
+      return;
+    }
     const res = await myFetch("/user", {
       method: "POST",
       body: { name, email, password, role },

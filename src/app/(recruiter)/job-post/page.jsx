@@ -169,7 +169,7 @@ function EditJobPostForm() {
       console.log("update", res);
       toast.success(isEdit ? "Successfully Updated" : "Successfully Posted");
       revalidate("edit-job");
-      router.back();
+      // router.back();
     } else {
       toast.error(res.error?.[0]?.message || "Operation failed");
     }

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { myFetch } from "utils/myFetch";
 import { toast } from "sonner";
+import { isEmployee } from "utils/matchUserRole";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_FILE_TYPES = ["application/pdf"];
@@ -82,6 +83,12 @@ export default function JobApplyModal({ trigger, details }) {
 
   // Handle form submission
   const onSubmit = async (data) => {
+
+    const isEmployer = await isEmployee();
+    if (!isEmployer) {
+      toast.error("Please login as a job seeker to apply this job.");
+      return;
+    }
     // Validate required files
     if (!resumeFile) {
       setError("Resume is required");
@@ -114,6 +121,8 @@ export default function JobApplyModal({ trigger, details }) {
         body: formData,
       } as any);
 
+      console.log("Apply res : ", res);
+
       if (res.success) {
         reset();
         setResumeFile(null);
@@ -121,7 +130,8 @@ export default function JobApplyModal({ trigger, details }) {
         toast.success(res.message || "Application submitted successfully!");
         setOpen(false);
       } else {
-        toast.error(res.error);
+        toast.error(res.message || "Submission failed. Please try again.");
+        console.log("Submission error:", res.message);
       }
     } catch (err) {
       toast.error("Submission error:", err.message);

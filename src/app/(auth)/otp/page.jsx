@@ -132,7 +132,7 @@ export default function OTPPage() {
 
               {/* Resend OTP */}
               <p className="text-end mb-6 text-gray-500">
-                Didn &nbsp; t receive a code?{" "}
+                Didn&apos;t receive a code?{" "}
                 <span
                   onClick={() => resendOTP()}
                   className="text-[#0F38B2] font-semibold hover:underline cursor-pointer"

@@ -377,13 +377,13 @@ export default function AdsCreateForm() {
             </div>
 
             <div>
-              <Label>Contact Info</Label>
+              <Label>Email</Label>
               <Input
                 type="email"
                 {...register("contact_info", {
-                  required: "Contact info is required",
+                  required: "Email is required",
                 })}
-                placeholder="Enter contact"
+                placeholder="Enter your email"
               />
               {errors.contact_info && (
                 <p className={errorText}>{errors.contact_info.message}</p>

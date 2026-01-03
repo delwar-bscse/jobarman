@@ -15,6 +15,7 @@ import { useState } from "react";
 import { myFetch } from "../../../../utils/myFetch";
 import { useRouter } from "next/navigation";
 import PdfViewer from "@/components/cui/PdfViewer";
+import { toast } from "sonner";
 
 export default function AutoApply({ data }) {
   const router = useRouter();
@@ -50,6 +51,8 @@ export default function AutoApply({ data }) {
     if (res.success) {
       localStorage.setItem("autoApplyDataId", JSON.stringify(res.data?._id));
       router.push("/auto-applying");
+    }else{
+      toast.error(res.message);
     }
   };
 

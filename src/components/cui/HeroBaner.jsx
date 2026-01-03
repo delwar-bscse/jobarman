@@ -5,17 +5,18 @@ import { useRouter } from "next/navigation";
 const { ChevronLeft } = require("lucide-react");
 const { default: Image } = require("next/image");
 
-const HeroBanner = () => {
+const HeroBanner = ({hiroImage}) => {
   const router = useRouter();
+
   return (
     <div className="relative">
       <Image
-        src="/alljobs.png"
+        src={hiroImage || "/images/job-banner.jpg"}
         alt="Job banner"
         width={1440}
         height={400}
         priority
-        className="w-full h-56 sm:h-72 md:h-80 lg:h-96 object-cover"
+        className="w-full h-56 sm:h-72 md:h-80 lg:h-96 object-contain"
       />
       <div className="absolute top-4 left-4">
         <button

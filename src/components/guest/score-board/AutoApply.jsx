@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { myFetch } from "../../../../utils/myFetch";
+// import { myFetch } from "../../../../utils/myFetch";
 import { getUserRole } from "../../../../utils/getUserRole";
 
 export default function AutoApply() {
@@ -30,7 +30,7 @@ export default function AutoApply() {
 
   const handleAutoApply = () => {
     if (!isLoggedIn) {
-      toast.error("Please login to continue");
+      toast.error("Please login as a job seeker to continue auto apply.");
       return;
     }
 

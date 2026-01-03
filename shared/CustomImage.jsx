@@ -6,7 +6,7 @@ export default function CustomImage({
   width = 100,
   height = 100,
   className = "",
-  fallback = "/logo-default.png", // optional fallback image
+  fallback = "/no-image-fund.png", // optional fallback image
 }) {
   // Return fallback if no SRC
   if (!src) {
