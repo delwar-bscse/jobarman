@@ -64,7 +64,7 @@ export default function CaruselBanner() {
       >
         {categoryDatas?.length > 0 && categoryDatas?.map((item: Record<string, any>, index: number) => (
           <SwiperSlide key={index}>
-            <Link href={`/all-spotlight?id=${item?.slug}`} className='h-[300px] overflow-hidden pb-12 flex items-center justify-center flex-col gap-2'>
+            <Link href={`/all-spotlight?id=${item?._id}`} className='h-[300px] overflow-hidden pb-12 flex items-center justify-center flex-col gap-2'>
               <Image
                 src={formatUrl(item?.cover_image)}
                 alt={item?.alt}
