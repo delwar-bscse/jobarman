@@ -7,15 +7,11 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import EmployeeSidebar from "./EmployeeSidebar";
 import { myFetch } from "../../../utils/myFetch";
-import RecruiterSidebar from "./RecruiterSidebar";
-import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import PaymentHistory from "./Payment";
 
 export default function PaymentHistoryComponent() {
-  const pathname = usePathname();
   const [paymentId, setPaymentId] = useState(null);
   const [showPasswordModal, setShowPasswordModal] = useState(true);
   const [showOTPModal, setShowOTPModal] = useState(false);
@@ -125,16 +121,7 @@ export default function PaymentHistoryComponent() {
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB]">
-      <div className="grid md:grid-cols-[30%_70%] py-10">
-        {/* Sidebar */}
-        {pathname === "/profile/payment" ? (
-          <EmployeeSidebar />
-        ) : (
-          <RecruiterSidebar />
-        )}
-
-        {/* Main Content */}
-        <div className="flex-1 ml-8">
+      <div className="">
           {!showPaymentHistory ? (
             <div className="flex items-center justify-center min-h-screen">
               {/* Password Modal */}
@@ -311,7 +298,6 @@ export default function PaymentHistoryComponent() {
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 }

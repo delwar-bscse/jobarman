@@ -163,26 +163,23 @@ const EmployeeSidebar = () => {
             return (
               <div key={index}>
                 <button
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                    isActiveParent
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveParent
                       ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white w-full px-2"
                       : ""
-                  }`}
+                    }`}
                   onClick={() => handleMenuClick(item)}
                 >
                   <item.icon
-                    className={`w-5 h-5 ${
-                      isActiveParent ? "text-white" : "text-black"
-                    }`}
+                    className={`w-5 h-5 ${isActiveParent ? "text-white" : "text-black"
+                      }`}
                   />
                   <span className="text-sm font-medium">{item.label}</span>
 
                   {item.label === "Settings" && (
                     <span className="ml-auto text-gray-400">
                       <IoIosArrowForward
-                        className={`text-gray-400 ${
-                          isSettingsOpen ? "rotate-90" : ""
-                        } transition-transform duration-200`}
+                        className={`text-gray-400 ${isSettingsOpen ? "rotate-90" : ""
+                          } transition-transform duration-200`}
                       />
                     </span>
                   )}
@@ -197,17 +194,15 @@ const EmployeeSidebar = () => {
                       return (
                         <button
                           key={subIndex}
-                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                            isActiveSub
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveSub
                               ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
                               : ""
-                          }`}
+                            }`}
                           onClick={() => handleSubMenuClick(subItem)}
                         >
                           <subItem.icon
-                            className={`w-5 h-5 ${
-                              isActiveSub ? "text-white" : "text-black"
-                            }`}
+                            className={`w-5 h-5 ${isActiveSub ? "text-white" : "text-black"
+                              }`}
                           />
                           <span className="text-sm font-medium">
                             {subItem.label}

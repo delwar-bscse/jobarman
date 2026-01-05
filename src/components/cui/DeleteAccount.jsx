@@ -3,8 +3,6 @@
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
-import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
-import RecruiterSidebar from "./RecruiterSidebar";
 import { myFetch } from "../../../utils/myFetch";
 
 export default function DeleteAccount() {
@@ -41,75 +39,56 @@ export default function DeleteAccount() {
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB] px-3">
-      <div className="grid md:grid-cols-[30%_70%]  mx-auto py-10">
-        {/* Sidebar */}
-        {pathname === "/profile/settings/deleteAccount" ? (
-          <div>
-            {" "}
-            <EmployeeSidebar />
-          </div>
-        ) : (
-          <div>
-            <RecruiterSidebar />
-          </div>
-        )}
+      <div className="flex items-center justify-center"  style={{ height: "calc(100vh - 90px)" }}>
+        <div className="">
+          <div className="bg-white rounded-2xl p-12 shadow-lg max-w-md w-full">
+            {!showInput ? (
+              <>
+                {/* Step 1 – Yes/No */}
+                <h2 className="text-xl md:text-3xl font-bold text-center text-gray-900 mb-8">
+                  Are you sure you want to Delete Account?
+                </h2>
 
-        {/* Main Content */}
-
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="">
-            <h1 onClick={() => history.back()} className="mb-3 cursor-pointer">
-              Back
-            </h1>
-            <div className="bg-white rounded-2xl p-12 shadow-lg max-w-md w-full">
-              {!showInput ? (
-                <>
-                  {/* Step 1 – Yes/No */}
-                  <h2 className="text-xl md:text-3xl font-bold text-center text-gray-900 mb-8">
-                    Are you sure you want to Delete Account?
-                  </h2>
-
-                  <div className="flex gap-4">
-                    <button
-                      onClick={() => router.back()}
-                      className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg"
-                    >
-                      No
-                    </button>
-
-                    <button
-                      onClick={handleYesClick}
-                      className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg"
-                    >
-                      Yes
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {/* Step 2 – Show Input */}
-                  <h2 className="text-xl font-bold text-center text-red-600 mb-6">
-                    Type Your Password
-                  </h2>
-
-                  <input
-                    type="text"
-                    value={confirmText}
-                    onChange={(e) => setConfirmText(e.target.value)}
-                    placeholder="delete my account"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-3 mb-6"
-                    required
-                  />
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => router.back()}
+                    className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg"
+                  >
+                    No
+                  </button>
 
                   <button
-                    onClick={handleFinalDelete}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg"
+                    onClick={handleYesClick}
+                    className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg"
                   >
-                    Permanently Delete Account
+                    Yes
                   </button>
-                </>
-              )}
-            </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Step 2 – Show Input */}
+                <h2 className="text-xl font-bold text-center text-red-600 mb-6">
+                  Type Your Password
+                </h2>
+
+                <input
+                  type="text"
+                  value={confirmText}
+                  onChange={(e) => setConfirmText(e.target.value)}
+                  placeholder="delete my account"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 mb-6"
+                  required
+                />
+
+                <button
+                  onClick={handleFinalDelete}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg"
+                >
+                  Permanently Delete Account
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

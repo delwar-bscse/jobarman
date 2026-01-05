@@ -6,13 +6,9 @@ import Swal from "sweetalert2";
 
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 import { myFetch } from "../../../utils/myFetch";
-import { usePathname } from "next/navigation";
-import RecruiterSidebar from "./RecruiterSidebar";
 
 export default function ChangePasswordComponent() {
-  const pathname = usePathname();
   const [password, setPassword] = useState({
     currentPassword: "",
     newPassword: "",
@@ -85,104 +81,92 @@ export default function ChangePasswordComponent() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB]">
-      <div className="grid md:grid-cols-[30%_70%] py-10">
-        {/* Sidebar */}
-        <div>
-          {pathname === "/profile/settings/changePassword" ? (
-            <EmployeeSidebar />
-          ) : (
-            <RecruiterSidebar />
-          )}
-        </div>
+    <div className="max-w-7xl mx-auto bg-[#FBFBFB]">
+      <div className="flex justify-center items-center px-4"   style={{ height: "calc(100vh - 90px)" }}>
+        <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md w-full border border-gray-200">
+          <h2 className="text-xl sm:text-2xl text-center font-bold text-[#123499] mb-8">
+            Change Password
+          </h2>
 
-        {/* Content */}
-        <div className="flex justify-center items-center px-4">
-          <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md w-full border border-gray-200">
-            <h2 className="text-xl sm:text-2xl text-center font-bold text-[#123499] mb-8">
-              Change Password
-            </h2>
-
-            <form onSubmit={handleUpdatePassword}>
-              {/* CURRENT PASSWORD */}
-              <div className="mb-4 relative">
-                <label className="block mb-1 font-medium">
-                  Current Password
-                </label>
-                <Input
-                  type={show.current ? "text" : "password"}
-                  value={password.currentPassword}
-                  placeholder="current password"
-                  onChange={(e) =>
-                    setPassword((p) => ({
-                      ...p,
-                      currentPassword: e.target.value,
-                    }))
-                  }
-                />
-                <span
-                  className="absolute top-9 right-3 cursor-pointer"
-                  onClick={() =>
-                    setShow((s) => ({ ...s, current: !s.current }))
-                  }
-                >
-                  {show.current ? <EyeOff /> : <Eye />}
-                </span>
-              </div>
-
-              {/* NEW PASSWORD */}
-              <div className="mb-4 relative">
-                <label className="block mb-1 font-medium">New Password</label>
-                <Input
-                  type={show.new ? "text" : "password"}
-                  value={password.newPassword}
-                  placeholder="new password"
-                  onChange={(e) =>
-                    setPassword((p) => ({ ...p, newPassword: e.target.value }))
-                  }
-                />
-                <span
-                  className="absolute top-9 right-3 cursor-pointer"
-                  onClick={() => setShow((s) => ({ ...s, new: !s.new }))}
-                >
-                  {show.new ? <EyeOff /> : <Eye />}
-                </span>
-              </div>
-
-              {/* CONFIRM PASSWORD */}
-              <div className="mb-6 relative">
-                <label className="block mb-1 font-medium">
-                  Confirm Password
-                </label>
-                <Input
-                  type={show.confirm ? "text" : "password"}
-                  value={password.confirmPassword}
-                  placeholder="confirm password"
-                  onChange={(e) =>
-                    setPassword((p) => ({
-                      ...p,
-                      confirmPassword: e.target.value,
-                    }))
-                  }
-                />
-                <span
-                  className="absolute top-9 right-3 cursor-pointer"
-                  onClick={() =>
-                    setShow((s) => ({ ...s, confirm: !s.confirm }))
-                  }
-                >
-                  {show.confirm ? <EyeOff /> : <Eye />}
-                </span>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2670] hover:to-[#1f42b8] text-white font-bold py-3 rounded-lg transition-all"
+          <form onSubmit={handleUpdatePassword}>
+            {/* CURRENT PASSWORD */}
+            <div className="mb-4 relative">
+              <label className="block mb-1 font-medium">
+                Current Password
+              </label>
+              <Input
+                type={show.current ? "text" : "password"}
+                value={password.currentPassword}
+                placeholder="current password"
+                onChange={(e) =>
+                  setPassword((p) => ({
+                    ...p,
+                    currentPassword: e.target.value,
+                  }))
+                }
+              />
+              <span
+                className="absolute top-9 right-3 cursor-pointer"
+                onClick={() =>
+                  setShow((s) => ({ ...s, current: !s.current }))
+                }
               >
-                Update
-              </button>
-            </form>
-          </div>
+                {show.current ? <EyeOff /> : <Eye />}
+              </span>
+            </div>
+
+            {/* NEW PASSWORD */}
+            <div className="mb-4 relative">
+              <label className="block mb-1 font-medium">New Password</label>
+              <Input
+                type={show.new ? "text" : "password"}
+                value={password.newPassword}
+                placeholder="new password"
+                onChange={(e) =>
+                  setPassword((p) => ({ ...p, newPassword: e.target.value }))
+                }
+              />
+              <span
+                className="absolute top-9 right-3 cursor-pointer"
+                onClick={() => setShow((s) => ({ ...s, new: !s.new }))}
+              >
+                {show.new ? <EyeOff /> : <Eye />}
+              </span>
+            </div>
+
+            {/* CONFIRM PASSWORD */}
+            <div className="mb-6 relative">
+              <label className="block mb-1 font-medium">
+                Confirm Password
+              </label>
+              <Input
+                type={show.confirm ? "text" : "password"}
+                value={password.confirmPassword}
+                placeholder="confirm password"
+                onChange={(e) =>
+                  setPassword((p) => ({
+                    ...p,
+                    confirmPassword: e.target.value,
+                  }))
+                }
+              />
+              <span
+                className="absolute top-9 right-3 cursor-pointer"
+                onClick={() =>
+                  setShow((s) => ({ ...s, confirm: !s.confirm }))
+                }
+              >
+                {show.confirm ? <EyeOff /> : <Eye />}
+              </span>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2670] hover:to-[#1f42b8] text-white font-bold py-3 rounded-lg transition-all"
+            >
+              Update
+            </button>
+          </form>
         </div>
       </div>
     </div>

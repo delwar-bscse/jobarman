@@ -56,8 +56,7 @@ const MainContent = () => {
         })) || [];
 
       setEducationList(eduList);
-      const workList =
-        res.data.workExperiences?.map((work) => ({
+      const workList = res.data.workExperiences?.map((work) => ({
           title: work.title || "",
           company: work.company || "",
           startDate: work.startDate || "",
@@ -68,7 +67,7 @@ const MainContent = () => {
           _id: work._id || "",
         })) || [];
 
-      setWorkExperienceList(workList);
+      setWorkExperienceList(...workList);
       setSkills((prev) => [...prev, ...res.data.skills]);
     }
   };
