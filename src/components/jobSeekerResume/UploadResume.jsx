@@ -7,20 +7,15 @@ import { revalidate } from "utils/revalidateTags";
 import { toast } from "sonner";
 import { useEffect } from "react";
 
-type FormValues = {
-  name: string;
-  resume?: FileList;
-};
-
-const UploadResume = ({resume}:{resume?:any}) => {
+const UploadResume = ({ resume }) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>();
+  } = useForm();
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data) => {
     const file = data.resume?.[0];
 
     if (file && file.type !== "application/pdf") {
@@ -30,28 +25,28 @@ const UploadResume = ({resume}:{resume?:any}) => {
 
     const formData = new FormData();
     formData.append("name", data.name);
-    if(file) formData.append("resume", file);
+    if (file) formData.append("resume", file);
 
     let url = "/resume/external-resume";
     let method = "POST";
-    if(resume){
+
+    if (resume) {
       url = `/resume/external-resume/${resume._id}`;
       method = "PATCH";
     }
 
     try {
       const res = await myFetch(url, {
-        method: method,
+        method,
         body: formData,
         tags: ["resume"],
       });
-      console.log("Resume Post/Update : ", {
-        "Response": res,
-        "URL": url,
-        "Method": method,
-        // "FormData Name": formData.get("name"),
-        // "FormData Resume": formData.get("resume"),
-      })
+
+      console.log("Resume Post/Update :", {
+        Response: res,
+        URL: url,
+        Method: method,
+      });
 
       if (res.success) {
         toast.success(res.message || "Resume uploaded successfully.");
@@ -61,18 +56,18 @@ const UploadResume = ({resume}:{resume?:any}) => {
       } else {
         toast.error(res.message || "Resume upload failed.");
       }
-    } catch (err: any) {
+    } catch (err) {
       toast.error(err.message || "Resume upload failed.");
     }
   };
 
-  useEffect(()=>{
-    if(resume){
+  useEffect(() => {
+    if (resume) {
       reset({
         name: resume.resume_name || "",
       });
     }
-  },[]);
+  }, [resume, reset]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
@@ -88,7 +83,11 @@ const UploadResume = ({resume}:{resume?:any}) => {
             required: "Resume name is required",
           })}
         />
-        {errors.name && (<p className="text-sm text-red-500 mt-1">{errors.name.message}</p>)}
+        {errors.name && (
+          <p className="text-sm text-red-500 mt-1">
+            {errors.name.message}
+          </p>
+        )}
       </div>
 
       {/* File Upload */}
