@@ -1,67 +1,73 @@
 import { NextResponse } from "next/server";
+import { EUserRole } from "./enum/userRoleEnum";
 
-/**
- * @param {import("next/server").NextRequest} req
- */
+const commonRoutes = [
+  "/history",
+  "/profile",
+  "/chat",
+  "/notifications",
+];
+
+const recruiterRoutes = [
+  "/my-job",
+  "/my-request",
+  "/career-spotlight",
+  "/job-post",
+];
+
+const employeeRoutes = [
+  "/my-resume",
+];
+
 export function middleware(req) {
-  try {
-    const pathname = req.nextUrl.pathname;
-    const accessToken = req.nextUrl.searchParams.get("accessToken");
+  const { pathname } = req.nextUrl;
 
-    if (pathname === "/" && accessToken) {
-      // Create a response instance to set the cookie
+  const token = req.cookies.get("accessToken")?.value;
+  const role = req.cookies.get("role")?.value;
 
-      NextResponse.next().cookies.set("accessToken", accessToken, {
-        httpOnly: true,
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      });
+  // 1. Authentication
+  if (!token || !role) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
-      return NextResponse.redirect(new URL("/", req.url));
-    }
+  const isCommonRoute = commonRoutes.some(route =>
+    pathname.startsWith(route)
+  );
+  const isRecruiterRoute = recruiterRoutes.some(route =>
+    pathname.startsWith(route)
+  );
+  const isEmployeeRoute = employeeRoutes.some(route =>
+    pathname.startsWith(route)
+  );
 
-    return NextResponse.next();
-  } catch (error) {
+  // 2. Authorization
+  if (isCommonRoute && role !== EUserRole.EMPLOYEE && role !== EUserRole.RECRUITER) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+  else if (isRecruiterRoute && role !== EUserRole.RECRUITER) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+  else if (isEmployeeRoute && role !== EUserRole.EMPLOYEE) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  // 3. Allow
+  else {
     return NextResponse.next();
   }
 }
 
+
 export const config = {
-  matcher: ["/:path*"],
+  matcher: [
+    "/my-job/:path*",
+    "/my-request/:path*",
+    "/career-spotlight/:path*",
+    "/job-post/:path*",
+    "/my-resume/:path*",
+    "/history/:path*",
+    "/profile/:path*",
+    "/chat/:path*",
+    "/notifications/:path*",
+  ],
 };
-
-// import { NextResponse } from "next/server";
-
-// /**
-//  * @param {import("next/server").NextRequest} req
-//  */
-// export function middleware(req) {
-//   try {
-//     const url = req.nextUrl.clone();
-//     const pathname = url.pathname;
-//     const accessToken = url.searchParams.get("accessToken");
-
-//     if (pathname === "/" && accessToken) {
-//       // Remove accessToken from URL
-//       url.searchParams.delete("accessToken");
-
-//       // Set cookie on the redirect response
-//       NextResponse.redirect(url).cookies.set("accessToken", accessToken, {
-//         httpOnly: true,
-//         path: "/",
-//         secure: process.env.NODE_ENV === "production",
-//         maxAge: 60 * 60 * 24, // 1 day
-//       });
-
-//       return NextResponse.redirect(new URL("/", req.url));
-//     }
-
-//     return NextResponse.next();
-//   } catch (error) {
-//     return NextResponse.next();
-//   }
-// }
-
-// export const config = {
-//   matcher: ["/:path*"],
-// };

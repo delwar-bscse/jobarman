@@ -58,6 +58,6 @@
     "src/app/(jobSeeker)/my-resume/page.jsx",
     "src/app/(recruiter)/my-job-details/[post]/page.jsx",
     "src/app/(recruiter)/job-post/skills-input.jsx"
-, "src/components/guest/CaruselBanner copy.jsx", "src/components/jobSeekerResume/UploadResume.jsx"  ],
+, "src/components/guest/CaruselBanner copy.jsx", "src/components/jobSeekerResume/UploadResume.jsx", "src/middleware.js"  ],
   "exclude": ["node_modules"]
 }

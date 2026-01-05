@@ -173,10 +173,17 @@ function RegisterPageSuspense() {
                 <label htmlFor="terms" className="text-sm">
                   I agree to the{" "}
                   <Link
-                    href="/terms"
+                    href="/terms-and-conditions"
                     className="text-[#21419F] hover:text-blue-800 font-bold transition"
                   >
-                    Terms and Privacy Policy
+                    Terms & Conditions
+                  </Link>
+                  {" "}and{" "}
+                  <Link
+                    href="/privacy-policy"
+                    className="text-[#21419F] hover:text-blue-800 font-bold transition"
+                  >
+                    Privacy Policy
                   </Link>
                 </label>
               </div>

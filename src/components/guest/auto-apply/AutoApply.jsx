@@ -48,6 +48,8 @@ export default function AutoApply({ data }) {
       body: formData,
     });
 
+    console.log("Auto Apply Res : ", res);
+
     if (res.success) {
       localStorage.setItem("autoApplyDataId", JSON.stringify(res.data?._id));
       router.push("/auto-applying");
@@ -72,9 +74,21 @@ export default function AutoApply({ data }) {
       </div>
       <div className=" grid lg:grid-cols-3 gap-5">
         <div className="lg:col-span-1 bg-white rounded-lg  mt-1 p-3">
-          <h1 className=" text-2xl font-semibold text-center text-[#2F2F2F]">
+          {/* <h1 className=" text-2xl font-semibold text-center text-[#2F2F2F]">
             Auto Apply
-          </h1>
+          </h1> */}
+           <div className="flex items-center ">
+        <ChevronLeft
+          className="cursor-pointer"
+          onClick={() => history.back()}
+        />
+        <h1
+          onClick={() => window.history.back()}
+          className="text-[#123499] text-2xl font-semibold my-3"
+        >
+          Auto Apply
+        </h1>
+      </div>
 
           {/* pdf file upload */}
           <div className="mt-4">

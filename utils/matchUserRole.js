@@ -1,10 +1,5 @@
+import { EUserRole } from "@/enum/userRoleEnum";
 import { getUserRole } from "./getUserRole";
-
-// RECRUITER | EMPLOYEE
-export const EUserRole = {
-  EMPLOYEE: "EMPLOYEE",
-  RECRUITER: "RECRUITER",
-};
 
 export const idRecruiter = async () => {
   const result = (await getUserRole()) === EUserRole.RECRUITER;

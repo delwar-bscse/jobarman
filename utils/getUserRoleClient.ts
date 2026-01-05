@@ -1,11 +1,7 @@
 "use client";
 
+import { EUserRole } from "@/enum/userRoleEnum";
 import { getCookie } from "cookies-next";
-
-export const EUserRole = {
-  EMPLOYEE: "EMPLOYEE",
-  RECRUITER: "RECRUITER",
-} as const;
 
 export type UserRole = (typeof EUserRole)[keyof typeof EUserRole];
 
