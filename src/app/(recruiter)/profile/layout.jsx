@@ -1,12 +1,12 @@
-import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
+import RecruiterSidebar from "@/components/cui/RecruiterSidebar";
 
-export default function ProfileLayout({ children }) {
+export default function EmployeeProfileLayout({ children }) {
   return (
-    <div className="grid grid-cols-2">
-      <div className="w-20 border border-red-600">
-        <EmployeeSidebar />
+    <div className="flex flex-col md:flex-row py-4 gap-4">
+      <div className="w-full md:w-72">
+        <RecruiterSidebar />
       </div>
-      <div className="flex">
+      <div className="flex-1 bg-white">
         {children}
       </div>
     </div>

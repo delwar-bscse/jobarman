@@ -40,7 +40,7 @@ export default function HelpSupport() {
   };
 
   return (
-    <div className="w-full flex justify-center mt-20 bg-[#FBFBFB] py-8">
+    <div className="w-full flex justify-center mt-20 py-8">
       <div className="px-3 md:px-10 w-full">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
           GET IN TOUCH

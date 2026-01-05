@@ -87,17 +87,13 @@ export default function EditAbout() {
   };
 
   return (
-    <div className="flex max-w-[1440px] mx-auto">
-      <div>
-        <RecruiterSidebar />
-      </div>
-      <div className="flex-1 max-w-[900px] mx-auto">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="max-w-7xl mx-auto p-6 bg-white min-h-screen"
-        >
-          {/* header */}
-          {/* <div className="flex items-center gap-4 mb-8">
+    <div className="flex-1 max-w-[900px] mx-auto">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-7xl mx-auto p-6 bg-white min-h-screen"
+      >
+        {/* header */}
+        {/* <div className="flex items-center gap-4 mb-8">
             <button type="button" className="p-2 hover:bg-gray-200 rounded-lg">
               <ChevronLeft size={22} />
             </button>
@@ -105,118 +101,117 @@ export default function EditAbout() {
 
           </div> */}
 
-          {/* ABOUT US */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold mb-4">About Us</h2>
-            <textarea
-              {...register("about_us")}
-              placeholder="About Us"
-              className="border w-full min-h-28 rounded-sm p-2"
+        {/* ABOUT US */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold mb-4">About Us</h2>
+          <textarea
+            {...register("about_us")}
+            placeholder="About Us"
+            className="border w-full min-h-28 rounded-sm p-2"
+          />
+        </div>
+
+        {/* MISSION */}
+        <div className="mb-8">
+          <h2 className="text-xl font-bold mb-4">Mission</h2>
+          <textarea
+            placeholder="Mission"
+            {...register("mission")}
+            className="border w-full min-h-28 rounded-sm p-2"
+          />
+        </div>
+
+        <div className="grid grid-cols-4 gap-3 pb-8">
+          {/* TOTAL EMPLOYEES */}
+          <div className="flex-1 items-center">
+            <span className=" text-gray-700">Total Employees</span>
+            <input
+              {...register("total_employees")}
+              type="number"
+              min={0}
+              placeholder="Total Employees"
+              className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/* MISSION */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold mb-4">Mission</h2>
-            <textarea
-              placeholder="Mission"
-              {...register("mission")}
-              className="border w-full min-h-28 rounded-sm p-2"
+          {/* COMPANY TYPE */}
+          <div className="flex-1 items-center">
+            <span className=" text-gray-700">Company Type</span>
+            <input
+              {...register("company_type")}
+              placeholder="Company Type"
+              className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          <div className="grid grid-cols-4 gap-3 pb-8">
-            {/* TOTAL EMPLOYEES */}
-            <div className="flex-1 items-center">
-              <span className=" text-gray-700">Total Employees</span>
-              <input
-                {...register("total_employees")}
-                type="number"
-                min={0}
-                placeholder="Total Employees"
-                className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            {/* COMPANY TYPE */}
-            <div className="flex-1 items-center">
-              <span className=" text-gray-700">Company Type</span>
-              <input
-                {...register("company_type")}
-                placeholder="Company Type"
-                className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            {/* FOUNDED */}
-            <div className="flex-1 items-center">
-              <span className=" text-gray-700">Founded</span>
-              <input
-                {...register("founded")}
-                type="number"
-                min={0}
-                placeholder="Founded"
-                className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            {/* REVENUE */}
-            <div className="flex-1 items-center">
-              <span className=" text-gray-700">Revenue</span>
-              <input
-                {...register("revenue")}
-                placeholder="Revenue"
-                className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+          {/* FOUNDED */}
+          <div className="flex-1 items-center">
+            <span className=" text-gray-700">Founded</span>
+            <input
+              {...register("founded")}
+              type="number"
+              min={0}
+              placeholder="Founded"
+              className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+            />
           </div>
-
-          <div className="grid grid-cols-4 gap-3">
-            {/* WEBSITE */}
-            <div className="flex-1 items-center">
-              <span className=" text-gray-700">Website</span>
-              <input
-                {...register("website")}
-                placeholder="Website URL"
-                className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            {/* EMAIL */}
-            <div className="flex-1 items-center">
-              <span className=" text-gray-700">Email</span>
-              <input
-                {...register("email")}
-                placeholder="Email"
-                className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            {/* CONTACT */}
-            <div className="flex-1 items-center">
-              <span className=" text-gray-700">Contact</span>
-              <input
-                {...register("contact")}
-                placeholder="Contact"
-                className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            {/* ADDRESS */}
-            <div className="flex-1 items-center">
-              <span className=" text-gray-700">Address</span>
-              <input
-                {...register("address")}
-                placeholder="Address"
-                className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+          {/* REVENUE */}
+          <div className="flex-1 items-center">
+            <span className=" text-gray-700">Revenue</span>
+            <input
+              {...register("revenue")}
+              placeholder="Revenue"
+              className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+            />
           </div>
+        </div>
 
-          <div className="flex justify-center pt-8">
-            <button
-              type="submit"
-              className="px-20 py-3 bg-blue-600 text-white rounded-lg shadow-md"
-            >
-              Update
-            </button>
+        <div className="grid grid-cols-4 gap-3">
+          {/* WEBSITE */}
+          <div className="flex-1 items-center">
+            <span className=" text-gray-700">Website</span>
+            <input
+              {...register("website")}
+              placeholder="Website URL"
+              className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+            />
           </div>
-        </form>
-      </div>
+          {/* EMAIL */}
+          <div className="flex-1 items-center">
+            <span className=" text-gray-700">Email</span>
+            <input
+              {...register("email")}
+              placeholder="Email"
+              className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          {/* CONTACT */}
+          <div className="flex-1 items-center">
+            <span className=" text-gray-700">Contact</span>
+            <input
+              {...register("contact")}
+              placeholder="Contact"
+              className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          {/* ADDRESS */}
+          <div className="flex-1 items-center">
+            <span className=" text-gray-700">Address</span>
+            <input
+              {...register("address")}
+              placeholder="Address"
+              className="mt-2 w-full px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-center pt-8">
+          <button
+            type="submit"
+            className="px-20 py-3 bg-blue-600 text-white rounded-lg shadow-md"
+          >
+            Update
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

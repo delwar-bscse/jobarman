@@ -99,7 +99,7 @@ export default function Navbar() {
         {/* Desktop Navigation - Only visible on large screens (lg: 1024px+) */}
         <nav className="hidden lg:flex items-center gap-3 xl:gap-6 2xl:gap-8">
           {/* role based conditions */}
-          {menu.map((item) => (
+          {menu?.map((item) => (
             <Link
               key={item.href}
               href={item.href}

@@ -26,6 +26,14 @@ function NotificationDetailsSuspense() {
     replace(`?${params.toString()}`);
   };
 
+  const handleClearDate = () => {
+    setIsRotated(true);
+    const params = new URLSearchParams(searchParams);
+    params.delete("date");
+    replace(`?${params.toString()}`);
+    setTimeout(() => setIsRotated(false), 1000);
+  };
+
   return (
     <div className="flex gap-3 justify-between  mb-6">
       <div
@@ -72,10 +80,9 @@ function NotificationDetailsSuspense() {
         </CustomModal>
         <div>
           <RotateCcw
-            onClick={() => resetDate()}
-            className={`text-gray-500 cursor-pointer ${
-              isRotated ? "animate-spinOnce" : ""
-            }`}
+            onClick={() => handleClearDate()}
+            className={`text-gray-500 cursor-pointer ${isRotated ? "animate-spinOnce" : ""
+              }`}
           />
         </div>
       </div>

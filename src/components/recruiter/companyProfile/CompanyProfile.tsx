@@ -51,72 +51,65 @@ export default function CompanyProfilePage({ data }) {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB]">
-      <div className="grid lg:grid-cols-[30%_70%] py-10">
-        {/* Sidebar */}
-        <RecruiterSidebar />
+    <div className="max-w-7xl mx-auto min-h-screen p-4">
+      <div className="flex-1 px-4 lg:px-0">
+        <div className="">
+          {/* Company Header Image */}
+          <div className="relative lg:h-64 lg:mb-6 rounded-lg overflow-hidden">
+            <BannerHero />
+          </div>
 
-        {/* Main Content */}
-        <div className="flex-1 px-4 lg:px-0">
-          <div className="">
-            {/* Company Header Image */}
-            <div className="relative lg:h-64 lg:mb-6 rounded-lg overflow-hidden">
-              <BannerHero />
-            </div>
-
-            {/* Tabs */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              {["Home", "About", "Jobs"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-8 py-2.5 rounded-lg font-semibold transition-colors ${
-                    activeTab === tab
-                      ? "bg-[#FF8C00] text-white"
-                      : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+          {/* Tabs */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            {["Home", "About", "Jobs"].map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-8 py-2.5 rounded-lg font-semibold transition-colors ${activeTab === tab
+                    ? "bg-[#FF8C00] text-white"
+                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
                   }`}
-                >
-                  {tab}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Tab Content */}
+          <div className="w-full max-w-[1000px] mx-auto">
+            {activeTab === "Home" && (
+              <Home
+                profileData={profileData}
+                galleryPreview={galleryPreview}
+              />
+            )}
+
+            {activeTab === "About" && (
+              <About
+                profileData={profileData}
+                toCapitalizeSentence={toCapitalizeSentence}
+              />
+            )}
+
+            {activeTab === "Jobs" && <Jobs res={data} />}
+          </div>
+
+          {/* Edit Profile Button */}
+          <div className="w-full flex items-center justify-center">
+            {activeTab === "Home" && (
+              <Link href="/profile/edit-home">
+                <button className="w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
+                  Edit Home
                 </button>
-              ))}
-            </div>
-
-            {/* Tab Content */}
-            <div className="w-full max-w-[1000px] mx-auto">
-              {activeTab === "Home" && (
-                <Home
-                  profileData={profileData}
-                  galleryPreview={galleryPreview}
-                />
-              )}
-
-              {activeTab === "About" && (
-                <About
-                  profileData={profileData}
-                  toCapitalizeSentence={toCapitalizeSentence}
-                />
-              )}
-
-              {activeTab === "Jobs" && <Jobs res={data} />}
-            </div>
-
-            {/* Edit Profile Button */}
-            <div className="w-full flex items-center justify-center">
-              {activeTab === "Home" && (
-                <Link href="/profile/edit-home">
-                  <button className="w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
-                    Edit Profile
-                  </button>
-                </Link>
-              )}
-              {activeTab === "About" && (
-                <Link href="/profile/edit-about">
-                  <button className="w-[300px] sm:w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
-                    Edit Profile
-                  </button>
-                </Link>
-              )}
-            </div>
+              </Link>
+            )}
+            {activeTab === "About" && (
+              <Link href="/profile/edit-about">
+                <button className="w-[300px] sm:w-[240px] mt-8 bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0f2f85] hover:to-[#2247b6] text-white font-bold py-3 px-4 rounded-lg">
+                  Edit About
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

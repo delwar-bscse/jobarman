@@ -3,10 +3,12 @@ import Footer from "@/components/shared/Footer";
 
 export default function RecruiterLayout({ children }) {
   return (
-    <>
+    <div className="bg-[#FBFBFB]">
       <Navbar />
-      {children}
+      <main className="container mx-auto px-2 sm:px-6 lg:px-8 max-w-7xl">
+        {children}
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }

@@ -121,7 +121,7 @@ export default function ProfilePage({ data }) {
                       {exp.company}
                     </p>
                     <p className="text-gray-600 text-xs mt-1">
-                      {exp.startDate.slice(0, 10)}
+                      {/* {exp?.startDate?.slice(0, 10)} */}
                     </p>
                     <p className="text-gray-600 text-xs mt-3">
                       {exp.description}

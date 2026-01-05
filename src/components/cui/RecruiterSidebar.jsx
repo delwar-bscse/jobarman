@@ -12,6 +12,7 @@ import {
   HelpCircle,
   Trash2,
   User,
+  ArrowLeft,
 } from "lucide-react";
 import Image from "next/image";
 import { myFetch } from "../../../utils/myFetch";
@@ -111,14 +112,14 @@ const RecruiterSidebar = () => {
   const activeSubMenu = getActiveSubMenu();
 
   return (
-    <div className="w-10">
+    <div className="bg-white ">
       {/* Back Button */}
-      {/* <div className="max-w-7xl mx-auto -mb-10">
+      <div className="max-w-7xl mx-auto -mb-10">
           <div onClick={()=>router.back()} className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6">
             <ArrowLeft className="w-7 h-7" />
           </div>
-      </div> */}
-      <div className=" bg-white rounded-xl mb-5 sm:mb-0 h-screen">
+      </div>
+      <div className=" rounded-xl mb-5 sm:mb-0 h-screen">
         {/* Profile Card */}
         <div className="text-center mb-8">
           <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
