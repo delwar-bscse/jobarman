@@ -37,14 +37,14 @@ export default function ScoreBoard({ id }) {
 
   return (
     <div>
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 lg:space-x-10 p-5 lg:p-0 ">
+      <div className="min-h-screen max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 lg:space-x-10 p-5 lg:p-0 ">
         {resume?.analysis?.breakdown?.length > 0 ? (
-          <div className="lg:col-span-1 p-4">
+          <div className="lg:col-span-1 md:p-4">
             <ResumeScorecard score={resume?.analysis?.totalScore || 0} />
             <h1 className="text-2xl font-semibold">Score Backdown</h1>
 
             {resume.analysis.breakdown.map((item, i) => (
-              <div key={i} className="my-6 rounded-lg bg-white p-4">
+              <div key={i} className="my-6 rounded-lg bg-white lg:p-4">
                 <div className="flex justify-between items-center mb-2">
                   <h1 className="text-lg font-semibold">{item?.title}</h1>
                   <p className="font-medium">{item?.score}</p>
@@ -66,7 +66,7 @@ export default function ScoreBoard({ id }) {
             </div>
           </div>
         ) : (
-          <p className="flex items-center justify-center text-center text-gray-500 py-6 text-2xl">
+          <p className="flex pt-32 justify-center text-center text-gray-500 py-6 text-2xl">
             AI Analizing...
           </p>
         )}

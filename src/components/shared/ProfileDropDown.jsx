@@ -36,7 +36,7 @@ export default function ProfileDropDown({
               title="profile image"
               width={52}
               height={52}
-              className="w-10 h-10 lg:w-12 lg:h-12 rounded-full border"
+              className="w-8 h-8 lg:w-12 lg:h-12 rounded-full border"
             />
           </button>
 

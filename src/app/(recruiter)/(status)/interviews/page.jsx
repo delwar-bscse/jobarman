@@ -16,7 +16,7 @@ export default async function page({ searchParams }) {
   );
 
   return (
-    <div className="max-w-7xl mx-auto ">
+    <div className="min-h-screen max-w-7xl mx-auto ">
       <div className="flex justify-between items-center">
         <Status />
         <StatusToggle />

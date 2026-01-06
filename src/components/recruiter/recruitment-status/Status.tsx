@@ -13,7 +13,7 @@ export default function Status() {
   ];
 
   return (
-    <div className="sm:flex space-x-4 my-5 md:mt-5 p-4 post-insight">
+    <div className="sm:flex space-x-4 my-5 post-insight">
       {links.map((link) => {
         const isActive = pathname === link.href;
 

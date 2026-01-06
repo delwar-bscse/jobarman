@@ -30,7 +30,8 @@ export default function AutoApply() {
 
   const handleAutoApply = () => {
     if (!isLoggedIn) {
-      toast.error("Please login as a job seeker to continue auto apply.");
+      // toast.error("Please login as a job seeker to continue auto apply.");
+      router.push("/login");
       return;
     }
 

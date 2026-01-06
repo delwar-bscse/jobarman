@@ -52,7 +52,7 @@ export default function NotificationMessageNavbar({ role, id }) {
   }, [socket, id]);
 
   return (
-    <>
+    <div className="flex gap-4">
       {(role === "EMPLOYEE" || role === "RECRUITER") && (
         <button
           onClick={redirectToNotification}
@@ -71,6 +71,6 @@ export default function NotificationMessageNavbar({ role, id }) {
           <MessageCircle className="w-5 h-5" />
         </Link>
       )}
-    </>
+    </div>
   );
 }

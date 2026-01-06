@@ -1,9 +1,8 @@
 "use client";
 import { Heart, MapPin } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import CustomImage from "../../../../shared/CustomImage";
-import CustomPagination from "@/components/cui/CustomPagination";
 import { myFetch } from "../../../../utils/myFetch";
 import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
@@ -29,82 +28,80 @@ export default function JobCard({ job, favoratesList }) {
   };
 
   return (
-    <div className="">
-      <Link
-        href={!job?._id ? job?.job_url : `/jobs/${job?._id}`}
-        target={!job?._id ? "_blank" : "_self"}
-        rel="noopener noreferrer"
-        className=" bg-white h-56 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
-      >
-        {/* Left Side Image */}
-        <div className="flex items-start justify-center p-2">
-          <CustomImage
-            src={job.thumbnail}
-            alt={`${job.title} image`}
-            width={500}
-            height={600}
-            className="object-contain w-28 sm:w-40 h-auto"
-          />
-        </div>
+    <Link
+      href={!job?._id ? job?.job_url : `/jobs/${job?._id}`}
+      target={!job?._id ? "_blank" : "_self"}
+      rel="noopener noreferrer"
+      className=" bg-white min-h-40 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
+    >
+      {/* Left Side Image */}
+      <div className="flex items-start justify-center p-2">
+        <CustomImage
+          src={job.thumbnail}
+          alt={`${job.title} image`}
+          width={500}
+          height={600}
+          className="object-contain w-28 sm:w-40 h-auto"
+        />
+      </div>
 
-        {/* Right Side Text and Details */}
-        <div className="w-2/3 p-4 flex flex-col justify-between">
-          <div>
-            <div className="flex justify-between items-start mb-2">
-              <div className="flex items-start gap-2 flex-1">
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">
-                    {job.title}
-                  </h3>
-                  <p className="text-sm text-gray-600">{job.company}</p>
-                </div>
-              </div>
+      {/* Right Side Text and Details */}
+      <div className="w-2/3 p-4 flex flex-col justify-between">
+        <div>
+          <div className="flex justify-between items-start mb-2">
+            <div className="flex items-start gap-2 flex-1">
               <div>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleFavorateItem(job?._id);
-                  }}
-                  className={` hover:text-red-500 transition flex-shrink-0 `}
-                >
-                  <Heart
-                    fill="currentColor"
-                    className={`${
-                      favoratesList?.includes(job?._id)
-                        ? "text-red-500 "
-                        : "text-gray-400"
+                <h3 className="text-lg font-bold text-gray-900">
+                  {job.title}
+                </h3>
+                <p className="text-sm text-gray-600">{job.company}</p>
+              </div>
+            </div>
+            <div>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleFavorateItem(job?._id);
+                }}
+                className={` hover:text-red-500 transition flex-shrink-0 `}
+              >
+                <Heart
+                  fill="currentColor"
+                  className={`${favoratesList?.includes(job?._id)
+                      ? "text-red-500 "
+                      : "text-gray-400"
                     }`}
-                  />
-                </button>
-              </div>
+                />
+              </button>
             </div>
+          </div>
 
-            {/* Location */}
-            <div className="flex items-center text-sm text-gray-600 mb-3">
-              <MapPin size={16} className="mr-1 flex-shrink-0" />
-              {job.location}
-            </div>
+          {/* Location */}
+          <div className="flex items-center text-sm text-gray-600 mb-3">
+            <MapPin size={16} className="mr-1 flex-shrink-0" />
+            {job.location}
+          </div>
 
-            {/* Job Details */}
-            <div className="grid lg:grid-cols-2">
-              <div>
-                <div className="flex items-center gap-1">
-                  <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                  <span className=" text-gray-400 text-xs font-semibold rounded">
-                    {toUnCapilizeSentence(job.job_type)}
-                  </span>
-                </div>
-              </div>
-              <div className="">
-                {/* <Calendar1 className="text-[#FF8F27]" /> */}
-                <span className="text-[#FF8C00] text-sm font-semibold rounded">
-                  {job?.deadline?.slice(0, 10)}
+          {/* Job Details */}
+          <div className="grid lg:grid-cols-2">
+            <div>
+              <div className="flex items-center gap-1">
+                <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
+                <span className=" text-gray-400 text-xs font-semibold rounded">
+                  {toUnCapilizeSentence(job.job_type)}
                 </span>
               </div>
             </div>
+            <div className="">
+              {/* <Calendar1 className="text-[#FF8F27]" /> */}
+              <span className="text-[#FF8C00] text-sm font-semibold rounded">
+                {job?.deadline?.slice(0, 10)}
+              </span>
+            </div>
+          </div>
 
-            {/* {
+          {/* {
               <p className="text-gray-400 text-md mt-1">
                 Job Board :{" "}
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
@@ -112,20 +109,15 @@ export default function JobCard({ job, favoratesList }) {
                 </span>
               </p>
             } */}
-            <p>
-              {job?.is_applied === true && (
-                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">
-                  Applied
-                </span>
-              )}
-            </p>
-          </div>
+          <p>
+            {job?.is_applied === true && (
+              <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">
+                Applied
+              </span>
+            )}
+          </p>
         </div>
-      </Link>
-      {/* Pagination */}
-      {/* <div>
-        <CustomPagination totalPages={pagination?.totalPage} />
-      </div> */}
-    </div>
+      </div>
+    </Link>
   );
 }

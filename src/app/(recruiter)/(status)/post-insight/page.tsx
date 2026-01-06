@@ -4,8 +4,9 @@ import ChartSection from "../../../../components/recruiter/recruitment-status/ch
 export default async function page({ searchParams }) {
   const id = (await searchParams)?.id;
   const res = await myFetch(`/job-post/insights/${id}`);
+
   return (
-    <div>
+    <div className="min-h-screen">
       <ChartSection data={res?.data} />
     </div>
   );

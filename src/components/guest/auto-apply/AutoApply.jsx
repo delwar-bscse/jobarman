@@ -16,12 +16,18 @@ import { myFetch } from "../../../../utils/myFetch";
 import { useRouter } from "next/navigation";
 import PdfViewer from "@/components/cui/PdfViewer";
 import { toast } from "sonner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export default function AutoApply({ data }) {
   const router = useRouter();
   const [selectedResume, setSelectedResume] = useState(null);
   const [selectedResumeReview, setSelectedResumeReview] = useState(null);
-  const [matchPercentage, setMatchPercentage] = useState(0);
+  const [matchPercentage, setMatchPercentage] = useState(null);
   const [selectedDesignation, setSelectedDesignation] = useState("");
 
   const handlePdf = (e) => {
@@ -40,7 +46,7 @@ export default function AutoApply({ data }) {
   const handleAutoApply = async () => {
     const formData = new FormData();
     formData.append("resume", selectedResume);
-    formData.append("title", selectedDesignation);
+    formData.append("title", "anything");
     formData.append("percentage", matchPercentage);
 
     const res = await myFetch("/application/auto-apply", {
@@ -53,14 +59,14 @@ export default function AutoApply({ data }) {
     if (res.success) {
       localStorage.setItem("autoApplyDataId", JSON.stringify(res.data?._id));
       router.push("/auto-applying");
-    }else{
+    } else {
       toast.error(res.message);
     }
   };
 
   return (
     <div className="max-w-7xl mx-auto min-h-screen bg-[#FBFBFB] px-4">
-      <div className="flex items-center ">
+      {/* <div className="flex items-center ">
         <ChevronLeft
           className="cursor-pointer"
           onClick={() => history.back()}
@@ -71,24 +77,24 @@ export default function AutoApply({ data }) {
         >
           Auto Apply
         </h1>
-      </div>
+      </div> */}
       <div className=" grid lg:grid-cols-3 gap-5">
         <div className="lg:col-span-1 bg-white rounded-lg  mt-1 p-3">
           {/* <h1 className=" text-2xl font-semibold text-center text-[#2F2F2F]">
             Auto Apply
           </h1> */}
-           <div className="flex items-center ">
-        <ChevronLeft
-          className="cursor-pointer"
-          onClick={() => history.back()}
-        />
-        <h1
-          onClick={() => window.history.back()}
-          className="text-[#123499] text-2xl font-semibold my-3"
-        >
-          Auto Apply
-        </h1>
-      </div>
+          <div className="flex items-center ">
+            <ChevronLeft
+              className="cursor-pointer"
+              onClick={() => history.back()}
+            />
+            <h1
+              onClick={() => window.history.back()}
+              className="text-[#123499] text-2xl font-semibold my-3"
+            >
+              Auto Apply
+            </h1>
+          </div>
 
           {/* pdf file upload */}
           <div className="mt-4">
@@ -105,7 +111,7 @@ export default function AutoApply({ data }) {
           </div>
 
           {/* select designation */}
-          <div className="mt-5">
+          {/* <div className="mt-5">
             <p className=" text-sm font-medium text-gray-600 mb-2">
               Choice Role
             </p>
@@ -128,20 +134,34 @@ export default function AutoApply({ data }) {
                 </SelectGroup>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
 
           {/* percenties */}
           <div className="mt-5">
             <Label className="block text-sm font-medium text-gray-600 mb-2">
               Requirement Match
             </Label>
-            <Input
-              type="number"
-              value={matchPercentage}
-              onChange={(e) => setMatchPercentage(e.target.value)}
-              placeholder="Enter percent's"
-            />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger className="w-full">
+                  <Input
+                    type="number"
+                    min={0}
+                    max={100}
+                    value={matchPercentage}
+                    onChange={(e) => setMatchPercentage(e.target.value)}
+                    placeholder="Enter match percent's"
+                    
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="w-52">Enter a percentage between 0 and 100. AI will auto apply where the match percentage is greater than this.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
+
+
 
           <button
             onClick={handleAutoApply}

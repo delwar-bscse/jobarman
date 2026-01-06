@@ -2,20 +2,22 @@ import Link from "next/link";
 import React from "react";
 import { myFetch } from "../../../../utils/myFetch";
 import JobPostCard from "@/components/cui/PostCard";
+import { Search } from "lucide-react";
+import MyJobTop from "./MyJobTop";
 
-const JobPost = async () => {
-  const res = await myFetch("/job-post/feed/user", {
+const JobPost = async ({ searchParams }) => {
+  const {searchTerm} = await searchParams;
+  console.log("My Job SearchTerm : ", searchTerm)
+  let url = "/job-post/feed/user";
+  if(searchTerm) url = `/job-post/feed/user?searchTerm=${searchTerm}`
+  const res = await myFetch(url, {
     method: "GET",
     tags: ["job-post"],
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* <div className="my-6">
-        <h2 className="text-2xl font-bold">My Job Post</h2>
-        <Status />
-      </div> */}
-
+    <div className="min-h-screen max-w-7xl mx-auto px-4 py-6">
+      <MyJobTop />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {res?.data?.length > 0 ? (
           res?.data?.map((job) => (

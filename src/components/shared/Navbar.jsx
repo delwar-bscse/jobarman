@@ -83,16 +83,16 @@ export default function Navbar() {
   const menu = menus[role] || menus.GUEST;
 
   return (
-    <header className="border-b-2 border-[#C7DEF2] sticky top-0 bg-white z-50">
-      <div className="w-full mx-auto px-3 sm:px-4 lg:px-8 py-3 lg:py-4 flex items-center justify-between">
+    <header className="w-full border-b-2 border-[#C7DEF2] sticky top-0 bg-white z-50">
+      <div className="w-full mx-auto sm:px-4 lg:px-8 py-2 lg:py-3 flex items-center justify-between">
         <Link href="/" className="flex-shrink-0">
           <Image
             src="/logo.png"
             alt="Jobarman"
-            width={10}
-            height={10}
+            width={2000}
+            height={400}
             sizes="100vh"
-            className="w-20 h-10 sm:w-22 lg:w-24 lg:h-12"
+            className="w-20 h-10 sm:w-22 lg:w-28 lg:h-14"
           />
         </Link>
 
@@ -138,6 +138,19 @@ export default function Navbar() {
       {/* Mobile & Tablet Navigation - Fullscreen dropdown */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-gray-200 bg-white">
+
+            <div className="flex gap-3 items-center justify-end">
+              {/* notification and message */}
+              <NotificationMessageNavbar role={role} />
+
+              <ProfileDropdown
+                data={profile?.data}
+                dropdownRef={dropdownRef}
+                dropdownOpen={dropdownOpen}
+                setDropdownOpen={setDropdownOpen}
+                role={role}
+              />
+            </div>
           <nav className="flex flex-col gap-3 px-3 py-4 sm:px-4">
             {menu.map((item) => (
               <Link
@@ -148,17 +161,6 @@ export default function Navbar() {
                 {item.label}
               </Link>
             ))}
-
-            {/* notification and message */}
-            <NotificationMessageNavbar role={role} />
-
-            <ProfileDropdown
-              data={profile?.data}
-              dropdownRef={dropdownRef}
-              dropdownOpen={dropdownOpen}
-              setDropdownOpen={setDropdownOpen}
-              role={role}
-            />
           </nav>
         </div>
       )}
