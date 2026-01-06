@@ -59,7 +59,7 @@ function HistoryPageSuspense() {
   }, [query, interview_type]);
 
   return (
-    <div className="px-4 sm:px-6 py-6">
+    <div className="min-h-screen px-4 sm:px-6 py-6">
       <div className="flex flex-wrap justify-center gap-4 mb-6">
         {names?.map((item, i) => (
           <Button

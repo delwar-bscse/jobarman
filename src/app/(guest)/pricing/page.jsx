@@ -6,7 +6,7 @@ export default async function Pricing() {
   const subscriptions = res?.data;
 
   return (
-    <main className="w-full bg-white">
+    <main className="min-h-screen w-full bg-white">
       {/* Job Seeker Subscription */}
       <Employee data={subscriptions} />
 

@@ -4,7 +4,7 @@ import Review from "@/components/guest/Review";
 import BannerSection from "@/components/guest/BannerSection";
 import SearchSection from "@/components/guest/SearchSection";
 import CaruselBanner from "@/components/guest/CaruselBanner";
-import FilterModal from "@/components/guest/FilterModal";
+// import FilterModal from "@/components/guest/FilterModal";
 import Subscription from "@/components/guest/Subscription";
 import RecentJobPost from "@/components/guest/RecentJobPost";
 import RecentJobRequest from "@/components/guest/RecentJobRequest";
@@ -34,7 +34,7 @@ export default async function Home() {
       {existEmployee && <CaruselBanner />}
 
       {/* Filters Modal to filter jobs */}
-      <FilterModal />
+      {/* <FilterModal /> */}
 
       {/* Recent Job Post Section */}
       {existRecruiter && <RecentJobPost />}

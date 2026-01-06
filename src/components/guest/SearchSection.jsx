@@ -27,13 +27,13 @@ function SearchSectionSuspense() {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+        <div className="flex flex-row items-center rounded-xl overflow-hidden border border-gray-200 shadow-sm">
           <div className="flex-1 flex items-center bg-blue-50 w-full">
             <input
               onChange={(e) => setSearch(e.target.value)}
               type="text"
               placeholder="Job Title or Company"
-              className="w-full bg-transparent px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 lg:py-3 text-gray-700 placeholder-gray-500 outline-none text-sm sm:text-base lg:text-lg"
+              className="w-full bg-transparent px-3 sm:px-4 lg:px-5 py-3 text-gray-700 placeholder-gray-500 outline-none text-sm sm:text-base lg:text-lg"
             />
           </div>
 
@@ -42,7 +42,7 @@ function SearchSectionSuspense() {
               <button
                 type="button"
                 aria-label="Open Filters"
-                className="hidden sm:flex items-center px-3 sm:px-4 border-t sm:border-t-0 sm:border-l border-gray-200 text-gray-600 "
+                className="flex items-center px-3 sm:px-4 text-gray-600 "
               >
                 <SlidersHorizontal className="w-4 sm:w-5 lg:w-5 h-4 sm:h-5 lg:h-5" />
               </button>
@@ -51,10 +51,10 @@ function SearchSectionSuspense() {
 
           <button
             onClick={handleSubmit}
-            className="flex items-center gap-2 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 font-medium text-sm sm:text-base lg:text-lg w-full sm:w-auto justify-center"
+            className=" flex items-center gap-2 bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white px-4 sm:px-6 lg:px-8 py-3.5 font-medium text-sm sm:text-base lg:text-lg  sm:w-auto justify-center"
           >
             <Search className="w-4 sm:w-4 lg:w-5 h-4 sm:h-4 lg:h-5" />
-            Search Job
+            <span className="hidden sm:block">Search Job</span>
           </button>
         </div>
       </div>
