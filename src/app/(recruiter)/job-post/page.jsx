@@ -178,10 +178,10 @@ function EditJobPostForm() {
   /* ---------------- JSX ---------------- */
 
   return (
-    <div className="min-h-screen bg-muted py-8">
+    <div className="min-h-screen py-8">
       <div className="mx-auto max-w-4xl px-4">
         {/* Header */}
-        <div className="mb-6 flex items-center gap-3">
+        <div onClick={()=>location.history.back()} className="mb-6 flex items-center gap-3">
           <GlobalBackButton />
           <h1 className="text-2xl font-semibold">
             {isEdit ? "Edit Job Post" : "New Job Post"}
@@ -190,12 +190,12 @@ function EditJobPostForm() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* Cover Image & Title */}
-          <div className="grid grid-cols-[40%_60%] gap-7">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-7">
             <div>
               <Label>Cover Image</Label>
               <div
                 onClick={handleClickImage}
-                className="border h-full p-2 cursor-pointer"
+                className="border bg-white h-full p-2 cursor-pointer"
               >
                 {image ? (
                   <Image
@@ -207,7 +207,7 @@ function EditJobPostForm() {
                     sizes="100vh"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center">
+                  <div className="flex h-28 w-full items-center justify-center">
                     <p className="text-sm text-muted-foreground">
                       Upload Cover Image
                     </p>
@@ -230,6 +230,7 @@ function EditJobPostForm() {
                   {...register("title", {
                     required: !isEdit ? "Title is required" : false,
                   })}
+                  className="bg-white"
                 />
 
                 {errors.title && (
@@ -246,6 +247,7 @@ function EditJobPostForm() {
                     {...register("min_salary", {
                       required: !isEdit ? "Min salary is required" : false,
                     })}
+                    className="bg-white"
                   />
                   {errors.min_salary && (
                     <p className="text-red-500 text-sm">
@@ -262,6 +264,7 @@ function EditJobPostForm() {
                     {...register("max_salary", {
                       required: !isEdit ? "Max salary is required" : false,
                     })}
+                    className="bg-white"
                   />
                   {errors.max_salary && (
                     <p className="text-red-500 text-sm">
@@ -284,7 +287,7 @@ function EditJobPostForm() {
                   rules={{ required: !isEdit ? "Category is required" : false }}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -312,7 +315,7 @@ function EditJobPostForm() {
                   rules={{ required: !isEdit ? "Job type is required" : false }}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Select job type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -343,7 +346,7 @@ function EditJobPostForm() {
                 }}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white">
                       <SelectValue placeholder="Select experience" />
                     </SelectTrigger>
                     <SelectContent>
@@ -371,7 +374,7 @@ function EditJobPostForm() {
                 rules={{ required: !isEdit ? "Job level is required" : false }}
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white">
                       <SelectValue placeholder="Select level" />
                     </SelectTrigger>
                     <SelectContent>
@@ -400,6 +403,7 @@ function EditJobPostForm() {
               {...register("location", {
                 required: !isEdit ? "Location is required" : false,
               })}
+              className="bg-white"
             />
             {errors.location && (
               <p className="text-red-500 text-sm">{errors.location.message}</p>
@@ -415,6 +419,7 @@ function EditJobPostForm() {
                 required: !isEdit ? "Description is required" : false,
               })}
               rows={5}
+              className="bg-white"
             />
             {errors.description && (
               <p className="text-red-500 text-sm">
@@ -446,6 +451,7 @@ function EditJobPostForm() {
               {...register("deadline", {
                 required: !isEdit ? "Deadline is required" : false,
               })}
+              className="bg-white w-full"
             />
             {errors.deadline && (
               <p className="text-red-500 text-sm">{errors.deadline.message}</p>

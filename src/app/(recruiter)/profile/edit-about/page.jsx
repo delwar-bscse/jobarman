@@ -121,7 +121,7 @@ export default function EditAbout() {
           />
         </div>
 
-        <div className="grid grid-cols-4 gap-3 pb-8">
+        <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-4  gap-3 pb-8">
           {/* TOTAL EMPLOYEES */}
           <div className="flex-1 items-center">
             <span className=" text-gray-700">Total Employees</span>
@@ -164,7 +164,7 @@ export default function EditAbout() {
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-4 gap-3">
           {/* WEBSITE */}
           <div className="flex-1 items-center">
             <span className=" text-gray-700">Website</span>

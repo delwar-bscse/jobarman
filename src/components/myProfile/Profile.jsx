@@ -19,7 +19,7 @@ export default function ProfilePage({ data }) {
   return (
     <div className="">
       {/* Header Section */}
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
         Personal Information
       </h1>
 
@@ -36,7 +36,7 @@ export default function ProfilePage({ data }) {
                 <label className="text-sm font-medium text-gray-600">
                   {item.label}
                 </label>
-                <p className="text-gray-600 font-medium">{item.value}</p>
+                <p className="text-gray-600 text-xs md:text-sm md:font-medium">{item.value}</p>
               </div>
             ))}
           </div>
@@ -51,7 +51,7 @@ export default function ProfilePage({ data }) {
                 <label className="text-sm font-medium text-gray-600">
                   {item.label}
                 </label>
-                <p className="text-gray-600 font-medium">{item.value}</p>
+                <p className="text-gray-600 text-xs md:text-sm md:font-medium">{item.value}</p>
               </div>
             ))}
           </div>
