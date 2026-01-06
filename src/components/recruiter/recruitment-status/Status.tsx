@@ -13,14 +13,14 @@ export default function Status() {
   ];
 
   return (
-    <div className="sm:flex space-x-4 my-5 post-insight">
+    <div className="flex space-x-2 sm:space-x-4 post-insight">
       {links.map((link) => {
         const isActive = pathname === link.href;
 
         return (
           <Link key={link.href} href={link.href}>
             <div
-              className={`px-4 py-2 text-center rounded-lg transition ${
+              className={`px-2 sm:px-4 py-1 sm:py-2 text-sm sm:text-base text-center rounded-lg transition ${
                 isActive
                   ? "bg-blue-600 text-white"
                   : "bg-gray-200 text-gray-800 hover:bg-gray-300"

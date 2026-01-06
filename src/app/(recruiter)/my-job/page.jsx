@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 import { myFetch } from "../../../../utils/myFetch";
 import JobPostCard from "@/components/cui/PostCard";
-import { Search } from "lucide-react";
 import MyJobTop from "./MyJobTop";
 
 const JobPost = async ({ searchParams }) => {
@@ -16,7 +15,7 @@ const JobPost = async ({ searchParams }) => {
   });
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto px-4 py-6">
+    <div className="min-h-screen max-w-7xl mx-auto px-4 py-6 space-y-4">
       <MyJobTop />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {res?.data?.length > 0 ? (

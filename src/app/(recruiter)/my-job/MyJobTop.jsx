@@ -24,7 +24,7 @@ const MyJobTopSuspense = () => {
   };
 
   return (
-    <div className="">
+    <div className="space-y-4">
       <h2 onClick={() => location.history.back()} className="text-2xl font-bold">My Job Post</h2>
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <Status />
