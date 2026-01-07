@@ -97,7 +97,7 @@ function HistoryPageSuspense() {
                 : "bg-white text-gray-700 hover:bg-gray-100"
             }
           >
-            InComplete
+            Upcomming
           </Button>
         </div>
       )}

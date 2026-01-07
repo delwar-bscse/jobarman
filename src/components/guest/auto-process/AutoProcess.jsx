@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import Circle from "./Circle";
 import JobList from "./JobList";
 import { useSocket } from "@/lib/SocketContext";
+import { useRouter } from "next/navigation";
 
 export default function AutoProcess() {
-  // track if user was near bottom before updates
+  const router = useRouter();
   const { socket } = useSocket();
 
   const [score, setScore] = useState({
@@ -47,9 +48,12 @@ export default function AutoProcess() {
         </>
       ) : (
         <div className="col-span-full flex items-center justify-center">
-          <p className="text-2xl">
-            {autoApplyData.length === 0 ? "No Job Match" : "AI Analizing..."}
-          </p>
+          <div className="text-2xl">
+            {autoApplyData.length === 0 ? <div className="flex flex-col items-center gap-4">
+              <p className="text-2xl text-gray-500">No Job Match</p>
+              <button onClick={() => router.push("/auto-apply")} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go Back</button>
+            </div> : "AI Analizing..."}
+          </div>
         </div>
       )}
     </div>

@@ -17,7 +17,7 @@ import {
 import Image from "next/image";
 import { myFetch } from "../../../utils/myFetch";
 import { formatUrl } from "../../../utils/formatUrl";
-import CustomImage from "shared/CustomImage";
+import { deleteCookie } from "cookies-next";
 
 const RecruiterSidebar = () => {
   const router = useRouter();
@@ -99,8 +99,7 @@ const RecruiterSidebar = () => {
       deleteCookie("refreshToken");
       deleteCookie("role");
       router.push("/login");
-    }
-    if (item.label === "Settings") {
+    } else if (item.label === "Settings") {
       setIsSettingsOpen(!isSettingsOpen);
     } else if (item.route) {
       router.replace(item.route, { scroll: false });
@@ -117,6 +116,21 @@ const RecruiterSidebar = () => {
   const activeMenu = getActiveMenu();
   const activeSubMenu = getActiveSubMenu();
 
+  const handleProfileImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await myFetch("/user/profile", {
+      method: "PATCH",
+      body: formData,
+    });
+
+    if (res.success) fetchProfile();
+  };
+
   return (
     <div className="bg-white ">
       {/* Back Button */}
@@ -128,14 +142,28 @@ const RecruiterSidebar = () => {
       <div className="rounded-xl mb-5 sm:mb-0">
         {/* Profile Card */}
         <div className="text-center mb-8">
-          <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-            <CustomImage
-              src={formatUrl(profileData?.image || "")}
-              width={24}
-              height={24}
-              alt="Logo"
-              className="w-16 h-16"
-            />
+          {/* Profile Image Edit*/}
+          <div className="flex justify-center my-8">
+            <div className="relative">
+              <div onClick={() =>
+                document.getElementById("takeEmployProfileImage").click()
+              }
+                className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
+                <Image
+                  src={formatUrl(profileData?.image || "")}
+                  width={96}
+                  height={96}
+                  alt="Profile"
+                  className="w-24 h-24 rounded-full object-cover"
+                />
+              </div>
+              <input
+                id="takeEmployProfileImage"
+                onChange={handleProfileImage}
+                type="file"
+                className="hidden"
+              />
+            </div>
           </div>
           <h2 className="text-xl font-bold text-gray-900">
             {profileData?.name}
@@ -158,6 +186,7 @@ const RecruiterSidebar = () => {
           </div>
         </div>
 
+
         {/* Menu Items */}
         <nav className="space-y-2 flex-1">
           {menuItems.map((item, index) => {
@@ -167,8 +196,8 @@ const RecruiterSidebar = () => {
               <div key={index} className="px-2">
                 <button
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveParent
-                      ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                      : ""
+                    ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+                    : ""
                     }`}
                   onClick={() => handleMenuClick(item)}
                 >
@@ -198,8 +227,8 @@ const RecruiterSidebar = () => {
                         <button
                           key={subIndex}
                           className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveSub
-                              ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                              : ""
+                            ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+                            : ""
                             }`}
                           onClick={() => handleSubMenuClick(subItem)}
                         >

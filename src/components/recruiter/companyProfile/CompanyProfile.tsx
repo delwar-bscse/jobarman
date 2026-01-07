@@ -13,10 +13,9 @@ import { myFetch } from "utils/myFetch";
 import { formatUrl } from "utils/formatUrl";
 import { toCapitalizeSentence } from "../../../../utils/textFormat";
 
-export default function CompanyProfilePage({ data }) {
+export default function CompanyProfilePage() {
   const [activeTab, setActiveTab] = useState("Home");
   const [profileData, setProfileData] = useState(null);
-  const [jobs, setJobs] = useState(null);
   const [galleryPreview, setGalleryPreview] = useState([]);
 
   const fetchProfile = async () => {
@@ -39,15 +38,9 @@ export default function CompanyProfilePage({ data }) {
     }
   };
 
-  const fetchJobs = async () => {
-    const res = await myFetch("/job-post/recent-posts");
-    setJobs(res?.data);
-  };
-
   useEffect(() => {
     fetchGallery();
     fetchProfile();
-    fetchJobs();
   }, []);
 
   return (
@@ -91,7 +84,7 @@ export default function CompanyProfilePage({ data }) {
               />
             )}
 
-            {activeTab === "Jobs" && <Jobs res={data} />}
+            {activeTab === "Jobs" && <Jobs />}
           </div>
 
           {/* Edit Profile Button */}

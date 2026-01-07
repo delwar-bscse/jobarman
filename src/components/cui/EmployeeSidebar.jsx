@@ -19,6 +19,7 @@ import {
 import Image from "next/image";
 import { myFetch } from "../../../utils/myFetch";
 import { formatUrl } from "../../../utils/formatUrl";
+import { deleteCookie } from "cookies-next";
 
 const EmployeeSidebar = () => {
   const router = useRouter();
@@ -86,12 +87,17 @@ const EmployeeSidebar = () => {
         },
       ],
     },
-    { icon: LogOut, label: "Log Out", route: "/profile/logout" },
+    { icon: LogOut, label: "Log Out", route: "/" },
   ];
 
   // Handle parent menu click
   const handleMenuClick = (item) => {
-    if (item.label === "Settings") {
+    if (item.label === "Log Out") {
+      deleteCookie("accessToken");
+      deleteCookie("refreshToken");
+      deleteCookie("role");
+      router.push("/login");
+    } else if (item.label === "Settings") {
       setIsSettingsOpen(!isSettingsOpen);
     } else if (item.route) {
       router.replace(item.route, { scroll: false });
@@ -164,8 +170,8 @@ const EmployeeSidebar = () => {
               <div key={index}>
                 <button
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveParent
-                      ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white w-full px-2"
-                      : ""
+                    ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white w-full px-2"
+                    : ""
                     }`}
                   onClick={() => handleMenuClick(item)}
                 >
@@ -195,8 +201,8 @@ const EmployeeSidebar = () => {
                         <button
                           key={subIndex}
                           className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveSub
-                              ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-                              : ""
+                            ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+                            : ""
                             }`}
                           onClick={() => handleSubMenuClick(subItem)}
                         >

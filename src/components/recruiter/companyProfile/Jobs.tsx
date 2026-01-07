@@ -1,44 +1,58 @@
 "use client";
 import { MapPin } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import CustomImage from "shared/CustomImage";
+import { myFetch } from "utils/myFetch";
 
-export default function Jobs({ res }) {
+export default function Jobs() {
+  const [jobs, setJobs] = useState(null);
   const [activeJobTab, setActiveJobTab] = useState("Active Jobs");
+
+  const fetchJobs = async () => {
+    // const res = await myFetch(`/job-post/recent-posts?jobType=${activeJobTab}`);
+    const res = await myFetch(`/job-post/recent-posts`);
+    console.log("Recent Jobs : ", res?.data)
+    setJobs(res?.data);
+  };
+
+  useEffect(() => {
+    (() => fetchJobs())();
+  }, [activeJobTab]);
+
+
   return (
     <div className="col-span-2">
       {/* Active/Close Jobs Toggle */}
-      {/* <div className="flex gap-4 mb-6">
+      <div className="flex gap-4 mb-6">
         <button
           onClick={() => setActiveJobTab("Active Jobs")}
-          className={`flex-1 font-semibold py-3 rounded-full transition-colors ${
-            activeJobTab === "Active Jobs"
-              ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-              : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-          }`}
+          className={`flex-1 font-semibold py-3 rounded-full transition-colors ${activeJobTab === "Active Jobs"
+            ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+            : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+            }`}
         >
           Active Jobs
         </button>
         <button
           onClick={() => setActiveJobTab("Close Jobs")}
-          className={`flex-1 font-semibold py-3 rounded-full transition-colors ${
-            activeJobTab === "Close Jobs"
-              ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
-              : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-          }`}
+          className={`flex-1 font-semibold py-3 rounded-full transition-colors ${activeJobTab === "Close Jobs"
+            ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
+            : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+            }`}
         >
           Close Jobs
         </button>
-      </div> */}
+      </div>
 
       <h3 className="text-2xl font-bold text-gray-900 mb-6">Recent Job Post</h3>
 
       {/* Job Cards Grid */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {res?.length > 0 ? (
-          res?.map((job) => (
+        {jobs?.length > 0 ? (
+          jobs?.map((job) => (
             <div
               key={job?._id}
               className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex items-center gap-4"
