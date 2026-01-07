@@ -15,7 +15,7 @@ const Chat = ({ chatUsers, selectedUser }) => {
       </div>
       <MessageModal
         trigger={
-          <MessagesSquare className="size-5 fixed top-[88px] right-12 z-50 md:hidden" />
+          <MessagesSquare className="size-5 fixed top-[88px] right-12 z-10 md:hidden" />
         }
       >
         <div className="flex flex-col h-[calc(50vh)] w-[320px] pt-4">

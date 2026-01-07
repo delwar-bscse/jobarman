@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ScoreGeneratorRoles } from "@/constants/ScoreGeneratorRoles";
+import { hasRole } from "../utils/getUserRoleClient";
 
 
 const ResumeGenerator = () => {
@@ -51,6 +52,12 @@ const ResumeGenerator = () => {
 
   const handleSubmitResume = async (e) => {
     e.preventDefault();
+    const isRole =  hasRole();
+    if(!isRole) {
+      // toast.error("You are not logged in");
+      router.push("/login");
+      return
+    };
 
     if (!selectedFile) {
       toast.error("Please upload a resume");

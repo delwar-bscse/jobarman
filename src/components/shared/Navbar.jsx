@@ -137,20 +137,20 @@ export default function Navbar() {
 
       {/* Mobile & Tablet Navigation - Fullscreen dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-gray-200 bg-white">
+        <div className="z-50 lg:hidden border-t border-gray-200 bg-white">
 
-            <div className="flex gap-3 items-center justify-end">
-              {/* notification and message */}
-              <NotificationMessageNavbar role={role} />
+          <div className="flex gap-3 items-center justify-end">
+            {/* notification and message */}
+            <NotificationMessageNavbar role={role} />
 
-              <ProfileDropdown
-                data={profile?.data}
-                dropdownRef={dropdownRef}
-                dropdownOpen={dropdownOpen}
-                setDropdownOpen={setDropdownOpen}
-                role={role}
-              />
-            </div>
+            <ProfileDropdown
+              data={profile?.data}
+              dropdownRef={dropdownRef}
+              dropdownOpen={dropdownOpen}
+              setDropdownOpen={setDropdownOpen}
+              role={role}
+            />
+          </div>
           <nav className="flex flex-col gap-3 px-3 py-4 sm:px-4">
             {menu.map((item) => (
               <Link

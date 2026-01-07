@@ -10,11 +10,14 @@ import { useForm } from "react-hook-form";
 import { myFetch } from "utils/myFetch";
 import { toast } from "sonner";
 import { isEmployee } from "utils/matchUserRole";
+import { usePathname, useRouter } from "next/navigation";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_FILE_TYPES = ["application/pdf"];
 
 export default function JobApplyModal({ trigger, details }) {
+  const pathname = usePathname();
+  const router = useRouter();
   const [resumeFile, setResumeFile] = useState(null);
   const [coverLetterFile, setCoverLetterFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -86,7 +89,8 @@ export default function JobApplyModal({ trigger, details }) {
 
     const isEmployer = await isEmployee();
     if (!isEmployer) {
-      toast.error("Please login as a job seeker to apply this job.");
+      // toast.error("Please login as a job seeker to apply this job.");
+      router.push(`/login?callbackUrl=${pathname}`);
       return;
     }
     // Validate required files

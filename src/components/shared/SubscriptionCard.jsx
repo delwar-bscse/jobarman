@@ -3,8 +3,12 @@ import { Building2, Award, Crown, Check } from "lucide-react";
 import { myFetch } from "../../../utils/myFetch";
 import { useState } from "react";
 import { toast } from "sonner";
+import { hasRole } from "../../../utils/getUserRoleClient";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function SubscriptionCard({ plan }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const Icon =
     plan.name === "Free" ? Building2 : plan.name === "Pro" ? Award : Crown;
@@ -16,9 +20,16 @@ export default function SubscriptionCard({ plan }) {
       : "ring-yellow-300";
 
   const buySubscription = async () => {
+    
     if (loading) return; // ✅ prevent double clicks
-
     setLoading(true);
+
+    const role =  hasRole();
+    if(!role) {
+      // toast.error("You are not logged in");
+      router.push(`/login?callbackUrl=${pathname}`);
+      return
+    };
 
     try {
       const res = await myFetch(`/subscription/stripe`, {

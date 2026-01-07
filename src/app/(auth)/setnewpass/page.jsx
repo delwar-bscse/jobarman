@@ -14,7 +14,6 @@ export default function SetNewPasswordPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -34,12 +33,8 @@ export default function SetNewPasswordPage() {
     }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
-    <div className="min-h-screen bg-[#FBFBFB] flex items-center justify-center p-4">
+    <div className="min-h-screen  flex items-center justify-center p-4">
       {/* Back Button */}
       <Link
         href="/otp"
@@ -62,7 +57,7 @@ export default function SetNewPasswordPage() {
 
       {/* Main Container */}
       <div className="w-full max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 lg:gap-16 xl:gap-32 items-center">
           {/* Left Side - Logo Section */}
           <div className="hidden md:flex flex-col items-center justify-center p-8">
             <Image
@@ -75,7 +70,7 @@ export default function SetNewPasswordPage() {
           </div>
 
           {/* Right Side - Form */}
-          <div className="flex flex-col w-[617px] justify-center p-8 text-center border-2 border-[#ACBDF0] rounded-lg">
+          <div className="flex flex-col w-full max-w-[617px] justify-center p-8 text-center border-2 border-[#ACBDF0] rounded-lg">
             <h2 className="text-4xl text-[#123499] font-semibold text-center mb-8">
               Set New Password
             </h2>
@@ -151,55 +146,6 @@ export default function SetNewPasswordPage() {
           </div>
         </div>
       </div>
-
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center relative">
-            {/* Close Button (Cross) */}
-            <button
-              onClick={closeModal}
-              className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-
-            {/* Success SVG */}
-            <Image
-              src="/congo.svg"
-              alt="Success"
-              width={200}
-              height={200}
-              className="mx-auto mb-4"
-            />
-
-            {/* Modal Content */}
-            <h3 className="text-2xl font-semibold text-[#123499] mb-4">
-              Congratulations!
-            </h3>
-            <p className="text-[#2F2F2F] mb-6">
-              Your password has been updated. Start using the app now.
-            </p>
-            <Link href="/login">
-              <button className="w-full bg-[#0F38B2] hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-200 transform hover:scale-105">
-                Proceed to Login
-              </button>
-            </Link>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

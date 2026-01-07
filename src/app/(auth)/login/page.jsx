@@ -1,21 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { myFetch } from "../../../../utils/myFetch";
 import { setCookie } from "cookies-next/client";
 import { toast } from "sonner";
 import GoogleLogin from "@/components/auth/GoogleLogin";
 
-export default function LoginPage() {
+function LoginPageSuspense() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
+  console.log("Router : ", router)
+  console.log("Window History : ", window.history)
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,7 +33,7 @@ export default function LoginPage() {
       setCookie("accessToken", res?.data?.createToken);
       setCookie("refreshToken", res?.data?.refreshToken);
       setCookie("role", res?.data?.role);
-      router.push("/");
+      router.push(callbackUrl);
       toast.success("Login Successfully");
     } else {
       toast.success(res?.message ?? "Login Failed");
@@ -179,3 +184,11 @@ export default function LoginPage() {
     </div>
   );
 }
+
+export default function LoginPage(){
+  return(
+    <Suspense fallback={<div>Loading...</div>} >
+      <LoginPageSuspense />
+    </Suspense>
+  )
+};
