@@ -2,7 +2,7 @@ import SubscriptionCard from "@/components/shared/SubscriptionCard";
 import React from "react";
 import Modal from "./Modal";
 
-export default function Employee({ data }) {
+export default function Employee({ data, enableSubscription }) {
   return (
     <section className="py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,12 +12,12 @@ export default function Employee({ data }) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {data?.map((plan, idx) => (
-            <SubscriptionCard key={idx} plan={plan} />
+            <SubscriptionCard key={idx} plan={plan} enableSubscriptionId={enableSubscription?.package}/>
           ))}
         </div>
 
         {/* My Subscription button */}
-        <div className="mt-10 flex justify-center">
+        {enableSubscription?.package && <div className="mt-10 flex justify-center">
           <Modal
             trigger={
               <button className="px-6 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-sm transition-colors">
@@ -25,7 +25,7 @@ export default function Employee({ data }) {
               </button>
             }
           />
-        </div>
+        </div>}
       </div>
     </section>
   );

@@ -89,11 +89,17 @@ const RecruiterSidebar = () => {
         },
       ],
     },
-    { icon: LogOut, label: "Log Out", route: "/profile/companyLogout" },
+    { icon: LogOut, label: "Log Out", route: "/" },
   ];
 
   // Handle parent menu click
   const handleMenuClick = (item) => {
+    if (item.label === "Log Out") {
+      deleteCookie("accessToken");
+      deleteCookie("refreshToken");
+      deleteCookie("role");
+      router.push("/login");
+    }
     if (item.label === "Settings") {
       setIsSettingsOpen(!isSettingsOpen);
     } else if (item.route) {
@@ -115,9 +121,9 @@ const RecruiterSidebar = () => {
     <div className="bg-white ">
       {/* Back Button */}
       <div className="max-w-7xl mx-auto -mb-10">
-          <div onClick={()=>router.back()} className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6">
-            <ArrowLeft className="w-7 h-7" />
-          </div>
+        <div onClick={() => router.back()} className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6">
+          <ArrowLeft className="w-7 h-7" />
+        </div>
       </div>
       <div className="rounded-xl mb-5 sm:mb-0">
         {/* Profile Card */}
@@ -160,26 +166,23 @@ const RecruiterSidebar = () => {
             return (
               <div key={index} className="px-2">
                 <button
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                    isActiveParent
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveParent
                       ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
                       : ""
-                  }`}
+                    }`}
                   onClick={() => handleMenuClick(item)}
                 >
                   <item.icon
-                    className={`w-5 h-5 ${
-                      isActiveParent ? "text-white" : "text-black"
-                    }`}
+                    className={`w-5 h-5 ${isActiveParent ? "text-white" : "text-black"
+                      }`}
                   />
                   <span className="text-sm font-medium">{item.label}</span>
 
                   {item.label === "Settings" && (
                     <span className="ml-auto text-gray-400">
                       <IoIosArrowForward
-                        className={`text-gray-400 ${
-                          isSettingsOpen ? "rotate-90" : ""
-                        } transition-transform duration-200`}
+                        className={`text-gray-400 ${isSettingsOpen ? "rotate-90" : ""
+                          } transition-transform duration-200`}
                       />
                     </span>
                   )}
@@ -194,17 +197,15 @@ const RecruiterSidebar = () => {
                       return (
                         <button
                           key={subIndex}
-                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${
-                            isActiveSub
+                          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors text-left ${isActiveSub
                               ? "bg-gradient-to-r from-[#123499] to-[#2A57DE] text-white"
                               : ""
-                          }`}
+                            }`}
                           onClick={() => handleSubMenuClick(subItem)}
                         >
                           <subItem.icon
-                            className={`w-5 h-5 ${
-                              isActiveSub ? "text-white" : "text-black"
-                            }`}
+                            className={`w-5 h-5 ${isActiveSub ? "text-white" : "text-black"
+                              }`}
                           />
                           <span className="text-sm font-medium">
                             {subItem.label}

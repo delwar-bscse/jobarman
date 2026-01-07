@@ -88,7 +88,7 @@ export default async function Home() {
       {!existRecruiter && <ResumeGenerator />}
 
       {/* Are You Employer Section */}
-      {existUser === "RECRUITER" && (
+      {!existUser === "RECRUITER" && (
         <section className="bg-[#EFF5FF]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-[#EFF5FF] rounded-lg p-8 sm:p-12">

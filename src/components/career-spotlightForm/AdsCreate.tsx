@@ -132,7 +132,7 @@ export default function AdsCreateForm() {
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-sm p-8">
         {/* Header */}
-        <button className="flex items-center text-blue-600 mb-6 hover:text-blue-700">
+        <button onClick={() => router.back()} className="flex items-center text-blue-600 mb-6 hover:text-blue-700">
           <ChevronLeft className="w-5 h-5" />
           <span className="ml-1 font-medium">Create Ad</span>
         </button>
@@ -332,6 +332,7 @@ export default function AdsCreateForm() {
                 {...register("start_date", {
                   required: "Start date is required",
                 })}
+                className="flex justify-center"
               />
               {errors.start_date && (
                 <p className={errorText}>{errors.start_date.message}</p>
@@ -343,6 +344,7 @@ export default function AdsCreateForm() {
               <Input
                 type="date"
                 {...register("end_date", { required: "End date is required" })}
+                className="flex justify-center"
               />
               {errors.end_date && (
                 <p className={errorText}>{errors.end_date.message}</p>
@@ -359,6 +361,7 @@ export default function AdsCreateForm() {
                 {...register("start_time", {
                   required: "Start time is required",
                 })}
+                className="flex justify-center"
               />
               {errors.start_time && (
                 <p className={errorText}>{errors.start_time.message}</p>
@@ -370,6 +373,7 @@ export default function AdsCreateForm() {
               <Input
                 type="time"
                 {...register("end_time", { required: "End time is required" })}
+                className="flex justify-center"
               />
               {errors.end_time && (
                 <p className={errorText}>{errors.end_time.message}</p>

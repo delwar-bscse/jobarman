@@ -13,7 +13,7 @@ import { getUserRole } from "utils/getUserRoleClient";
 const recuiter = [
   { href: "/", label: "Home" },
   { href: "/my-job", label: "My Job" },
-  { href: "/my-request", label: "My Request" },
+  { href: "/my-request", label: "Job Request" },
   { href: "/career-spotlight", label: "Career Spotlight" },
   { href: "/pricing", label: "Pricing" },
   { href: "/job-post", label: "Post Job" },
