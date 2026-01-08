@@ -55,8 +55,7 @@ const JobsPage = async ({ searchParams }) => {
     tags: ["favoratesList"],
   });
 
-  const jobs = await myFetch(
-    `/job-post/feed?searchTerm=${searchTerm}&location=${location}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&experience_level=${experience_level}&job_level=${job_level}&job_type=${job_type}&page=${page}&employeeType=${employeeType}`,
+  const jobs = await myFetch(`/job-post/feed?searchTerm=${searchTerm}&location=${location}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&experience_level=${experience_level}&job_level=${job_level}&job_type=${job_type}&page=${page}&employeeType=${employeeType}`,
     {
       method: "GET",
     }

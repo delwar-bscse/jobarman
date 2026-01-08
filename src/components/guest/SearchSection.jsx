@@ -28,15 +28,17 @@ function SearchSectionSuspense() {
         </div>
 
         <div className="flex flex-row items-center rounded-xl overflow-hidden border border-gray-200 shadow-sm">
-          <div className="flex-1 flex items-center bg-blue-50 w-full">
-            <input
-              onChange={(e) => setSearch(e.target.value)}
-              type="text"
-              placeholder="Job Title or Company"
-              className="w-full bg-transparent px-3 sm:px-4 lg:px-5 py-3 text-gray-700 placeholder-gray-500 outline-none text-sm sm:text-base lg:text-lg"
-            />
-          </div>
-
+          <input
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSubmit();
+              }
+            }}
+            type="text"
+            placeholder="Job Title or Company"
+            className="flex-1 px-2 bg-blue-50 h-full py-3.5 text-gray-700 placeholder-gray-500 outline-none text-sm sm:text-base lg:text-lg"
+          />
           <FilterModal
             trigger={
               <button

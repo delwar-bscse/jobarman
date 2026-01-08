@@ -14,7 +14,7 @@ export default function BannerSection() {
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-[#E1F6FF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[4fr_3fr] gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <div>
             <p className="text-sm sm:text-base font-semibold text-orange-500 mb-2">
@@ -27,13 +27,17 @@ export default function BannerSection() {
               <span className="text-orange-500">Healthcare</span>
             </h1>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 text-balance">
-              Our AI matches you with relevant IT and healthcare roles, helping you focus on opportunities that truly fit.
+              Our AI matches you with relevant IT and healthcare roles, so you can focus on opportunities that truly fit your skills and career goals.
             </p>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 text-balance">
-              Jobarman aggregates jobs from leading platforms and refreshes them regularly—so you can search less, apply faster, and stay up to date without jumping between job boards.
+              Jobarman brings together IT and healthcare jobs from trusted employers and leading platforms, so you can search smarter, discover more opportunities, and apply with confidence from one place.
             </p>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 text-balance">
-              Auto-Apply functionality is currently limited to positions posted directly on Jobarman. Expansion to additional listings is in progress, subject to platform support.
+              Apply directly on Jobarman for supported roles, or securely continue to the employer’s official website to complete your application—no guesswork, no wasted time.
+            </p>
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 text-balance">
+              Auto-Apply is currently available for jobs posted directly on Jobarman. External job listings may require you to complete your application on the employer’s website.
+
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <AutoApply />
@@ -59,13 +63,13 @@ export default function BannerSection() {
           </div>
 
           {/* Right Images */}
-          <div className="w-full flex justify-center lg:justify-end mt-6 lg:mt-0">
+          <div className="">
             <Image
               src="/groupHome.svg"
               alt="Banner"
-              width={10}
-              height={10}
-              className="rounded-lg w-full max-w-xs sm:max-w-md lg:max-w-lg h-auto"
+              width={1300}
+              height={1100}
+              className="rounded-lg w-full h-auto max-w-xs sm:max-w-md lg:max-w-lg"
             />
           </div>
         </div>

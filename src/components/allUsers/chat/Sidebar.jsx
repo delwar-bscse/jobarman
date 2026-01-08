@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { set } from "lodash";
+
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import CustomImage from "shared/CustomImage";
@@ -22,16 +22,23 @@ const SidebarSuspense = ({ chatUsers, selectedUser }) => {
     router.push(`?${params.toString()}`);
   };
 
-  const [debouncedSearchValue] = useDebounce(searchValue, 2000);
+  // useEffect(() => {
+  //   if (!selectedUser && chatUsers?.length > 0) {
+  //     console.log("All chat list in sidebar : ", chatUsers)
+  //     handleUserSelect(chatUsers[0]?._id);
+  //   }
+  // }, [selectedUser]);
+
+  const [debouncedSearchValue] = useDebounce(searchValue, 1000);
 
   useEffect(() => {
     if (debouncedSearchValue) {
       params.set("search", debouncedSearchValue);
-      router.push(`?${params.toString()}`);
     } else {
       params.delete("search");
-      router.push(`?${params.toString()}`);
     }
+
+    router.replace(`?${params.toString()}`, { scroll: false });
   }, [debouncedSearchValue]);
 
   useEffect(() => {
@@ -44,7 +51,10 @@ const SidebarSuspense = ({ chatUsers, selectedUser }) => {
       <div className="flex items-center py-2.5 px-4">
         <input
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            e.preventDefault();
+            setSearchValue(e.target.value)
+          }}
           type="text"
           placeholder="Search..."
           className="w-full p-2 border  focus:outline-blue-400"
@@ -57,9 +67,8 @@ const SidebarSuspense = ({ chatUsers, selectedUser }) => {
           chatUsers?.map((user) => (
             <div
               key={user._id}
-              className={`flex items-center p-3 cursor-pointer hover:bg-gray-100 transition ${
-                selectedUserId === user?._id ? "bg-blue-50" : ""
-              }`}
+              className={`flex items-center p-3 cursor-pointer hover:bg-gray-100 transition ${selectedUserId === user?._id ? "bg-blue-50" : ""
+                }`}
               onClick={() => handleUserSelect(user?._id)}
             >
               <CustomImage

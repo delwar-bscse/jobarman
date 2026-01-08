@@ -5,7 +5,7 @@ import { useSocket } from "@/lib/SocketContext";
 import { debounce } from "lodash";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo, memo } from "react";
 import { myFetch } from "utils/myFetch";
 import MessageInput from "./MessageInput";
 import { formatUrl } from "utils/formatUrl";
@@ -183,7 +183,8 @@ const ChatMessages = ({ selectedUser }) => {
       <div
         ref={messageContainerRef}
         onScroll={handleScroll}
-        className="relative flex-1 p-4 overflow-y-auto bg-gray-50 h-[calc(100vh-239px)]"
+        className="flex-1 p-4 overflow-y-auto bg-gray-50"
+        style={{ height: "calc(100vh - 230px)" }}
       >
         {!chatId ? (
           <div className="text-center text-gray-500 py-4">No User</div>

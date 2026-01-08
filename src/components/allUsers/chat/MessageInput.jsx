@@ -13,7 +13,6 @@ const MessageInput = ({ scrollToBottom }) => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  // send message
   const sendMessage = async (formData) => {
     try {
       const res = await myFetch("/message", {
@@ -34,30 +33,6 @@ const MessageInput = ({ scrollToBottom }) => {
     }
   };
 
-  // handle files
-  const handleFiles = async (e) => {
-    e.preventDefault();
-    const files = await e.target.files;
-    if (!files || files.length === 0) return;
-
-    if (!files) return;
-
-    setLoading(true);
-
-    const formData = new FormData();
-    formData.append("chatId", id);
-    formData.append("type", "image");
-
-    if (files) {
-      Array.from(files).forEach((file) => {
-        formData.append("image", file);
-      });
-    }
-
-    await sendMessage(formData);
-  };
-
-  // handle text
   const handleText = async (e) => {
     e.preventDefault();
 
@@ -73,27 +48,46 @@ const MessageInput = ({ scrollToBottom }) => {
     await sendMessage(formData);
   };
 
+  const handleFiles = async (e) => {
+    const files = e.target.files;
+    if (!files?.length) return;
+
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("chatId", id);
+    formData.append("type", "image");
+
+    Array.from(files).forEach((file) => {
+      formData.append("image", file);
+    });
+
+    await sendMessage(formData);
+  };
+
   return (
-    <form className="p-4 bg-white border-t sm:flex sm:items-center gap-2">
-      <div className="flex items-center gap-3 mb-3 sm:mb-0 flex-1">
-        <div>
-          <button
-            type="button"
-            aria-label="Attach file"
-            onClick={() => document.getElementById("sendFileId").click()}
-            className="text-gray-600 hover:text-gray-800"
-          >
-            <Paperclip size={20} />
-          </button>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            id="sendFileId"
-            className="hidden"
-            onChange={handleFiles}
-          />
-        </div>
+    <form
+      onSubmit={handleText}
+      className="p-4 bg-white border-t flex items-center gap-2"
+    >
+      <div className="flex items-center gap-3  flex-1">
+        <button
+          type="button"
+          aria-label="Attach file"
+          onClick={() => document.getElementById("sendFileId").click()}
+          className="text-gray-600 hover:text-gray-800"
+        >
+          <Paperclip size={20} />
+        </button>
+
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          id="sendFileId"
+          className="hidden"
+          onChange={handleFiles}
+        />
 
         <input
           type="text"
@@ -106,10 +100,9 @@ const MessageInput = ({ scrollToBottom }) => {
       </div>
 
       <button
-        type="button"
-        onClick={handleText}
+        type="submit"
         disabled={loading}
-        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:bg-blue-300 w-full sm:w-20"
+        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded disabled:bg-blue-300"
       >
         {loading ? "..." : "Send"}
       </button>

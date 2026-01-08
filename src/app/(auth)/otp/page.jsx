@@ -1,37 +1,33 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { myFetch } from "../../../../utils/myFetch";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { set } from "date-fns";
 import { setCookie } from "cookies-next/client";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+import { useForm } from "react-hook-form";
 
 export default function OTPPage() {
   const router = useRouter();
-  const [otp, setOtp] = useState(["", "", "", ""]);
-
-  const handleOtpChange = (index, value) => {
-    if (/^[0-9]$/.test(value) || value === "") {
-      const newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
-
-      // Auto-focus next input
-      if (value && index < 3) {
-        document.getElementById(`otp-${index + 1}`).focus();
-      }
-    }
-  };
-
-  const handlePaste = (e) => {
-    const pastedData = e.clipboardData.getData("text").slice(0, 4);
-    if (/^\d{4}$/.test(pastedData)) {
-      setOtp(pastedData.split(""));
-    }
-  };
+  const form = useForm({
+    defaultValues: {
+      verifyOtp: "",
+    },
+    mode: "onChange",
+  });
 
   const resendOTP = async () => {
     const res = await myFetch("/auth/forget-password", {
@@ -46,14 +42,13 @@ export default function OTPPage() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (data) => {
 
     const email = localStorage.getItem("registeredEmail");
 
     const res = await myFetch("/auth/verify-email", {
       method: "POST",
-      body: { email, oneTimeCode: Number(otp.join("")) },
+      body: { email, oneTimeCode: Number(data.verifyOtp) },
     });
 
     if (res?.success && res?.data) {
@@ -114,41 +109,50 @@ export default function OTPPage() {
             </p>
 
             {/* OTP Input Fields */}
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="flex justify-center gap-2">
-                {otp.map((digit, index) => (
-                  <input
-                    key={index}
-                    id={`otp-${index}`}
-                    type="text"
-                    maxLength={1}
-                    value={digit}
-                    onChange={(e) => handleOtpChange(index, e.target.value)}
-                    onPaste={index === 0 ? handlePaste : undefined}
-                    className="w-16 h-16 text-center text-lg font-medium border-2 border-[#ACBDF0] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+                <div className="">
+                  <FormField
+                    control={form.control}
+                    name="verifyOtp"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <InputOTP maxLength={6} {...field}>
+                            <InputOTPGroup className="">
+                              <InputOTPSlot index={0} />
+                              <InputOTPSlot index={1} />
+                              <InputOTPSlot index={2} />
+                              <InputOTPSlot index={3} />
+                            </InputOTPGroup>
+                          </InputOTP>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                ))}
-              </div>
+                </div>
 
-              {/* Resend OTP */}
-              <p className="text-end mb-6 text-gray-500">
-                Didn&apos;t receive a code?{" "}
-                <span
-                  onClick={() => resendOTP()}
-                  className="text-[#0F38B2] font-semibold hover:underline cursor-pointer"
+                {/* Resend OTP */}
+                <p className="text-end mb-6 text-gray-500">
+                  Didn&apos;t receive a code?{" "}
+                  <span
+                    onClick={() => resendOTP()}
+                    className="text-[#0F38B2] font-semibold hover:underline cursor-pointer"
+                  >
+                    Resend
+                  </span>
+                </p>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full bg-[#123499] hover:bg-[#0F38B2] text-white font-semibold py-4 mt-4 rounded-lg transition duration-200 transform hover:scale-105"
                 >
-                  Resend
-                </span>
-              </p>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="w-full bg-[#123499] hover:bg-[#0F38B2] text-white font-semibold py-4 mt-4 rounded-lg transition duration-200 transform hover:scale-105"
-              >
-                Verify
-              </button>
-            </form>
+                  Verify
+                </button>
+              </form>
+            </Form>
           </div>
         </div>
       </div>

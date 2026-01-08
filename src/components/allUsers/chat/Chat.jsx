@@ -9,7 +9,7 @@ const Chat = ({ chatUsers, selectedUser }) => {
     <div className="flex h-full bg-gray-100 max-w-7xl mx-auto">
       {/* Sidebar */}
       <div
-        className={`w-64 hidden md:flex flex-col h-[calc(100vh-98px)] bg-white shadow-lg border-r transform transition-transform duration-300 ease-in-out z-10 md:static md:translate-x-0 md:w-1/4 md:min-w-[200px] md:max-w-[300px]`}
+        className={`w-64 hidden md:flex flex-col h-[calc(100vh-90px)] bg-white shadow-lg border-r transform transition-transform duration-300 ease-in-out z-10 md:static md:translate-x-0 md:w-1/4 md:min-w-[200px] md:max-w-[300px]`}
       >
         <Sidebar chatUsers={chatUsers} selectedUser={selectedUser} />
       </div>
@@ -24,14 +24,10 @@ const Chat = ({ chatUsers, selectedUser }) => {
       </MessageModal>
 
       {/* Chat Area */}
-      <div
-        className={`flex-1 flex flex-col transition-all duration-300 md:block`}
-      >
-        <div className="">
-          <ChatHeader selectedUser={selectedUser} />
-        </div>
+      {selectedUser ? <div className={`flex-1 flex flex-col transition-all duration-300 md:block`}>
+        <ChatHeader selectedUser={selectedUser} />
         <ChatMessages selectedUser={selectedUser} />
-      </div>
+      </div> : <div className="flex-1 flex flex-col items-center justify-center text-gray-500 bg-gray-50 text-lg font-semibold">No Message Found</div>}
     </div>
   );
 };

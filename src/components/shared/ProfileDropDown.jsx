@@ -16,22 +16,22 @@ export default function ProfileDropDown({
   const router = useRouter();
 
   // handle logout
-  // const handleLogout = () => {
-  //   deleteCookie("accessToken");
-  //   deleteCookie("refreshToken");
-  //   deleteCookie("role");
-  //   router.push("/login");
-  // };
+  const handleLogout = () => {
+    deleteCookie("accessToken");
+    deleteCookie("refreshToken");
+    deleteCookie("role");
+    router.push("/login");
+  };
 
-  const url = role === "EMPLOYEE" ? "/profile/myProfile" : "/profile/companyProfile";
+  // const url = role === "EMPLOYEE" ? "/profile/myProfile" : "/profile/companyProfile";
 
   return (
     <>
       {data ? (
         <div className="relative" ref={dropdownRef}>
           <button
-            // onClick={() => setDropdownOpen(!dropdownOpen)}
-            onClick={() => router.push(url)}
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            // onClick={() => router.push(url)}
             className="focus:outline-none p-1 rounded-full hover:bg-white/50 transition"
           >
             <CustomImage
@@ -43,7 +43,7 @@ export default function ProfileDropDown({
             />
           </button>
 
-          {/* {dropdownOpen && (
+          {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-44 lg:w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
               {role === "EMPLOYEE" ? (
                 <Link
@@ -70,7 +70,7 @@ export default function ProfileDropDown({
                 Log Out
               </div>
             </div>
-          )} */}
+          )}
         </div>
       ) : (
         <Link href="/login" className={btnClass("/login")}>

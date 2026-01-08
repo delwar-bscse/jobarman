@@ -20,6 +20,7 @@ const SkillsSection = ({ skillsArray, register }) => {
           placeholder="Add a skill"
           className="flex-1 px-3 py-2 border rounded-lg text-sm focus:border-blue-500"
           ref={inputRef}
+          onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addSkill())}
         />
         <button
           type="button"

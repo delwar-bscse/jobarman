@@ -30,7 +30,7 @@ export default function JobCard({ job, favoratesList }) {
   return (
     <Link
       href={!job?._id ? job?.job_url : `/jobs/${job?._id}`}
-      target={!job?._id ? "_blank" : "_self"}
+      target="_blank"
       rel="noopener noreferrer"
       className=" bg-white min-h-40 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
     >
@@ -39,9 +39,9 @@ export default function JobCard({ job, favoratesList }) {
         <CustomImage
           src={job.thumbnail}
           alt={`${job.title} image`}
-          width={500}
+          width={800}
           height={600}
-          className="object-contain w-28 sm:w-40 h-auto"
+          className="object-contain w-28 sm:w-40 h-24 sm:h-32"
         />
       </div>
 

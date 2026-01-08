@@ -62,8 +62,8 @@ function RegisterPageSuspense() {
       </Link>
 
       {/* Main Container */}
-      <div className="w-full max-w-6xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
+      <div className="w-full max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 lg:gap-16 xl:gap-32 items-center">
           {/* Left Side - Logo Section */}
           <div className="hidden md:flex flex-col items-center justify-center p-8">
             <Image
@@ -76,7 +76,7 @@ function RegisterPageSuspense() {
           </div>
 
           {/* Right Side - Registration Form */}
-          <div className="flex flex-col w-[617px] justify-center p-8 text-center md:text-left border-2 border-[#ACBDF0] rounded-lg">
+          <div className="flex flex-col w-full max-w-[617px] mx-auto justify-center p-8 text-center md:text-left border-2 border-[#ACBDF0] rounded-lg">
             <h2 className="text-4xl text-[#123499] font-semibold text-center mb-8">
               Registration
             </h2>

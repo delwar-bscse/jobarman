@@ -9,7 +9,7 @@ import { DualRangeSlider } from "@/components/ui/dual-range-slider";
 import { myFetch } from "../../../../utils/myFetch";
 
 function FilterSideSuspense() {
-  const [values, setValues] = useState([0, 9999]);
+  const [values, setValues] = useState([0, 500000]);
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const [allCategories, setAllCategories] = useState([]);
@@ -36,8 +36,6 @@ function FilterSideSuspense() {
 
     fetchData();
   }, []);
-
-  // const allCategories = ["Healthcare", "Information Technology", "Hotels & Tourism", "Education", "Financial Services", "Engineering", "Marketing", "Sales", "HR", "Operations",];
   const visibleCategories = showMoreCategories
     ? allCategories
     : allCategories.slice(0, 4);
@@ -301,8 +299,8 @@ function FilterSideSuspense() {
               value={values}
               onValueChange={setValues}
               min={1}
-              max={9999}
-              step={10}
+              max={500000}
+              step={100}
             />
           </div>
           <button

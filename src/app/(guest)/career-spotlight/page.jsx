@@ -1,11 +1,32 @@
-import Image from "next/image";
+"use client";
+
 import { myFetch } from "../../../../utils/myFetch";
 import CustomImage from "../../../../shared/CustomImage";
 import Link from "next/link";
 import RecentAdsModal from "@/components/guest/recentAdsModal/RecentAdsModal";
+import { useEffect, useState } from "react";
 
-export default async function CareerSpotlight() {
-  const res = await myFetch("/spotlight");
+export default function CareerSpotlight() {
+  const [spotLights, setSpotLights] = useState([]);
+  const [activeAds, setActiveAds] = useState(0);
+  const [pendingAds, setPendingAds] = useState(0);
+  const [stats, setStats] = useState(null);
+  
+  
+  useEffect(() => {
+    async function fetchData() {
+      let url = `/spotlight?stats=${stats}`;
+      if(stats) url = `/spotlight?stats=${stats}`
+      // console.log("URL : ",url)
+
+      const res = await myFetch(url);
+      console.log("Spotlishts : ", res?.data)
+      setSpotLights(res?.data?.spotlights);
+      setActiveAds(res?.data?.stats?.totalSpotlights);
+      setPendingAds(res?.data?.stats?.pendingSpotlights);
+    }
+    fetchData();
+  }, [stats]);
 
   const statusStyle = (s) =>
     s === "pending"
@@ -13,7 +34,7 @@ export default async function CareerSpotlight() {
       : "border border-orange-200 bg-orange-100 text-orange-700";
 
   return (
-    <main className="w-full bg-white">
+    <main className="w-full min-h-screen bg-white">
       {/* Header */}
       <section className="py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,18 +50,18 @@ export default async function CareerSpotlight() {
       <section className="py-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="rounded-xl border border-green-200 bg-green-50 p-6 flex items-center justify-center">
+            <div onClick={()=>setStats("activeSpotlights")} className="rounded-xl border border-green-200 bg-green-50 hover:bg-green-100 transition-colors duration-300 p-6 flex items-center justify-center cursor-pointer">
               <div>
                 <p className="text-4xl font-bold text-green-600 ml-9">
-                  {res?.data?.stats?.totalSpotlights}
+                  {activeAds}
                 </p>
                 <p className="mt-2 font-medium text-gray-800">Active Ads</p>
               </div>
             </div>
-            <div className="rounded-xl border border-orange-200 bg-orange-50 p-6 flex items-center justify-center">
+            <div onClick={()=>setStats("pendingSpotlights")} className="rounded-xl border border-orange-200 bg-orange-50 hover:bg-orange-100 transition-colors duration-300 p-6 flex items-center justify-center cursor-pointer">
               <div>
                 <p className="text-4xl font-bold text-orange-500 ml-9">
-                  {res?.data?.stats?.pendingSpotlights}
+                  {pendingAds}
                 </p>
                 <p className="mt-2 font-medium text-gray-800">
                   Pending Approval
@@ -58,7 +79,7 @@ export default async function CareerSpotlight() {
             Recent Add
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {res?.data?.spotlights?.map((ad) => (
+            {spotLights?.map((ad) => (
               <div
                 key={ad?._id}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"

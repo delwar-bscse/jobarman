@@ -12,8 +12,10 @@ import SkillsSection from "./SkillsSection";
 import Image from "next/image";
 import { FcCamera } from "react-icons/fc";
 import { formatUrl } from "../../../utils/formatUrl";
+import { useRouter } from "next/navigation";
 
 export default function MainContent() {
+  const router = useRouter();
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageFile, setProfileImageFile] = useState(null);
   const {
@@ -112,7 +114,12 @@ export default function MainContent() {
       body: formData,
     });
 
-    res.success ? toast.success("Profile updated") : toast.error("Update failed");
+    if (res.success) {
+      router.push("/profile/myProfile")
+      toast.success("Update successfully");
+    } else {
+      toast.error("Update failed");
+    }
   };
 
   return (

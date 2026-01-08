@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Headset, Star } from "lucide-react";
 import React from "react";
 import { UploadCloud, PlusCircle, BadgeCheck, UserPlus } from "lucide-react";
 
@@ -6,30 +6,32 @@ const howItWorks = [
   {
     step: "Step-1",
     title: "Create Account",
-    description:
-      "Create Your Account To Access Personalized Job Matches, Build Your Profile, And Start Applying With Ease.",
+    description: "Create your account to access personalized job matches, build your profile, and start applying with ease.",
     icon: UserPlus,
   },
   {
     step: "Step-2",
     title: "Upload CV/Resume",
-    description:
-      "Our AI Analyzes Your Experience And Skills To Identify The Best Job Opportunities For You.",
+    description: "Our AI analyzes your experience and skills to identify the best job opportunities for you.",
     icon: UploadCloud,
   },
   {
     step: "Step-3",
-    title: "Auto-Apply With AI",
-    description:
-      "Let AI do the hard work it finds the right jobs posted directly on Jobarman only, matches them to your skills, and automatically applies exclusively to Jobarman-Posted jobs.",
+    title: "Find & Match Jobs",
+    description:"AI finds jobs posted directly on Jobarman and opportunities sourced from trusted employers and job boards — all in one place. AI matches them to your skills",
     icon: PlusCircle,
   },
   {
     step: "Step-4",
-    title: "Receive Interviews",
-    description:
-      "Relax While Our AI Brings The Right Opportunities Your Way, Turning Applications Into Interviews.",
+    title: "Complete Application",
+    description: "Apply directly on Jobarman for supported roles, or securely continue on the employer’s official website to complete your application",
     icon: BadgeCheck,
+  },
+  {
+    step: "Step-5",
+    title: "Receive Interviews",
+    description: "Relax while employers review your application and reach out directly to you for next steps and interviews.",
+    icon: Headset,
   },
 ];
 
@@ -48,11 +50,11 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {howItWorks.map((item, index) => (
             <div
               key={index}
-              className="rounded-2xl p-6 sm:p-8 bg-rose-50 border border-rose-100 hover:bg-white hover:shadow-md transition-all duration-300 cursor-pointer"
+              className="rounded-2xl py-6 sm:py-8 px-2 sm:px-4 bg-rose-50 border border-rose-100 hover:bg-white hover:shadow-md transition-all duration-300 cursor-pointer"
             >
               <p className="text-xs text-gray-500 mb-4">{item.step}</p>
               <div className="flex flex-col items-center text-center">

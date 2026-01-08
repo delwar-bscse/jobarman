@@ -4095,6 +4095,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"input-otp@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "input-otp@npm:1.4.2"
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: 10c0/d3a3216a75ed832993f3f2852edd7a85c5bae30ea6d251182119120488bbf9fed7cfdd91819bcee6daff57b3cfcbca94fd16d6a7c92cee4d806c0d4fa6ff1128
+  languageName: node
+  linkType: hard
+
 "install@npm:^0.13.0":
   version: 0.13.0
   resolution: "install@npm:0.13.0"
@@ -4457,6 +4467,7 @@ __metadata:
     eslint: "npm:^9.39.1"
     eslint-config-next: "npm:16.0.0"
     html2canvas: "npm:^1.4.1"
+    input-otp: "npm:^1.4.2"
     install: "npm:^0.13.0"
     jspdf: "npm:^3.0.4"
     lodash: "npm:^4.17.21"
