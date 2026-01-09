@@ -58,7 +58,7 @@ const JobsPageSuspense = () => {
 
   // 🔥 single source of truth
   const [filters, setFilters] = useState({
-    searchTerm: "Backend",
+    searchTerm: "",
     location: "",
     category: new Set(),
     job_type: new Set(),
@@ -83,13 +83,17 @@ const JobsPageSuspense = () => {
   useEffect(() => {
     const fetchData = async () => {
 
-      const category = Array.from(filters.category).join(",");
+      const category = Array
+        .from(filters.category)
+        .filter(Boolean)   // 🔥 removes "", null, undefined
+        .join(",");
+
       const job_type = formatEnum(Array.from(filters.job_type).join(",")) || "";
       const experience_level = experienceLevel(
         Array.from(filters.experience_level).join(",")
       );
       const dateLimit = filters.date_posted.toLowerCase()
-      console.log("Filters : ", dateLimit);
+      console.log("Filters : ", category);
       const tags = Array.from(filters.tags).join(",");
 
       const jobsRes = await myFetch(
@@ -159,7 +163,7 @@ const JobsPageSuspense = () => {
   );
 };
 
-export default function JobsPage (){
+export default function JobsPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <JobsPageSuspense />
