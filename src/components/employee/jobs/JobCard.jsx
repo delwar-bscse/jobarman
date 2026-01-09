@@ -8,7 +8,8 @@ import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
 import { toUnCapilizeSentence } from "../../../../utils/textFormat";
 
-export default function JobCard({ job, favoratesList }) {
+export default function JobCard({ job, favoratesList,fetchFavList }) {
+
   const handleFavorateItem = async (id) => {
     try {
       const res = await myFetch("/favourite", {
@@ -19,6 +20,7 @@ export default function JobCard({ job, favoratesList }) {
       if (res.success) {
         toast.success(res.message || "favorite item add/remove successfully");
         revalidate("favoratesList");
+        fetchFavList();
       } else {
         toast.error(res.message || "Favorate list not added");
       }

@@ -69,6 +69,21 @@ const JobsPageSuspense = () => {
     maxPrice: 500000,
   });
 
+  const fetchFavList = async () => {
+    const res = await myFetch("/favourite", {
+      tags: ["favoratesList"],
+    });
+
+    console.log("favoratesList : ", res);
+    setFavoratesList(res?.data?.map((favorate) => favorate?.post?._id));
+
+  }
+
+  useEffect(() => {
+
+    fetchFavList();
+  }, []);
+
   useEffect(() => {
     console.log("filter modal : ", minPrice, maxPrice)
     setFilters((prev) => ({
@@ -147,7 +162,8 @@ const JobsPageSuspense = () => {
                 <JobCard
                   key={job._id}
                   job={job}
-                // favoratesList={favoratesList}
+                  favoratesList={favoratesList}
+                  fetchFavList={fetchFavList}
                 />
               ))}
             </div>
