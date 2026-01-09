@@ -12,6 +12,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { myFetch } from "../../../utils/myFetch";
 import { useRouter, useSearchParams } from "next/navigation";
+import { jobTypes } from "../employee/jobs/jobType";
 
 function FilterModalSuspense({ trigger }) {
   const [allCategories, setAllCategories] = useState([]);
@@ -76,54 +77,46 @@ function FilterModalSuspense({ trigger }) {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Employee Type
               </label>
-              <div className="flex gap-2">
-                {[
-                  { label: "Full Time" },
-                  { label: "Part Time" },
-                  { label: "Intern" },
-                ].map((t) => (
+              <div className="flex flex-wrap gap-2">
+                {jobTypes.map((t) => (
                   <button
-                    key={t.label}
+                    key={t}
                     type="button"
-                    onClick={() => setEmployeeType(t.label)}
+                    onClick={() => setEmployeeType(t)}
                     className={`px-4 py-2 rounded-md text-sm ${
-                      employeeType === t.label
+                      employeeType === t
                         ? "bg-[#FF8F27] text-white"
                         : "border"
                     }`}
                   >
-                    {t.label}
+                    {t}
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Job Type */}
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Job Type
               </label>
               <div className="flex gap-2">
-                {[
-                  { label: "Remote" },
-                  { label: "Onsite" },
-                  { label: "Hybrid" },
-                ].map((t) => (
+                {jobTypes.map((t) => (
                   <button
-                    key={t.label}
+                    key={t}
                     type="button"
-                    onClick={() => setJobType(t.label)}
+                    onClick={() => setJobType(t)}
                     className={`px-4 py-2  text-sm rounded-full ${
-                      jobType === t.label
+                      jobType === t
                         ? "bg-[#093CD4] text-white"
                         : "border "
                     }`}
                   >
-                    {t.label}
+                    {t}
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Salary Range */}
             <div>

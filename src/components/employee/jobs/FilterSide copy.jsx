@@ -1,71 +1,140 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
 import { MapPin, Search } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { DualRangeSlider } from "@/components/ui/dual-range-slider";
 import { myFetch } from "../../../../utils/myFetch";
-import { allTags, datePostedOptions, experienceLevels, jobTypes } from "./jobType";
-import { useSearchParams } from "next/navigation";
-import { min } from "lodash";
 
-function FilterSideSuspense({filters, setFilters}) {
+function FilterSideSuspense() {
+  const [values, setValues] = useState([0, 500000]);
   const searchParams = useSearchParams();
-  const [values, setValues] = useState([1, 500000]);
+  const { replace } = useRouter();
   const [allCategories, setAllCategories] = useState([]);
-  const [showMoreCategories, setShowMoreCategories] = useState(false);
-  
-  const minPrice = searchParams.get("minPrice") || "1";
-  const maxPrice = searchParams.get("maxPrice") || "99999";
+  const params = new URLSearchParams(searchParams);
 
-  // Fetch categories (unchanged)
+  const [showMoreCategories, setShowMoreCategories] = useState(false);
+
+  // Initialize salary range set from query params
   useEffect(() => {
     const fetchData = async () => {
-      const res = await myFetch("/job-category");
-      setAllCategories(res.data || []);
+      const minPrice = Number(searchParams.get("minPrice")) || 1;
+      const maxPrice = Number(searchParams.get("maxPrice")) || 500000;
+      setValues([minPrice, maxPrice]);
     };
+
     fetchData();
   }, []);
 
-  // Sync salary slider → filters
   useEffect(() => {
-    setValues([Number(minPrice), Number(maxPrice)]);
-  }, [minPrice, maxPrice]);
+    const fetchData = async () => {
+      const res = await myFetch("/job-category");
+      setAllCategories(res.data);
+    };
 
-  const handlePrice = () => {
-    setFilters((prev) => ({
-      ...prev,
-      minPrice: values[0],
-      maxPrice: values[1],
-    }));
-  }
-
+    fetchData();
+  }, []);
   const visibleCategories = showMoreCategories
     ? allCategories
     : allCategories.slice(0, 4);
 
-  // Debounced text search (same UX)
-  const handleSearch = useDebouncedCallback((key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  }, 100);
+  const jobTypes = [
+    "Full Time",
+    "Part Time",
+    "Contract",
+    "Remote",
+    "Hybrid",
+    "Freelance",
+    "Internship",
+  ];
+  const allTags = [
+    "engineering",
+    "design",
+    "ux/ui",
+    "marketing",
+    "management",
+    "construction",
+  ];
+  const experienceLevels = [
+    "No experience",
+    "Fresher",
+    "Intermediate",
+    "Expert",
+  ];
+  const datePostedOptions = [
+    "All",
+    "Last hour",
+    "Last 24 hours",
+    "Last 7 days",
+    "Last 30 days",
+  ];
 
-  const handleSingleFilter = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+  // Debounced Search Handler
+  const handleSearch = useDebouncedCallback((type, value) => {
+    if (value) {
+      params.set(type, value);
+    } else {
+      params.delete(type);
+    }
+    replace(`?${params.toString()}`);
+  }, 300);
+
+  // Apply Salary Filter
+  const handleSalary = () => {
+    params.set("minPrice", values[0]);
+    params.set("maxPrice", values[1]);
+    replace(`?${params.toString()}`, { scroll: false });
   };
 
-  const toggleMultiFilter = (key, value) => {
-    setFilters((prev) => {
-      const set = new Set(prev[key]);
-      set.has(value) ? set.delete(value) : set.add(value);
-      return { ...prev, [key]: set };
-    });
+  // Single Value Query Params Getter
+  const getSingleQueryParams = (type) => {
+    return searchParams.get(type) || "";
+  };
+
+  // Single Value Query Params Handler
+  const handleSingleQueryParams = (type, value) => {
+    params.set(type, value);
+    replace(`?${params.toString()}`, { scroll: false });
+  };
+
+  // Multi Value Query Params Getter
+  const getMultipleQueryParams = (type) => {
+    return new Set(
+      (searchParams.get(type) || "")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    );
+  };
+
+  // Multi Value Query Params Handler
+  const handleMultipleQueryParams = (type, value) => {
+    // safe read (handles null and empty)
+    const raw = searchParams.get(type) || "";
+    const prevArray = raw
+      .split(",")
+      .map((e) => e.trim())
+      .filter(Boolean);
+
+    const newArray = prevArray.includes(value)
+      ? prevArray.filter((e) => e !== value)
+      : [...prevArray, value];
+
+    // update params: remove param if empty
+    if (newArray.length) {
+      params.set(type, newArray.join(","));
+    } else {
+      params.delete(type);
+    }
+
+    replace(`?${params.toString()}`, { scroll: false });
   };
 
   return (
     <div className="lg:col-span-1">
       <div className="bg-[#E6EFF6] rounded-lg p-6 sticky top-8">
-
         {/* Search */}
         <div className="mb-6">
           <label className="block text-sm font-semibold text-gray-900 mb-2">
@@ -79,10 +148,8 @@ function FilterSideSuspense({filters, setFilters}) {
             <input
               type="text"
               placeholder="Job title or company"
-              value={filters?.searchTerm || ""}
-              onChange={(e) =>
-                handleSearch("searchTerm", e.target.value)
-              }
+              defaultValue={getSingleQueryParams("searchTerm")}
+              onChange={(e) => handleSearch("searchTerm", e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC]"
             />
           </div>
@@ -101,40 +168,43 @@ function FilterSideSuspense({filters, setFilters}) {
             <input
               type="text"
               placeholder="location..."
-              onChange={(e) =>
-                handleSearch("location", e.target.value)
-              }
+              defaultValue={getSingleQueryParams("location")}
+              onChange={(e) => handleSearch("location", e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC]"
             />
+            {/* <select
+              value={getSingleQueryParams("location")}
+              onChange={(e) => handleSingleQueryParams("location", e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC] appearance-none"
+            >
+              {locations.map((loc) => (
+                <option key={loc} value={loc}>
+                  {loc === "All Cities" ? "Choose city" : loc}
+                </option>
+              ))}
+            </select> */}
           </div>
         </div>
 
         {/* Category */}
         <div className="space-y-2">
-          {visibleCategories.map((cat) => (
-            <label key={cat._id} className="flex items-center">
+          {visibleCategories.map((cat, index) => (
+            <label key={index} className="flex items-center">
               <input
                 type="checkbox"
-                checked={filters.category.has(cat._id)}
-                onChange={() =>
-                  toggleMultiFilter("category", cat._id)
-                }
+                checked={getMultipleQueryParams("category").has(cat._id)}
+                onChange={() => handleMultipleQueryParams("category", cat._id)}
                 className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
               />
-              <span className="ml-2 text-sm text-gray-700">
-                {cat.name}
-              </span>
+              <span className="ml-2 text-sm text-gray-700">{cat.name}</span>
               <span className="ml-auto text-xs text-gray-500">10</span>
             </label>
           ))}
         </div>
-
         <div>
           {allCategories.length > 4 && (
             <button
-              onClick={() =>
-                setShowMoreCategories(!showMoreCategories)
-              }
+              onClick={() => setShowMoreCategories(!showMoreCategories)}
               className="mt-3 w-full py-2 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0F2C80] hover:to-[#1F45B8] transition"
             >
               {showMoreCategories ? "Show Less" : "Show More"}
@@ -152,15 +222,11 @@ function FilterSideSuspense({filters, setFilters}) {
               <label key={type} className="flex items-center">
                 <input
                   type="checkbox"
-                  checked={filters.job_type.has(type)}
-                  onChange={() =>
-                    toggleMultiFilter("job_type", type)
-                  }
+                  checked={getMultipleQueryParams("job_type").has(type)}
+                  onChange={() => handleMultipleQueryParams("job_type", type)}
                   className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
                 />
-                <span className="ml-2 text-sm text-gray-700">
-                  {type}
-                </span>
+                <span className="ml-2 text-sm text-gray-700">{type}</span>
                 <span className="ml-auto text-xs text-gray-500">10</span>
               </label>
             ))}
@@ -177,15 +243,15 @@ function FilterSideSuspense({filters, setFilters}) {
               <label key={level} className="flex items-center">
                 <input
                   type="checkbox"
-                  checked={filters.experience_level.has(level)}
+                  checked={getMultipleQueryParams("experience_level").has(
+                    level
+                  )}
                   onChange={() =>
-                    toggleMultiFilter("experience_level", level)
+                    handleMultipleQueryParams("experience_level", level)
                   }
                   className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
                 />
-                <span className="ml-2 text-sm text-gray-700">
-                  {level}
-                </span>
+                <span className="ml-2 text-sm text-gray-700">{level}</span>
                 <span className="ml-auto text-xs text-gray-500">10</span>
               </label>
             ))}
@@ -203,15 +269,11 @@ function FilterSideSuspense({filters, setFilters}) {
                 <input
                   type="radio"
                   name="datePosted"
-                  checked={filters.date_posted === date}
-                  onChange={() =>
-                    handleSingleFilter("date_posted", date)
-                  }
+                  checked={getSingleQueryParams("date_posted") === date}
+                  onChange={() => handleSingleQueryParams("date_posted", date)}
                   className="w-4 h-4 text-[#0066CC] focus:ring-2 focus:ring-[#0066CC]"
                 />
-                <span className="ml-2 text-sm text-gray-700">
-                  {date}
-                </span>
+                <span className="ml-2 text-sm text-gray-700">{date}</span>
                 <span className="ml-auto text-xs text-gray-500">10</span>
               </label>
             ))}
@@ -234,7 +296,7 @@ function FilterSideSuspense({filters, setFilters}) {
             />
           </div>
           <button
-            onClick={handlePrice}
+            onClick={handleSalary}
             className="mt-3 w-full py-2 text-sm font-semibold text-white rounded-lg bg-gradient-to-r from-[#123499] to-[#2A57DE] hover:from-[#0F2C80] hover:to-[#1F45B8] transition"
           >
             Apply
@@ -250,11 +312,9 @@ function FilterSideSuspense({filters, setFilters}) {
             {allTags.map((tag) => (
               <span
                 key={tag}
-                onClick={() =>
-                  toggleMultiFilter("tags", tag)
-                }
+                onClick={() => handleMultipleQueryParams("tags", tag)}
                 className={`px-3 py-1 text-[#0066CC] text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors duration-300 ${
-                  filters.tags.has(tag)
+                  getMultipleQueryParams("tags").has(tag)
                     ? "bg-blue-200 font-semibold"
                     : "bg-blue-100"
                 }`}
@@ -264,20 +324,15 @@ function FilterSideSuspense({filters, setFilters}) {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );
 }
 
-export default function FilterSide({ filters, setFilters }) {
+export default function FilterSide2() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <FilterSideSuspense
-        filters={filters}
-        setFilters={setFilters}
-      />
+      <FilterSideSuspense />
     </Suspense>
   );
 }
-
