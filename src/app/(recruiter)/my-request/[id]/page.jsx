@@ -9,7 +9,7 @@ export default async function Page({ params }) {
   });
 
   return (
-    <div className="max-w-[900px] mx-auto py-4">
+    <div className="min-h-screen max-w-[900px] mx-auto py-4">
       <PdfViewer fileUrl={res.data?.resume || ""} />
       <ActionButtons applicationDetails={res.data} />
     </div>

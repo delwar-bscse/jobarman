@@ -1,12 +1,22 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { GoStarFill } from "react-icons/go";
+// import { GoStarFill } from "react-icons/go";
 import dayjs from "dayjs";
 import { myFetch } from "../../../utils/myFetch";
 import { useSocket } from "@/lib/SocketContext";
-import { revalidate } from "../../../utils/revalidateTags";
+import { useRouter } from "next/navigation";
+
+const NotificationType = {
+  Application: "application",
+  User: "user",
+  Post: "post",
+  Spotlight: "spotlight",
+  General: "general",
+  Subscription: "subscription",
+};
 
 export default function Notifications({ date, id }) {
+  const router = useRouter();
   const { socket } = useSocket();
   const [notifications, setNotificaitons] = useState([]);
 
@@ -39,24 +49,19 @@ export default function Notifications({ date, id }) {
     };
   }, [socket, id]);
 
-  const Pill = ({ label, color }) => {
-    const styles =
-      color === "green"
-        ? "bg-green-50 text-green-700 border border-green-200"
-        : color === "blue"
-          ? "bg-blue-50 text-blue-700 border border-blue-200"
-          : "bg-gray-50 text-gray-700 border border-gray-200";
-    return (
-      <span className={`text-xs px-2 py-1 rounded ${styles}`}>{label}</span>
-    );
+  const handleClick = async (item) => {
+    console.log("Notification Clicked : ", item)
+    if (item?.filePath === NotificationType.Application) {
+      router.push(`/my-request/${item?.referenceId}`);
+    }
   };
 
   return (
     <div className="space-y-4">
       {notifications?.map((item) => (
-        <div
+        <div onClick={() => handleClick(item)}
           key={item?._id}
-          className="rounded-md border border-gray-200 bg-white p-2 sm:p-3 md:p-4 flex items-start justify-between cursor-pointer"
+          className="rounded-md border border-gray-200 hover:bg-gray-50 transition-colors duration-300 bg-white p-2 sm:p-3 md:p-4 flex items-start justify-between cursor-pointer"
         >
           <div className="flex-1">
             <div className="flex justify-between">

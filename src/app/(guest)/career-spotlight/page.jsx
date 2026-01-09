@@ -15,14 +15,14 @@ export default function CareerSpotlight() {
   
   useEffect(() => {
     async function fetchData() {
-      let url = `/spotlight?stats=${stats}`;
-      if(stats) url = `/spotlight?stats=${stats}`
+      let url = `/spotlight`;
+      if(stats) url = `/spotlight?status=${stats}`
       // console.log("URL : ",url)
 
       const res = await myFetch(url);
-      console.log("Spotlishts : ", res?.data)
+      // console.log("Spotlishts : ", res?.data)
       setSpotLights(res?.data?.spotlights);
-      setActiveAds(res?.data?.stats?.totalSpotlights);
+      setActiveAds(res?.data?.stats?.activeSpotlights);
       setPendingAds(res?.data?.stats?.pendingSpotlights);
     }
     fetchData();
@@ -50,7 +50,7 @@ export default function CareerSpotlight() {
       <section className="py-2">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div onClick={()=>setStats("activeSpotlights")} className="rounded-xl border border-green-200 bg-green-50 hover:bg-green-100 transition-colors duration-300 p-6 flex items-center justify-center cursor-pointer">
+            <div onClick={()=>setStats("approved")} className="rounded-xl border border-green-200 bg-green-50 hover:bg-green-100 transition-colors duration-300 p-6 flex items-center justify-center cursor-pointer">
               <div>
                 <p className="text-4xl font-bold text-green-600 ml-9">
                   {activeAds}
@@ -58,7 +58,7 @@ export default function CareerSpotlight() {
                 <p className="mt-2 font-medium text-gray-800">Active Ads</p>
               </div>
             </div>
-            <div onClick={()=>setStats("pendingSpotlights")} className="rounded-xl border border-orange-200 bg-orange-50 hover:bg-orange-100 transition-colors duration-300 p-6 flex items-center justify-center cursor-pointer">
+            <div onClick={()=>setStats("pending")} className="rounded-xl border border-orange-200 bg-orange-50 hover:bg-orange-100 transition-colors duration-300 p-6 flex items-center justify-center cursor-pointer">
               <div>
                 <p className="text-4xl font-bold text-orange-500 ml-9">
                   {pendingAds}

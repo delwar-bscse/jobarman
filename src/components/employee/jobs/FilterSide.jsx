@@ -21,7 +21,7 @@ function FilterSideSuspense() {
   useEffect(() => {
     const fetchData = async () => {
       const minPrice = Number(searchParams.get("minPrice")) || 1;
-      const maxPrice = Number(searchParams.get("maxPrice")) || 9999;
+      const maxPrice = Number(searchParams.get("maxPrice")) || 500000;
       setValues([minPrice, maxPrice]);
     };
 
@@ -69,14 +69,6 @@ function FilterSideSuspense() {
     "Last 24 hours",
     "Last 7 days",
     "Last 30 days",
-  ];
-  const locations = [
-    "All Cities",
-    "New York",
-    "San Francisco",
-    "Los Angeles",
-    "Chicago",
-    "Boston",
   ];
 
   // Debounced Search Handler
