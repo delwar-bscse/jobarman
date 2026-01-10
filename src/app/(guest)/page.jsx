@@ -31,7 +31,7 @@ export default async function Home() {
       {!existRecruiter && <SearchSection />}
 
       {/* AI Banner Carousel below Hero */}
-      {existEmployee && <CaruselBanner />}
+      {!existRecruiter && <CaruselBanner />}
 
       {/* Filters Modal to filter jobs */}
       {/* <FilterModal /> */}
