@@ -28,8 +28,9 @@ export default function ProfileDropDown({
       {data ? (
         <div className="relative" ref={dropdownRef}>
           <button
-            onMouseEnter={() => setDropdownOpen(true)}
+            onMouseEnter={() => setDropdownOpen(!dropdownOpen)}
             // onMouseLeave={() => setDropdownOpen(false)}
+            onClick={()=>setDropdownOpen(!dropdownOpen)}
             className="focus:outline-none p-1 rounded-full hover:bg-white/50 transition hover:cursor-pointer hover:shadow"
           >
             <CustomImage
@@ -68,7 +69,6 @@ export default function ProfileDropDown({
               Log Out
             </div>
           </div>
-
         </div>
       ) : (
         <Link href="/login" className={btnClass("/login")}>

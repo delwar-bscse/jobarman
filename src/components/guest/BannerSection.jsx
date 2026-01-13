@@ -14,7 +14,7 @@ export default function BannerSection() {
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-[#E1F6FF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[4fr_3fr] gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6 lg:gap-8 items-center">
           {/* Left Content */}
           <div>
             <p className="text-sm sm:text-base font-semibold text-orange-500 mb-2">
@@ -30,14 +30,10 @@ export default function BannerSection() {
               Our AI matches you with relevant IT and healthcare roles, so you can focus on opportunities that truly fit your skills and career goals.
             </p>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-4 text-balance">
-              Jobarman brings together IT and healthcare jobs from trusted employers and leading platforms, so you can search smarter, discover more opportunities, and apply with confidence from one place.
+              Jobarman brings together IT and healthcare jobs from trusted employers and leading platforms, allowing you to search smarter, discover more opportunities, and apply with confidence from one place.
             </p>
             <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 text-balance">
-              Apply directly on Jobarman for supported roles, or securely continue to the employer’s official website to complete your application—no guesswork, no wasted time.
-            </p>
-            <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 text-balance">
-              Auto-Apply is currently available for jobs posted directly on Jobarman. External job listings may require you to complete your application on the employer’s website.
-
+              Apply with confidence on Jobarman. For jobs posted directly on our platform, you can apply instantly with one click using Auto-Apply. For other opportunities, we securely guide you to the employer’s official website so you always know exactly where to apply—simple, clear, and no time wasted.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <AutoApply />
@@ -63,13 +59,13 @@ export default function BannerSection() {
           </div>
 
           {/* Right Images */}
-          <div className="">
+          <div className="w-full">
             <Image
               src="/groupHome.svg"
               alt="Banner"
               width={1300}
               height={1100}
-              className="rounded-lg w-full h-auto max-w-xs sm:max-w-md lg:max-w-lg"
+              className="rounded-lg w-full h-auto object-cover max-w-xs sm:max-w-md lg:max-w-lg"
             />
           </div>
         </div>
