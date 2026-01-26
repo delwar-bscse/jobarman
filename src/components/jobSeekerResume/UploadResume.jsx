@@ -42,11 +42,11 @@ const UploadResume = ({ resume }) => {
         tags: ["resume"],
       });
 
-      console.log("Resume Post/Update :", {
-        Response: res,
-        URL: url,
-        Method: method,
-      });
+      // console.log("Resume Post/Update :", {
+      //   Response: res,
+      //   URL: url,
+      //   Method: method,
+      // });
 
       if (res.success) {
         toast.success(res.message || "Resume uploaded successfully.");

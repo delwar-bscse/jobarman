@@ -11,7 +11,7 @@ export default async function page({ searchParams }) {
     url = `/chat?searchTerm=${search}`;
   }
 
-  console.log("chart url : ", url);
+  //console.log("chart url : ", url);
 
   const res = await myFetch(url);
 
@@ -20,7 +20,7 @@ export default async function page({ searchParams }) {
 
   const chatUsers = res?.data;
 
-  console.log("Selected User : ", selectedUser)
+  //console.log("Selected User : ", selectedUser)
 
   return (
     <>

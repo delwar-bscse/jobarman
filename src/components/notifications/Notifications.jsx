@@ -29,7 +29,7 @@ export default function Notifications({ date, id }) {
   useEffect(() => {
     async function fetchData() {
       const res = await myFetch(url);
-      console.log("Notifications : ", res)
+      //console.log("Notifications : ", res)
       setNotificaitons(res?.data?.data);
     }
     fetchData();
@@ -50,7 +50,7 @@ export default function Notifications({ date, id }) {
   }, [socket, id]);
 
   const handleClick = async (item) => {
-    console.log("Notification Clicked : ", item)
+    //console.log("Notification Clicked : ", item)
     if (item?.filePath === NotificationType.Application) {
       router.push(`/my-request/${item?.referenceId}`);
     }

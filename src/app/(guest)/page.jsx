@@ -18,7 +18,7 @@ export default async function Home() {
   const existUser = await getUserRole();
   const existRecruiter = await idRecruiter();
   const existEmployee = await isEmployee();
-  console.log("Employee : ", existEmployee)
+  //console.log("Employee : ", existEmployee)
 
   return (
     <main className="w-full bg-white">

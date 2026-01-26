@@ -54,7 +54,7 @@ export default function AutoApply({ data }) {
       body: formData,
     });
 
-    console.log("Auto Apply Res : ", res);
+    //console.log("Auto Apply Res : ", res);
 
     if (res.success) {
       localStorage.setItem("autoApplyDataId", JSON.stringify(res.data?._id));

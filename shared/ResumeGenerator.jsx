@@ -77,7 +77,7 @@ const ResumeGenerator = () => {
         method: "POST",
         body: formData,
       });
-      console.log("Resume Res : ", res);
+      // console.log("Resume Res : ", res);
 
       if (res?.success) {
         router.push(`/scroe-board/${res.data._id}`);

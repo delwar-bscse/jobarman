@@ -100,14 +100,14 @@ export default function JobDetailsRight({ details }) {
                     {toUnCapilizeSentence(details?.job_type)}
                   </span>
                 </div>
-                {/* {
+                {
                   <p className="text-gray-400 text-md mt-1">
                     Job Board :{" "}
                     <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
                       {details?.job_board || "Jobarman"}
                     </span>
                   </p>
-                } */}
+                }
               </div>
             </div>
           </div>

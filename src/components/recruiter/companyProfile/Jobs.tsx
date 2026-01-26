@@ -13,7 +13,7 @@ export default function Jobs() {
   const fetchJobs = async () => {
     // const res = await myFetch(`/job-post/recent-posts?jobType=${activeJobTab}`);
     const res = await myFetch(`/job-post/recent-posts`);
-    console.log("Recent Jobs : ", res?.data)
+    //console.log("Recent Jobs : ", res?.data)
     setJobs(res?.data);
   };
 

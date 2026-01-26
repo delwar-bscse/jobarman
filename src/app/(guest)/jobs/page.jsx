@@ -74,7 +74,7 @@ const JobsPageSuspense = () => {
       tags: ["favoratesList"],
     });
 
-    console.log("favoratesList : ", res);
+    //console.log("favoratesList : ", res);
     setFavoratesList(res?.data?.map((favorate) => favorate?.post?._id));
 
   }
@@ -85,7 +85,7 @@ const JobsPageSuspense = () => {
   }, []);
 
   useEffect(() => {
-    console.log("filter modal : ", minPrice, maxPrice)
+    //console.log("filter modal : ", minPrice, maxPrice)
     setFilters((prev) => ({
       ...prev,
       searchTerm,
@@ -108,7 +108,7 @@ const JobsPageSuspense = () => {
         Array.from(filters.experience_level).join(",")
       );
       const dateLimit = filters.date_posted.toLowerCase()
-      console.log("Filters : ", category);
+      //console.log("Filters : ", category);
       const tags = Array.from(filters.tags).join(",");
 
       const jobsRes = await myFetch(
@@ -116,7 +116,7 @@ const JobsPageSuspense = () => {
         { method: "GET" }
       );
 
-      console.log("Jobs Res : ", jobsRes);
+      //console.log("Jobs Res : ", jobsRes);
 
       const favRes = await myFetch("/favourite", {
         tags: ["favoratesList"],

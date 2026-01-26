@@ -103,14 +103,14 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
             </div>
           </div>
 
-          {/* {
+          {
               <p className="text-gray-400 text-md mt-1">
                 Job Board :{" "}
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
                   {job?.job_board ?? "Jobarman"}
                 </span>
               </p>
-            } */}
+            }
           <p>
             {job?.is_applied === true && (
               <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">

@@ -19,8 +19,8 @@ function LoginPageSuspense() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  console.log("Router : ", router)
-  console.log("Window History : ", window.history)
+  //console.log("Router : ", router)
+  //console.log("Window History : ", window.history)
 
   const handleLogin = async (e) => {
     e.preventDefault();

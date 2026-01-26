@@ -2,25 +2,27 @@
 const nextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: "50mb",
+      allowedDevOrigins: [
+        "http://localhost:3000",
+      ],
     },
-  },
-  serverActions: {
-    bodySizeLimit: "1000mb",
   },
 
   images: {
-    // Allowed external image patterns
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**", // ✅ allow all https hostnames
-        pathname: "**", // allow all paths
+        hostname: "**",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "**",
+        pathname: "/**",
       },
     ],
   },
-
-  allowedDevOrigins: ["http://10.10.7.30:3010", "http://localhost:3000"],
 };
 
 export default nextConfig;

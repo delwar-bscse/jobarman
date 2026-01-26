@@ -19,7 +19,7 @@ export default function NotificationMessageNavbar({ role, id }) {
     const res = await myFetch("/notification", {
       method: "GET",
     });
-    console.log("Notifications : ", res)
+    //console.log("Notifications : ", res)
     setNotificaiton(res?.data?.unreadCount);
   }
 
@@ -31,7 +31,7 @@ export default function NotificationMessageNavbar({ role, id }) {
     const read = await myFetch("/notification", {
       method: "PATCH",
     });
-    console.log("Notifications Read All: ", read)
+    //console.log("Notifications Read All: ", read)
     setNotificaiton(0);
     router.push("/notifications");
   };
@@ -40,7 +40,7 @@ export default function NotificationMessageNavbar({ role, id }) {
     if (!id || !socket) return;
 
     const onSocketResponse = (data) => {
-      console.log("Socket Work", data);
+      //console.log("Socket Work", data);
       setNotificaiton((prev) => prev + 1);
     };
 

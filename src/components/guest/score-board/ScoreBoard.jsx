@@ -15,7 +15,7 @@ export default function ScoreBoard({ id }) {
     async function fetchData() {
       const res = await myFetch(`/user/analyze-resume/${id}`);
       setResume(res.data);
-      console.log("Score after completed : ", res)
+      //console.log("Score after completed : ", res)
     }
     fetchData();
   }, [id, isCompleted]);
@@ -24,7 +24,7 @@ export default function ScoreBoard({ id }) {
     if (!id || !socket) return;
 
     const onSocketResponse = () => {
-      console.log("Socket Work")
+      //console.log("Socket Work")
       setIsCompleted((prev) => !prev);
     };
 

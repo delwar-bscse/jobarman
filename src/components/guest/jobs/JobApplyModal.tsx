@@ -125,7 +125,7 @@ export default function JobApplyModal({ trigger, details }) {
         body: formData,
       } as any);
 
-      console.log("Apply res : ", res);
+      //console.log("Apply res : ", res);
 
       if (res.success) {
         reset();
@@ -135,7 +135,7 @@ export default function JobApplyModal({ trigger, details }) {
         setOpen(false);
       } else {
         toast.error(res.message || "Submission failed. Please try again.");
-        console.log("Submission error:", res.message);
+        //console.log("Submission error:", res.message);
       }
     } catch (err) {
       toast.error("Submission error:", err.message);

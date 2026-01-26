@@ -2,15 +2,17 @@ import CustomImage from "../../../shared/CustomImage";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { getRemainingDays } from "../../../utils/remainingDays";
+import { formatUrl } from "utils/formatUrl";
 
 const JobPostCard = ({ job }) => {
+  
   return (
     <div
       key={job._id}
       className="bg-white h-32 overflow-hidden rounded-xl shadow-sm border border-gray-200 p-1 flex items-center gap-4"
     >
       <CustomImage
-        src={job.thumbnail}
+        src={formatUrl(job.thumbnail)}
         title={job.title}
         width={300}
         height={200}

@@ -6,7 +6,7 @@ import MyJobTop from "./MyJobTop";
 
 const JobPost = async ({ searchParams }) => {
   const {searchTerm} = await searchParams;
-  console.log("My Job SearchTerm : ", searchTerm)
+  //console.log("My Job SearchTerm : ", searchTerm)
   let url = "/job-post/feed/user";
   if(searchTerm) url = `/job-post/feed/user?searchTerm=${searchTerm}`
   const res = await myFetch(url, {
