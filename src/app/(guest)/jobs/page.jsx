@@ -8,6 +8,7 @@ import JobCard from "@/components/employee/jobs/JobCard";
 import CustomPagination from "@/components/cui/CustomPagination";
 import { myFetch } from "../../../../utils/myFetch";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Loader } from "lucide-react";
 // import { filter } from "lodash";
 
 /* ================= utils (unchanged) ================= */
@@ -137,7 +138,7 @@ const JobsPageSuspense = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <div onClick={()=> window.location.reload()} className="max-w-7xl mx-auto cursor-pointer">
+      <div onClick={() => window.location.reload()} className="max-w-7xl mx-auto cursor-pointer">
         <Image
           className="bg-gradient-to-r from-[#123499] to-[#2A57DE]"
           width={1621}
@@ -157,7 +158,7 @@ const JobsPageSuspense = () => {
           />
 
           {/* Job Cards */}
-          <div className="lg:col-span-3">
+          {jobs.length > 0 ? <div className="lg:col-span-3">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-2 lg:px-0">
               {jobs.map((job) => (
                 <JobCard
@@ -172,7 +173,11 @@ const JobsPageSuspense = () => {
             {jobs.length > 0 && <CustomPagination
               totalPages={totalPages}
             />}
-          </div>
+          </div> : <div className="flex flex-col items-center justify-center gap-4 lg:col-span-3 h-[calc(100vh-300px)]">
+            <h1 className="text-xl font-medium flex items-center gap-4">
+              <Loader className="animate-spin" /> Loading...
+            </h1>
+          </div>}
 
         </div>
       </div>
