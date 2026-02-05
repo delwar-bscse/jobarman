@@ -5,19 +5,46 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { getUserRole } from "../../../utils/getUserRoleClient";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
+
+// export enum PACKAGE_TYPE {
+//   BRONZE = 'bronze',
+//   SILVER = 'silver',
+//   GOLD = 'gold',
+//   PREMIUM = 'premium',
+// }
+const subscriptionPlanTypes = [
+  {
+    name: "Bronze",
+    icon: "https://cdn-icons-png.flaticon.com/512/6130/6130708.png",
+  },
+  {
+    name: "Silver",
+    icon: "https://cdn-icons-png.freepik.com/512/7955/7955211.png",
+  },
+  {
+    name: "Gold",
+    icon: "https://static.tildacdn.com/tild3634-3435-4037-a235-313832613136/001-premium-quality.svg",
+  },
+  {
+    name: "Premium",
+    icon: "https://cdn-icons-png.flaticon.com/512/2583/2583296.png",
+  },
+];
 
 export default function SubscriptionCard({ plan, enableSubscriptionId }) {
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
-  const Icon =
-    plan.name === "Free" ? Building2 : plan.name === "Pro" ? Award : Crown;
-  const ringColor =
-    plan.name === "Free"
-      ? "ring-blue-300"
-      : plan.name === "Pro"
-        ? "ring-orange-300"
-        : "ring-yellow-300";
+
+  const getIcon = (planName) => {
+    return (
+      subscriptionPlanTypes.find(
+        (item) => item.name.toLowerCase() === planName.toLowerCase()
+      )?.icon || subscriptionPlanTypes[0].icon // fallback icon
+    );
+  };
+
 
   const buySubscription = async () => {
 
@@ -55,30 +82,32 @@ export default function SubscriptionCard({ plan, enableSubscriptionId }) {
   return (
     <div className="relative flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm w-full max-w-xs mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg">
       {/* Top Badge Icon */}
-      <div
-        className={`absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-white shadow-md ring-2 ${ringColor} flex items-center justify-center`}
-      >
-        <Icon className="w-5 h-5 sm:w-5.5 md:w-6 text-[#123499]" />
+      <div className="flex justify-center w-full absolute -translate-y-1/2 top-0">
+        <div className="bg-white border border-secondary rounded-full p-2">
+          <Image
+            src={getIcon(plan.name)}
+            alt="plan icon"
+            width={50}
+            height={50}
+            className="size-8"
+          />
+        </div>
       </div>
 
       {/* Header with price */}
       <div
         className={`bg-gradient-to-r ${plan.highlighted
-            ? "from-[#1D4ED8] to-[#1E3A8A]"
-            : "from-[#3B82F6] to-[#2563EB]"
+          ? "from-[#1D4ED8] to-[#1E3A8A]"
+          : "from-[#3B82F6] to-[#2563EB]"
           } text-white px-4 pt-6 pb-4 sm:px-5 sm:pt-7 sm:pb-5 md:px-6 md:pt-8 md:pb-6 text-center rounded-t-xl`}
       >
         <div className="flex flex-col items-center gap-1">
           <div className="flex items-baseline gap-1 sm:gap-1.5 md:gap-2">
             <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold">
-              {plan.price}
+              ${plan.price}
             </span>
             <span className="text-xs sm:text-sm opacity-90">
-              {plan.name === "Free"
-                ? "/ Free Plan (Starter)"
-                : plan.period
-                  ? `/${plan.period}`
-                  : "/per month"}
+              /month
             </span>
           </div>
         </div>

@@ -10,6 +10,7 @@ import JobApplyModal from "./JobApplyModal";
 import { toUnCapilizeSentence } from "../../../../utils/textFormat";
 
 export default function JobDetailsRight({ details }) {
+  const [seeMore, setSeeMore] = useState(false);
   const [favoriteList, setFavoriteList] = useState(null);
   const [refreshFav, setRefreshFav] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -165,11 +166,15 @@ export default function JobDetailsRight({ details }) {
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           Job Description
         </h2>
-        <p className="text-gray-700 leading-relaxed">{details?.description}</p>
+        {seeMore ? <p className="text-gray-700 leading-relaxed">{details?.description.slice(0, 400)}. . .</p> :
+          <p className="text-gray-700 leading-relaxed">{details?.description}</p>}
+        <div className="flex justify-end mt-4">
+          <button onClick={() => setSeeMore((prev) => !prev)}>{seeMore ? "See Less" : "See More"}</button>
+        </div>
       </div>
 
       {/* Requirements */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+      {details?.required_skills?.length > 0 && <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Requirements</h2>
         <ul className="space-y-2">
           {details?.required_skills?.map((req, index) => (
@@ -179,10 +184,10 @@ export default function JobDetailsRight({ details }) {
             </li>
           ))}
         </ul>
-      </div>
+      </div>}
 
       {/* Responsibilities */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+      {details?.responsibilities?.length > 0 && <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           Responsibilities
         </h2>
@@ -196,10 +201,10 @@ export default function JobDetailsRight({ details }) {
             </li>
           ))}
         </ul>
-      </div>
+      </div>}
 
       {/* Benefits */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      {details?.benefits?.length > 0 && <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           Benefits & Perks
         </h2>
@@ -213,7 +218,7 @@ export default function JobDetailsRight({ details }) {
             </li>
           ))}
         </ul>
-      </div>
+      </div>}
     </div>
   );
 }

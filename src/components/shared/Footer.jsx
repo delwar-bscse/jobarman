@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { myFetch } from "utils/myFetch";
+import footerlogo from "public/jobarman-footer.png";
 
 const recuiter = [
   { href: "/", label: "Home" },
@@ -64,16 +65,6 @@ export default async function Footer() {
       {/* MAIN FOOTER CONTENT */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 pb-0">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* 1️⃣ Company Branding (Only Logo) */}
-          <div className="flex justify-center lg:justify-start">
-            <Image
-              src="/logo.png"
-              alt="Jobarman"
-              width={200}
-              height={200}
-              className="object-contain"
-            />
-          </div>
 
           {/* 2️⃣ Quick Links */}
           <div>
@@ -151,6 +142,17 @@ export default async function Footer() {
             </div>
 
             <h4 className="text-lg font-semibold mb-2">Connect With Us</h4>
+          </div>
+
+          {/* 1️⃣ Company Branding (Only Logo) */}
+          <div className="flex items-start justify-center">
+            <Image
+              src={footerlogo}
+              alt="Jobarman"
+              width={1000}
+              height={1000}
+              className="block object-contain w-60"
+            />
           </div>
         </div>
       </div>

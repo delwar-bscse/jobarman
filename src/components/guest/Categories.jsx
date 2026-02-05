@@ -24,7 +24,7 @@ export default async function Categories() {
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {res?.data?.map((category, index) => (
+          {res?.data?.slice(0, 6).map((category, index) => (
             <JobCategoryCard
               key={index}
               icon={category.image}

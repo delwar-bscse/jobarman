@@ -7,7 +7,7 @@ import FilterSide from "@/components/employee/jobs/FilterSide";
 import JobCard from "@/components/employee/jobs/JobCard";
 import CustomPagination from "@/components/cui/CustomPagination";
 import { myFetch } from "../../../../utils/myFetch";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 // import { filter } from "lodash";
 
 /* ================= utils (unchanged) ================= */
@@ -41,6 +41,7 @@ export const experienceLevel = (values = "") => {
 /* ================= component ================= */
 
 const JobsPageSuspense = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [jobs, setJobs] = useState([]);
   const [favoratesList, setFavoratesList] = useState([]);
@@ -136,7 +137,7 @@ const JobsPageSuspense = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto">
+      <div onClick={()=> window.location.reload()} className="max-w-7xl mx-auto cursor-pointer">
         <Image
           className="bg-gradient-to-r from-[#123499] to-[#2A57DE]"
           width={1621}
