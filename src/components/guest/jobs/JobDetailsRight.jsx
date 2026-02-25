@@ -8,8 +8,13 @@ import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
 import JobApplyModal from "./JobApplyModal";
 import { toUnCapilizeSentence } from "../../../../utils/textFormat";
+import { getToken } from "../../../../utils/getToken";
+import { isEmployee } from "../../../../utils/getUserRoleClient";
+import { useParams, useRouter } from "next/navigation";
 
 export default function JobDetailsRight({ details }) {
+  const router = useRouter();
+  const params = useParams();
   const [seeMore, setSeeMore] = useState(false);
   const [favoriteList, setFavoriteList] = useState(null);
   const [refreshFav, setRefreshFav] = useState(false);
@@ -63,6 +68,24 @@ export default function JobDetailsRight({ details }) {
       toast.error(err.message || "Favorate Not Select Try Again");
     }
   };
+
+  const redirectToExternalLink = async (url) => {
+    const res = await getToken()
+    const isEmpployee = await isEmployee();
+    console.log({
+      Token: res,
+      isEmpployee: isEmpployee,
+      id: params?.id
+    })
+    if (isEmpployee && res) {
+      window.open(url, "_blank");
+    }else {
+      toast.error("Please login as employee to apply for this job")
+      router.push(`/login?callbackUrl=/jobs/${params?.id}`)
+    }
+    // window.open(url, "_blank");
+  };
+
   return (
     <div className="lg:col-span-2">
       {/* Job Header Card */}
@@ -146,14 +169,12 @@ export default function JobDetailsRight({ details }) {
                 </>
               ) : (
                 <>
-                  <Link
-                    href={details.job_url}
-                    rel="noopener noreferrer"
-                    target="_blank"
+                  <button
+                    onClick={() => redirectToExternalLink(details?.job_url)}
                     className="px-5 py-2 bg-blue-600 cursor-pointer text-white text-nowrap rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2"
                   >
                     Apply Now <ArrowRight size={18} />
-                  </Link>
+                  </button>
                 </>
               )}
             </div>
@@ -166,7 +187,7 @@ export default function JobDetailsRight({ details }) {
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           Job Description
         </h2>
-        {seeMore ? <p className="text-gray-700 leading-relaxed">{details?.description.slice(0, 400)}. . .</p> :
+        {!seeMore ? <p className="text-gray-700 leading-relaxed">{details?.description.slice(0, 400)}. . .</p> :
           <p className="text-gray-700 leading-relaxed">{details?.description}</p>}
         <div className="flex justify-end mt-4">
           <button onClick={() => setSeeMore((prev) => !prev)}>{seeMore ? "See Less" : "See More"}</button>

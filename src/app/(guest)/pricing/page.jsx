@@ -5,7 +5,10 @@ import Employee from "./Employee";
 export default async function Pricing() {
   const role = await getUserRole();
   // console.log("User Role : ", role.toLocaleLowerCase());
-  const res = await myFetch(`/package?type=${role?.toLocaleLowerCase()}`);
+  const queryParams = new URLSearchParams({ 
+    ...(role ? { type: role.toLocaleLowerCase() } : {})
+   });
+  const res = await myFetch(`/package?${queryParams.toString()}`, { method: "GET" });
   const subscriptions = res?.data;
   const res2 = await myFetch("/subscription/subscribe", { method: "GET" });
   //console.log("All subs : ", res)

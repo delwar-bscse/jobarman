@@ -7,6 +7,7 @@ import { myFetch } from "../../../../utils/myFetch";
 import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
 import { toUnCapilizeSentence } from "../../../../utils/textFormat";
+import Image from "next/image";
 
 export default function JobCard({ job, favoratesList,fetchFavList }) {
 
@@ -37,14 +38,15 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
       className=" bg-white min-h-40 border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition flex cursor-pointer"
     >
       {/* Left Side Image */}
-      <div className="flex items-start justify-center p-2">
-        <CustomImage
-          src={job.thumbnail}
-          alt={`${job.title} image`}
+      <div className="flex items-start justify-center p-2 pt-4">
+        {job?.thumbnail ? <Image
+          src={job?.thumbnail}
+          alt={`${job.recruiter_company} image`}
           width={800}
           height={600}
           className="object-contain w-28 sm:w-40 h-24 sm:h-32"
-        />
+        /> :
+        <p className="w-28 sm:w-40 h-24 sm:h-32 text-sm font-semibold text-gray-600">{job?.recruiter_company}</p>}
       </div>
 
       {/* Right Side Text and Details */}
@@ -53,7 +55,7 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
           <div className="flex justify-between items-start mb-2">
             <div className="flex items-start gap-2 flex-1">
               <div>
-                <h3 className="text-lg font-bold text-gray-900">
+                <h3 className="text-base font-semibold text-gray-900">
                   {job.title}
                 </h3>
                 <p className="text-sm text-gray-600">{job.company}</p>
@@ -98,13 +100,13 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
             <div className="">
               {/* <Calendar1 className="text-[#FF8F27]" /> */}
               <span className="text-[#FF8C00] text-sm font-semibold rounded">
-                {job?.deadline?.slice(0, 10)}
+                {job?.post_date?.slice(0, 10)}
               </span>
             </div>
           </div>
 
           {
-              <p className="text-gray-400 text-md mt-1">
+              <p className="text-gray-400 text-sm mt-1">
                 Job Board :{" "}
                 <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
                   {job?.job_board ?? "Jobarman"}

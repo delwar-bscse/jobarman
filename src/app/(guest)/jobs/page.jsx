@@ -47,6 +47,7 @@ const JobsPageSuspense = () => {
   const [jobs, setJobs] = useState([]);
   const [favoratesList, setFavoratesList] = useState([]);
   // const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
   const page = searchParams.get("page") || 1;
@@ -99,6 +100,7 @@ const JobsPageSuspense = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
 
       const category = Array
         .from(filters.category)
@@ -117,8 +119,10 @@ const JobsPageSuspense = () => {
         `/job-post/feed?searchTerm=${filters.searchTerm}&location=${filters.location}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}&page=${page}&category=${category}&experience_level=${experience_level}&job_type=${job_type}&dateLimit=${dateLimit}&tags=${tags}`,
         { method: "GET" }
       );
+      if (jobsRes?.success) setLoading(false)
+      else if (!jobsRes?.success) setLoading(false);
 
-      //console.log("Jobs Res : ", jobsRes);
+      // console.log("Jobs Res : ", jobsRes);
 
       const favRes = await myFetch("/favourite", {
         tags: ["favoratesList"],
@@ -158,8 +162,8 @@ const JobsPageSuspense = () => {
           />
 
           {/* Job Cards */}
-          {jobs.length > 0 ? <div className="lg:col-span-3">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-2 lg:px-0">
+          {!loading ? <div className="lg:col-span-3">
+            {true ? <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-2 lg:px-0">
               {jobs.map((job) => (
                 <JobCard
                   key={job._id}
@@ -168,7 +172,11 @@ const JobsPageSuspense = () => {
                   fetchFavList={fetchFavList}
                 />
               ))}
-            </div>
+            </div> : <div className="flex flex-col items-center justify-center gap-4 lg:col-span-3 h-[calc(100vh-300px)]">
+              <p className="text-xl font-medium">
+                No Jobs Found
+              </p>
+            </div>}
 
             {jobs.length > 0 && <CustomPagination
               totalPages={totalPages}
