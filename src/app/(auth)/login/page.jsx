@@ -10,6 +10,7 @@ import { myFetch } from "../../../../utils/myFetch";
 import { setCookie } from "cookies-next/client";
 import { toast } from "sonner";
 import GoogleLogin from "@/components/auth/GoogleLogin";
+import LinkedInLogin from "@/components/auth/LinkedInLogin";
 
 function LoginPageSuspense() {
   const searchParams = useSearchParams();
@@ -166,17 +167,7 @@ function LoginPageSuspense() {
             {/* Social Login Buttons */}
             <div className="flex gap-4">
               <GoogleLogin />
-              <button
-                type="button"
-                className="flex-1 flex items-center justify-center gap-2 border border-gray-300 hover:border-gray-400 py-3 rounded-xl transition hover:bg-gray-50"
-              >
-                <Image
-                  src="/linkedin.svg"
-                  alt="LinkedIn"
-                  width={36}
-                  height={36}
-                />
-              </button>
+              <LinkedInLogin />
             </div>
           </div>
         </div>

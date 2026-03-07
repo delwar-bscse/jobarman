@@ -8,6 +8,8 @@ import Image from "next/image";
 import { myFetch } from "../../../../utils/myFetch";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import GoogleLogin from "@/components/auth/GoogleLogin";
+import LinkedInLogin from "@/components/auth/LinkedInLogin";
 
 function RegisterPageSuspense() {
   const [showPassword, setShowPassword] = useState(false);
@@ -220,7 +222,7 @@ function RegisterPageSuspense() {
             </div>
 
             {/* Social Login Buttons */}
-            <div className="flex gap-4">
+            {/* <div className="flex gap-4">
               <button
                 type="button"
                 className="flex-1 flex items-center justify-center gap-2 border border-gray-300 hover:border-gray-400 py-3 rounded-xl transition hover:bg-gray-50"
@@ -238,6 +240,11 @@ function RegisterPageSuspense() {
                   height={36}
                 />
               </button>
+            </div> */}
+            {/* Social Login Buttons */}
+            <div className="flex gap-4">
+              <GoogleLogin />
+              <LinkedInLogin />
             </div>
           </div>
         </div>
