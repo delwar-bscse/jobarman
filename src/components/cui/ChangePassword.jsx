@@ -58,6 +58,8 @@ export default function ChangePasswordComponent() {
         body: password,
       });
 
+      console.log("Reset password res : ", res);
+
       if (res.success) {
         Swal.fire({
           icon: "success",
@@ -73,7 +75,7 @@ export default function ChangePasswordComponent() {
           });
         });
       } else {
-        toast.error(res.error);
+        toast.error(res.message || "password update failed");
       }
     } catch (err) {
       toast.error(err?.message || "password update failed");

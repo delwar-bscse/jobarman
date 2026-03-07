@@ -134,6 +134,12 @@ function EditJobPostForm() {
   /* ---------------- SUBMIT ---------------- */
 
   const onSubmit = async (data) => {
+    //console.log("data", data);
+    if(data.min_salary && data.max_salary && Number(data.min_salary) > Number(data.max_salary)){
+      toast.error("Min salary cannot be greater than max salary");
+      return;
+    }
+    
     const formData = new FormData();
 
     // Append all form fields (including empty ones for edit)
@@ -243,6 +249,7 @@ function EditJobPostForm() {
                   <Label>Min Salary</Label>
                   <Input
                     type="number"
+                    min={0}
                     placeholder="e.g. 20000"
                     {...register("min_salary", {
                       required: !isEdit ? "Min salary is required" : false,
@@ -260,6 +267,7 @@ function EditJobPostForm() {
                   <Label>Max Salary</Label>
                   <Input
                     type="number"
+                    min={0}
                     placeholder="e.g. 50000"
                     {...register("max_salary", {
                       required: !isEdit ? "Max salary is required" : false,

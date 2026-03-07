@@ -85,6 +85,10 @@ export default function AdsCreateForm() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    if(data.start_date > data.end_date){
+      toast.error("Start date cannot be later than end date");
+      return;
+    }
     setLoading(true);
 
     const formData = new FormData();

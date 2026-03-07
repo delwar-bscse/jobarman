@@ -20,7 +20,7 @@ function FilterModalSuspense({ trigger }) {
   const params = new URLSearchParams(searchParams);
   const { replace } = useRouter();
   const [category, setCategory] = useState("");
-  const [employeeType, setEmployeeType] = useState();
+  const [employeeType, setEmployeeType] = useState("Full Time");
   const [jobType, setJobType] = useState();
   const [minPrice, setMinPrice] = useState();
   const [maxPrice, setMaxPrice] = useState();
@@ -58,7 +58,7 @@ function FilterModalSuspense({ trigger }) {
               </label>
               <Select onValueChange={(e) => setCategory(e)}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a fruit" />
+                  <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
