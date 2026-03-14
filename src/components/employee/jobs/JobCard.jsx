@@ -89,7 +89,7 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
           </div>
 
           {/* Job Details */}
-          <div className="grid lg:grid-cols-2">
+          <div className="grid lg:grid-cols-2 pb-2">
             <div>
               <div className="flex items-center gap-1">
                 <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
@@ -100,9 +100,9 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
             </div>
             <div className="">
               {/* <Calendar1 className="text-[#FF8F27]" /> */}
-              <span className="text-[#FF8C00] text-sm font-semibold rounded">
+              {/* <span className="text-[#FF8C00] text-sm font-semibold rounded">
                 {job?.post_date?.slice(0, 10)}
-              </span>
+              </span> */}
             </div>
           </div>
 

@@ -13,6 +13,7 @@ import Image from "next/image";
 import { FcCamera } from "react-icons/fc";
 import { formatUrl } from "../../../utils/formatUrl";
 import { useRouter } from "next/navigation";
+import { isValidFullName } from "../../../utils/isValidName";
 
 export default function MainContent() {
   const router = useRouter();
@@ -91,6 +92,10 @@ export default function MainContent() {
   };
 
   const onSubmit = async (data) => {
+     if (!isValidFullName(data.personalInfo.name)) {
+      toast.error("Please enter a valid name. Like 'John Doe'");
+      return;
+    }
     const formData = new FormData();
 
     // Personal Info

@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import GoogleLogin from "@/components/auth/GoogleLogin";
 import LinkedInLogin from "@/components/auth/LinkedInLogin";
+import { isValidFullName } from "../../../../utils/isValidName";
 
 function RegisterPageSuspense() {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,8 +23,14 @@ function RegisterPageSuspense() {
   const searchParams = useSearchParams();
   const role = searchParams.get("type");
 
+
+
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (!isValidFullName(name)) {
+      toast.error("Please enter a valid name. Like 'John Doe'");
+      return;
+    }
     if (password !== confirmPassword) {
       toast.error("Passwords & Confirm Password do not match");
       return;
@@ -32,6 +39,8 @@ function RegisterPageSuspense() {
       method: "POST",
       body: { name, email, password, role },
     });
+
+
 
     if (res?.data) {
       localStorage.setItem("registeredEmail", email);

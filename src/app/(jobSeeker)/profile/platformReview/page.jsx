@@ -1,15 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Star } from "lucide-react";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { myFetch } from "../../../../../utils/myFetch";
+import RatingComponent from "./RatingComponent";
 
 export default function PlatformReviewPage() {
   const [rating, setRating] = useState();
   const [review, setReview] = useState("");
-  const [hoveredStar, setHoveredStar] = useState(0);
 
   const handleSubmit = async () => {
     if (!review.trim()) {
@@ -30,11 +29,14 @@ export default function PlatformReviewPage() {
       });
       return;
     }
-
+    const payload = { rating, comment: review };
+    console.log("Review : ", payload)
+    
     const res = await myFetch("/review", {
       method: "POST",
-      body: { rating, comment: review },
+      body: payload,
     });
+    console.log("Review res: ", res)
 
     if (res?.success) {
       Swal.fire({
@@ -56,6 +58,10 @@ export default function PlatformReviewPage() {
     }
   };
 
+  const handleValue = (value) => {
+    setRating(value);
+  };
+
   return (
     <div className="flex items-center justify-center" style={{ height: "calc(100vh - 90px)" }}>
       <div className="bg-white rounded-2xl p-4 shadow-lg max-w-md w-full border border-gray-200">
@@ -70,23 +76,9 @@ export default function PlatformReviewPage() {
 
         {/* Star Rating */}
         <div className="flex justify-center gap-3 mb-8">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              onMouseEnter={() => setHoveredStar(star)}
-              onMouseLeave={() => setHoveredStar(0)}
-              onClick={() => setRating(star)}
-              className="transition-transform hover:scale-110"
-            >
-              <Star
-                className={`w-10 h-10 ${star <= (hoveredStar || rating)
-                    ? "fill-[#FF8F27] text-[#FF8F27]"
-                    : "text-gray-300"
-                  }`}
-              />
-            </button>
-          ))}
+          <RatingComponent initialValue={0} handleValue={handleValue} size={12}/>
         </div>
+
 
         {/* Review Text Area */}
         <textarea

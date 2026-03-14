@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Suspense, use, useEffect, useState } from "react";
@@ -91,10 +91,10 @@ const JobsPageSuspense = () => {
     //console.log("filter modal : ", minPrice, maxPrice)
     setFilters((prev) => ({
       ...prev,
-      searchTerm,
-      category: new Set(category.split(",")),
-      job_type: new Set(employeeType.split(",")),
-      radius,
+      ...(searchTerm && { searchTerm }),
+      ...(category && { category: new Set(category.split(",")) }),
+      ...(job_type && { job_type: new Set(job_type.split(",")) }),
+      ...(radius && { radius }),
     }));
   }, [searchTerm, category, minPrice, maxPrice, employeeType, radius]);
 

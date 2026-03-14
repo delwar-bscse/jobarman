@@ -16,6 +16,7 @@ import { myFetch } from "../../../utils/myFetch";
 
 export default async function Categories() {
   const res = await myFetch("/job-category");
+
   return (
     <section className="py-16 sm:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,6 +28,7 @@ export default async function Categories() {
           {res?.data?.slice(0, 6).map((category, index) => (
             <JobCategoryCard
               key={index}
+              id={category._id}
               icon={category.image}
               label={category.name}
               count={category.count}

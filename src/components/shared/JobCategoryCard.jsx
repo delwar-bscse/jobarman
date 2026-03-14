@@ -1,8 +1,15 @@
+"use client";
 import CustomImage from "../../../shared/CustomImage";
 
-export default function JobCategoryCard({ icon, label, count }) {
+export default function JobCategoryCard({ icon, label, count, id }) {
+  const handleRedirect = () => {
+    if (id) {
+      window.location.href = `/jobs?category=${id}`;
+    }
+  };
+
   return (
-    <div className="border border-gray-200 rounded-lg p-8 hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center">
+    <div onClick={()=>handleRedirect()} className="border border-gray-200 rounded-lg p-8 hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center cursor-pointer">
       <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
         {/* <Icon className="w-8 h-8 text-blue-600" /> */}
         <CustomImage src={icon} title={label} />

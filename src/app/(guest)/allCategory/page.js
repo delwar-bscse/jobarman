@@ -32,6 +32,7 @@ const AllCategory = async () => {
           {res?.data?.map((category, index) => (
             <JobCategoryCard
               key={index}
+              id={category._id}
               icon={category.image}
               label={category.name}
               count={category.count}

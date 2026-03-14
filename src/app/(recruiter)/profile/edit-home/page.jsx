@@ -61,6 +61,12 @@ export default function EditHome() {
   }, []);
 
   const onSubmit = async (data) => {
+    
+     if (!isValidFullName(data.name)) {
+      toast.error("Please enter a valid name. Like 'John Doe'");
+      return;
+    }
+    
     const formData = new FormData();
 
     for (const [key, value] of Object.entries(data)) {
