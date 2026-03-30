@@ -9,13 +9,15 @@ import { FcGoogle } from "react-icons/fc";
 
 export default function GoogleLogin() {
   const searchParams = useSearchParams();
-    const role = searchParams.get("type");
-    
-    let GOOGLE_SIGN_IN_URL = "https://api.jobarman.com/api/v1/auth/google-sign-in";
-  
-    if(role){
-      GOOGLE_SIGN_IN_URL = `https://api.jobarman.com/api/v1/auth/google-sign-in?role=${role}`;
-    }
+  const role = searchParams.get("type");
+  // const baseUrl = "http://10.10.7.9:5001/api/v1"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+  let GOOGLE_SIGN_IN_URL = `${baseUrl}/auth/google-sign-in`;
+
+  if (role) {
+    GOOGLE_SIGN_IN_URL = `${baseUrl}/auth/google-sign-in?role=${role}`;
+  }
 
   const handleGoogleLogin = () => {
     // Redirect user to backend Google OAuth endpoint

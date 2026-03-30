@@ -35,7 +35,7 @@ const withOutLogin = [
   { href: "/faq", label: "FAQ" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ data }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -58,7 +58,7 @@ export default function Navbar() {
 
     const fetchProfile = async () => {
       try {
-        const data = await myFetch("/user/profile");
+        // const data = await myFetch("/user/profile");
         if (isMounted) setProfile(data);
       } catch (err) {
         console.error(err);
@@ -70,7 +70,7 @@ export default function Navbar() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [data]);
 
   const menus = {
     RECRUITER: recuiter,

@@ -30,12 +30,12 @@ function LoginPageSuspense() {
       method: "POST",
       body: { email, password },
     });
-    if(res?.data?.role !== EUserRole.EMPLOYEE && res?.data?.role !== EUserRole.RECRUITER){
-      toast.error("Unauthorized Role");
-      return;
-    }
 
     if (res?.data) {
+      if (res?.data?.role !== EUserRole.EMPLOYEE && res?.data?.role !== EUserRole.RECRUITER) {
+        toast.error("Unauthorized Role");
+        return;
+      }
       setCookie("accessToken", res?.data?.createToken);
       setCookie("refreshToken", res?.data?.refreshToken);
       setCookie("role", res?.data?.role);
@@ -108,7 +108,7 @@ function LoginPageSuspense() {
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••••••••"
+                    placeholder="•••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition pr-12"
@@ -181,8 +181,8 @@ function LoginPageSuspense() {
   );
 }
 
-export default function LoginPage(){
-  return(
+export default function LoginPage() {
+  return (
     <Suspense fallback={<div>Loading...</div>} >
       <LoginPageSuspense />
     </Suspense>

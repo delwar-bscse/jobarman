@@ -30,7 +30,7 @@ export default function ProfileDropDown({
           <button
             onMouseEnter={() => setDropdownOpen(!dropdownOpen)}
             // onMouseLeave={() => setDropdownOpen(false)}
-            onClick={()=>setDropdownOpen(!dropdownOpen)}
+            onClick={() => setDropdownOpen(!dropdownOpen)}
             className="focus:outline-none p-1 rounded-full hover:bg-white/50 transition hover:cursor-pointer hover:shadow"
           >
             <CustomImage

@@ -1,17 +1,19 @@
 "use client";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React, { use } from "react";
+import React from "react";
 
 
 export default function LinkedInLogin() {
   const searchParams = useSearchParams();
   const role = searchParams.get("type");
+  // const baseUrl = "http://10.10.7.9:5001/api/v1"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   
-  let LINKEDIN_SIGN_IN_URL = "https://api.jobarman.com/api/v1/auth/linkedin-sign-in";
+  let LINKEDIN_SIGN_IN_URL = `${baseUrl}/auth/linkedin-sign-in`;
 
   if(role){
-    LINKEDIN_SIGN_IN_URL = `https://api.jobarman.com/api/v1/auth/linkedin-sign-in?role=${role}`;
+    LINKEDIN_SIGN_IN_URL = `${baseUrl}/auth/linkedin-sign-in?role=${role}`;
   }
 
 

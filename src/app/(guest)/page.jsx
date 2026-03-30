@@ -1,10 +1,10 @@
+"use server";
 import Link from "next/link";
 import ResumeGenerator from "../../../shared/ResumeGenerator";
 import Review from "@/components/guest/Review";
 import BannerSection from "@/components/guest/BannerSection";
 import SearchSection from "@/components/guest/SearchSection";
 import CaruselBanner from "@/components/guest/CaruselBanner";
-// import FilterModal from "@/components/guest/FilterModal";
 import Subscription from "@/components/guest/Subscription";
 import RecentJobPost from "@/components/guest/RecentJobPost";
 import RecentJobRequest from "@/components/guest/RecentJobRequest";
@@ -13,12 +13,20 @@ import HowItWorks from "@/components/guest/HowItWorks";
 import Categories from "@/components/guest/Categories";
 import RecruiterHero from "@/components/cui/RecruiterHero";
 import { getUserRole } from "../../../utils/getUserRole";
-import { idRecruiter, isEmployee } from "../../../utils/matchUserRole";
-export default async function Home() {
+import { idRecruiter } from "../../../utils/matchUserRole";
+import { redirect } from "next/navigation";
+
+
+export default async function Home({ searchParams }) {
+  const { accessToken, role } = await searchParams;
   const existUser = await getUserRole();
   const existRecruiter = await idRecruiter();
-  const existEmployee = await isEmployee();
-  //console.log("Employee : ", existEmployee)
+
+
+
+  if (accessToken && role) {
+    // redirect("/");
+  }
 
   return (
     <main className="w-full bg-white">

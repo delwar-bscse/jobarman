@@ -22,8 +22,38 @@ const employeeRoutes = [
 export function proxy(req) {
   const { pathname } = req.nextUrl;
 
+  // const searchParams = req.nextUrl.searchParams;
+  // const accessToken = searchParams.get("accessToken");
+  // const userRole = searchParams.get("role");
+  // console.log({ accessToken, userRole })
+
+  // if (accessToken && userRole) {
+  //   const response = NextResponse.redirect(new URL("/", req.url));
+
+  //   response.cookies.set("accessToken", accessToken, {
+  //     httpOnly: true,
+  //     secure: process.env.NODE_ENV === "production",
+  //     sameSite: "strict",
+  //     maxAge: 60 * 60 * 24 * 7,
+  //   });
+
+  //   response.cookies.set("role", userRole, {
+  //     httpOnly: true,
+  //     secure: process.env.NODE_ENV === "production",
+  //     sameSite: "strict",
+  //     maxAge: 60 * 60 * 24 * 7,
+  //   });
+
+  //   return response;
+  // }
+
+
+
+
+
   const token = req.cookies.get("accessToken")?.value;
   const role = req.cookies.get("role")?.value;
+  console.log({ token, role })
 
   // 1. Authentication
   if (!token || !role) {
