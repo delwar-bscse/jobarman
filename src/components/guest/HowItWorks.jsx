@@ -38,7 +38,7 @@ const howItWorks = [
 export default function HowItWorks() {
   return (
     <section className="py-16 sm:py-24 bg-[#FFF6F6] mb-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance">
             How it works at Jobarman
@@ -50,7 +50,7 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {howItWorks.map((item, index) => (
             <div
               key={index}
