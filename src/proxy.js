@@ -19,7 +19,7 @@ const employeeRoutes = [
   "/my-resume",
 ];
 
-export function middleware(req) {
+export function proxy(req) {
   const { pathname } = req.nextUrl;
 
   const token = req.cookies.get("accessToken")?.value;

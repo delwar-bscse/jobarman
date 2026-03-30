@@ -11,6 +11,7 @@ import { setCookie } from "cookies-next/client";
 import { toast } from "sonner";
 import GoogleLogin from "@/components/auth/GoogleLogin";
 import LinkedInLogin from "@/components/auth/LinkedInLogin";
+import { EUserRole } from "@/enum/userRoleEnum";
 
 function LoginPageSuspense() {
   const searchParams = useSearchParams();
@@ -29,6 +30,10 @@ function LoginPageSuspense() {
       method: "POST",
       body: { email, password },
     });
+    if(res?.data?.role !== EUserRole.EMPLOYEE && res?.data?.role !== EUserRole.RECRUITER){
+      toast.error("Unauthorized Role");
+      return;
+    }
 
     if (res?.data) {
       setCookie("accessToken", res?.data?.createToken);
