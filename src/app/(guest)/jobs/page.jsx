@@ -119,8 +119,6 @@ const JobsPageSuspense = () => {
         `/job-post/feed?searchTerm=${filters.searchTerm}&location=${filters.location}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}&page=${page}&category=${category}&experience_level=${experience_level}&job_type=${job_type}&dateLimit=${dateLimit}&tags=${tags}`,
         { method: "GET" }
       );
-      if (jobsRes?.success) setLoading(false)
-      else if (!jobsRes?.success) setLoading(false);
 
       // console.log("Jobs Res : ", jobsRes);
 
@@ -135,6 +133,8 @@ const JobsPageSuspense = () => {
         (f) => f?.post?._id
       );
       setFavoratesList(favList || []);
+      
+      if (jobsRes) setLoading(false)
     };
 
     fetchData();
@@ -163,7 +163,7 @@ const JobsPageSuspense = () => {
 
           {/* Job Cards */}
           {!loading ? <div className="lg:col-span-3">
-            {true ? <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-2 lg:px-0">
+            {jobs.length ? <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-2 lg:px-0">
               {jobs.map((job) => (
                 <JobCard
                   key={job._id}
