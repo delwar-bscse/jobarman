@@ -7,8 +7,9 @@ import FilterSide from "@/components/employee/jobs/FilterSide";
 import JobCard from "@/components/employee/jobs/JobCard";
 import CustomPagination from "@/components/cui/CustomPagination";
 import { myFetch } from "../../../../utils/myFetch";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Loader } from "lucide-react";
+import { useFilters } from "@/hooks/useFilters";
 // import { filter } from "lodash";
 
 /* ================= utils (unchanged) ================= */
@@ -42,43 +43,23 @@ export const experienceLevel = (values = "") => {
 /* ================= component ================= */
 
 const JobsPageSuspense = () => {
-  const router = useRouter();
+  const { filters, setFilters, resetFilters } = useFilters();
   const searchParams = useSearchParams();
   const [jobs, setJobs] = useState([]);
-  const [favoratesList, setFavoratesList] = useState([]);
-  // const [page, setPage] = useState(1);
+  const [favoritesList, setFavoritesList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
+  const {searchTerm, location, category, job_type, experience_level, date_posted, tags, minPrice, maxPrice} = filters;
 
   const page = searchParams.get("page") || 1;
-  const searchTerm = searchParams.get("searchTerm") || "";
-  const category = searchParams.get("category") || "";
-  const minPrice = searchParams.get("minPrice") || "1";
-  const maxPrice = searchParams.get("maxPrice") || "99999";
-  const job_type = searchParams.get("job_type") || "";
-  const employeeType = searchParams.get("employeeType") || "";
-  const radius = searchParams.get("radius") || 500;
-
-  // 🔥 single source of truth
-  const [filters, setFilters] = useState({
-    searchTerm: "",
-    location: "",
-    category: new Set(),
-    job_type: new Set(),
-    experience_level: new Set(),
-    date_posted: "",
-    tags: new Set(),
-    minPrice: 1,
-    maxPrice: 500000,
-  });
 
   const fetchFavList = async () => {
     const res = await myFetch("/favourite", {
-      tags: ["favoratesList"],
+      tags: ["favoritesList"],
     });
 
-    //console.log("favoratesList : ", res);
-    setFavoratesList(res?.data?.map((favorate) => favorate?.post?._id));
+    //console.log("favoritesList : ", res);
+    setFavoritesList(res?.data?.map((favorate) => favorate?.post?._id));
 
   }
 
@@ -86,17 +67,6 @@ const JobsPageSuspense = () => {
 
     fetchFavList();
   }, []);
-
-  useEffect(() => {
-    //console.log("filter modal : ", minPrice, maxPrice)
-    setFilters((prev) => ({
-      ...prev,
-      ...(searchTerm && { searchTerm }),
-      ...(category && { category: new Set(category.split(",")) }),
-      ...(job_type && { job_type: new Set(job_type.split(",")) }),
-      ...(radius && { radius }),
-    }));
-  }, [searchTerm, category, minPrice, maxPrice, employeeType, radius]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -115,15 +85,29 @@ const JobsPageSuspense = () => {
       //console.log("Filters : ", category);
       const tags = Array.from(filters.tags).join(",");
 
+      const queryParams = new URLSearchParams({
+        ...(searchTerm && { searchTerm: searchTerm }),
+        ...(location && { location: location }),
+        ...(minPrice && { minPrice: minPrice }),
+        ...(maxPrice && { maxPrice: maxPrice }),
+        ...(category && { category }),
+        ...(job_type && { job_type }),
+        ...(experience_level && { experience_level }),
+        ...(dateLimit && { dateLimit }),
+        ...(tags && { tags }),
+        page,
+      });
+
+      // console.log("Query Params : ", queryParams.toString());
+
       const jobsRes = await myFetch(
-        `/job-post/feed?searchTerm=${filters.searchTerm}&location=${filters.location}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}&page=${page}&category=${category}&experience_level=${experience_level}&job_type=${job_type}&dateLimit=${dateLimit}&tags=${tags}`,
+        `/job-post/feed?${queryParams.toString()}`,
         { method: "GET" }
       );
-
       // console.log("Jobs Res : ", jobsRes);
 
       const favRes = await myFetch("/favourite", {
-        tags: ["favoratesList"],
+        tags: ["favoritesList"],
       });
 
       setJobs(jobsRes?.data || []);
@@ -132,17 +116,17 @@ const JobsPageSuspense = () => {
       const favList = favRes?.data?.map(
         (f) => f?.post?._id
       );
-      setFavoratesList(favList || []);
+      setFavoritesList(favList || []);
       
       if (jobsRes) setLoading(false)
     };
 
     fetchData();
-  }, [filters, page]);
+  }, [searchTerm, location, category, job_type, experience_level, date_posted, tags, page]);
 
   return (
     <div className="min-h-screen bg-white">
-      <div onClick={() => window.location.reload()} className="max-w-7xl mx-auto cursor-pointer">
+      <div onClick={() => resetFilters()} className="max-w-7xl mx-auto cursor-pointer">
         <Image
           className="bg-gradient-to-r from-[#123499] to-[#2A57DE]"
           width={1621}
@@ -164,11 +148,11 @@ const JobsPageSuspense = () => {
           {/* Job Cards */}
           {!loading ? <div className="lg:col-span-3">
             {jobs.length ? <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-2 lg:px-0">
-              {jobs.map((job) => (
+              {jobs.map((job, index) => (
                 <JobCard
-                  key={job._id}
+                  key={index}
                   job={job}
-                  favoratesList={favoratesList}
+                  favoritesList={favoritesList}
                   fetchFavList={fetchFavList}
                 />
               ))}

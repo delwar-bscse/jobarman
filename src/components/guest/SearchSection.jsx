@@ -1,18 +1,18 @@
 "use client";
 import { Search, SlidersHorizontal } from "lucide-react";
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import FilterModal from "./FilterModal";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useFilters } from "@/hooks/useFilters";
 
-function SearchSectionSuspense() {
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
-  const { replace } = useRouter();
+export default function SearchSection() {
+  const { handleSingleFilter } = useFilters();
+  const router = useRouter();
   const [search, setSearch] = useState("");
 
   const handleSubmit = () => {
-    params.set("searchTerm", search);
-    replace(`/jobs?${params.toString()}`, { scroll: true });
+    handleSingleFilter("preSearchTerm", search);
+    router.push(`/jobs`);
   };
 
   return (
@@ -61,13 +61,5 @@ function SearchSectionSuspense() {
         </div>
       </div>
     </section>
-  );
-}
-
-export default function SearchSection() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SearchSectionSuspense />
-    </Suspense>
   );
 }

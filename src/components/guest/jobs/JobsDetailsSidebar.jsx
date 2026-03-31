@@ -8,8 +8,13 @@ import {
 import Link from "next/link";
 import React from "react";
 import { idRecruiter } from "../../../../utils/matchUserRole";
+import { myFetch } from "../../../../utils/myFetch";
 
 export default async function JobsDetailsLeft({ details }) {
+  console.log({details})
+  const {data} = await myFetch(`/job-post/match-percentage/${details?. _id}`,{method: "GET"});
+  console.log({matchPercentage: data})
+
   return (
     <div className="lg:col-span-1">
       {/* Profile Match + Location */}
@@ -17,7 +22,7 @@ export default async function JobsDetailsLeft({ details }) {
         <div className="grid grid-cols-2 divide-x">
           <div className="pr-6">
             <p className="text-base font-medium text-gray-800">Profile Match</p>
-            <p className="text-2xl font-bold text-green-600 mt-1">70%</p>
+            <p className="text-2xl font-bold text-green-600 mt-1">{data?.matchPercentage || 0}%</p>
           </div>
           <div className="pl-6 flex flex-col items-center text-center">
             <MapPin size={28} className="text-blue-600 mb-2" />

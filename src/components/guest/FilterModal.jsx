@@ -8,19 +8,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { myFetch } from "../../../utils/myFetch";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { jobTypes } from "../employee/jobs/jobType";
+import { useFilters } from "@/hooks/useFilters";
 
-function FilterModalSuspense({ trigger }) {
+export default function FilterModal({ trigger }) {
+  const { handleSingleFilter, handleSelectFilter } = useFilters();
   const [allCategories, setAllCategories] = useState([]);
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
   const { replace } = useRouter();
   const [category, setCategory] = useState("");
-  const [employeeType, setEmployeeType] = useState("Full Time");
   const [jobType, setJobType] = useState();
   const [minPrice, setMinPrice] = useState();
   const [maxPrice, setMaxPrice] = useState();
@@ -36,14 +35,26 @@ function FilterModalSuspense({ trigger }) {
   }, []);
 
   const handleSubmit = () => {
-    if (category) params.set("category", category);
-    if (employeeType) params.set("employeeType", employeeType);
-    if (jobType) params.set("job_type", jobType);
-    if (minPrice) params.set("minPrice", minPrice);
-    if (maxPrice) params.set("maxPrice", maxPrice);
-    if (distance) params.set("radius", distance);
-    replace(`/jobs?${params.toString()}`);
-    // setFiltersOpen(false)
+    if (jobType) {
+      handleSelectFilter("job_type", jobType);
+    };
+    if (distance) {
+      handleSingleFilter("radius", distance);
+    };
+
+    if (category) {
+      handleSelectFilter("category", category);
+    };
+
+    if (minPrice) {
+      handleSingleFilter("minPrice", minPrice);
+    };
+
+    if (maxPrice) {
+      handleSingleFilter("maxPrice", maxPrice);
+    };
+    // redirect to jobs page after applying filters
+    replace(`/jobs`);
   };
 
   return (
@@ -75,19 +86,18 @@ function FilterModalSuspense({ trigger }) {
             {/* Employee Type */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Employee Type
+                Job Type
               </label>
               <div className="flex flex-wrap gap-2">
                 {jobTypes.map((t) => (
                   <button
                     key={t}
                     type="button"
-                    onClick={() => setEmployeeType(t)}
-                    className={`px-4 py-2 rounded-md text-sm ${
-                      employeeType === t
-                        ? "bg-[#FF8F27] text-white"
-                        : "border"
-                    }`}
+                    onClick={() => setJobType(t)}
+                    className={`px-4 py-2 rounded-md text-sm ${jobType === t
+                      ? "bg-[#FF8F27] text-white"
+                      : "border"
+                      }`}
                   >
                     {t}
                   </button>
@@ -185,13 +195,5 @@ function FilterModalSuspense({ trigger }) {
         </div>
       </DialogContent>
     </Dialog>
-  );
-}
-
-export default function FilterModal({ trigger }) {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <FilterModalSuspense trigger={trigger} />
-    </Suspense>
   );
 }

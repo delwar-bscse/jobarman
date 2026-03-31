@@ -1,23 +1,20 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MapPin, Search } from "lucide-react";
-import { useDebouncedCallback } from "use-debounce";
 import { DualRangeSlider } from "@/components/ui/dual-range-slider";
 import { myFetch } from "../../../../utils/myFetch";
 import { allTags, datePostedOptions, experienceLevels, jobTypes } from "./jobType";
-import { useSearchParams } from "next/navigation";
-import { min } from "lodash";
+import { useFilters } from "@/hooks/useFilters";
 
-function FilterSideSuspense({filters, setFilters}) {
-  const searchParams = useSearchParams();
-  const [values, setValues] = useState([1, 500000]);
+
+export default function FilterSide() {
+  const { filters, handleSingleFilter, handleSelectFilter } = useFilters();
   const [allCategories, setAllCategories] = useState([]);
   const [showMoreCategories, setShowMoreCategories] = useState(false);
-  
-  const minPrice = searchParams.get("minPrice") || "1";
-  const maxPrice = searchParams.get("maxPrice") || "99999";
+  const [values, setValues] = useState([1, 500000]);
+
 
   // Fetch categories (unchanged)
   useEffect(() => {
@@ -28,39 +25,19 @@ function FilterSideSuspense({filters, setFilters}) {
     fetchData();
   }, []);
 
-  // Sync salary slider → filters
-  useEffect(() => {
-    setValues([Number(minPrice), Number(maxPrice)]);
-  }, [minPrice, maxPrice]);
 
   const handlePrice = () => {
-    setFilters((prev) => ({
-      ...prev,
-      minPrice: values[0],
-      maxPrice: values[1],
-    }));
-  }
-
-  const visibleCategories = showMoreCategories
-    ? allCategories
-    : allCategories.slice(0, 4);
-
-  // Debounced text search (same UX)
-  const handleSearch = useDebouncedCallback((key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  }, 100);
-
-  const handleSingleFilter = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    handleSingleFilter("minPrice", values[0]);
+    handleSingleFilter("maxPrice", values[1]);
   };
 
-  const toggleMultiFilter = (key, value) => {
-    setFilters((prev) => {
-      const set = new Set(prev[key]);
-      set.has(value) ? set.delete(value) : set.add(value);
-      return { ...prev, [key]: set };
-    });
-  };
+  useEffect(() => {
+    setValues([filters.minPrice, filters.maxPrice]);
+  }, []);
+
+
+  const visibleCategories = showMoreCategories ? allCategories : allCategories.slice(0, 4); 
+
 
   return (
     <div className="lg:col-span-1">
@@ -79,10 +56,8 @@ function FilterSideSuspense({filters, setFilters}) {
             <input
               type="text"
               placeholder="Job title or company"
-              value={filters?.searchTerm || ""}
-              onChange={(e) =>
-                handleSearch("searchTerm", e.target.value)
-              }
+              value={filters.preSearchTerm}
+              onChange={(e) => handleSingleFilter("preSearchTerm", e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC]"
             />
           </div>
@@ -101,9 +76,8 @@ function FilterSideSuspense({filters, setFilters}) {
             <input
               type="text"
               placeholder="location..."
-              onChange={(e) =>
-                handleSearch("location", e.target.value)
-              }
+              value={filters.preLocation}
+              onChange={(e) => handleSingleFilter("preLocation", e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0066CC]"
             />
           </div>
@@ -117,7 +91,7 @@ function FilterSideSuspense({filters, setFilters}) {
                 type="checkbox"
                 checked={filters.category.has(cat._id)}
                 onChange={() =>
-                  toggleMultiFilter("category", cat._id)
+                  handleSelectFilter("category", cat._id)
                 }
                 className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
               />
@@ -154,7 +128,7 @@ function FilterSideSuspense({filters, setFilters}) {
                   type="checkbox"
                   checked={filters.job_type.has(type)}
                   onChange={() =>
-                    toggleMultiFilter("job_type", type)
+                    handleSelectFilter("job_type", type)
                   }
                   className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
                 />
@@ -179,7 +153,7 @@ function FilterSideSuspense({filters, setFilters}) {
                   type="checkbox"
                   checked={filters.experience_level.has(level)}
                   onChange={() =>
-                    toggleMultiFilter("experience_level", level)
+                    handleSelectFilter("experience_level", level)
                   }
                   className="w-4 h-4 text-[#0066CC] rounded focus:ring-2 focus:ring-[#0066CC]"
                 />
@@ -251,13 +225,12 @@ function FilterSideSuspense({filters, setFilters}) {
               <span
                 key={tag}
                 onClick={() =>
-                  toggleMultiFilter("tags", tag)
+                  handleSelectFilter("tags", tag)
                 }
-                className={`px-3 py-1 text-[#0066CC] text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors duration-300 ${
-                  filters.tags.has(tag)
-                    ? "bg-blue-200 font-semibold"
-                    : "bg-blue-100"
-                }`}
+                className={`px-3 py-1 text-[#0066CC] text-xs rounded-full cursor-pointer hover:bg-blue-200 transition-colors duration-300 ${filters.tags.has(tag)
+                  ? "bg-blue-200 font-semibold"
+                  : "bg-blue-100"
+                  }`}
               >
                 {tag}
               </span>
@@ -269,15 +242,3 @@ function FilterSideSuspense({filters, setFilters}) {
     </div>
   );
 }
-
-export default function FilterSide({ filters, setFilters }) {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <FilterSideSuspense
-        filters={filters}
-        setFilters={setFilters}
-      />
-    </Suspense>
-  );
-}
-

@@ -1,15 +1,23 @@
 "use client";
+import { useRouter } from "next/navigation";
 import CustomImage from "../../../shared/CustomImage";
+import { useFilters } from "@/hooks/useFilters";
 
 export default function JobCategoryCard({ icon, label, count, id }) {
-  const handleRedirect = () => {
-    if (id) {
-      window.location.href = `/jobs?category=${id}`;
-    }
+  const { setFilters } = useFilters();
+  const router = useRouter();
+
+  const toggleMultiFilter = (key, value) => {
+    setFilters((prev) => {
+      const set = new Set(prev[key]);
+      set.has(value) ? set.delete(value) : set.add(value);
+      return { ...prev, [key]: set };
+    });
+    router.push(`/jobs`);
   };
 
   return (
-    <div onClick={()=>handleRedirect()} className="border border-gray-200 rounded-lg p-8 hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center cursor-pointer">
+    <div onClick={() => toggleMultiFilter("category", id)} className="border border-gray-200 rounded-lg p-8 hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center cursor-pointer">
       <div className="w-16 h-16 bg-blue-50 rounded-lg flex items-center justify-center mb-4">
         {/* <Icon className="w-8 h-8 text-blue-600" /> */}
         <CustomImage src={icon} title={label} />
