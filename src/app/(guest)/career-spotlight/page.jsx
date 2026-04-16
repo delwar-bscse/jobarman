@@ -20,7 +20,7 @@ export default function CareerSpotlight() {
       // console.log("URL : ",url)
 
       const res = await myFetch(url);
-      // console.log("Spotlishts : ", res?.data)
+      console.log("Spotlishts : ", res?.data)
       setSpotLights(res?.data?.spotlights);
       setActiveAds(res?.data?.stats?.activeSpotlights);
       setPendingAds(res?.data?.stats?.pendingSpotlights);
