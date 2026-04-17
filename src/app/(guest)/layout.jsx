@@ -9,6 +9,7 @@ export default async function GuestLayout({ children }) {
     method: "GET",
     tags: ["profile"],
   });
+  
   return (
     <>
       <Navbar data={data} />

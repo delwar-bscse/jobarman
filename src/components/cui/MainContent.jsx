@@ -14,6 +14,7 @@ import { FcCamera } from "react-icons/fc";
 import { formatUrl } from "../../../utils/formatUrl";
 import { useRouter } from "next/navigation";
 import { isValidFullName } from "../../../utils/isValidName";
+import { revalidate } from "../../../utils/revalidateTags";
 
 export default function MainContent() {
   const router = useRouter();
@@ -120,6 +121,7 @@ export default function MainContent() {
     });
 
     if (res.success) {
+      revalidate("profile")
       router.push("/profile/myProfile")
       toast.success("Update successfully");
     } else {

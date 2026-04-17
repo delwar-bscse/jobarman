@@ -59,7 +59,7 @@ export default function FavoriteListPage({ data }) {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      handleFavoriteItem(item?._id);
+                      handleFavoriteItem(item?.post?._id);
                     }}
                     className="text-red-500">
                     <Heart size={28} fill="currentColor" />

@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -18,23 +18,22 @@ import Image from "next/image";
 import { myFetch } from "../../../utils/myFetch";
 import { formatUrl } from "../../../utils/formatUrl";
 import { deleteCookie } from "cookies-next";
+import { revalidate } from "utils/revalidateTags";
+import { toast } from "sonner";
 
-const RecruiterSidebar = () => {
+const RecruiterSidebar = ({ data }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
   const [profileData, setProfileData] = useState(null);
 
   const fetchProfile = async () => {
-    const res = await myFetch(`/user/profile`, {
-      tags: ["company-profile"],
-    });
-    setProfileData(res?.data);
+    setProfileData(data);
   };
 
   useEffect(() => {
     fetchProfile();
-  }, []);
+  }, [data]);
 
   // ============================
   // ACTIVE MENU (Parent)
@@ -128,7 +127,10 @@ const RecruiterSidebar = () => {
       body: formData,
     });
 
-    if (res.success) fetchProfile();
+    if (res.success) {
+      revalidate("profile");
+      toast.success("Profile image updated successfully");
+    };
   };
 
   return (
@@ -148,7 +150,7 @@ const RecruiterSidebar = () => {
               <div onClick={() =>
                 document.getElementById("takeEmployProfileImage").click()
               }
-                className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
+                className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer">
                 <Image
                   src={formatUrl(profileData?.image || "")}
                   width={96}

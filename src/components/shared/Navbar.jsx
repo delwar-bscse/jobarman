@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useClasses } from "./../../../utils/Navbar";
-import { myFetch } from "utils/myFetch";
 import NotificationMessageNavbar from "./NotificationMessageNavbar";
 import ProfileDropdown from "./ProfileDropDown";
 import { getUserRole } from "utils/getUserRoleClient";

@@ -61,7 +61,7 @@ export default function JobCard({ job, favoritesList }) {
               </div>
             </div>
             <div>
-              <button
+              {job?._id && <button
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -76,7 +76,7 @@ export default function JobCard({ job, favoritesList }) {
                     : "text-gray-400"
                     }`}
                 />
-              </button>
+              </button>}
             </div>
           </div>
 

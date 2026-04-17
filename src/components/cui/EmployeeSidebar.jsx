@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -17,24 +17,22 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import Image from "next/image";
-import { myFetch } from "../../../utils/myFetch";
 import { formatUrl } from "../../../utils/formatUrl";
 import { deleteCookie } from "cookies-next";
 
-const EmployeeSidebar = () => {
+const EmployeeSidebar = ({ data }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
   const [profileData, setProfileData] = useState(null);
 
   const fetchProfile = async () => {
-    const res = await myFetch(`/user/profile`);
-    setProfileData(res.data);
+    setProfileData(data);
   };
 
   useEffect(() => {
     fetchProfile();
-  }, []);
+  }, [data]);
 
   // ============================
   // ACTIVE MENU (Parent)
