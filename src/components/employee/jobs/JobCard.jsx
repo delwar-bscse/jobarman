@@ -2,16 +2,15 @@
 import { Heart, MapPin } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import CustomImage from "../../../../shared/CustomImage";
 import { myFetch } from "../../../../utils/myFetch";
 import { toast } from "sonner";
 import { revalidate } from "../../../../utils/revalidateTags";
 import { toUnCapilizeSentence } from "../../../../utils/textFormat";
 import Image from "next/image";
 
-export default function JobCard({ job, favoratesList,fetchFavList }) {
+export default function JobCard({ job, favoritesList }) {
 
-  const handleFavorateItem = async (id) => {
+  const handleFavoriteItem = async (id) => {
     try {
       const res = await myFetch("/favourite", {
         method: "POST",
@@ -20,8 +19,7 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
 
       if (res.success) {
         toast.success(res.message || "favorite item add/remove successfully");
-        revalidate("favoratesList");
-        fetchFavList();
+        revalidate("favoritesList");
       } else {
         toast.error(res.message || "Favorate list not added");
       }
@@ -47,7 +45,7 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
           unoptimized
           className="object-contain w-28 sm:w-40 h-24 sm:h-32"
         /> :
-        <p className="w-28 sm:w-40 h-24 sm:h-32 text-sm font-semibold text-gray-600">{job?.recruiter_company}</p>}
+          <p className="w-28 sm:w-40 h-24 sm:h-32 text-sm font-semibold text-gray-600">{job?.recruiter_company}</p>}
       </div>
 
       {/* Right Side Text and Details */}
@@ -67,15 +65,15 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  handleFavorateItem(job?._id);
+                  handleFavoriteItem(job?._id);
                 }}
                 className={` hover:text-red-500 transition flex-shrink-0 `}
               >
                 <Heart
                   fill="currentColor"
-                  className={`${favoratesList?.includes(job?._id)
-                      ? "text-red-500 "
-                      : "text-gray-400"
+                  className={`${favoritesList?.includes(job?._id)
+                    ? "text-red-500 "
+                    : "text-gray-400"
                     }`}
                 />
               </button>
@@ -107,13 +105,13 @@ export default function JobCard({ job, favoratesList,fetchFavList }) {
           </div>
 
           {
-              <p className="text-gray-400 text-sm mt-1">
-                Job Board :{" "}
-                <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
-                  {job?.job_board ?? "Jobarman"}
-                </span>
-              </p>
-            }
+            <p className="text-gray-400 text-sm mt-1">
+              Job Board :{" "}
+              <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-50 text-green-700 border border-green-200">
+                {job?.job_board ?? "Jobarman"}
+              </span>
+            </p>
+          }
           <p>
             {job?.is_applied === true && (
               <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-700 border border-green-200">

@@ -2,11 +2,33 @@
 
 import { Heart, MapPin } from "lucide-react";
 import Image from "next/image";
-import EmployeeSidebar from "@/components/cui/EmployeeSidebar";
 import Link from "next/link";
 import CustomImage from "../../../../shared/CustomImage";
+import { toast } from "sonner";
+import { myFetch } from "../../../../utils/myFetch";
+import { revalidate } from "../../../../utils/revalidateTags";
 
 export default function FavoriteListPage({ data }) {
+  const handleFavoriteItem = async (id) => {
+    try {
+      const res = await myFetch("/favourite", {
+        method: "POST",
+        body: { post: id },
+      });
+
+      console.log("res : ", res);
+
+      if (res.success) {
+        toast.success(res.message || "favorite item add/remove successfully");
+        revalidate("favoritesList");
+      } else {
+        toast.error(res.message || "Favorite list not added");
+      }
+    } catch (err) {
+      toast.error(err.message || "Favorite Not Select Try Again");
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Job Card 1 */}
@@ -33,8 +55,14 @@ export default function FavoriteListPage({ data }) {
                       <p className="text-sm text-gray-600">Design Lab</p>
                     </div>
                   </div>
-                  <div className="text-red-500">
-                    <Heart size={20} fill="currentColor" />
+                  <div
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleFavoriteItem(item?._id);
+                    }}
+                    className="text-red-500">
+                    <Heart size={28} fill="currentColor" />
                   </div>
                 </div>
                 <div className="flex items-center text-sm text-gray-600 mb-3">
