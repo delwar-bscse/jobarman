@@ -7,9 +7,10 @@ import FilterSide from "@/components/employee/jobs/FilterSide";
 import JobCard from "@/components/employee/jobs/JobCard";
 import CustomPagination from "@/components/cui/CustomPagination";
 import { myFetch } from "../../../../utils/myFetch";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Loader } from "lucide-react";
 import { useFilters } from "@/hooks/useFilters";
+import { scrollToTop } from "../../../../utils/scrollToTop";
 // import { filter } from "lodash";
 
 /* ================= utils (unchanged) ================= */
@@ -35,7 +36,7 @@ export const experienceLevel = (values = "") => {
       if (value === enumArr[1]) return "1-3yrs";
       if (value === enumArr[2]) return "3-5yrs";
       if (value === enumArr[3]) return "5+yrs";
-      return "";
+      return ""
     })
     .join(",");
 };
@@ -45,6 +46,7 @@ export const experienceLevel = (values = "") => {
 const Jobs = ({ favoritesList }) => {
   const { filters, setFilters, resetFilters } = useFilters();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
@@ -90,19 +92,36 @@ const Jobs = ({ favoritesList }) => {
     );
     // console.log("Jobs Res : ", jobsRes);
 
-    setJobs(jobsRes?.data || []);
-    setTotalPages(jobsRes?.pagination?.totalPage || 1);
+    if (jobsRes?.success) {
+      setJobs(jobsRes?.data || []);
+      setTotalPages(jobsRes?.pagination?.totalPage || 1);
 
-    if (jobsRes) setLoading(false)
+      scrollToTop(500);
+      if (jobsRes) setLoading(false)
+    }
+
   };
 
   useEffect(() => {
+
+    // Scroll to top
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: "smooth",
+    // });
+    // scrollToTop(500);
     fetchData();
   }, [searchTerm, location, category, job_type, experience_level, date_posted, tags, page]);
 
   return (
-    <div className="min-h-screen bg-white">
-      <div onClick={() => resetFilters()} className="max-w-7xl mx-auto cursor-pointer">
+    <div className="min-h-screen bg-white relative">
+      <div onClick={() => {
+        resetFilters()
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("page", "1");
+        router.push(`?${params.toString()}`, { scroll: false });
+      }}
+        className="max-w-7xl mx-auto cursor-pointer">
         <Image
           className="bg-gradient-to-r from-[#123499] to-[#2A57DE]"
           width={1621}
@@ -131,19 +150,23 @@ const Jobs = ({ favoritesList }) => {
                   favoritesList={favoritesList}
                 />
               ))}
-            </div> : <div className="flex flex-col items-center justify-center gap-4 lg:col-span-3 h-[calc(100vh-300px)]">
-              <p className="text-xl font-medium">
-                No Jobs Found
-              </p>
+            </div> : <div className="lg:col-span-3 min-h-[calc(100vh-300px)] flex items-start justify-center relative">
+              <div className="sticky top-1/2 -translate-y-1/2 flex items-center justify-center w-full py-20">
+                <p className="text-xl font-medium">
+                  No Jobs Found
+                </p>
+              </div>
             </div>}
 
             {jobs.length > 0 && <CustomPagination
               totalPages={totalPages}
             />}
-          </div> : <div className="flex flex-col items-center justify-center gap-4 lg:col-span-3 h-[calc(100vh-300px)]">
-            <h1 className="text-xl font-medium flex items-center gap-4">
-              <Loader className="animate-spin" /> Loading...
-            </h1>
+          </div> : <div className="lg:col-span-3 min-h-[calc(100vh-300px)] flex items-start justify-center relative">
+            <div className="sticky top-1/2 -translate-y-1/2 flex items-center justify-center w-full py-20">
+              <h1 className="text-xl font-medium flex items-center gap-4">
+                <Loader className="animate-spin" /> Loading...
+              </h1>
+            </div>
           </div>}
 
         </div>

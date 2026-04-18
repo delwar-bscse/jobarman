@@ -135,11 +135,11 @@ function EditJobPostForm() {
 
   const onSubmit = async (data) => {
     //console.log("data", data);
-    if(data.min_salary && data.max_salary && Number(data.min_salary) > Number(data.max_salary)){
+    if (data.min_salary && data.max_salary && Number(data.min_salary) > Number(data.max_salary)) {
       toast.error("Min salary cannot be greater than max salary");
       return;
     }
-    
+
     const formData = new FormData();
 
     // Append all form fields (including empty ones for edit)
@@ -174,7 +174,7 @@ function EditJobPostForm() {
 
     if (res.success) {
       toast.success(isEdit ? "Successfully Updated" : "Successfully Posted");
-      revalidate("edit-job");
+      await revalidate("edit-job");
       // router.back();
     } else {
       toast.error(res.error?.[0]?.message || "Operation failed");
@@ -187,7 +187,7 @@ function EditJobPostForm() {
     <div className="min-h-screen py-8">
       <div className="mx-auto max-w-4xl px-4">
         {/* Header */}
-        <div onClick={()=>location.history.back()} className="mb-6 flex items-center gap-3">
+        <div onClick={() => location.history.back()} className="mb-6 flex items-center gap-3">
           <GlobalBackButton />
           <h1 className="text-2xl font-semibold">
             {isEdit ? "Edit Job Post" : "New Job Post"}

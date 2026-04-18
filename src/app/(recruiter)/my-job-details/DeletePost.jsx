@@ -32,7 +32,7 @@ export default function DeletePost({ id }) {
         text: "The job post has been removed.",
         icon: "success",
       });
-      revalidate("job-post");
+      await revalidate("job-post");
       router.push("/my-job");
     } catch (error) {
       Swal.fire({

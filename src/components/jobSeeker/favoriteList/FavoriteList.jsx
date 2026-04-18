@@ -20,7 +20,7 @@ export default function FavoriteListPage({ data }) {
 
       if (res.success) {
         toast.success(res.message || "favorite item add/remove successfully");
-        revalidate("favoritesList");
+        await revalidate("favoritesList");
       } else {
         toast.error(res.message || "Favorite list not added");
       }

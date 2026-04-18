@@ -15,10 +15,14 @@ import {
   Trash2,
   User,
   ArrowLeft,
+  Camera,
 } from "lucide-react";
 import Image from "next/image";
 import { formatUrl } from "../../../utils/formatUrl";
 import { deleteCookie } from "cookies-next";
+import { myFetch } from "../../../utils/myFetch";
+import { revalidate } from "../../../utils/revalidateTags";
+import { toast } from "sonner";
 
 const EmployeeSidebar = ({ data }) => {
   const router = useRouter();
@@ -112,11 +116,33 @@ const EmployeeSidebar = ({ data }) => {
   const activeMenu = getActiveMenu();
   const activeSubMenu = getActiveSubMenu();
 
+  const handleProfileImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await myFetch("/user/profile", {
+      method: "PATCH",
+      body: formData,
+    });
+
+    if (res.success) {
+      await revalidate("profile");
+      router.refresh();
+      toast.success("Profile image updated successfully");
+    } else {
+      toast.error(res.message || "Profile image updated failed");
+    }
+  };
+
+
   return (
     <div className="bg-white">
       <div className="max-w-7xl mx-auto -mb-10">
         <div
-          onClick={() => history.back()}
+          onClick={() => router.back()}
           className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 cursor-pointer"
         >
           <ArrowLeft className="w-7 h-7" />
@@ -125,19 +151,31 @@ const EmployeeSidebar = ({ data }) => {
       <div className=" rounded-xl">
         {/* Profile Card */}
         <div className="text-center mb-8">
-          <div className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
-            {profileData?.image ? (
-              <Image
-                src={formatUrl(profileData?.image)}
-                width={24}
-                height={24}
-                alt="Logo"
-                className="w-24 h-24 rounded-full object-cover"
-                sizes="100vh"
+          {/* Profile Image Edit*/}
+          <div className="flex justify-center my-8">
+            <div className="">
+              <div className="relative w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
+                <Image
+                  src={profileData?.image ? formatUrl(profileData.image) : "/default.webp"}
+                  width={96}
+                  height={96}
+                  alt="Profile"
+                  className="w-24 h-24 rounded-full object-cover"
+                />
+                <div onClick={() =>
+                  document.getElementById("takeEmployeeProfileImage").click()
+                } className="absolute bottom-1 right-1 bg-white rounded-full p-1 shadow-sm cursor-pointer">
+                  <Camera className="w-4 h-4 text-gray-600" />
+                </div>
+              </div>
+              <input
+                id="takeEmployeeProfileImage"
+                onChange={handleProfileImage}
+                type="file"
+                accept="image/*"
+                className="hidden"
               />
-            ) : (
-              <p>No Image</p>
-            )}
+            </div>
           </div>
           <h2 className="text-xl font-bold text-gray-900">
             {profileData?.name}

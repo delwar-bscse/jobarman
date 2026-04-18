@@ -19,7 +19,7 @@ export default function JobCard({ job, favoritesList }) {
 
       if (res.success) {
         toast.success(res.message || "favorite item add/remove successfully");
-        revalidate("favoritesList");
+        await revalidate("favoritesList");
       } else {
         toast.error(res.message || "Favorate list not added");
       }

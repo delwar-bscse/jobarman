@@ -98,25 +98,25 @@ function AddNewResumeForm2Suspense() {
             : [{ title: "", description: "" }],
           workExperiences: resume.workExperiences?.length
             ? resume.workExperiences.map((item) => ({
-                title: item.title,
-                company: item.company,
-                startDate: dayjs(item.startDate).format("YYYY-MM-DD"),
-                endDate: dayjs(item.endDate).format("YYYY-MM-DD"),
-                designation: item.designation,
-                description: item.description,
-                isCurrentJob: item.isCurrentJob,
-              }))
+              title: item.title,
+              company: item.company,
+              startDate: dayjs(item.startDate).format("YYYY-MM-DD"),
+              endDate: dayjs(item.endDate).format("YYYY-MM-DD"),
+              designation: item.designation,
+              description: item.description,
+              isCurrentJob: item.isCurrentJob,
+            }))
             : [
-                {
-                  title: "",
-                  company: "",
-                  startDate: "",
-                  endDate: "",
-                  designation: "",
-                  description: "",
-                  isCurrentJob: false,
-                },
-              ],
+              {
+                title: "",
+                company: "",
+                startDate: "",
+                endDate: "",
+                designation: "",
+                description: "",
+                isCurrentJob: false,
+              },
+            ],
           projects: resume.projects?.length
             ? resume.projects
             : [{ title: "", description: "", link: "" }],
@@ -153,7 +153,7 @@ function AddNewResumeForm2Suspense() {
 
       if (res.success) {
         toast.success(res?.message);
-        revalidate("resume");
+        await revalidate("resume");
         router.push(`/my-resume?id=${res?.data?._id}`);
       } else {
         toast.error(res.err[0].message || "Resume create failed");

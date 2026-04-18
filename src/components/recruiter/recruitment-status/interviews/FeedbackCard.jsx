@@ -44,7 +44,7 @@ export default function FeedbackForm({ trigger, id }) {
       if (res.success) {
         toast.success(res?.message || "Feedback submitted successfully!");
         reset(); // reset form after submit
-        revalidate("interview-schedule");
+        await revalidate("interview-schedule");
       } else {
         toast.error("Error: " + (res.message || "Something went wrong"));
       }
@@ -93,20 +93,18 @@ export default function FeedbackForm({ trigger, id }) {
                 ].map((item) => (
                   <Label
                     key={item.value}
-                    className={`flex items-center justify-center px-4 py-3 border-2 rounded-lg cursor-pointer transition-all ${
-                      hiringStatus === item.value
-                        ? "border-blue-600 bg-blue-50"
-                        : "hover:border-gray-400"
-                    }`}
+                    className={`flex items-center justify-center px-4 py-3 border-2 rounded-lg cursor-pointer transition-all ${hiringStatus === item.value
+                      ? "border-blue-600 bg-blue-50"
+                      : "hover:border-gray-400"
+                      }`}
                   >
                     <RadioGroupItem value={item.value} className="sr-only" />
                     <div className="flex items-center gap-3">
                       <div
-                        className={`w-5 h-5 rounded-full border-2 transition-all ${
-                          hiringStatus === item.value
-                            ? "border-blue-600 border-[6px]"
-                            : "border-gray-300"
-                        }`}
+                        className={`w-5 h-5 rounded-full border-2 transition-all ${hiringStatus === item.value
+                          ? "border-blue-600 border-[6px]"
+                          : "border-gray-300"
+                          }`}
                       />
                       <span className="font-medium">{item.label}</span>
                     </div>

@@ -36,7 +36,7 @@ export default function ResumeList({ data }) {
         });
 
         if (res.success) {
-          revalidate("resume");
+          await revalidate("resume");
           Swal.fire({
             title: "Deleted!",
             text: "Your resume has been deleted.",

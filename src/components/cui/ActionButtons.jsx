@@ -22,7 +22,7 @@ const ActionButtons = ({ applicationDetails }) => {
 
       if (res?.success) {
         toast.success(res?.message || "Application shortlisted successfully");
-        revalidate("application-details");
+        await revalidate("application-details");
       } else {
         toast.error(res.message || "failed");
       }
@@ -50,11 +50,10 @@ const ActionButtons = ({ applicationDetails }) => {
   return (
     <div className="max-w-[700px] mx-auto space-y-4">
       <div
-        className={`grid ${
-          applicationDetails?.status !== "SHORTLIST"
-            ? "grid-cols-2"
-            : "grid-cols-3"
-        } gap-3`}
+        className={`grid ${applicationDetails?.status !== "SHORTLIST"
+          ? "grid-cols-2"
+          : "grid-cols-3"
+          } gap-3`}
       >
         {applicationDetails?.status !== "SHORTLISTED" &&
           applicationDetails?.status !== "INTERVIEW" && (

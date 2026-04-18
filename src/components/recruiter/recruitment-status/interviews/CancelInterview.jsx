@@ -24,7 +24,7 @@ export default function CancelInterview({ item, trigger }) {
 
       if (res?.success) {
         toast.success(res?.message || "Cancel Interview item successfully");
-        revalidate("status");
+        await revalidate("status");
         setOpen(false);
       } else {
         toast.error(res.message || "Cancel Interview item failed");

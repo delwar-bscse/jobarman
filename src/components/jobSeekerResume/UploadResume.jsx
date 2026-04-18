@@ -50,7 +50,7 @@ const UploadResume = ({ resume }) => {
 
       if (res.success) {
         toast.success(res.message || "Resume uploaded successfully.");
-        revalidate("resume");
+        await revalidate("resume");
         reset();
         document.getElementById("cancel")?.click();
       } else {

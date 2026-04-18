@@ -60,7 +60,7 @@ export default function JobDetailsRight({ details }) {
       if (res.success) {
         toast.success(res.message || "favorite item add/remove successfully");
         setRefreshFav((prev) => !prev);
-        revalidate("favoratesList");
+        await revalidate("favoratesList");
       } else {
         toast.error(res.message || "Favorate list not added");
       }
@@ -79,7 +79,7 @@ export default function JobDetailsRight({ details }) {
     })
     if (isEmpployee && res) {
       window.open(url, "_blank");
-    }else {
+    } else {
       toast.error("Please login as employee to apply for this job")
       router.push(`/login?callbackUrl=/jobs/${params?.id}`)
     }

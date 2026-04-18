@@ -16,6 +16,7 @@ import { myFetch } from "../../../utils/myFetch";
 
 export default async function Categories() {
   const res = await myFetch("/job-category");
+  console.log("Category Res : ", res?.data)
 
   return (
     <section className="py-16 sm:py-24 bg-white">

@@ -13,6 +13,7 @@ import {
   Trash2,
   User,
   ArrowLeft,
+  Camera,
 } from "lucide-react";
 import Image from "next/image";
 import { myFetch } from "../../../utils/myFetch";
@@ -128,7 +129,8 @@ const RecruiterSidebar = ({ data }) => {
     });
 
     if (res.success) {
-      revalidate("profile");
+      await revalidate("profile");
+      router.refresh();
       toast.success("Profile image updated successfully");
     };
   };
@@ -146,23 +148,26 @@ const RecruiterSidebar = ({ data }) => {
         <div className="text-center mb-8">
           {/* Profile Image Edit*/}
           <div className="flex justify-center my-8">
-            <div className="relative">
-              <div onClick={() =>
-                document.getElementById("takeEmployProfileImage").click()
-              }
-                className="w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center cursor-pointer">
+            <div className="">
+              <div className="relative w-24 h-24 mx-auto mb-4 bg-gray-300 rounded-full flex items-center justify-center">
                 <Image
-                  src={formatUrl(profileData?.image || "")}
+                  src={profileData?.image ? formatUrl(profileData.image) : "/default.webp"}
                   width={96}
                   height={96}
                   alt="Profile"
                   className="w-24 h-24 rounded-full object-cover"
                 />
+                <div onClick={() =>
+                  document.getElementById("takeEmployeeProfileImage").click()
+                } className="absolute bottom-1 right-1 bg-white rounded-full p-1 shadow-sm cursor-pointer">
+                  <Camera className="w-4 h-4 text-gray-600" />
+                </div>
               </div>
               <input
-                id="takeEmployProfileImage"
+                id="takeEmployeeProfileImage"
                 onChange={handleProfileImage}
                 type="file"
+                accept="image/*"
                 className="hidden"
               />
             </div>

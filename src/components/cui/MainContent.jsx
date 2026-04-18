@@ -93,7 +93,7 @@ export default function MainContent() {
   };
 
   const onSubmit = async (data) => {
-     if (!isValidFullName(data.personalInfo.name)) {
+    if (!isValidFullName(data.personalInfo.name)) {
       toast.error("Please enter a valid name. Like 'John Doe'");
       return;
     }
@@ -121,7 +121,7 @@ export default function MainContent() {
     });
 
     if (res.success) {
-      revalidate("profile")
+      await revalidate("profile")
       router.push("/profile/myProfile")
       toast.success("Update successfully");
     } else {
