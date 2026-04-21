@@ -7,7 +7,7 @@ export default async function ShortList() {
   const res = await myFetch("/application?status=SHORTLISTED");
 
   return (
-    <div className="max-w-7xl mx-auto ">
+    <div className="max-w-7xl mx-auto space-y-8">
       {/* status */}
       <Status />
 
@@ -16,14 +16,14 @@ export default async function ShortList() {
           {res?.data?.length > 0 ? (
             <ShortListResume data={res?.data} />
           ) : (
-            <p className="text-center">No Data</p>
+            <p className="text-center">Empty</p>
           )}
         </div>
 
         {/* resume */}
-        <div className=" border p-3 rounded-md">
+        {res?.data && <div className=" border p-3 rounded-md">
           <UserResume data={res?.data} />
-        </div>
+        </div>}
       </div>
     </div>
   );

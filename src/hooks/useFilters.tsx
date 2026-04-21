@@ -1,6 +1,7 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { useDebounce } from "use-debounce";
 
@@ -46,17 +47,26 @@ const FiltersContext = createContext<FiltersContextType | null>(null);
 
 // ---------- Filters Provider component to wrap the app and provide the filters context ---------- //
 export const FiltersProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
   const [filters, setFilters] = useState<FiltersType>(initialFilters);
   const [debouncedSearchTerm] = useDebounce(filters.preSearchTerm, 500);
   const [debouncedLocation] = useDebounce(filters.preLocation, 500);
 
+  const goPageOne = () => {
+    const params = new URLSearchParams();
+    params.set("page", "1");
+    router.push(`?${params.toString()}`);
+  }
+
   const handleSingleFilter = (key: keyof FiltersType, value: any) => {
     // console.log(key, value);
     setFilters((prev) => ({ ...prev, [key]: value }));
+    goPageOne();
   };
 
   const handleRadioFilter = (key: keyof FiltersType, value: any) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
+    goPageOne();
   };
 
   const handleSelectFilter = (key: any, value: string) => {
@@ -65,19 +75,21 @@ export const FiltersProvider = ({ children }: { children: ReactNode }) => {
       set.has(value) ? set.delete(value) : set.add(value);
       return { ...prev, [key]: set };
     });
+    goPageOne();
   };
 
   const resetFilters = () => {
     setFilters(initialFilters);
+    goPageOne();
   };
 
   useEffect(() => {
-      handleSingleFilter("searchTerm", debouncedSearchTerm);
-    }, [debouncedSearchTerm]);
+    handleSingleFilter("searchTerm", debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
-      handleSingleFilter("location", debouncedLocation);
-    }, [debouncedLocation]);
+    handleSingleFilter("location", debouncedLocation);
+  }, [debouncedLocation]);
 
   return (
     <FiltersContext.Provider value={{ filters, setFilters, handleSingleFilter, handleRadioFilter, handleSelectFilter, resetFilters }}>

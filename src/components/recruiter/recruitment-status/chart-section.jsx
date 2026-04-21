@@ -28,7 +28,8 @@ export default function ChartSection({ data }) {
     },
   ];
 
-  const handleParams = () => {};
+  const handleParams = () => { };
+  
   return (
     <div className="max-w-7xl mx-auto py-10">
       {/* status */}
@@ -57,21 +58,17 @@ export default function ChartSection({ data }) {
 
       {/* Recent Applicant and Qualified */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-        {data?.recentApplications.length > 0 ? (
+        {data?.recentApplications.length > 0 && (
           <RecentApplicants
             title=" Recent Applications"
             recent={data?.recentApplications}
           />
-        ) : (
-          <p className="text-center mt-[10%]">Data Not Found</p>
         )}
-        {data?.recentQualifiedApplications.lenth > 0 ? (
+        {data?.recentQualifiedApplications.lenth > 0 && (
           <RecentApplicants
             title="Qualified Applications "
             recent={data?.recentQualifiedApplications}
           />
-        ) : (
-          <p className="text-center mt-[10%]">Data Not Found</p>
         )}
       </div>
     </div>

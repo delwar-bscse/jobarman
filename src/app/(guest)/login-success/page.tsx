@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 import { setCookie } from 'cookies-next'
+import { set } from 'lodash';
 import { Loader } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -19,7 +20,9 @@ const LoginSuccess = () => {
         setCookie("refreshToken", accessToken);
         setCookie("role", role);
         await revalidate("profile");
-        router.push("/")
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
       } else {
         router.push("/login")
       }

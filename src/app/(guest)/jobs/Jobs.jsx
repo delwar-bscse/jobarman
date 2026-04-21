@@ -96,31 +96,19 @@ const Jobs = ({ favoritesList }) => {
       setJobs(jobsRes?.data || []);
       setTotalPages(jobsRes?.pagination?.totalPage || 1);
 
-      scrollToTop(500);
+      scrollToTop(300);
       if (jobsRes) setLoading(false)
     }
 
   };
 
   useEffect(() => {
-
-    // Scroll to top
-    // window.scrollTo({
-    //   top: 0,
-    //   behavior: "smooth",
-    // });
-    // scrollToTop(500);
     fetchData();
   }, [searchTerm, location, category, job_type, experience_level, date_posted, tags, page]);
 
   return (
     <div className="min-h-screen bg-white relative">
-      <div onClick={() => {
-        resetFilters()
-        const params = new URLSearchParams(searchParams.toString());
-        params.set("page", "1");
-        router.push(`?${params.toString()}`, { scroll: false });
-      }}
+      <div onClick={() => resetFilters()}
         className="max-w-7xl mx-auto cursor-pointer">
         <Image
           className="bg-gradient-to-r from-[#123499] to-[#2A57DE]"
