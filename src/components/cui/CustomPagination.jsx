@@ -30,7 +30,7 @@ const CustomPaginationSuspense = ({ totalPages = 5 }) => {
       <button
         disabled={currentPage === 1}
         onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-        className="p-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+        className="p-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <ChevronLeft size={20} />
       </button>
@@ -50,7 +50,7 @@ const CustomPaginationSuspense = ({ totalPages = 5 }) => {
       <button
         disabled={currentPage === totalPages}
         onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-        className="p-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+        className="p-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <ChevronRight size={20} />
       </button>

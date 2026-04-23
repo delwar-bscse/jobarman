@@ -3,10 +3,11 @@
 import { Download } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
+import { formatUrl } from "utils/formatUrl";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-export default function PdfViewer({ fileUrl }) {
+export default function PdfViewer({ fileUrl, isDownloadable = true }) {
   const [numPages, setNumPages] = useState(null);
   const [width, setWidth] = useState(800);
 
@@ -21,9 +22,9 @@ export default function PdfViewer({ fileUrl }) {
 
   return (
     <div className="">
-      <div className="flex justify-end">
+      {isDownloadable && <div className="flex justify-end">
         <a
-          href={`${process.env.NEXT_PUBLIC_IMAGE_URL}${fileUrl}`}
+          href={`${formatUrl(fileUrl)}`}
           target="_blank"
           rel="noopener noreferrer"
           download
@@ -32,7 +33,7 @@ export default function PdfViewer({ fileUrl }) {
           <Download />
           <span>Download</span>
         </a>
-      </div>
+      </div>}
       <div>
         <Document
           // file={`${process.env.NEXT_PUBLIC_IMAGE_URL}${fileUrl}`}

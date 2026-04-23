@@ -172,7 +172,7 @@ export default function AutoApply({ data }) {
         </div>
         <div className="lg:col-span-2 bg-white  min-h-screen overflow-y-auto p-3">
           {selectedResumeReview ? (
-            <PdfViewer fileUrl={selectedResumeReview} />
+            <PdfViewer fileUrl={selectedResumeReview} isDownloadable={false} />
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500">
               <p className="text-lg">Select a resume to view details</p>

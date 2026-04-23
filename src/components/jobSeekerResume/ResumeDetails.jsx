@@ -97,22 +97,25 @@ export default function ResumeDetails({ resume }) {
               { Icon: Phone, text: phone },
               { Icon: Mail, text: email },
               { Icon: Linkedin, text: social_media_link },
-            ].map(({ Icon, text }, i) => (
-              <div key={i} className="flex items-center gap-1">
-                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 pdf-no-truncate" />
-                <p className="truncate max-w-28 sm:max-w-none pdf-no-truncate">{text}</p>
-              </div>
-            ))}
+            ].map(({ Icon, text }, i) => {
+              if (!text || !Icon) return null;
+              return (
+                <div key={i} className="flex items-center gap-1">
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 pdf-no-truncate" />
+                  <p className="truncate max-w-28 sm:max-w-none pdf-no-truncate">{text}</p>
+                </div>
+              )
+            })}
           </div>
 
-          <div className="flex justify-center mb-2">
+          {resume.github && <div className="flex justify-center mb-2">
             <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-700">
               <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 pdf-no-truncate" />
               <span className="truncate max-w-32 sm:max-w-none pdf-no-truncate">
                 {resume.github}
               </span>
             </div>
-          </div>
+          </div>}
 
           <p className="text-xs sm:text-sm text-gray-700 text-center">
             <span className="font-medium">Work Auth:</span> {nationality} |{" "}
