@@ -1,6 +1,6 @@
 import { Star } from "lucide-react";
-import Image from "next/image";
 import CustomImage from "../../../shared/CustomImage";
+import StarRating from "./StarRating";
 
 export default function ReviewCard({ name, role, rating = 5, text, image }) {
   return (
@@ -20,9 +20,7 @@ export default function ReviewCard({ name, role, rating = 5, text, image }) {
       </div>
 
       <div className="flex gap-1 mb-3">
-        {[...Array(rating)].map((_, i) => (
-          <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-        ))}
+        <StarRating rating={rating} />
       </div>
 
       <p className="text-sm text-gray-600 leading-relaxed">{text}</p>
