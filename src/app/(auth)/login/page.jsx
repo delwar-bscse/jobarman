@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { myFetch } from "../../../../utils/myFetch";
-import { setCookie } from "cookies-next/client";
+import { setAuthCookies } from "../../../../utils/authCookies";
 import { toast } from "sonner";
 import GoogleLogin from "@/components/auth/GoogleLogin";
 import LinkedInLogin from "@/components/auth/LinkedInLogin";
@@ -36,9 +36,7 @@ function LoginPageSuspense() {
         toast.error("Unauthorized Role");
         return;
       }
-      setCookie("accessToken", res?.data?.createToken);
-      setCookie("refreshToken", res?.data?.refreshToken);
-      setCookie("role", res?.data?.role);
+      await setAuthCookies(res?.data?.createToken, res?.data?.refreshToken, res?.data?.role);
       router.push(callbackUrl);
       toast.success("Login Successfully");
     } else {

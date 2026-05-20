@@ -7,7 +7,7 @@ import { useDebouncedCallback } from 'use-debounce'
 
 const MyJobTopSuspense = () => {
   const searchParams = useSearchParams();
-  const { replace } = useRouter();
+  const router = useRouter();
   const params = new URLSearchParams(searchParams);
 
   const handleSearch = useDebouncedCallback((type, value) => {
@@ -16,7 +16,7 @@ const MyJobTopSuspense = () => {
     } else {
       params.delete(type);
     }
-    replace(`?${params.toString()}`);
+    router.replace(`?${params.toString()}`);
   }, 300);
 
   const getSingleQueryParams = (type) => {
@@ -25,7 +25,7 @@ const MyJobTopSuspense = () => {
 
   return (
     <div className="space-y-4">
-      <h2 onClick={() => location.history.back()} className="text-2xl font-bold">My Job Post</h2>
+      <h2 onClick={() => router.back()} className="text-2xl font-bold cursor-pointer">My Job Post</h2>
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <Status />
         <div className="relative">

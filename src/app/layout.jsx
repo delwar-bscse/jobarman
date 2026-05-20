@@ -13,8 +13,8 @@ const poppins = Poppins({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={poppins.variable}>
-      <body>
+    <html lang="en" className={poppins.variable} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <SocketProvider>
           {children}
           <Toaster />

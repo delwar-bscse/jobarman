@@ -3,14 +3,22 @@ import React from "react";
 import Modal from "./Modal";
 
 export default function Employee({ data, enableSubscription }) {
+  const targetRole = data?.[0]?.for
+    ? data[0].for === "recruiter"
+      ? "Recruiter"
+      : "Job Seeker"
+    : "";
+
+  const headingText = targetRole ? `${targetRole} Subscription Plans` : "Subscription Plans";
+
   return (
     <section className="py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl sm:text-4xl font-bold text-center text-[#123499] mb-12">
-          Subscription Plan
+          {headingText}
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
           {data?.map((plan, idx) => (
             <SubscriptionCard key={idx} plan={plan} enableSubscriptionId={enableSubscription?.package}/>
           ))}

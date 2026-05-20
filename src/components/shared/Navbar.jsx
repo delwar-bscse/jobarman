@@ -39,7 +39,7 @@ export default function Navbar({ data }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { linkClass } = useClasses();
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState(data);
 
   // Close dropdown if clicked outside
   useEffect(() => {
@@ -53,22 +53,7 @@ export default function Navbar({ data }) {
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
-
-    const fetchProfile = async () => {
-      try {
-        // const data = await myFetch("/user/profile");
-        if (isMounted) setProfile(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchProfile();
-
-    return () => {
-      isMounted = false;
-    };
+    setProfile(data);
   }, [data]);
 
   const menus = {
@@ -77,8 +62,7 @@ export default function Navbar({ data }) {
     GUEST: withOutLogin,
   };
 
-  // const role = profile?.data?.role;
-  const role = getUserRole();
+  const role = profile?.data?.role;
   const menu = menus[role] || menus.GUEST;
 
   return (

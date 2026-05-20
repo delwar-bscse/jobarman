@@ -1,9 +1,15 @@
 import ReviewCard from "@/components/shared/ReviewCard";
 import { myFetch } from "../../../../utils/myFetch";
 import GlobalBackButton from "../../../../shared/GlobalBackButton";
+import CustomPagination from "@/components/cui/CustomPagination";
 
-export default async function ReviewsPage() {
-  const res = await myFetch("/review");
+export default async function ReviewsPage({ searchParams }) {
+  const { page } = await searchParams;
+  const currentPage = page ? parseInt(page) : 1;
+  const limit = 8;
+  const res = await myFetch(`/review?page=${currentPage}&limit=${limit}`);
+  const totalPages = res?.pagination?.totalPage || 1;
+
   return (
     <main className="w-full bg-white">
       <section className="py-16 sm:py-24">
@@ -30,6 +36,12 @@ export default async function ReviewsPage() {
               />
             ))}
           </div>
+
+          {totalPages > 1 && (
+            <div className="mt-8 flex justify-center">
+              <CustomPagination totalPages={totalPages} />
+            </div>
+          )}
         </div>
       </section>
     </main>

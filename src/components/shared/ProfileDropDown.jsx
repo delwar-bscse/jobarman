@@ -3,7 +3,7 @@ import Link from "next/link";
 import CustomImage from "../../../shared/CustomImage";
 import { useClasses } from "utils/Navbar";
 import { useRouter } from "next/navigation";
-import { deleteCookie } from "cookies-next/client";
+import { deleteAuthCookies } from "utils/authCookies";
 
 export default function ProfileDropDown({
   data,
@@ -16,11 +16,10 @@ export default function ProfileDropDown({
   const router = useRouter();
 
   // handle logout
-  const handleLogout = () => {
-    deleteCookie("accessToken");
-    deleteCookie("refreshToken");
-    deleteCookie("role");
+  const handleLogout = async () => {
+    await deleteAuthCookies();
     router.push("/login");
+    router.refresh();
   };
 
   return (

@@ -93,11 +93,11 @@ export default async function Footer() {
             <ul className="space-y-4 text-blue-100 text-sm">
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                Phone: +1 (844) 821-5151
+                <span>Phone: <a href="tel:+18448215151" className="hover:underline font-medium">+1 (844) 821-5151</a></span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                Email: info@jobarman.com
+                <span>Email: <a href="mailto:info@jobarman.com" className="hover:underline font-medium">info@jobarman.com</a></span>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />

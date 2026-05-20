@@ -4,17 +4,17 @@ import Link from "next/link";
 import { myFetch } from "../../../utils/myFetch";
 
 export default async function Review() {
-  const res = await myFetch("/review");
+  const res = await myFetch("/review?limit=8");
 
   return (
     <section className="py-16 sm:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance">
-            Join over 875,000 professionals
+            Join Professionals Using Jobarman
           </h2>
           <p className="text-xl text-gray-600 mb-4 text-balance">
-            already using Jobarman.
+            To Search Through 275,000+ Aggregated Jobs.
           </p>
           <p className="text-gray-600 max-w-2xl mx-auto text-balance">
             Explore Personalized Career Opportunities In Your Field With Our

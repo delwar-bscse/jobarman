@@ -187,7 +187,7 @@ function EditJobPostForm() {
     <div className="min-h-screen py-8">
       <div className="mx-auto max-w-4xl px-4">
         {/* Header */}
-        <div onClick={() => location.history.back()} className="mb-6 flex items-center gap-3">
+        <div onClick={() => router.back()} className="mb-6 flex items-center gap-3 cursor-pointer">
           <GlobalBackButton />
           <h1 className="text-2xl font-semibold">
             {isEdit ? "Edit Job Post" : "New Job Post"}

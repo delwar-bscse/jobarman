@@ -5,18 +5,10 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { myFetch } from "../../../utils/myFetch";
 
-// const jobCategories = [
-//   { icon: Stethoscope, label: "Healthcare", count: "2.5k jobs" },
-//   { icon: Code, label: "IT Jobs", count: "5.2k jobs" },
-//   { icon: Palette, label: "UX Designer", count: "1.8k jobs" },
-//   { icon: Users, label: "Management", count: "3.1k jobs" },
-//   { icon: Stethoscope, label: "Healthcare", count: "2.5k jobs" },
-//   { icon: UtensilsCrossed, label: "Restaurant", count: "1.2k jobs" },
-// ];
 
 export default async function Categories() {
-  const res = await myFetch("/job-category");
-  console.log("Category Res : ", res?.data)
+  const res = await myFetch("/job-category?limit=6");
+  console.log("aadsvasdvbabd  +++++>>", res)
 
   return (
     <section className="py-16 sm:py-24 bg-white">
