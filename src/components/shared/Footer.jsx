@@ -5,13 +5,12 @@ import {
   FaInstagram,
   FaYoutube,
   FaTiktok,
-  FaApple,
-  FaGooglePlay,
 } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import { myFetch } from "utils/myFetch";
 import footerlogo from "public/jobarman-footer.png";
+import AppDownloadLinks from "./AppDownloadLinks";
 
 const recuiter = [
   { href: "/", label: "Home" },
@@ -117,29 +116,7 @@ export default async function Footer() {
             </h3>
 
             {/* App Store Buttons */}
-            <div className="space-y-3 mb-8">
-              <a
-                href="#"
-                className="flex items-center gap-3 bg-white text-gray-900 rounded-xl px-4 py-3 hover:bg-gray-50 shadow-sm transition-colors duration-200"
-              >
-                <FaApple className="w-6 h-6" />
-                <div>
-                  <p className="text-xs text-gray-600">Download On The</p>
-                  <p className="text-sm font-semibold">Apple Store</p>
-                </div>
-              </a>
-
-              <a
-                href="#"
-                className="flex items-center gap-3 bg-white text-gray-900 rounded-xl px-4 py-3 hover:bg-gray-50 shadow-sm transition-colors duration-200"
-              >
-                <FaGooglePlay className="w-6 h-6" />
-                <div>
-                  <p className="text-xs text-gray-600">Get it On</p>
-                  <p className="text-sm font-semibold">Google Play</p>
-                </div>
-              </a>
-            </div>
+            <AppDownloadLinks />
 
             <h4 className="text-lg font-semibold mb-2">Connect With Us</h4>
           </div>

@@ -70,15 +70,17 @@ function LoginPageSuspense() {
       <div className="w-full max-w-6xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
           {/* Left Side - Logo Section */}
-          <div className="hidden md:flex flex-col items-center justify-center p-8">
-            <Image
-              src="/authlogo.svg"
-              alt="Jobarman Logo"
-              width={425}
-              height={585}
-              className="mb-6"
-            />
-          </div>
+          <Link href="/">
+            <div className="hidden md:flex flex-col items-center justify-center p-8">
+              <Image
+                src="/authlogo.svg"
+                alt="Jobarman Logo"
+                width={425}
+                height={585}
+                className="mb-6"
+              />
+            </div>
+          </Link>
 
           {/* Right Side - Login Form */}
           <div className="flex flex-col justify-center p-8 text-center md:text-left border-2 border-[#ACBDF0] rounded-lg">
