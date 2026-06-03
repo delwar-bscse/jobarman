@@ -6,18 +6,27 @@ import Jobs from "./Jobs";
 /* ================= component ================= */
 
 const JobsPage = async () => {
-  const res = await myFetch("/favourite", {
-    method: "GET",
-    cache: "no-store",
-    tags: ["favoritesList"],
-  });
+  // Fetch favourites and initial jobs in parallel on the server
+  const [favRes, jobsRes] = await Promise.all([
+    myFetch("/favourite", {
+      method: "GET",
+      cache: "no-store",
+      tags: ["favoritesList"],
+    }),
+    myFetch("/job-post/feed?page=1", {
+      method: "GET",
+    }),
+  ]);
 
-  // console.log("Favlist : ", res?.data);
-  const refineFavLists = res?.data?.map((item) => item?.post?._id) || [];
+  const refineFavLists = favRes?.data?.map((item) => item?.post?._id) || [];
 
   return (
     <>
-      <Jobs favoritesList={refineFavLists} />
+      <Jobs
+        favoritesList={refineFavLists}
+        initialJobs={jobsRes?.data || []}
+        initialTotalPages={jobsRes?.pagination?.totalPage || 1}
+      />
     </>
   );
 };

@@ -40,9 +40,8 @@ export default function JobCard({ job, favoritesList }) {
         {job?.thumbnail ? <Image
           src={job?.thumbnail}
           alt={`${job.recruiter_company} image`}
-          width={800}
-          height={600}
-          unoptimized
+          width={160}
+          height={128}
           className="object-contain w-28 sm:w-40 h-24 sm:h-32"
         /> :
           <p className="w-28 sm:w-40 h-24 sm:h-32 text-sm font-semibold text-gray-600">{job?.recruiter_company}</p>}

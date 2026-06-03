@@ -4,13 +4,13 @@
 import { useEffect, useState } from "react";
 import { MapPin, Search } from "lucide-react";
 import { DualRangeSlider } from "@/components/ui/dual-range-slider";
-import { myFetch } from "../../../../utils/myFetch";
+import { clientFetch } from "../../../../utils/clientFetch";
 import { allTags, datePostedOptions, experienceLevels, jobTypes } from "./jobType";
 import { useFilters } from "@/hooks/useFilters";
 
 
 export default function FilterSide() {
-  const { filters, handleSingleFilter, handleSelectFilter } = useFilters();
+  const { filters, setFilters, handleSingleFilter, handleSelectFilter } = useFilters();
   const [allCategories, setAllCategories] = useState([]);
   const [showMoreCategories, setShowMoreCategories] = useState(false);
   const [values, setValues] = useState([1, 500000]);
@@ -19,7 +19,7 @@ export default function FilterSide() {
   // Fetch categories (unchanged)
   useEffect(() => {
     const fetchData = async () => {
-      const res = await myFetch("/job-category");
+      const res = await clientFetch("/job-category");
       setAllCategories(res.data || []);
     };
     fetchData();
@@ -27,8 +27,7 @@ export default function FilterSide() {
 
 
   const handlePrice = () => {
-    handleSingleFilter("minPrice", values[0]);
-    handleSingleFilter("maxPrice", values[1]);
+    setFilters((prev) => ({ ...prev, minPrice: values[0], maxPrice: values[1] }));
   };
 
   useEffect(() => {

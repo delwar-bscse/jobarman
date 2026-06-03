@@ -8,7 +8,7 @@ import { myFetch } from "../../../utils/myFetch";
 
 export default async function Categories() {
   const res = await myFetch("/job-category?limit=6");
-  console.log("aadsvasdvbabd  +++++>>", res)
+  // console.log("aadsvasdvbabd  +++++>>", res)
 
   return (
     <section className="py-16 sm:py-24 bg-white">
