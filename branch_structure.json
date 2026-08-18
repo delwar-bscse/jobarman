@@ -1,0 +1,33 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "delwar",
+    "frontend",
+    "juyel",
+    "main",
+    "masum",
+    "message",
+    "security-cleanup-1786601553159",
+    "security-cleanup-1787054094043"
+  ],
+  "parent": {
+    "delwar": "main",
+    "frontend": "main",
+    "juyel": "main",
+    "main": null,
+    "masum": "main",
+    "message": "main",
+    "security-cleanup-1786601553159": "main",
+    "security-cleanup-1787054094043": "main"
+  },
+  "order": [
+    "main",
+    "delwar",
+    "frontend",
+    "juyel",
+    "masum",
+    "message",
+    "security-cleanup-1786601553159",
+    "security-cleanup-1787054094043"
+  ]
+}
